@@ -3,6 +3,17 @@ XMLUnit.NET 2.x
 
 XMLUnit is a library that supports testing XML output in several ways.
 
+Some goals for XMLUnit 2.x:
+
+* create .NET and Java versions that are compatible in design while
+  trying to be idiomatic for each platform
+* remove all static configuration (the old XMLUnit class setter methods)
+* focus on the parts that are useful for testing
+  - XPath
+  - (Schema) validation
+  - comparisons
+* be independent of any test framework
+
 This will be a work in progress for quite some time.  We are in the
 process of migrating the - unpublished so far - XMLUnit 2.x from
 sourceforge to github.  XMLUnit 1.x for Java and 0.x for .NET will
