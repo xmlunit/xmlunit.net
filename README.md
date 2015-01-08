@@ -57,7 +57,7 @@ string content = xpath.evaluate("/foo/text()", source);
 
 ### Validating a Document Against an XML Schema
 
-```java
+```csharp
 Validator v = Validator.ForLanguage(Languages.W3C_XML_SCHEMA_NS_URI);
 v.SchemaSources = new ISource[] {
         Input.FromUri("http://example.com/some.xsd").Build(),
