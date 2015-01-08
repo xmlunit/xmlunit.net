@@ -1,9 +1,7 @@
-language: java
-jdk:
-  - openjdk6
-  - oraclejdk7
-  - oraclejdk8
-install: true
-notifications:
-  email:
-    - xmlunit-commits@lists.sourceforge.net
+language: c
+ 
+install:
+  - sudo apt-get install mono-devel mono-gmcs nant
+ 
+script:
+  - nant clean test
