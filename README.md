@@ -1,6 +1,8 @@
 XMLUnit.NET 2.x
 ===============
 
+[![Build Status XMLUnit.NET 2.x](https://travis-ci.org/xmlunit/xmlunit.net.svg?branch=master)](https://travis-ci.org/xmlunit/xmlunit.net)
+
 XMLUnit is a library that supports testing XML output in several ways.
 
 Some goals for XMLUnit 2.x:

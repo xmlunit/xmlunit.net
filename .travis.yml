@@ -5,3 +5,7 @@ install:
  
 script:
   - nant clean test
+
+notifications:
+  email:
+    - xmlunit-commits@lists.sourceforge.net
