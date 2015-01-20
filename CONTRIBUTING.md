@@ -20,7 +20,7 @@ wasting your time on something that isn't considered to be in
 XMLUnit's scope.
 
 If you are looking for something to work on, we've compiled a
-[list](https://github.com/xmlunit/xmlunit/HELP_WANTED.md) of things
+[list](https://github.com/xmlunit/xmlunit/blob/master/HELP_WANTED.md) of things
 that should be done before XMLUnit 2.0 can be released.
 
 XMLUnit's users guide is developed (or rather will be developed)
