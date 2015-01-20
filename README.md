@@ -77,6 +77,16 @@ The `core` library provides all functionality needed to test XML
 output and hasn't got any dependencies.  It uses NUnit 2.x for its own
 tests.  The core library is complemented by NUnit constraints.
 
+## Checking out XMLUnit.NET
+
+XMLUnit.NET uses a git submodule for test resources it shares with
+XMLUnit for Java.  You can either clone this repository using `git
+clone --recursive` or run `git submodule update --init` after inside
+your fresh working copy after cloning normally.
+
+If you have checked out a working copy before we added the submodule,
+you'll need to run `git submodule update --init` once.
+
 ## Building
 
 XMLUnit for .NET builds using NAnt, run `nant -projecthelp` for the

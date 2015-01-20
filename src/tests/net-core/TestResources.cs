@@ -20,7 +20,7 @@ namespace Org.XmlUnit {
         private static readonly string PREFIX = "../../../";
 
         public static readonly string TESTS_DIR =
-            PREFIX + "src/tests/resources/";
+            PREFIX + "test-resources/";
 
         public static readonly string ANIMAL_FILE = TESTS_DIR + "test1.xml";
         public static readonly string BLAME_FILE =
