@@ -23,8 +23,7 @@ namespace Org.XmlUnit.Diff {
     /// <summary>
     /// Common ElementSelector implementations.
     /// </summary>
-    public sealed class ElementSelectors {
-        private ElementSelectors() { }
+    public static class ElementSelectors {
 
         /// <summary>
         /// Always returns true, i.e. each element can be compared to each

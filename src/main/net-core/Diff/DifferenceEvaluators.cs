@@ -21,8 +21,7 @@ namespace Org.XmlUnit.Diff {
     /// <summary>
     /// Evaluators used for the base cases.
     /// </summary>
-    public sealed class DifferenceEvaluators {
-        private DifferenceEvaluators() { }
+    public static class DifferenceEvaluators {
 
         /// <summary>
         /// Difference evaluator that just echos the result passed in.
