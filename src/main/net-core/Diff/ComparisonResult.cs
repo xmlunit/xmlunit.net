@@ -31,11 +31,5 @@ namespace Org.XmlUnit.Diff {
         /// The two nodes are different.
         /// </summary>
         DIFFERENT,
-        /// <summary>
-        /// The two nodes are different and comparison should stop
-        /// immediately.
-        /// </summary>
-        /// <remarks>Only used as a return type by {@link DifferenceEvaluator}</remarks>
-        CRITICAL,
     }
 }

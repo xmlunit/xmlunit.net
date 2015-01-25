@@ -35,23 +35,23 @@ namespace Org.XmlUnit.Diff {
         [Test]
         public void EmptyFirstJustWorks() {
             DifferenceEvaluator d = DifferenceEvaluators.First();
-            Assert.AreEqual(ComparisonResult.CRITICAL,
-                            d(null, ComparisonResult.CRITICAL));
+            Assert.AreEqual(ComparisonResult.DIFFERENT,
+                            d(null, ComparisonResult.DIFFERENT));
         }
 
         [Test]
         public void FirstChangeWinsInFirst() {
-            Evaluator e1 = new Evaluator(ComparisonResult.CRITICAL);
+            Evaluator e1 = new Evaluator(ComparisonResult.DIFFERENT);
             Evaluator e2 = new Evaluator(ComparisonResult.EQUAL);
             DifferenceEvaluator d = DifferenceEvaluators.First(e1.Evaluate,
                                                                e2.Evaluate);
-            Assert.AreEqual(ComparisonResult.CRITICAL,
-                            d(null, ComparisonResult.DIFFERENT));
+            Assert.AreEqual(ComparisonResult.DIFFERENT,
+                            d(null, ComparisonResult.SIMILAR));
             Assert.IsTrue(e1.Called);
             Assert.IsFalse(e2.Called);
             e1.Called = false;
             Assert.AreEqual(ComparisonResult.EQUAL,
-                            d(null, ComparisonResult.CRITICAL));
+                            d(null, ComparisonResult.DIFFERENT));
             Assert.IsTrue(e1.Called);
             Assert.IsTrue(e2.Called);
         }

@@ -12,6 +12,7 @@
   limitations under the License.
 */
 using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 
 namespace Org.XmlUnit.Diff {
@@ -22,7 +23,7 @@ namespace Org.XmlUnit.Diff {
             get;
         }
 
-        private ComparisonResult outcome = ComparisonResult.CRITICAL;
+        private ComparisonResult outcome = ComparisonResult.SIMILAR;
         private ComparisonResult ResultGrabber(Comparison comparison,
                                                ComparisonResult outcome) {
             this.outcome = outcome;
@@ -33,7 +34,7 @@ namespace Org.XmlUnit.Diff {
         public void CompareTwoNulls() {
             AbstractDifferenceEngine d = DifferenceEngine;
             d.DifferenceEvaluator = ResultGrabber;
-            Assert.AreEqual(ComparisonResult.EQUAL,
+            Assert.AreEqual(Wrap(ComparisonResult.EQUAL),
                             d.Compare(new Comparison(ComparisonType.HAS_DOCTYPE_DECLARATION,
                                                      null, null, null,
                                                      null, null, null)));
@@ -44,7 +45,7 @@ namespace Org.XmlUnit.Diff {
         public void CompareControlNullTestNonNull() {
             AbstractDifferenceEngine d = DifferenceEngine;
             d.DifferenceEvaluator = ResultGrabber;
-            Assert.AreEqual(ComparisonResult.DIFFERENT,
+            Assert.AreEqual(Wrap(ComparisonResult.DIFFERENT),
                          d.Compare(new Comparison(ComparisonType.HAS_DOCTYPE_DECLARATION,
                                                   null, null, null,
                                                   null, null, "")));
@@ -55,7 +56,7 @@ namespace Org.XmlUnit.Diff {
         public void CompareControlNonNullTestNull() {
             AbstractDifferenceEngine d = DifferenceEngine;
             d.DifferenceEvaluator = ResultGrabber;
-            Assert.AreEqual(ComparisonResult.DIFFERENT,
+            Assert.AreEqual(Wrap(ComparisonResult.DIFFERENT),
                             d.Compare(new Comparison(ComparisonType.HAS_DOCTYPE_DECLARATION,
                                                      null, null, "",
                                                      null, null, null)));
@@ -66,7 +67,7 @@ namespace Org.XmlUnit.Diff {
         public void CompareTwoDifferentNonNulls() {
             AbstractDifferenceEngine d = DifferenceEngine;
             d.DifferenceEvaluator = ResultGrabber;
-            Assert.AreEqual(ComparisonResult.DIFFERENT,
+            Assert.AreEqual(Wrap(ComparisonResult.DIFFERENT),
                             d.Compare(new Comparison(ComparisonType.HAS_DOCTYPE_DECLARATION,
                                                      null, null,
                                                      Convert.ToInt16("1"),
@@ -79,7 +80,7 @@ namespace Org.XmlUnit.Diff {
         public void CompareTwoEqualNonNulls() {
             AbstractDifferenceEngine d = DifferenceEngine;
             d.DifferenceEvaluator = ResultGrabber;
-            Assert.AreEqual(ComparisonResult.EQUAL,
+            Assert.AreEqual(Wrap(ComparisonResult.EQUAL),
                             d.Compare(new Comparison(ComparisonType.HAS_DOCTYPE_DECLARATION,
                                                      null, null,
                                                      Convert.ToInt16("2"),
@@ -97,7 +98,7 @@ namespace Org.XmlUnit.Diff {
                 invocations++;
                 Assert.AreEqual(ComparisonResult.EQUAL, r);
             };
-            Assert.AreEqual(ComparisonResult.EQUAL,
+            Assert.AreEqual(Wrap(ComparisonResult.EQUAL),
                             d.Compare(new Comparison(ComparisonType.HAS_DOCTYPE_DECLARATION,
                                                      null, null,
                                                      Convert.ToInt16("2"),
@@ -119,7 +120,7 @@ namespace Org.XmlUnit.Diff {
                                              ComparisonResult outcome) {
                 return ComparisonResult.SIMILAR;
             };
-            Assert.AreEqual(ComparisonResult.SIMILAR,
+            Assert.AreEqual(Wrap(ComparisonResult.SIMILAR),
                             d.Compare(new Comparison(ComparisonType.HAS_DOCTYPE_DECLARATION,
                                                      null, null,
                                                      Convert.ToInt16("2"),
@@ -128,5 +129,31 @@ namespace Org.XmlUnit.Diff {
             Assert.AreEqual(1, invocations);
         }
 
+        [Test]
+        public void CompareUsesResultOfController() {
+            AbstractDifferenceEngine d = DifferenceEngine;
+            int invocations = 0;
+            d.ComparisonListener += delegate(Comparison comp,
+                                             ComparisonResult r) {
+                invocations++;
+                Assert.AreEqual(ComparisonResult.SIMILAR, r);
+            };
+            d.ComparisonController = _ => true;
+            Assert.AreEqual(WrapAndStop(ComparisonResult.SIMILAR),
+                            d.Compare(new Comparison(ComparisonType.HAS_DOCTYPE_DECLARATION,
+                                                     null, null,
+                                                     Convert.ToInt16("1"),
+                                                     null, null,
+                                                     Convert.ToInt16("2"))));
+            Assert.AreEqual(1, invocations);
+        }
+
+        protected static KeyValuePair<ComparisonResult, bool> Wrap(ComparisonResult c) {
+            return new KeyValuePair<ComparisonResult, bool>(c, false);
+        }
+
+        protected static KeyValuePair<ComparisonResult, bool> WrapAndStop(ComparisonResult c) {
+            return new KeyValuePair<ComparisonResult, bool>(c, true);
+        }
     }
 }

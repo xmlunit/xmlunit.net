@@ -52,6 +52,19 @@ namespace Org.XmlUnit.Diff {
             }
         }
 
+        private ComparisonController comparisonController = ComparisonControllers.Default;
+        public virtual ComparisonController ComparisonController {
+            set {
+                if (value == null) {
+                    throw new ArgumentNullException("comparison controller");
+                }
+                comparisonController = value;
+            }
+            get {
+                return comparisonController;
+            }
+        }
+
         public abstract void Compare(ISource control, ISource test);
 
         private IDictionary<string, string> namespaceContext;
@@ -72,7 +85,7 @@ namespace Org.XmlUnit.Diff {
         /// difference evaluator evaluate the result, notifies all
         /// listeners and returns the outcome.
         /// </summary>
-        protected internal ComparisonResult Compare(Comparison comp) {
+        protected internal KeyValuePair<ComparisonResult, bool> Compare(Comparison comp) {
             object controlValue = comp.ControlDetails.Value;
             object testValue = comp.TestDetails.Value;
             bool equal = controlValue == null
@@ -81,7 +94,11 @@ namespace Org.XmlUnit.Diff {
                 equal ? ComparisonResult.EQUAL : ComparisonResult.DIFFERENT;
             ComparisonResult altered = DifferenceEvaluator(comp, initial);
             FireComparisonPerformed(comp, altered);
-            return altered;
+            bool stop = false;
+            if (altered != ComparisonResult.EQUAL) {
+                stop = ComparisonController(new Difference(comp, altered));
+            }
+            return new KeyValuePair<ComparisonResult, bool>(altered, stop);
         }
 
         /// <summary>
@@ -90,7 +107,8 @@ namespace Org.XmlUnit.Diff {
         /// the result, notifies all listeners and returns the
         /// outcome.
         /// </summary>
-        protected internal Func<ComparisonResult> Comparer(Comparison comp) {
+        protected internal Func<KeyValuePair<ComparisonResult, bool>>
+            Comparer(Comparison comp) {
             return () => Compare(comp);
         }
 
@@ -113,28 +131,28 @@ namespace Org.XmlUnit.Diff {
 
         /// <summary>
         /// Chain of comparisons where the last comparision performed
-        /// determines the final result but the first comparison with
-        /// a critical difference stops the chain.
+        /// determines the final result but the chain stops as soon as the
+        /// comparison controller says so.
         /// </summary>
         protected class ComparisonChain {
-            private ComparisonResult currentResult;
+            private KeyValuePair<ComparisonResult, bool> currentResult;
             internal ComparisonChain()
-                : this(ComparisonResult.EQUAL) {
+                : this(new KeyValuePair<ComparisonResult, bool>(ComparisonResult.EQUAL, false)) {
             }
-            internal ComparisonChain(ComparisonResult firstResult) {
+            internal ComparisonChain(KeyValuePair<ComparisonResult, bool> firstResult) {
                 currentResult = firstResult;
             }
-            internal ComparisonChain AndThen(Func<ComparisonResult> next) {
-                if (currentResult != ComparisonResult.CRITICAL) {
+            internal ComparisonChain AndThen(Func<KeyValuePair<ComparisonResult, bool>> next) {
+                if (!currentResult.Value) {
                     currentResult = next();
                 }
                 return this;
             }
             internal ComparisonChain AndIfTrueThen(bool evalNext,
-                                                   Func<ComparisonResult> next) {
+                                                   Func<KeyValuePair<ComparisonResult, bool>> next) {
                 return evalNext ? AndThen(next) : this;
             }
-            internal ComparisonResult FinalResult {
+            internal KeyValuePair<ComparisonResult, bool> FinalResult {
                 get {
                     return currentResult;
                 }

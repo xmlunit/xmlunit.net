@@ -59,10 +59,11 @@ namespace Org.XmlUnit.Diff{
         ///
         /// Stops as soon as any comparison returns ComparisonResult.CRITICAL.
         /// </remarks>
-        internal ComparisonResult CompareNodes(XmlNode control,
-                                               XPathContext controlContext,
-                                               XmlNode test,
-                                               XPathContext testContext) {
+        internal KeyValuePair<ComparisonResult, bool>
+            CompareNodes(XmlNode control,
+                         XPathContext controlContext,
+                         XmlNode test,
+                         XPathContext testContext) {
             IEnumerable<XmlNode> controlChildren =
                 control.ChildNodes.Cast<XmlNode>().Where(INTERESTING_NODES);
             IEnumerable<XmlNode> testChildren =
@@ -105,7 +106,7 @@ namespace Org.XmlUnit.Diff{
         /// Dispatches to the node type specific comparison if one is
         /// defined for the given combination of nodes.
         /// </summary>
-        private ComparisonResult
+        private KeyValuePair<ComparisonResult, bool>
             NodeTypeSpecificComparison(XmlNode control,
                                        XPathContext controlContext,
                                        XmlNode test, XPathContext testContext) {
@@ -159,15 +160,16 @@ namespace Org.XmlUnit.Diff{
                 }
                 break;
             }
-            return ComparisonResult.EQUAL;
+            return new KeyValuePair<ComparisonResult, bool>(ComparisonResult.EQUAL, false);
         }
 
-        private Func<ComparisonResult> CompareChildren(XmlNode control,
-                                                       XPathContext controlContext,
-                                                       IEnumerable<XmlNode> controlChildren,
-                                                       XmlNode test,
-                                                       XPathContext testContext,
-                                                       IEnumerable<XmlNode> testChildren) {
+        private Func<KeyValuePair<ComparisonResult, bool>>
+            CompareChildren(XmlNode control,
+                            XPathContext controlContext,
+                            IEnumerable<XmlNode> controlChildren,
+                            XmlNode test,
+                            XPathContext testContext,
+                            IEnumerable<XmlNode> testChildren) {
 
             return () => {
                 controlContext
@@ -182,10 +184,11 @@ namespace Org.XmlUnit.Diff{
         /// <summary>
         /// Compares textual content.
         /// </summary>
-        private ComparisonResult CompareCharacterData(XmlCharacterData control,
-                                                      XPathContext controlContext,
-                                                      XmlCharacterData test,
-                                                      XPathContext testContext) {
+        private KeyValuePair<ComparisonResult, bool>
+            CompareCharacterData(XmlCharacterData control,
+                                 XPathContext controlContext,
+                                 XmlCharacterData test,
+                                 XPathContext testContext) {
             return Compare(new Comparison(ComparisonType.TEXT_VALUE, control,
                                           GetXPath(controlContext),
                                           control.Data,
@@ -196,10 +199,11 @@ namespace Org.XmlUnit.Diff{
         /// <summary>
         /// Compares document node, doctype and XML declaration properties
         /// </summary>
-        private ComparisonResult CompareDocuments(XmlDocument control,
-                                                  XPathContext controlContext,
-                                                  XmlDocument test,
-                                                  XPathContext testContext) {
+        private KeyValuePair<ComparisonResult, bool>
+            CompareDocuments(XmlDocument control,
+                             XPathContext controlContext,
+                             XmlDocument test,
+                             XPathContext testContext) {
             XmlDocumentType controlDt = control.DocumentType;
             XmlDocumentType testDt = test.DocumentType;
 
@@ -223,10 +227,11 @@ namespace Org.XmlUnit.Diff{
         /// <summary>
         /// Compares properties of the doctype declaration.
         /// </summary>
-        private ComparisonResult CompareDocTypes(XmlDocumentType control,
-                                                 XPathContext controlContext,
-                                                 XmlDocumentType test,
-                                                 XPathContext testContext) {
+        private KeyValuePair<ComparisonResult, bool>
+            CompareDocTypes(XmlDocumentType control,
+                            XPathContext controlContext,
+                            XmlDocumentType test,
+                            XPathContext testContext) {
             return new ComparisonChain(
                 Compare(new Comparison(ComparisonType.DOCTYPE_NAME,
                                        control, GetXPath(controlContext),
@@ -249,10 +254,11 @@ namespace Org.XmlUnit.Diff{
         /// <summary>
         /// Compares properties of XML declaration.
         /// </summary>
-        private ComparisonResult CompareDeclarations(XmlDeclaration control,
-                                                     XPathContext controlContext,
-                                                     XmlDeclaration test,
-                                                     XPathContext testContext) {
+        private KeyValuePair<ComparisonResult, bool>
+            CompareDeclarations(XmlDeclaration control,
+                                XPathContext controlContext,
+                                XmlDeclaration test,
+                                XPathContext testContext) {
             string controlVersion =
                 control == null ? "1.0" : control.Version;
             string testVersion =
@@ -288,10 +294,11 @@ namespace Org.XmlUnit.Diff{
         /// Compares element's node properties, in particular the
         /// element's name and its attributes.
         /// </summary>
-        private ComparisonResult CompareElements(XmlElement control,
-                                                 XPathContext controlContext,
-                                                 XmlElement test,
-                                                 XPathContext testContext) {
+        private KeyValuePair<ComparisonResult, bool>
+            CompareElements(XmlElement control,
+                            XPathContext controlContext,
+                            XmlElement test,
+                            XPathContext testContext) {
             return new ComparisonChain(
                 Compare(new Comparison(ComparisonType.ELEMENT_TAG_NAME,
                                        control, GetXPath(controlContext),
@@ -306,10 +313,11 @@ namespace Org.XmlUnit.Diff{
         /// <summary>
         /// Compares element's attributes.
         /// </summary>
-        private ComparisonResult CompareElementAttributes(XmlElement control,
-                                                          XPathContext controlContext,
-                                                          XmlElement test,
-                                                          XPathContext testContext) {
+        private KeyValuePair<ComparisonResult, bool>
+            CompareElementAttributes(XmlElement control,
+                                     XPathContext controlContext,
+                                     XmlElement test,
+                                     XPathContext testContext) {
             Attributes controlAttributes = SplitAttributes(control.Attributes);
             controlContext
                 .AddAttributes(controlAttributes.RemainingAttributes
@@ -352,7 +360,7 @@ namespace Org.XmlUnit.Diff{
                 .FinalResult;
         }
 
-        private Func<ComparisonResult>
+        private Func<KeyValuePair<ComparisonResult, bool>>
             NormalAttributeComparer(XmlElement control,
                                     XPathContext controlContext,
                                     Attributes controlAttributes,
@@ -426,7 +434,7 @@ namespace Org.XmlUnit.Diff{
         /// <summary>
         /// Compares properties of a processing instruction.
         /// </summary>
-        private ComparisonResult
+        private KeyValuePair<ComparisonResult, bool>
             CompareProcessingInstructions(XmlProcessingInstruction control,
                                           XPathContext controlContext,
                                           XmlProcessingInstruction test,
@@ -453,10 +461,11 @@ namespace Org.XmlUnit.Diff{
         /// Also performs CHILD_LOOKUP comparisons for each node that
         /// couldn't be matched to one of the "other" list.
         /// </remarks>
-        private ComparisonResult CompareNodeLists(IEnumerable<XmlNode> controlSeq,
-                                                  XPathContext controlContext,
-                                                  IEnumerable<XmlNode> testSeq,
-                                                  XPathContext testContext) {
+        private KeyValuePair<ComparisonResult, bool>
+            CompareNodeLists(IEnumerable<XmlNode> controlSeq,
+                             XPathContext controlContext,
+                             IEnumerable<XmlNode> testSeq,
+                             XPathContext testContext) {
 
             ComparisonChain chain = new ComparisonChain();
 
@@ -494,9 +503,10 @@ namespace Org.XmlUnit.Diff{
                 .FinalResult;
         }
 
-        private Func<ComparisonResult> UnmatchedControlNodes(IList<XmlNode> controlList,
-                                                             XPathContext controlContext,
-                                                             ISet<XmlNode> seen) {
+        private Func<KeyValuePair<ComparisonResult, bool>>
+            UnmatchedControlNodes(IList<XmlNode> controlList,
+                                  XPathContext controlContext,
+                                  ISet<XmlNode> seen) {
             return () => {
                 ComparisonChain chain = new ComparisonChain();
                 int controlSize = controlList.Count;
@@ -520,9 +530,10 @@ namespace Org.XmlUnit.Diff{
             };
         }
 
-        private Func<ComparisonResult> UnmatchedTestNodes(IList<XmlNode> testList,
-                                                          XPathContext testContext,
-                                                          ISet<XmlNode> seen) {
+        private Func<KeyValuePair<ComparisonResult, bool>>
+            UnmatchedTestNodes(IList<XmlNode> testList,
+                               XPathContext testContext,
+                               ISet<XmlNode> seen) {
             return () => {
                 ComparisonChain chain = new ComparisonChain();
                 int testSize = testList.Count;
@@ -549,14 +560,15 @@ namespace Org.XmlUnit.Diff{
         /// <summary>
         /// Compares xsi:type attribute values
         /// </summary>
-        private ComparisonResult CompareXsiType(XmlAttribute control,
-                                                XPathContext controlContext,
-                                                XmlAttribute test,
-                                                XPathContext testContext) {
+        private KeyValuePair<ComparisonResult, bool>
+            CompareXsiType(XmlAttribute control,
+                           XPathContext controlContext,
+                           XmlAttribute test,
+                           XPathContext testContext) {
             bool mustChangeControlContext = control != null;
             bool mustChangeTestContext = test != null;
             if (!mustChangeControlContext && !mustChangeTestContext) {
-                return ComparisonResult.EQUAL;
+                return new KeyValuePair<ComparisonResult, bool>(ComparisonResult.EQUAL, false);
             }
             bool attributePresentOnBothSides = mustChangeControlContext
                 && mustChangeTestContext;
@@ -605,10 +617,11 @@ namespace Org.XmlUnit.Diff{
         /// <summary>
         /// Compares properties of an attribute.
         /// </summary>
-        private ComparisonResult CompareAttributes(XmlAttribute control,
-                                                   XPathContext controlContext,
-                                                   XmlAttribute test,
-                                                   XPathContext testContext) {
+        private KeyValuePair<ComparisonResult, bool>
+            CompareAttributes(XmlAttribute control,
+                              XPathContext controlContext,
+                              XmlAttribute test,
+                              XPathContext testContext) {
             return new ComparisonChain(
                 CompareAttributeExplicitness(control, controlContext,
                                              test, testContext)())
@@ -623,7 +636,7 @@ namespace Org.XmlUnit.Diff{
         /// <summary>
         // Compares whether two attributes are specified explicitly.
         /// </summary>
-        private Func<ComparisonResult>
+        private Func<KeyValuePair<ComparisonResult, bool>>
             CompareAttributeExplicitness(XmlAttribute control,
                                          XPathContext controlContext,
                                          XmlAttribute test,

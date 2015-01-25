@@ -67,37 +67,6 @@ namespace Org.XmlUnit.Diff {
             return outcome;
         }
 
-        private static readonly DifferenceEvaluator defaultStopWhenDifferent
-            = StopWhenDifferent(Default);
-
-        /// <summary>
-        /// Makes the comparison stop as soon as the first "real"
-        /// difference is encountered, uses the {@link #Default default}
-        /// evaluator to decide which differences leave the documents
-        /// simlar.
-        /// </summary>
-        public static DifferenceEvaluator DefaultStopWhenDifferent {
-            get {
-                return defaultStopWhenDifferent;
-            }
-        }
-
-        /// <summary>
-        /// Makes the comparison stop as soon as the first "real"
-        /// difference is encountered.
-        /// </summary>
-        /// <param name="nestedEvaluator">provides the initial
-        /// decision whether a difference is "real" or still leaves
-        /// the documents in a similar state.</param>
-        public static DifferenceEvaluator
-            StopWhenDifferent(DifferenceEvaluator nestedEvaluator) {
-            return (comparison, outcome) => {
-                ComparisonResult r = nestedEvaluator(comparison, outcome);
-                return r == ComparisonResult.DIFFERENT
-                    ? ComparisonResult.CRITICAL : r;
-            };
-        }
-
         /// <summary>
         /// Combines multiple DifferenceEvaluators so that the first
         /// one that changes the outcome wins.

@@ -15,9 +15,23 @@
 namespace Org.XmlUnit.Diff {
 
     /// <summary>
-    /// May alter the outcome of a comparison.
+    /// Controllers used for the base cases.
     /// </summary>
-    /// <return>the new result of the comparison.</return>
-    public delegate ComparisonResult DifferenceEvaluator(Comparison comparison,
-                                                         ComparisonResult outcome);
+    public static class ComparisonControllers {
+
+        /// <summary>
+        ///   Does not stop the comparison at all.
+        /// </summary>
+        public static bool Default(Difference diff) {
+            return false;
+        }
+
+        /// <summary>
+        ///   Makes the comparison stop as soon as the first "real"
+        ///   difference is encountered.
+        /// </summary>
+        public static bool StopWhenDifferent(Difference diff) {
+            return diff.Result == ComparisonResult.DIFFERENT;
+        }
+    }
 }

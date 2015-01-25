@@ -43,10 +43,15 @@ namespace Org.XmlUnit.Diff {
         INodeMatcher NodeMatcher { set; }
 
         /// <summary>
+        /// Evaluates the severity of a difference.
+        /// </summary>
+        DifferenceEvaluator DifferenceEvaluator { set; }
+
+        /// <summary>
         /// Determines whether the comparison should stop after given
         /// difference has been found.
         /// </summary>
-        DifferenceEvaluator DifferenceEvaluator { set; }
+        ComparisonController ComparisonController { set; }
 
         /// <summary>
         /// Establish a namespace context mapping from URI to prefix

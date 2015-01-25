@@ -15,9 +15,10 @@
 namespace Org.XmlUnit.Diff {
 
     /// <summary>
-    /// May alter the outcome of a comparison.
+    /// May instruct the difference engine to stop the whole comparison process.
     /// </summary>
-    /// <return>the new result of the comparison.</return>
-    public delegate ComparisonResult DifferenceEvaluator(Comparison comparison,
-                                                         ComparisonResult outcome);
+    /// <param name="difference">difference the Difference that is responsible for
+    /// stopping the comparison process</param>
+    /// <return>whether to stop the comparison process</return>
+    public delegate bool ComparisonController(Difference difference);
 }
