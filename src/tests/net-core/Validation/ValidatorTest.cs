@@ -14,7 +14,6 @@
 using System;
 using System.Collections.Generic;
 using NUnit.Framework;
-using Org.XmlUnit.Exceptions;
 using Org.XmlUnit.Input;
 
 namespace Org.XmlUnit.Validation {

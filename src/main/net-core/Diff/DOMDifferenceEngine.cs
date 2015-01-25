@@ -17,7 +17,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 using System.Xml.Schema;
-using Org.XmlUnit.Exceptions;
 using Org.XmlUnit.Util;
 
 namespace Org.XmlUnit.Diff{

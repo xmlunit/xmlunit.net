@@ -15,7 +15,6 @@ using System;
 using System.IO;
 using System.Xml;
 using System.Xml.Linq;
-using Org.XmlUnit.Exceptions;
 using Org.XmlUnit.Input;
 
 namespace Org.XmlUnit.Builder {

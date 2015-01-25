@@ -16,7 +16,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using System.Xml.Schema;
-using Org.XmlUnit.Exceptions;
 
 namespace Org.XmlUnit.Validation {
 

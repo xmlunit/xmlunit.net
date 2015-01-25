@@ -16,7 +16,6 @@ using System;
 using System.IO;
 using System.Xml;
 using System.Xml.Xsl;
-using Org.XmlUnit.Exceptions;
 
 namespace Org.XmlUnit.Transform {
 

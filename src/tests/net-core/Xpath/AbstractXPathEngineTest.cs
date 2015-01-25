@@ -16,7 +16,6 @@ using System.Collections.Generic;
 using System.Xml;
 using NUnit.Framework;
 using InputBuilder = Org.XmlUnit.Builder.Input;
-using Org.XmlUnit.Exceptions;
 
 namespace Org.XmlUnit.Xpath {
 
