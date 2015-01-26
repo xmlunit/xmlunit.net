@@ -58,7 +58,7 @@ namespace Org.XmlUnit.Diff{
         ///
         /// Stops as soon as any comparison returns ComparisonResult.CRITICAL.
         /// </remarks>
-        internal KeyValuePair<ComparisonResult, bool>
+        internal ComparisonState
             CompareNodes(XmlNode control,
                          XPathContext controlContext,
                          XmlNode test,
@@ -68,28 +68,28 @@ namespace Org.XmlUnit.Diff{
             IEnumerable<XmlNode> testChildren =
                 test.ChildNodes.Cast<XmlNode>().Where(INTERESTING_NODES);
 
-            return new ComparisonChain(Compare(new Comparison(ComparisonType.NODE_TYPE,
+            return Compare(new Comparison(ComparisonType.NODE_TYPE,
                                                               control,
                                                               GetXPath(controlContext),
                                                               control.NodeType,
                                                               test, GetXPath(testContext),
-                                                              test.NodeType)))
-                .AndThen(Comparer(new Comparison(ComparisonType.NAMESPACE_URI,
+                                                              test.NodeType))
+                .AndThen(new Comparison(ComparisonType.NAMESPACE_URI,
                                                  control, GetXPath(controlContext),
                                                  control.NamespaceURI,
                                                  test, GetXPath(testContext),
-                                                 test.NamespaceURI)))
-                .AndThen(Comparer(new Comparison(ComparisonType.NAMESPACE_PREFIX,
+                                                 test.NamespaceURI))
+                .AndThen(new Comparison(ComparisonType.NAMESPACE_PREFIX,
                                                  control, GetXPath(controlContext),
                                                  control.Prefix,
                                                  test, GetXPath(testContext),
-                                                 test.Prefix)))
+                                                 test.Prefix))
                 .AndIfTrueThen(control.NodeType != XmlNodeType.Attribute,
-                               Comparer(new Comparison(ComparisonType.CHILD_NODELIST_LENGTH,
+                               new Comparison(ComparisonType.CHILD_NODELIST_LENGTH,
                                                        control, GetXPath(controlContext),
                                                        controlChildren.Count(),
                                                        test, GetXPath(testContext),
-                                                       testChildren.Count())))
+                                                       testChildren.Count()))
                 .AndThen(() => NodeTypeSpecificComparison(control, controlContext,
                                                           test, testContext))
                 // and finally recurse into children
@@ -97,15 +97,14 @@ namespace Org.XmlUnit.Diff{
                                CompareChildren(control, controlContext,
                                                controlChildren,
                                                test, testContext,
-                                               testChildren))
-                .FinalResult;
+                                               testChildren));
         }
 
         /// <summary>
         /// Dispatches to the node type specific comparison if one is
         /// defined for the given combination of nodes.
         /// </summary>
-        private KeyValuePair<ComparisonResult, bool>
+        private ComparisonState
             NodeTypeSpecificComparison(XmlNode control,
                                        XPathContext controlContext,
                                        XmlNode test, XPathContext testContext) {
@@ -159,10 +158,10 @@ namespace Org.XmlUnit.Diff{
                 }
                 break;
             }
-            return new KeyValuePair<ComparisonResult, bool>(ComparisonResult.EQUAL, false);
+            return new OngoingComparisonState(this);
         }
 
-        private Func<KeyValuePair<ComparisonResult, bool>>
+        private Func<ComparisonState>
             CompareChildren(XmlNode control,
                             XPathContext controlContext,
                             IEnumerable<XmlNode> controlChildren,
@@ -183,7 +182,7 @@ namespace Org.XmlUnit.Diff{
         /// <summary>
         /// Compares textual content.
         /// </summary>
-        private KeyValuePair<ComparisonResult, bool>
+        private ComparisonState
             CompareCharacterData(XmlCharacterData control,
                                  XPathContext controlContext,
                                  XmlCharacterData test,
@@ -198,7 +197,7 @@ namespace Org.XmlUnit.Diff{
         /// <summary>
         /// Compares document node, doctype and XML declaration properties
         /// </summary>
-        private KeyValuePair<ComparisonResult, bool>
+        private ComparisonState
             CompareDocuments(XmlDocument control,
                              XPathContext controlContext,
                              XmlDocument test,
@@ -206,12 +205,12 @@ namespace Org.XmlUnit.Diff{
             XmlDocumentType controlDt = control.DocumentType;
             XmlDocumentType testDt = test.DocumentType;
 
-            return new ComparisonChain(
+            return
                 Compare(new Comparison(ComparisonType.HAS_DOCTYPE_DECLARATION,
                                        control, GetXPath(controlContext),
                                        controlDt != null,
                                        test, GetXPath(testContext),
-                                       testDt != null)))
+                                       testDt != null))
                 .AndIfTrueThen(controlDt != null && testDt != null,
                                () => CompareNodes(controlDt, controlContext,
                                                   testDt, testContext))
@@ -219,41 +218,39 @@ namespace Org.XmlUnit.Diff{
                          CompareDeclarations(control.FirstChild as XmlDeclaration,
                                              controlContext,
                                              test.FirstChild as XmlDeclaration,
-                                             testContext))
-                .FinalResult;
+                                             testContext));
         }
 
         /// <summary>
         /// Compares properties of the doctype declaration.
         /// </summary>
-        private KeyValuePair<ComparisonResult, bool>
+        private ComparisonState
             CompareDocTypes(XmlDocumentType control,
                             XPathContext controlContext,
                             XmlDocumentType test,
                             XPathContext testContext) {
-            return new ComparisonChain(
+            return
                 Compare(new Comparison(ComparisonType.DOCTYPE_NAME,
                                        control, GetXPath(controlContext),
                                        control.Name,
                                        test, GetXPath(testContext),
-                                       test.Name)))
-                .AndThen(Comparer(new Comparison(ComparisonType.DOCTYPE_PUBLIC_ID,
+                                       test.Name))
+                .AndThen(new Comparison(ComparisonType.DOCTYPE_PUBLIC_ID,
                                                  control, GetXPath(controlContext),
                                                  control.PublicId,
                                                  test, GetXPath(testContext),
-                                                 test.PublicId)))
-                .AndThen(Comparer(new Comparison(ComparisonType.DOCTYPE_SYSTEM_ID,
+                                                 test.PublicId))
+                .AndThen(new Comparison(ComparisonType.DOCTYPE_SYSTEM_ID,
                                                  control, GetXPath(controlContext),
                                                  control.SystemId,
                                                  test, GetXPath(testContext),
-                                                 test.SystemId)))
-                .FinalResult;
+                                                 test.SystemId));
         }
 
         /// <summary>
         /// Compares properties of XML declaration.
         /// </summary>
-        private KeyValuePair<ComparisonResult, bool>
+        private ComparisonState
             CompareDeclarations(XmlDeclaration control,
                                 XPathContext controlContext,
                                 XmlDeclaration test,
@@ -270,49 +267,47 @@ namespace Org.XmlUnit.Diff{
                 control != null ? control.Encoding : string.Empty;
             string testEncoding = test != null ? test.Encoding : string.Empty;
 
-            return new ComparisonChain(
+            return
                 Compare(new Comparison(ComparisonType.XML_VERSION,
                                        control, GetXPath(controlContext),
                                        controlVersion,
                                        test, GetXPath(testContext),
-                                       testVersion)))
-                .AndThen(Comparer(new Comparison(ComparisonType.XML_STANDALONE,
+                                       testVersion))
+                .AndThen(new Comparison(ComparisonType.XML_STANDALONE,
                                                  control, GetXPath(controlContext),
                                                  controlStandalone,
                                                  test, GetXPath(testContext),
-                                                 testStandalone)))
-                .AndThen(Comparer(new Comparison(ComparisonType.XML_ENCODING,
+                                                 testStandalone))
+                .AndThen(new Comparison(ComparisonType.XML_ENCODING,
                                                  control, GetXPath(controlContext),
                                                  controlEncoding,
                                                  test, GetXPath(testContext),
-                                                 testEncoding)))
-                .FinalResult;
+                                                 testEncoding));
         }
 
         /// <summary>
         /// Compares element's node properties, in particular the
         /// element's name and its attributes.
         /// </summary>
-        private KeyValuePair<ComparisonResult, bool>
+        private ComparisonState
             CompareElements(XmlElement control,
                             XPathContext controlContext,
                             XmlElement test,
                             XPathContext testContext) {
-            return new ComparisonChain(
+            return
                 Compare(new Comparison(ComparisonType.ELEMENT_TAG_NAME,
                                        control, GetXPath(controlContext),
                                        control.Name,
                                        test, GetXPath(testContext),
-                                       test.Name)))
+                                       test.Name))
                 .AndThen(() => CompareElementAttributes(control, controlContext,
-                                                        test, testContext))
-                .FinalResult;
+                                                        test, testContext));
         }
 
         /// <summary>
         /// Compares element's attributes.
         /// </summary>
-        private KeyValuePair<ComparisonResult, bool>
+        private ComparisonState
             CompareElementAttributes(XmlElement control,
                                      XPathContext controlContext,
                                      XmlElement test,
@@ -326,15 +321,15 @@ namespace Org.XmlUnit.Diff{
                 .AddAttributes(testAttributes.RemainingAttributes
                                .Select(Nodes.GetQName));
 
-            return new ComparisonChain(
+            return
                 Compare(new Comparison(ComparisonType.ELEMENT_NUM_ATTRIBUTES,
                                        control, GetXPath(controlContext),
                                        controlAttributes.RemainingAttributes.Count,
                                        test, GetXPath(testContext),
-                                       testAttributes.RemainingAttributes.Count)))
+                                       testAttributes.RemainingAttributes.Count))
                 .AndThen(() => CompareXsiType(controlAttributes.Type, controlContext,
                                               testAttributes.Type, testContext))
-                .AndThen(Comparer(new Comparison(ComparisonType.SCHEMA_LOCATION,
+                .AndThen(new Comparison(ComparisonType.SCHEMA_LOCATION,
                                                  control, GetXPath(controlContext),
                                                  controlAttributes.SchemaLocation != null 
                                                  ? controlAttributes.SchemaLocation.Value 
@@ -342,8 +337,8 @@ namespace Org.XmlUnit.Diff{
                                                  test, GetXPath(testContext),
                                                  testAttributes.SchemaLocation != null
                                                  ? testAttributes.SchemaLocation.Value
-                                                 : null)))
-                .AndThen(Comparer(new Comparison(ComparisonType.NO_NAMESPACE_SCHEMA_LOCATION,
+                                                 : null))
+                .AndThen(new Comparison(ComparisonType.NO_NAMESPACE_SCHEMA_LOCATION,
                                                  control, GetXPath(controlContext),
                                                  controlAttributes.NoNamespaceSchemaLocation != null
                                                  ? controlAttributes.NoNamespaceSchemaLocation.Value
@@ -351,15 +346,14 @@ namespace Org.XmlUnit.Diff{
                                                  test, GetXPath(testContext),
                                                  testAttributes.NoNamespaceSchemaLocation != null
                                                  ? testAttributes.NoNamespaceSchemaLocation.Value
-                                                 : null)))
+                                                 : null))
                 .AndThen(NormalAttributeComparer(control, controlContext,
                                                  controlAttributes,
                                                  test, testContext,
-                                                 testAttributes))
-                .FinalResult;
+                                                 testAttributes));
         }
 
-        private Func<KeyValuePair<ComparisonResult, bool>>
+        private Func<ComparisonState>
             NormalAttributeComparer(XmlElement control,
                                     XPathContext controlContext,
                                     Attributes controlAttributes,
@@ -367,7 +361,7 @@ namespace Org.XmlUnit.Diff{
                                     XPathContext testContext,
                                     Attributes testAttributes) {
             return () => {
-                ComparisonChain chain = new ComparisonChain();
+                ComparisonState chain = new OngoingComparisonState(this);
                 ISet<XmlAttribute> foundTestAttributes = new HashSet<XmlAttribute>();
 
                 foreach (XmlAttribute controlAttr
@@ -381,16 +375,17 @@ namespace Org.XmlUnit.Diff{
 
                     controlContext.NavigateToAttribute(controlAttrName);
                     try {
-                        chain.AndThen(Comparer(new Comparison(ComparisonType.ATTR_NAME_LOOKUP,
+                        chain =
+                            chain.AndThen(new Comparison(ComparisonType.ATTR_NAME_LOOKUP,
                                                               control, GetXPath(controlContext),
                                                               controlAttrName,
                                                               test, GetXPath(testContext),
-                                                              testAttrName)));
+                                                              testAttrName));
 
                         if (testAttr != null) {
                             testContext.NavigateToAttribute(testAttrName);
                             try {
-                                chain.AndThen(() =>
+                                chain = chain.AndThen(() =>
                                               CompareNodes(controlAttr, controlContext,
                                                            testAttr, testContext));
 
@@ -404,52 +399,51 @@ namespace Org.XmlUnit.Diff{
                     }
                 }
                 return chain.AndThen(() => {
-                        ComparisonChain secondChain = new ComparisonChain();
+                        ComparisonState secondChain = new OngoingComparisonState(this);
                         foreach (XmlAttribute testAttr
                                  in testAttributes.RemainingAttributes) {
                             if (!foundTestAttributes.Contains(testAttr)) {
                                 XmlQualifiedName testAttrName = Nodes.GetQName(testAttr);
                                 testContext.NavigateToAttribute(testAttrName);
                                 try {
-                                    secondChain
-                                        .AndThen(Comparer(new Comparison(ComparisonType.ATTR_NAME_LOOKUP,
+                                    secondChain =
+                                        secondChain
+                                        .AndThen(new Comparison(ComparisonType.ATTR_NAME_LOOKUP,
                                                                          control,
                                                                          GetXPath(controlContext),
                                                                          null,
                                                                          test,
                                                                          GetXPath(testContext),
-                                                                         testAttrName)));
+                                                                         testAttrName));
                                 } finally {
                                     testContext.NavigateToParent();
                                 }
                             }
                         }
-                        return secondChain.FinalResult;
-                    })
-                .FinalResult;
+                        return secondChain;
+                    });
             };
         }
 
         /// <summary>
         /// Compares properties of a processing instruction.
         /// </summary>
-        private KeyValuePair<ComparisonResult, bool>
+        private ComparisonState
             CompareProcessingInstructions(XmlProcessingInstruction control,
                                           XPathContext controlContext,
                                           XmlProcessingInstruction test,
                                           XPathContext testContext) {
-            return new ComparisonChain(
+            return
                 Compare(new Comparison(ComparisonType.PROCESSING_INSTRUCTION_TARGET,
                                        control, GetXPath(controlContext),
                                        control.Target,
                                        test, GetXPath(testContext),
-                                       test.Target)))
-                .AndThen(Comparer(new Comparison(ComparisonType.PROCESSING_INSTRUCTION_DATA,
+                                       test.Target))
+                .AndThen(new Comparison(ComparisonType.PROCESSING_INSTRUCTION_DATA,
                                                  control, GetXPath(controlContext),
                                                  control.Data,
                                                  test, GetXPath(testContext),
-                                                 test.Data)))
-                .FinalResult;
+                                                 test.Data));
         }
 
         /// <summary>
@@ -460,13 +454,13 @@ namespace Org.XmlUnit.Diff{
         /// Also performs CHILD_LOOKUP comparisons for each node that
         /// couldn't be matched to one of the "other" list.
         /// </remarks>
-        private KeyValuePair<ComparisonResult, bool>
+        private ComparisonState
             CompareNodeLists(IEnumerable<XmlNode> controlSeq,
                              XPathContext controlContext,
                              IEnumerable<XmlNode> testSeq,
                              XPathContext testContext) {
 
-            ComparisonChain chain = new ComparisonChain();
+            ComparisonState chain = new OngoingComparisonState(this);
 
             IEnumerable<KeyValuePair<XmlNode, XmlNode>> matches =
                 NodeMatcher.Match(controlSeq, testSeq);
@@ -483,11 +477,12 @@ namespace Org.XmlUnit.Diff{
                 controlContext.NavigateToChild(controlIndex);
                 testContext.NavigateToChild(testIndex);
                 try {
-                    chain.AndThen(Comparer(new Comparison(ComparisonType.CHILD_NODELIST_SEQUENCE,
+                    chain =
+                        chain.AndThen(new Comparison(ComparisonType.CHILD_NODELIST_SEQUENCE,
                                                           control, GetXPath(controlContext),
                                                           controlIndex,
                                                           test, GetXPath(testContext),
-                                                          testIndex)))
+                                                          testIndex))
                         .AndThen(() => CompareNodes(control, controlContext,
                                                     test, testContext));
                 } finally {
@@ -498,68 +493,67 @@ namespace Org.XmlUnit.Diff{
 
             return chain
                 .AndThen(UnmatchedControlNodes(controlList, controlContext, seen))
-                .AndThen(UnmatchedTestNodes(testList, testContext, seen))
-                .FinalResult;
+                .AndThen(UnmatchedTestNodes(testList, testContext, seen));
         }
 
-        private Func<KeyValuePair<ComparisonResult, bool>>
+        private Func<ComparisonState>
             UnmatchedControlNodes(IList<XmlNode> controlList,
                                   XPathContext controlContext,
                                   ISet<XmlNode> seen) {
             return () => {
-                ComparisonChain chain = new ComparisonChain();
+                ComparisonState chain = new OngoingComparisonState(this);
                 int controlSize = controlList.Count;
                 for (int i = 0; i < controlSize; i++) {
                     if (!seen.Contains(controlList[i])) {
                         controlContext.NavigateToChild(i);
                         try {
-                            chain
-                                .AndThen(Comparer(new Comparison(ComparisonType.CHILD_LOOKUP,
+                            chain = chain
+                                .AndThen(new Comparison(ComparisonType.CHILD_LOOKUP,
                                                                  controlList[i],
                                                                  GetXPath(controlContext),
                                                                  Nodes
                                                                  .GetQName(controlList[i]),
-                                                                 null, null, null)));
+                                                                 null, null, null));
                         } finally {
                             controlContext.NavigateToParent();
                         }
                     }
                 }
-                return chain.FinalResult;
+                return chain;
             };
         }
 
-        private Func<KeyValuePair<ComparisonResult, bool>>
+        private Func<ComparisonState>
             UnmatchedTestNodes(IList<XmlNode> testList,
                                XPathContext testContext,
                                ISet<XmlNode> seen) {
             return () => {
-                ComparisonChain chain = new ComparisonChain();
+                ComparisonState chain = new OngoingComparisonState(this);
                 int testSize = testList.Count;
                 for (int i = 0; i < testSize; i++) {
                     if (!seen.Contains(testList[i])) {
                         testContext.NavigateToChild(i);
                         try {
-                            chain
-                                .AndThen(Comparer(new Comparison(ComparisonType.CHILD_LOOKUP,
+                            chain = chain
+                                .AndThen(new Comparison(ComparisonType.CHILD_LOOKUP,
                                                                  null, null, null,
                                                                  testList[i],
                                                                  GetXPath(testContext),
                                                                  Nodes
-                                                                 .GetQName(testList[i]))));
+                                                                 .GetQName(testList[i])));
                         } finally {
                             testContext.NavigateToParent();
                         }
                     }
                 }
-                return chain.FinalResult;
+                return chain;
             };
         }
 
         /// <summary>
         /// Compares xsi:type attribute values
         /// </summary>
-        private KeyValuePair<ComparisonResult, bool>
+        private ComparisonState
             CompareXsiType(XmlAttribute control,
                            XPathContext controlContext,
                            XmlAttribute test,
@@ -567,7 +561,7 @@ namespace Org.XmlUnit.Diff{
             bool mustChangeControlContext = control != null;
             bool mustChangeTestContext = test != null;
             if (!mustChangeControlContext && !mustChangeTestContext) {
-                return new KeyValuePair<ComparisonResult, bool>(ComparisonResult.EQUAL, false);
+                return new OngoingComparisonState(this);
             }
             bool attributePresentOnBothSides = mustChangeControlContext
                 && mustChangeTestContext;
@@ -585,24 +579,23 @@ namespace Org.XmlUnit.Diff{
                     testContext.AddAttribute(testAttrName);
                     testContext.NavigateToAttribute(testAttrName);
                 }
-                return new ComparisonChain(
+                return
                     Compare(new Comparison(ComparisonType.ATTR_NAME_LOOKUP,
                                            control, GetXPath(controlContext),
                                            controlAttrName,
                                            test, GetXPath(testContext),
-                                           testAttrName)))
+                                           testAttrName))
                     .AndIfTrueThen(attributePresentOnBothSides,
-                                   CompareAttributeExplicitness(control, controlContext,
+                                   () => CompareAttributeExplicitness(control, controlContext,
                                                                 test, testContext))
                     .AndIfTrueThen(attributePresentOnBothSides,
-                                   Comparer(new Comparison(ComparisonType.ATTR_VALUE,
+                                   new Comparison(ComparisonType.ATTR_VALUE,
                                                            control,
                                                            GetXPath(controlContext),
                                                            ValueAsQName(control),
                                                            test,
                                                            GetXPath(testContext),
-                                                           ValueAsQName(test))))
-                    .FinalResult;
+                                                           ValueAsQName(test)));
             } finally {
                 if (mustChangeControlContext) {
                     controlContext.NavigateToParent();
@@ -616,32 +609,31 @@ namespace Org.XmlUnit.Diff{
         /// <summary>
         /// Compares properties of an attribute.
         /// </summary>
-        private KeyValuePair<ComparisonResult, bool>
+        private ComparisonState
             CompareAttributes(XmlAttribute control,
                               XPathContext controlContext,
                               XmlAttribute test,
                               XPathContext testContext) {
-            return new ComparisonChain(
+            return
                 CompareAttributeExplicitness(control, controlContext,
-                                             test, testContext)())
-                .AndThen(Comparer(new Comparison(ComparisonType.ATTR_VALUE,
+                                             test, testContext)
+                .AndThen(new Comparison(ComparisonType.ATTR_VALUE,
                                                  control, GetXPath(controlContext),
                                                  control.Value,
                                                  test, GetXPath(testContext),
-                                                 test.Value)))
-                .FinalResult;
+                                                 test.Value));
         }
 
         /// <summary>
         // Compares whether two attributes are specified explicitly.
         /// </summary>
-        private Func<KeyValuePair<ComparisonResult, bool>>
+        private ComparisonState
             CompareAttributeExplicitness(XmlAttribute control,
                                          XPathContext controlContext,
                                          XmlAttribute test,
                                          XPathContext testContext) {
             return
-                Comparer(new Comparison(ComparisonType.ATTR_VALUE_EXPLICITLY_SPECIFIED,
+                Compare(new Comparison(ComparisonType.ATTR_VALUE_EXPLICITLY_SPECIFIED,
                                         control, GetXPath(controlContext),
                                         control.Specified,
                                         test, GetXPath(testContext),

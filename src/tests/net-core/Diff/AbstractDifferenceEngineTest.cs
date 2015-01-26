@@ -12,7 +12,6 @@
   limitations under the License.
 */
 using System;
-using System.Collections.Generic;
 using NUnit.Framework;
 
 namespace Org.XmlUnit.Diff {
@@ -147,13 +146,48 @@ namespace Org.XmlUnit.Diff {
                                                      Convert.ToInt16("2"))));
             Assert.AreEqual(1, invocations);
         }
-
-        protected static KeyValuePair<ComparisonResult, bool> Wrap(ComparisonResult c) {
-            return new KeyValuePair<ComparisonResult, bool>(c, false);
+        [Test]
+        public void OngoingComparisonStateBasics() {
+            AbstractDifferenceEngine.ComparisonState cs = Wrap(ComparisonResult.EQUAL);
+            Assert.AreEqual(cs, new AbstractDifferenceEngine.OngoingComparisonState(null));
         }
 
-        protected static KeyValuePair<ComparisonResult, bool> WrapAndStop(ComparisonResult c) {
-            return new KeyValuePair<ComparisonResult, bool>(c, true);
+        [Test]
+        public void AndThenUsesCurrentFinishedFlag() {
+            AbstractDifferenceEngine.ComparisonState cs = WrapAndStop(ComparisonResult.SIMILAR);
+            Assert.AreEqual(WrapAndStop(ComparisonResult.SIMILAR),
+                            cs.AndThen(() => Wrap(ComparisonResult.EQUAL)));
+            cs = Wrap(ComparisonResult.SIMILAR);
+            Assert.AreEqual(Wrap(ComparisonResult.EQUAL),
+                            cs.AndThen(() => Wrap(ComparisonResult.EQUAL)));
+        }
+
+        [Test]
+        public void AndIfTrueThenUsesCurrentFinishedFlag() {
+            AbstractDifferenceEngine.ComparisonState cs = WrapAndStop(ComparisonResult.SIMILAR);
+            Assert.AreEqual(WrapAndStop(ComparisonResult.SIMILAR),
+                            cs.AndIfTrueThen(true, () => Wrap(ComparisonResult.EQUAL)));
+            cs = Wrap(ComparisonResult.SIMILAR);
+            Assert.AreEqual(Wrap(ComparisonResult.EQUAL),
+                            cs.AndIfTrueThen(true, () => Wrap(ComparisonResult.EQUAL)));
+        }
+
+        [Test]
+        public void AndIfTrueThenIsNoopIfFirstArgIsFalse() {
+            AbstractDifferenceEngine.ComparisonState cs = WrapAndStop(ComparisonResult.SIMILAR);
+            Assert.AreEqual(WrapAndStop(ComparisonResult.SIMILAR),
+                            cs.AndIfTrueThen(false, () => Wrap(ComparisonResult.EQUAL)));
+            cs = Wrap(ComparisonResult.SIMILAR);
+            Assert.AreEqual(Wrap(ComparisonResult.SIMILAR),
+                            cs.AndIfTrueThen(false, () => Wrap(ComparisonResult.EQUAL)));
+        }
+
+        protected static AbstractDifferenceEngine.ComparisonState Wrap(ComparisonResult c) {
+            return new AbstractDifferenceEngine.OngoingComparisonState(null, c);
+        }
+
+        protected static AbstractDifferenceEngine.ComparisonState WrapAndStop(ComparisonResult c) {
+            return new AbstractDifferenceEngine.FinishedComparisonState(null, c);
         }
     }
 }
