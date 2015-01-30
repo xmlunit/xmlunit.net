@@ -80,5 +80,17 @@ namespace Org.XmlUnit.Diff {
                                          evaluated => evaluated != orig,
                                          orig);
         }
+
+        /// <summary>
+        /// Combines multiple DifferenceEvaluators so that the result
+        /// of the first Evaluator will be passed to the next
+        /// Evaluator.
+        /// </summary>
+        public static DifferenceEvaluator
+            Chain(params DifferenceEvaluator[] evaluators) {
+            return (comparison, orig) =>
+                evaluators.Aggregate(orig, (r, ev) => ev(comparison, r));
+        }
+
     }
 }

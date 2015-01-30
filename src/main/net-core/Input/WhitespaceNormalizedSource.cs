@@ -23,7 +23,7 @@ namespace Org.XmlUnit.Input {
     /// <remarks>
     /// "normalized" in this context means all whitespace characters
     /// are replaced by space characters and consecutive whitespace
-    /// characaters are collapsed.
+    /// characters are collapsed.
     /// </remarks>
     public class WhitespaceNormalizedSource : DOMSource {
         public WhitespaceNormalizedSource(ISource originalSource) :

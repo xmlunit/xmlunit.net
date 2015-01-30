@@ -21,14 +21,16 @@ namespace Org.XmlUnit.Diff {
 
         internal class Evaluator {
             internal bool Called = false;
-            private readonly ComparisonResult ret;
+            private readonly ComparisonResult Ret;
+            internal ComparisonResult Orig;
             internal Evaluator(ComparisonResult ret) {
-                this.ret = ret;
+                Ret = ret;
             }
             public ComparisonResult Evaluate(Comparison comparison,
                                              ComparisonResult orig) {
                 Called = true;
-                return ret;
+                Orig = orig;
+                return Ret;
             }
         }
 
@@ -55,5 +57,20 @@ namespace Org.XmlUnit.Diff {
             Assert.IsTrue(e1.Called);
             Assert.IsTrue(e2.Called);
         }
+
+        [Test]
+        public void AllEvaluatorsAreCalledInSequence() {
+            Evaluator e1 = new Evaluator(ComparisonResult.SIMILAR);
+            Evaluator e2 = new Evaluator(ComparisonResult.EQUAL);
+            DifferenceEvaluator d = DifferenceEvaluators.Chain(e1.Evaluate,
+                                                               e2.Evaluate);
+            Assert.AreEqual(ComparisonResult.EQUAL,
+                            d(null, ComparisonResult.DIFFERENT));
+
+            Assert.IsTrue(e1.Called);
+            Assert.That(e1.Orig, Is.EqualTo(ComparisonResult.DIFFERENT)); // passed initial ComparisonResult
+            Assert.IsTrue(e2.Called);
+            Assert.That(e2.Orig, Is.EqualTo(ComparisonResult.SIMILAR)); // passed ComparisonResult from e1
+}
     }
 }
