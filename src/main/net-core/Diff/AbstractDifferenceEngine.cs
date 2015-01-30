@@ -114,14 +114,16 @@ namespace Org.XmlUnit.Diff {
 
         private void FireComparisonPerformed(Comparison comp,
                                              ComparisonResult outcome) {
-            if (ComparisonListener != null) {
-                ComparisonListener(comp, outcome);
+            ComparisonListener cl = ComparisonListener;
+            ComparisonListener ml = MatchListener;
+            ComparisonListener dl = DifferenceListener;
+            if (cl != null) {
+                cl(comp, outcome);
             }
-            if (outcome == ComparisonResult.EQUAL && MatchListener != null) {
-                MatchListener(comp, outcome);
-            } else if (outcome != ComparisonResult.EQUAL
-                       && DifferenceListener != null) {
-                DifferenceListener(comp, outcome);
+            if (outcome == ComparisonResult.EQUAL && ml != null) {
+                ml(comp, outcome);
+            } else if (outcome != ComparisonResult.EQUAL && dl != null) {
+                dl(comp, outcome);
             }
         }
 
