@@ -179,5 +179,40 @@ namespace Org.XmlUnit.Builder {
             return new SourceHoldingBuilder(new LinqSource(n));
         }
 
+        /// <summary>
+        /// Return the matching Builder for the supported types:
+        /// ISource, IBuilder, XmlDocument, XmlNode, byte[] (XML as
+        /// byte[]), string (XML as String) Uri (to an XML-Document),
+        /// Stream, TextReader, XDocument, XNode
+        /// </summary>
+        public static IBuilder From(object source) {
+            IBuilder xml;
+            if (source is ISource) {
+                xml = new SourceHoldingBuilder((ISource) source);
+            } else if (source is IBuilder) {
+                xml = (IBuilder) source;
+            } else if (source is XmlDocument) {
+                xml = Input.FromDocument((XmlDocument) source);
+            } else if (source is XmlNode) {
+                xml = Input.FromNode((XmlNode) source);
+            } else if (source is byte[]) {
+                xml = Input.FromMemory((byte[]) source);
+            } else if (source is string) {
+                xml = Input.FromMemory((string) source);
+            } else if (source is Uri) {
+                xml = Input.FromURI((Uri) source);
+            } else if (source is Stream) {
+                xml = Input.FromStream((Stream) source);
+            } else if (source is TextReader) {
+                xml = Input.FromReader((TextReader) source);
+            } else if (source is XDocument) {
+                xml = Input.FromDocument((XDocument) source);
+            } else if (source is XNode) {
+                xml = Input.FromNode((XNode) source);
+            } else {
+                throw new ArgumentException("unsupported type", "source");
+            }
+            return xml;
+        }
     }
 }

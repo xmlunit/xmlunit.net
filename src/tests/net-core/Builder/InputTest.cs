@@ -119,6 +119,35 @@ namespace Org.XmlUnit.Builder {
             Assert.That(d.DocumentElement.Name, Is.EqualTo("furry"));
         }
 
+        [Test] public void ShouldParseUnknownToSource() {
+            // from ISource
+            AllIsWellFor(Input.From(Input.FromMemory(ReadTestFile()).Build()).Build());
+            // from IBuilder
+            AllIsWellFor(Input.From(Input.FromMemory(ReadTestFile())).Build());
+            // From XmlDocument
+            AllIsWellFor(Input.From(Parse(Input.FromFile(TestResources.ANIMAL_FILE).Build()))
+                         .Build());
+            // From XDocument
+            AllIsWellFor(Input.From(XParse(Input.FromFile(TestResources.ANIMAL_FILE).Build()))
+                         .Build());
+            // From string
+            AllIsWellFor(Input.From(Encoding.UTF8.GetString(ReadTestFile())).Build());
+            // From byte[]
+            AllIsWellFor(Input.From(ReadTestFile()).Build());
+            // From Uri
+            AllIsWellFor(Input.From(new Uri(ToFileUri(TestResources.ANIMAL_FILE))).Build());
+            // From Stream
+            using (FileStream fs = new FileStream(TestResources.ANIMAL_FILE,
+                                                  FileMode.Open,
+                                                  FileAccess.Read)) {
+                AllIsWellFor(Input.From(fs).Build());
+            }
+            // From Reader
+            using (StreamReader r = new StreamReader(TestResources.ANIMAL_FILE)) {
+                AllIsWellFor(Input.From(r).Build());
+            }
+        }
+
         private static void AllIsWellFor(ISource s) {
             Assert.That(s, Is.Not.Null);
             XmlDocument d = Parse(s);
