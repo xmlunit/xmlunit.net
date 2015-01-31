@@ -29,10 +29,10 @@ namespace Org.XmlUnit.Builder {
             ISource Build();
         }
 
-        internal class DOMBuilder : IBuilder {
-            private readonly ISource source;
-            internal DOMBuilder(XmlNode d) {
-                source = new DOMSource(d);
+        internal class SourceHoldingBuilder : IBuilder {
+            protected readonly ISource source;
+            internal SourceHoldingBuilder(ISource source) {
+                this.source = source;
             }
             public ISource Build() {
                 return source;
@@ -43,34 +43,27 @@ namespace Org.XmlUnit.Builder {
         /// Build an ISource from a DOM Document.
         /// </summary>
         public static IBuilder FromDocument(XmlDocument d) {
-            return new DOMBuilder(d);
+            return new SourceHoldingBuilder(new DOMSource(d));
         }
 
         /// <summary>
         /// Build an ISource from a DOM Node.
         /// </summary>
         public static IBuilder FromNode(XmlNode n) {
-            return new DOMBuilder(n);
+            return new SourceHoldingBuilder(new DOMSource(n));
         }
 
-        internal class StreamBuilder : IBuilder {
-            private readonly ISource source;
-            internal StreamBuilder(string s) {
-                source = new StreamSource(s);
+        internal class StreamBuilder : SourceHoldingBuilder {
+            internal StreamBuilder(string s) : base(new StreamSource(s)) {
             }
-            internal StreamBuilder(Stream s) {
-                source = new StreamSource(s);
+            internal StreamBuilder(Stream s) : base(new StreamSource(s)) {
             }
-            internal StreamBuilder(TextReader r) {
-                source = new StreamSource(r);
+            internal StreamBuilder(TextReader r) : base(new StreamSource(r)) {
             }
             internal string SystemId {
                 set {
                     source.SystemId = value ?? string.Empty;
                 }
-            }
-            public ISource Build() {
-                return source;
             }
         }
 
@@ -172,28 +165,18 @@ namespace Org.XmlUnit.Builder {
             return ByTransforming(b.Build());
         }
 
-        internal class LinqBuilder : IBuilder {
-            private readonly ISource source;
-            internal LinqBuilder(XNode d) {
-                source = new LinqSource(d);
-            }
-            public ISource Build() {
-                return source;
-            }
-        }
-
         /// <summary>
         /// Build an ISource from a System.Xml.Linq Document.
         /// </summary>
         public static IBuilder FromDocument(XDocument d) {
-            return new LinqBuilder(d);
+            return new SourceHoldingBuilder(new LinqSource(d));
         }
 
         /// <summary>
         /// Build an ISource from a System.Xml.Linq Node.
         /// </summary>
         public static IBuilder FromNode(XNode n) {
-            return new LinqBuilder(n);
+            return new SourceHoldingBuilder(new LinqSource(n));
         }
 
     }
