@@ -61,6 +61,10 @@ namespace Org.XmlUnit.Diff {
                 XmlDocument doc = node as XmlDocument;
                 AppendDocumentXmlDeclaration(sb, doc.FirstChild as XmlDeclaration);
                 AppendDocumentElementIndication(sb, doc);
+            } else if (node is XmlDeclaration) {
+                XmlDeclaration dec = node as XmlDeclaration;
+                AppendDocumentXmlDeclaration(sb, dec);
+                AppendDocumentElementIndication(sb, dec.OwnerDocument);
             } else if (node is XmlDocumentType) {
                 XmlDocumentType docType = node as XmlDocumentType;
                 AppendDocumentType(sb, docType);
@@ -72,7 +76,7 @@ namespace Org.XmlUnit.Diff {
             } else if (node is XmlComment) {
                 AppendComment(sb, node as XmlComment);
             } else if (node is XmlCharacterData) {
-                AppendText(sb, node as XmlText);
+                AppendText(sb, node as XmlCharacterData);
             } else if (node is XmlProcessingInstruction) {
                 AppendProcessingInstruction(sb, node as XmlProcessingInstruction);
             } else if (node is XmlNode) {
