@@ -46,6 +46,14 @@ diff.DifferenceListener += (comparison, outcome) => {
 diff.Compare(control, test);
 ```
 
+or using the fluent builder API
+
+```csharp
+Diff d = DiffBuilder.Compare(Input.FromFile("test-data/good.xml"))
+             .WithTest(CreateTestDocument());
+Assert.IsFalse(d.HasDifferences());
+```
+
 ### Asserting an XPath Value
 
 ```csharp
