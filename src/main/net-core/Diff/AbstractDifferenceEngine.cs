@@ -86,12 +86,9 @@ namespace Org.XmlUnit.Diff {
         /// listeners and returns the outcome.
         /// </summary>
         protected internal KeyValuePair<ComparisonResult, bool> Compare(Comparison comp) {
-            object controlValue = comp.ControlDetails.Value;
-            object testValue = comp.TestDetails.Value;
-            bool equal = controlValue == null
-                ? testValue == null : controlValue.Equals(testValue);
-            ComparisonResult initial =
-                equal ? ComparisonResult.EQUAL : ComparisonResult.DIFFERENT;
+            ComparisonResult initial = Equals(comp.ControlDetails.Value, comp.TestDetails.Value)
+                ? ComparisonResult.EQUAL
+                : ComparisonResult.DIFFERENT;
             ComparisonResult altered = DifferenceEvaluator(comp, initial);
             FireComparisonPerformed(comp, altered);
             bool stop = false;
