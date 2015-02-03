@@ -36,15 +36,15 @@ namespace Org.XmlUnit.Diff{
             try {
                 XmlNode controlNode = Org.XmlUnit.Util.Convert.ToNode(control);
                 XmlNode testNode = Org.XmlUnit.Util.Convert.ToNode(test);
-                CompareNodes(controlNode, xpathContextFor(controlNode),
-                             testNode, xpathContextFor(testNode));
+                CompareNodes(controlNode, XPathContextFor(controlNode),
+                             testNode, XPathContextFor(testNode));
             } catch (Exception ex) {
                 throw new XMLUnitException("Caught exception during comparison",
                                            ex);
             }
         }
 
-        private XPathContext xpathContextFor(XmlNode n) {
+        private XPathContext XPathContextFor(XmlNode n) {
             return new XPathContext(NamespaceContext, n);
         }
 
