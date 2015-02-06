@@ -881,6 +881,26 @@ namespace Org.XmlUnit.Diff {
                                            d2, new XPathContext()));
         }
 
+        [Test]
+        public void ShouldDetectCommentInPrelude() {
+            DOMDifferenceEngine d = new DOMDifferenceEngine();
+            XmlDocument d1 =
+                Org.XmlUnit.Util.Convert.ToDocument(InputBuilder.FromFile(TestResources.TESTS_DIR
+                                                  + "BookXsdGenerated.xml")
+                                         .Build());
+            XmlDocument d2 =
+                Org.XmlUnit.Util.Convert.ToDocument(InputBuilder.FromFile(TestResources.TESTS_DIR
+                                                  + "BookXsdGeneratedWithComment.xml")
+                                   .Build());
+            DiffExpecter ex = new DiffExpecter(ComparisonType.CHILD_NODELIST_LENGTH,
+                                               "/", "/");
+            d.DifferenceListener += ex.ComparisonPerformed;
+            d.ComparisonController = ComparisonControllers.StopWhenDifferent;
+            Assert.AreEqual(WrapAndStop(ComparisonResult.DIFFERENT),
+                            d.CompareNodes(d1, new XPathContext(),
+                                           d2, new XPathContext()));
+        }
+
         private XmlDocument DocumentForString(string s) {
             return Org.XmlUnit.Util.Convert.ToDocument(InputBuilder.FromMemory(s).Build());
         }
