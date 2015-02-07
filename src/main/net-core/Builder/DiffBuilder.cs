@@ -126,11 +126,27 @@ namespace Org.XmlUnit.Builder {
             return this;
         }
 
+        /// <summary>
+        /// Will remove all comment-Tags "&lt;!-- Comment --&gt;" from
+        /// test- and control-XML before comparing.
+        /// </summary>
         public DiffBuilder IgnoreComments() {
             ignoreComments = true;
             return this;
         }
 
+        /// <summary>
+        /// Sets the strategy for selecting nodes to compare.
+        /// </summary>
+        /// <remarks>
+        ///   <para>
+        /// Example with org.xmlunit.diff.DefaultNodeMatcher:
+        /// <pre>
+        /// .WithNodeMatcher(new DefaultNodeMatcher(ElementSelectors.ByNameAndText))
+        /// </pre>
+        ///   </para>
+        /// </remarks>
+        /* @see org.xmlunit.diff.DifferenceEngine#setNodeMatcher(NodeMatcher) */
         public DiffBuilder WithNodeMatcher(INodeMatcher nodeMatcher) {
             this.nodeMatcher = nodeMatcher;
             return this;
@@ -184,11 +200,20 @@ namespace Org.XmlUnit.Builder {
             return this;
         }
 
+        /// <summary>
+        ///   Registers a listener that is notified of each comparison.
+        /// </summary>
+        /* @see org.xmlunit.diff.DifferenceEngine#addComparisonListener(ComparisonListener) */
         public DiffBuilder WithComparisonListeners(params ComparisonListener[] comparisonListeners) {
             this.comparisonListeners.AddRange(comparisonListeners);
             return this;
         }
 
+        /// <summary>
+        ///   Registers a listener that is notified of each comparison with
+        ///   outcome other than ComparisonResult#EQUAL.
+        /// </summary>
+        /* @see org.xmlunit.diff.DifferenceEngine#addDifferenceListener(ComparisonListener) */
         public DiffBuilder WithDifferenceListeners(params ComparisonListener[] comparisonListeners) {
             this.differenceListeners.AddRange(comparisonListeners);
             return this;
@@ -199,9 +224,20 @@ namespace Org.XmlUnit.Builder {
         /// </summary>
         /// <remarks>
         ///   <para>
+        ///     Example for Similar: The XML node
+        ///     "&lt;a&gt;Text&lt;/a&gt;" and
+        ///     "&lt;a&gt;&lt;![CDATA[Text]]&gt;&lt;/a&gt;" are
+        ///     similar and the Test will not fail.
+        ///   </para>
+        ///   <para>
+        ///     The rating, if a node is similar, will be done by the
+        ///     DifferenceEvaluators#Default.
+        ///   </para>
+        ///   <para>
         ///     Default is {@link #CheckForIdentical()}.
         ///   </para>
         /// </remarks>
+        /* See {@link #withDifferenceEvaluator(DifferenceEvaluator)} */
         public DiffBuilder CheckForSimilar() {
             comparisonResultsToCheck = CHECK_FOR_SIMILAR;
             return this;
@@ -220,6 +256,11 @@ namespace Org.XmlUnit.Builder {
             return this;
         }
 
+        /// <summary>
+        ///   Compare the Test-XML (WithTest(Object)) with the
+        ///   Control-XML (Ccompare(Object)) and return the collected
+        ///   differences in a Diff object.
+        /// </summary>
         public Org.XmlUnit.Diff.Diff Build() {
 
             DOMDifferenceEngine d = new DOMDifferenceEngine();
