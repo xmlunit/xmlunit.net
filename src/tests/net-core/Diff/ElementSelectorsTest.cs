@@ -301,5 +301,22 @@ namespace Org.XmlUnit.Diff {
                                                 ElementSelectors.ByNameAndAllAttributes)
                            (control, test));
         }
+
+
+        [Test]
+        public void Xor() {
+            XmlElement control = doc.CreateElement(FOO);
+            XmlElement test = doc.CreateElement(BAR);
+            XmlElement test2 = doc.CreateElement(FOO);
+            Assert.IsFalse(ElementSelectors.Xor(ElementSelectors.ByName,
+                                                ElementSelectors.ByNameAndAllAttributes)
+                           (control, test));
+            Assert.IsTrue(ElementSelectors.Xor(ElementSelectors.ByName,
+                                               ElementSelectors.Default)
+                          (control, test));
+            Assert.IsFalse(ElementSelectors.Xor(ElementSelectors.ByName,
+                                                ElementSelectors.Default)
+                           (control, test2));
+        }
     }
 }

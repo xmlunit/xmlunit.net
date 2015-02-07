@@ -251,6 +251,13 @@ namespace Org.XmlUnit.Diff {
             return (control, test) => selectors.All(es => es(control, test));
         }
 
+        /// <summary>
+        ///    Accepts two elements if exactly on of the given ElementSelectors does.
+        /// </summary>
+        public static ElementSelector Xor(ElementSelector es1, ElementSelector es2) {
+            return (control, test) => es1(control, test) ^ es2(control, test);
+        }
+
         private static bool BothNullOrEqual(object o1, object o2) {
             return o1 == null ? o2 == null : o1.Equals(o2);
         }
