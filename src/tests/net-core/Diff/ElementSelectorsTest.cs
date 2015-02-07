@@ -264,5 +264,42 @@ namespace Org.XmlUnit.Diff {
                            (control, noNS));
         }
 
+        [Test]
+        public void Not() {
+            XmlElement control = doc.CreateElement(FOO);
+            XmlElement equal = doc.CreateElement(FOO);
+            XmlElement different = doc.CreateElement(BAR);
+            Assert.IsFalse(ElementSelectors.Not(ElementSelectors.ByName)
+                           (control, equal));
+            Assert.IsTrue(ElementSelectors.Not(ElementSelectors.ByName)
+                          (control, different));
+        }
+
+        [Test]
+        public void Or() {
+            XmlElement control = doc.CreateElement(FOO);
+            XmlElement test = doc.CreateElement(BAR);
+            Assert.IsFalse(ElementSelectors.Or(ElementSelectors.ByName)
+                           (control, test));
+            Assert.IsTrue(ElementSelectors.Or(ElementSelectors.ByName,
+                                              ElementSelectors.Default)
+                          (control, test));
+        }
+
+        [Test]
+        public void And() {
+            XmlElement control = doc.CreateElement(FOO);
+            control.SetAttribute(BAR, SOME_URI, BAR);
+            XmlElement test = doc.CreateElement(FOO);
+            Assert.IsTrue(ElementSelectors.And(ElementSelectors.ByName)
+                          (control, test));
+            Assert.IsTrue(ElementSelectors.And(ElementSelectors.ByName,
+                                               ElementSelectors.Default)
+                          (control, test));
+            Assert.IsFalse(ElementSelectors.And(ElementSelectors.ByName,
+                                                ElementSelectors.Default,
+                                                ElementSelectors.ByNameAndAllAttributes)
+                           (control, test));
+        }
     }
 }

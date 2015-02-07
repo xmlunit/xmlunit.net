@@ -230,6 +230,27 @@ namespace Org.XmlUnit.Diff {
             return true;
         }
 
+        /// <summary>
+        ///   Negates another ElementSelector
+        /// </summary>
+        public static ElementSelector Not(ElementSelector es) {
+            return (control, test) => !es(control, test);
+        }
+
+        /// <summary>
+        ///   Accepts two elements if at least one of the given ElementSelectors does.
+        /// </summary>
+        public static ElementSelector Or(params ElementSelector[] selectors) {
+            return (control, test) => selectors.Any(es => es(control, test));
+        }
+
+        /// <summary>
+        ///   Accepts two elements if all of the given ElementSelectors do.
+        /// </summary>
+        public static ElementSelector And(params ElementSelector[] selectors) {
+            return (control, test) => selectors.All(es => es(control, test));
+        }
+
         private static bool BothNullOrEqual(object o1, object o2) {
             return o1 == null ? o2 == null : o1.Equals(o2);
         }
