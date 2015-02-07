@@ -63,6 +63,8 @@ namespace Org.XmlUnit.Builder {
 
         private ComparisonResult[] comparisonResultsToCheck = CHECK_FOR_IDENTICAL;
 
+        private IDictionary<string, string> namespaceContext;
+
         private bool ignoreWhitespace;
 
         private bool normalizeWhitespace;
@@ -257,6 +259,20 @@ namespace Org.XmlUnit.Builder {
         }
 
         /// <summary>
+        /// Establish a namespace context mapping from URI to prefix
+        /// that will be used in Comparison.Detail.XPath.
+        /// </summary>
+        /// <remarks>
+        /// Without a namespace context (or with an empty context) the
+        /// XPath expressions will only use local names for elements and
+        /// attributes.
+        /// </remarks>
+        public DiffBuilder WithNamespaceContext(IDictionary<string, string> ctx) {
+            namespaceContext = ctx;
+            return this;
+        }
+
+        /// <summary>
         ///   Compare the Test-XML (WithTest(Object)) with the
         ///   Control-XML (Ccompare(Object)) and return the collected
         ///   differences in a Diff object.
@@ -276,6 +292,9 @@ namespace Org.XmlUnit.Builder {
             }
             foreach (ComparisonListener comparisonListener in comparisonListeners) {
                 d.ComparisonListener += comparisonListener;
+            }
+            if (namespaceContext != null) {
+                d.NamespaceContext = namespaceContext;
             }
             d.Compare(Wrap(controlSource), Wrap(testSource));
 
