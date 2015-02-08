@@ -31,7 +31,19 @@ namespace Org.XmlUnit.Diff {
         ///   difference is encountered.
         /// </summary>
         public static bool StopWhenDifferent(Difference diff) {
-            return diff.Result == ComparisonResult.DIFFERENT;
+            return Stop(diff, ComparisonResult.DIFFERENT);
+        }
+
+        /// <summary>
+        ///   Makes the comparison stop as soon as the first
+        ///   difference is encountered even if it is similar.
+        /// </summary>
+        public static bool StopWhenSimilar(Difference diff) {
+            return Stop(diff, ComparisonResult.SIMILAR);
+        }
+
+        private static bool Stop(Difference d, ComparisonResult minimumComparisonResult) {
+            return ((int) d.Result) >= ((int) minimumComparisonResult);
         }
     }
 }
