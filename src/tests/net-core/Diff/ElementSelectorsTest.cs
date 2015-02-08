@@ -318,5 +318,62 @@ namespace Org.XmlUnit.Diff {
                                                 ElementSelectors.Default)
                            (control, test2));
         }
+
+
+        [Test]
+        public void ConditionalReturnsFalseIfConditionIsNotMet() {
+            XmlElement control = doc.CreateElement(FOO);
+            XmlElement test = doc.CreateElement(FOO);
+            Assert.IsFalse(ElementSelectors.ConditionalSelector(o => false,
+                                                                ElementSelectors.ByName)
+                           (control, test));
+        }
+
+        [Test]
+        public void ConditionalAsksWrappedSelectorIfConditionIsMet() {
+            XmlElement control = doc.CreateElement(FOO);
+            XmlElement test = doc.CreateElement(BAR);
+            XmlElement test2 = doc.CreateElement(FOO);
+            Assert.IsFalse(ElementSelectors.ConditionalSelector(o => true,
+                                                                ElementSelectors.ByName)
+                           (control, test));
+            Assert.IsTrue(ElementSelectors.ConditionalSelector(o => true,
+                                                               ElementSelectors.ByName)
+                          (control, test2));
+        }
+
+        [Test]
+        public void PlainStringNamed() {
+            XmlElement control = doc.CreateElement(FOO);
+            XmlElement controlNS = doc.CreateElement(FOO, SOME_URI);
+            XmlElement test = doc.CreateElement(FOO);
+            XmlElement testNS = doc.CreateElement(FOO, SOME_URI);
+            Assert.IsFalse(ElementSelectors.SelectorForElementNamed(BAR,
+                                                                    ElementSelectors.ByName)
+                           (control, test));
+            Assert.IsTrue(ElementSelectors.SelectorForElementNamed(FOO,
+                                                                   ElementSelectors.ByName)
+                          (control, test));
+            Assert.IsTrue(ElementSelectors.SelectorForElementNamed(FOO,
+                                                                   ElementSelectors.ByName)
+                          (controlNS, testNS));
+        }
+
+        [Test]
+        public void QnameNamed() {
+            XmlElement control = doc.CreateElement(FOO);
+            XmlElement controlNS = doc.CreateElement(FOO, SOME_URI);
+            XmlElement test = doc.CreateElement(FOO);
+            XmlElement testNS = doc.CreateElement(FOO, SOME_URI);
+            Assert.IsFalse(ElementSelectors.SelectorForElementNamed(new XmlQualifiedName(BAR),
+                                                                    ElementSelectors.ByName)
+                           (control, test));
+            Assert.IsTrue(ElementSelectors.SelectorForElementNamed(new XmlQualifiedName(FOO),
+                                                                   ElementSelectors.ByName)
+                          (control, test));
+            Assert.IsTrue(ElementSelectors.SelectorForElementNamed(new XmlQualifiedName(FOO, SOME_URI),
+                                                                   ElementSelectors.ByName)
+                          (controlNS, testNS));
+        }
     }
 }

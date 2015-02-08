@@ -258,6 +258,36 @@ namespace Org.XmlUnit.Diff {
             return (control, test) => es1(control, test) ^ es2(control, test);
         }
 
+        /// <summary>
+        /// Applies the wrapped ElementSelector's logic if and only if the
+        /// control element matches the given predicate.
+        /// </summary>
+        public static ElementSelector ConditionalSelector(Predicate<XmlElement> predicate,
+                                                          ElementSelector es) {
+
+            return (control, test) => predicate(control) && es(control, test);
+        }
+
+        /// <summary>
+        /// Applies the wrapped ElementSelector's logic if and only if the
+        /// control element has the given (local) name.
+        /// </summary>
+        public static ElementSelector SelectorForElementNamed(String expectedName,
+                                                              ElementSelector es) {
+
+            return ConditionalSelector(e => e.LocalName == expectedName, es);
+        }
+
+        /// <summary>
+        /// Applies the wrapped ElementSelector's logic if and only if the
+        /// control element has the given name.
+        /// </summary>
+        public static ElementSelector SelectorForElementNamed(XmlQualifiedName expectedName,
+                                                              ElementSelector es) {
+
+            return ConditionalSelector(e => expectedName == Nodes.GetQName(e), es);
+        }
+
         private static bool BothNullOrEqual(object o1, object o2) {
             return o1 == null ? o2 == null : o1.Equals(o2);
         }
