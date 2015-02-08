@@ -234,6 +234,9 @@ namespace Org.XmlUnit.Diff {
         ///   Negates another ElementSelector
         /// </summary>
         public static ElementSelector Not(ElementSelector es) {
+            if (es == null) {
+                throw new ArgumentNullException("es");
+            }
             return (control, test) => !es(control, test);
         }
 
@@ -241,6 +244,9 @@ namespace Org.XmlUnit.Diff {
         ///   Accepts two elements if at least one of the given ElementSelectors does.
         /// </summary>
         public static ElementSelector Or(params ElementSelector[] selectors) {
+            if (selectors == null) {
+                throw new ArgumentNullException("selectors");
+            }
             return (control, test) => selectors.Any(es => es(control, test));
         }
 
@@ -248,6 +254,9 @@ namespace Org.XmlUnit.Diff {
         ///   Accepts two elements if all of the given ElementSelectors do.
         /// </summary>
         public static ElementSelector And(params ElementSelector[] selectors) {
+            if (selectors == null) {
+                throw new ArgumentNullException("selectors");
+            }
             return (control, test) => selectors.All(es => es(control, test));
         }
 
@@ -255,6 +264,12 @@ namespace Org.XmlUnit.Diff {
         ///    Accepts two elements if exactly on of the given ElementSelectors does.
         /// </summary>
         public static ElementSelector Xor(ElementSelector es1, ElementSelector es2) {
+            if (es1 == null) {
+                throw new ArgumentNullException("es1");
+            }
+            if (es2 == null) {
+                throw new ArgumentNullException("es2");
+            }
             return (control, test) => es1(control, test) ^ es2(control, test);
         }
 
@@ -264,6 +279,12 @@ namespace Org.XmlUnit.Diff {
         /// </summary>
         public static ElementSelector ConditionalSelector(Predicate<XmlElement> predicate,
                                                           ElementSelector es) {
+            if (predicate == null) {
+                throw new ArgumentNullException("predicate");
+            }
+            if (es == null) {
+                throw new ArgumentNullException("es");
+            }
 
             return (control, test) => predicate(control) && es(control, test);
         }
@@ -274,8 +295,15 @@ namespace Org.XmlUnit.Diff {
         /// </summary>
         public static ElementSelector SelectorForElementNamed(String expectedName,
                                                               ElementSelector es) {
+            if (expectedName == null) {
+                throw new ArgumentNullException("expectedName");
+            }
+            if (es == null) {
+                throw new ArgumentNullException("es");
+            }
 
-            return ConditionalSelector(e => e.LocalName == expectedName, es);
+            return ConditionalSelector(e => e != null && e.LocalName == expectedName,
+                                       es);
         }
 
         /// <summary>
@@ -284,6 +312,12 @@ namespace Org.XmlUnit.Diff {
         /// </summary>
         public static ElementSelector SelectorForElementNamed(XmlQualifiedName expectedName,
                                                               ElementSelector es) {
+            if (expectedName == null) {
+                throw new ArgumentNullException("expectedName");
+            }
+            if (es == null) {
+                throw new ArgumentNullException("es");
+            }
 
             return ConditionalSelector(e => expectedName == Nodes.GetQName(e), es);
         }
