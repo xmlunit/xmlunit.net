@@ -85,28 +85,16 @@ namespace Org.XmlUnit.Diff {
         /// difference evaluator evaluate the result, notifies all
         /// listeners and returns the outcome.
         /// </summary>
-        protected internal KeyValuePair<ComparisonResult, bool> Compare(Comparison comp) {
+        protected internal ComparisonState Compare(Comparison comp) {
             ComparisonResult initial = Equals(comp.ControlDetails.Value, comp.TestDetails.Value)
                 ? ComparisonResult.EQUAL
                 : ComparisonResult.DIFFERENT;
             ComparisonResult altered = DifferenceEvaluator(comp, initial);
             FireComparisonPerformed(comp, altered);
-            bool stop = false;
-            if (altered != ComparisonResult.EQUAL) {
-                stop = ComparisonController(new Difference(comp, altered));
-            }
-            return new KeyValuePair<ComparisonResult, bool>(altered, stop);
-        }
-
-        /// <summary>
-        /// Returns a function that compares the detail values for
-        /// object equality, lets the difference evaluator evaluate
-        /// the result, notifies all listeners and returns the
-        /// outcome.
-        /// </summary>
-        protected internal Func<KeyValuePair<ComparisonResult, bool>>
-            Comparer(Comparison comp) {
-            return () => Compare(comp);
+            return altered != ComparisonResult.EQUAL
+                && ComparisonController(new Difference(comp, altered))
+                ? (ComparisonState) new FinishedComparisonState(this, altered)
+                : new OngoingComparisonState(this, altered);
         }
 
         private void FireComparisonPerformed(Comparison comp,
@@ -129,32 +117,72 @@ namespace Org.XmlUnit.Diff {
         }
 
         /// <summary>
-        /// Chain of comparisons where the last comparision performed
-        /// determines the final result but the chain stops as soon as the
-        /// comparison controller says so.
+        ///   Encapsulates the current result and a flag that
+        ///   indicates whether comparison should be stopped.
         /// </summary>
-        protected class ComparisonChain {
-            private KeyValuePair<ComparisonResult, bool> currentResult;
-            internal ComparisonChain()
-                : this(new KeyValuePair<ComparisonResult, bool>(ComparisonResult.EQUAL, false)) {
+        public abstract class ComparisonState : IEquatable<ComparisonState> {
+            private readonly AbstractDifferenceEngine engine;
+            private readonly bool finished;
+            private readonly ComparisonResult result;
+
+            protected ComparisonState(AbstractDifferenceEngine engine, bool finished,
+                                      ComparisonResult result) {
+                this.engine = engine;
+                this.finished = finished;
+                this.result = result;
             }
-            internal ComparisonChain(KeyValuePair<ComparisonResult, bool> firstResult) {
-                currentResult = firstResult;
+
+            public ComparisonState AndThen(Func<ComparisonState> newStateProducer) {
+                return finished ? this : newStateProducer();
             }
-            internal ComparisonChain AndThen(Func<KeyValuePair<ComparisonResult, bool>> next) {
-                if (!currentResult.Value) {
-                    currentResult = next();
-                }
-                return this;
+
+            public ComparisonState AndIfTrueThen(bool predicate,
+                                                 Func<ComparisonState> newStateProducer) {
+                return predicate ? AndThen(newStateProducer) : this;
             }
-            internal ComparisonChain AndIfTrueThen(bool evalNext,
-                                                   Func<KeyValuePair<ComparisonResult, bool>> next) {
-                return evalNext ? AndThen(next) : this;
+
+            public ComparisonState AndThen(Comparison comp) {
+                return AndThen(() => engine.Compare(comp));
             }
-            internal KeyValuePair<ComparisonResult, bool> FinalResult {
-                get {
-                    return currentResult;
-                }
+
+            public ComparisonState AndIfTrueThen(bool predicate,
+                                                 Comparison comp) {
+                return AndIfTrueThen(predicate, () => engine.Compare(comp));
+            }
+
+            public override string ToString() {
+                return string.Format("{0}: current result is {1}", GetType().Name,
+                                     result);
+            }
+
+            public override bool Equals(object other) {
+                return Equals(other as ComparisonState);
+            }
+
+            public bool Equals(ComparisonState other) {
+                return other != null
+                    && GetType() == other.GetType()
+                    && finished == other.finished
+                    && result == other.result;
+            }
+
+            public override int GetHashCode() {
+                return (finished ? 7 : 1) * result.GetHashCode();
+            }
+        }
+
+        internal sealed class FinishedComparisonState : ComparisonState {
+            internal FinishedComparisonState(AbstractDifferenceEngine engine, ComparisonResult result)
+                : base(engine, true, result) {
+            }
+        }
+
+        internal sealed class OngoingComparisonState : ComparisonState {
+            internal OngoingComparisonState(AbstractDifferenceEngine engine, ComparisonResult result)
+                : base(engine, false, result) {
+            }
+            internal OngoingComparisonState(AbstractDifferenceEngine engine)
+                : this(engine, ComparisonResult.EQUAL) {
             }
         }
     }
