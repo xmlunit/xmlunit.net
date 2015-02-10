@@ -47,7 +47,7 @@ or using the fluent builder API
 
 ```csharp
 Diff d = DiffBuilder.Compare(Input.FromFile("test-data/good.xml"))
-             .WithTest(CreateTestDocument());
+             .WithTest(CreateTestDocument()).Build();
 Assert.IsFalse(d.HasDifferences());
 ```
 
