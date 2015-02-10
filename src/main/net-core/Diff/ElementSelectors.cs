@@ -45,8 +45,8 @@ namespace Org.XmlUnit.Diff {
         public static bool ByName(XmlElement controlElement,
                                   XmlElement testElement) {
             return controlElement != null && testElement != null
-                && BothNullOrEqual(Nodes.GetQName(controlElement),
-                                   Nodes.GetQName(testElement));
+                && object.Equals(Nodes.GetQName(controlElement),
+                                 Nodes.GetQName(testElement));
         }
 
         /// <summary>
@@ -56,8 +56,8 @@ namespace Org.XmlUnit.Diff {
         public static bool ByNameAndText(XmlElement controlElement,
                                          XmlElement testElement) {
             return ByName(controlElement, testElement)
-                && BothNullOrEqual(Nodes.GetMergedNestedText(controlElement),
-                                   Nodes.GetMergedNestedText(testElement));
+                && object.Equals(Nodes.GetMergedNestedText(controlElement),
+                                 Nodes.GetMergedNestedText(testElement));
         }
 
         /// <summary>
@@ -322,10 +322,6 @@ namespace Org.XmlUnit.Diff {
             return ConditionalSelector(e => expectedName == Nodes.GetQName(e), es);
         }
 
-        private static bool BothNullOrEqual(object o1, object o2) {
-            return o1 == null ? o2 == null : o1.Equals(o2);
-        }
-
         private static bool
             MapsEqualForKeys(IDictionary<XmlQualifiedName, string> control,
                              IDictionary<XmlQualifiedName, string> test,
@@ -333,7 +329,7 @@ namespace Org.XmlUnit.Diff {
             return !keys.Any(q => {
                 string c, t;
                 return control.TryGetValue(q, out c) != test.TryGetValue(q, out t)
-                    || !BothNullOrEqual(c, t);
+                    || !object.Equals(c, t);
             });
         }
 
