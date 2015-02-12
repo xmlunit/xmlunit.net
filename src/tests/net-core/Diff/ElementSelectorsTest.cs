@@ -375,5 +375,49 @@ namespace Org.XmlUnit.Diff {
                                                                    ElementSelectors.ByName)
                           (controlNS, testNS));
         }
+
+        [Test]
+        public void XPath() {
+            string BAZ = "BAZ";
+            string XYZZY1 = "xyzzy1";
+            string XYZZY2 = "xyzzy2";
+
+            XmlElement control = doc.CreateElement(FOO);
+            XmlElement bar = doc.CreateElement(BAR);
+            control.AppendChild(bar);
+            XmlElement baz = doc.CreateElement(BAZ);
+            bar.AppendChild(baz);
+            baz.AppendChild(doc.CreateTextNode(XYZZY1));
+            baz = doc.CreateElement(BAZ);
+            bar.AppendChild(baz);
+            baz.AppendChild(doc.CreateTextNode(XYZZY2));
+
+            XmlElement test = doc.CreateElement(FOO);
+            bar = doc.CreateElement(BAR);
+            test.AppendChild(bar);
+            baz = doc.CreateElement(BAZ);
+            bar.AppendChild(baz);
+            baz.AppendChild(doc.CreateTextNode(XYZZY2));
+            baz = doc.CreateElement(BAZ);
+            bar.AppendChild(baz);
+            baz.AppendChild(doc.CreateTextNode(XYZZY1));
+
+            XmlElement test2 = doc.CreateElement(FOO);
+            bar = doc.CreateElement(BAR);
+            test2.AppendChild(bar);
+            baz = doc.CreateElement(BAZ);
+            bar.AppendChild(baz);
+            baz.AppendChild(doc.CreateTextNode(XYZZY2));
+            baz = doc.CreateElement(BAZ);
+            bar.AppendChild(baz);
+            baz.AppendChild(doc.CreateTextNode(XYZZY2));
+
+            Assert.IsTrue(ElementSelectors.ByXPath(".//BAZ", ElementSelectors.ByNameAndText)
+                          (control, test));
+            Assert.IsFalse(ElementSelectors.ByXPath(".//BAZ",
+                                                    ElementSelectors.ByNameAndText)
+                           (control, test2));
+        }
+
     }
 }

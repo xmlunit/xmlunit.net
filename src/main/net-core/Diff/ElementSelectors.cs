@@ -16,7 +16,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
+using Org.XmlUnit.Input;
 using Org.XmlUnit.Util;
+using Org.XmlUnit.Xpath;
 
 namespace Org.XmlUnit.Diff {
 
@@ -320,6 +322,59 @@ namespace Org.XmlUnit.Diff {
             }
 
             return ConditionalSelector(e => expectedName == Nodes.GetQName(e), es);
+        }
+
+        /// <summary>
+        /// Selects two elements as matching if the child elements selected
+        //  via XPath match using the given childSelector.
+        /// </summary>
+        /// <remarks>
+        ///   <para>
+        ///     The xpath expression should yield elements.  Two elements
+        ///     match if a DefaultNodeMatcher applied to the selected children
+        ///     finds matching pairs for all children.
+        ///   </para>
+        /// </remarks>
+        /// <param name="xpath">XPath expression applied in the context of the
+        /// elements to chose from that selects the children to compare.</param>
+        /// <param name="childSelector">ElementSelector to apply to the selected children.</param>
+        public static ElementSelector ByXPath(string xpath, ElementSelector childSelector) {
+            return ByXPath(xpath, null, childSelector);
+        }
+
+        /// <summary>
+        /// Selects two elements as matching if the child elements selected
+        //  via XPath match using the given childSelector.
+        /// </summary>
+        /// <remarks>
+        ///   <para>
+        ///     The xpath expression should yield elements.  Two elements
+        ///     match if a DefaultNodeMatcher applied to the selected children
+        ///     finds matching pairs for all children.
+        ///   </para>
+        /// </remarks>
+        /// <param name="xpath">XPath expression applied in the context of the
+        /// elements to chose from that selects the children to compare.</param>
+        /// <param name="childSelector">ElementSelector to apply to the selected children.</param>
+        /// <param name="namespaceContext">provides prefix mapping for namespace
+        /// prefixes used inside the xpath expression.</param>
+        public static ElementSelector ByXPath(string xpath,
+                                              IDictionary<string, string> namespaceContext,
+                                              ElementSelector childSelector) {
+            IXPathEngine engine = new XPathEngine();
+            if (namespaceContext != null) {
+                engine.NamespaceContext = namespaceContext;
+            }
+            INodeMatcher nm = new DefaultNodeMatcher(childSelector);
+            return (control, test) => {
+                IEnumerable<XmlNode> controlChildren =
+                    engine.SelectNodes(xpath, new DOMSource(control));
+                int expected = controlChildren.Count();
+                int matched = nm.Match(controlChildren,
+                                       engine.SelectNodes(xpath, new DOMSource(test)))
+                    .Count();
+                return expected == matched;
+            };
         }
 
         private static bool
