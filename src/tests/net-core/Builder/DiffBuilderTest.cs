@@ -74,13 +74,30 @@ namespace Org.XmlUnit.Builder {
         public void TestDiff_withNormalizeWhitespaces_shouldSucceed() {
             // prepare testData
             string controlXml = "<a><b>Test Value</b></a>";
-            string testXml = "<a>\n <b>\n  Test Value\n </b>\n</a>";
+            string testXml = "<a>\n <b>\n  Test\nValue\n </b>\n</a>";
 
             // run test
             var myDiff = DiffBuilder.Compare(Input.FromMemory(controlXml).Build())
                       .WithTest(Input.FromMemory(testXml).Build())
                       .NormalizeWhitespace()
                       .Build();
+
+            // validate result
+            Assert.IsFalse(myDiff.HasDifferences(), "XML similar " + myDiff.ToString());
+        }
+
+        [Test]
+        public void TestDiff_withNormalizeAndIgnoreWhitespaces_shouldSucceed() {
+            // prepare testData
+            string controlXml = "<a><b>Test Value</b></a>";
+            string testXml = "<a>\n <b>\n Test\n Value\n </b>\n</a>";
+
+            // run test
+            var myDiff = DiffBuilder.Compare(Input.FromMemory(controlXml).Build())
+                .WithTest(Input.FromMemory(testXml).Build())
+                .NormalizeWhitespace()
+                .IgnoreWhitespace()
+                .Build();
 
             // validate result
             Assert.IsFalse(myDiff.HasDifferences(), "XML similar " + myDiff.ToString());

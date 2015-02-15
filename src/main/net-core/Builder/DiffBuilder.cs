@@ -119,9 +119,6 @@ namespace Org.XmlUnit.Builder {
         ///     characters are replaced by space characters and
         ///     consecutive whitespace characters are collapsed.
         ///   </para>
-        ///   <para>
-        ///     This flag has no effect if #IgnoreWhitespace() is already activated.
-        ///   </para>
         /// </remarks>
         public DiffBuilder NormalizeWhitespace() {
             normalizeWhitespace = true;
@@ -306,7 +303,8 @@ namespace Org.XmlUnit.Builder {
             ISource newSource = source;
             if (ignoreWhitespace) {
                 newSource = new WhitespaceStrippedSource(newSource);
-            } else if (normalizeWhitespace) {
+            }
+            if (normalizeWhitespace) {
                 newSource = new WhitespaceNormalizedSource(newSource);
             }
             if (ignoreComments) {
