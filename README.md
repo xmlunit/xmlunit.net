@@ -36,7 +36,7 @@ These are some really small examples, more is to come in the [user guide](https:
 ```csharp
 ISource control = Input.FromFile("test-data/good.xml").Build();
 ISource test = Input.FromMemory(CreateTestDocument()).Build();
-AbstractDifferenceEngine diff = new DOMDifferenceEngine();
+IDifferenceEngine diff = new DOMDifferenceEngine();
 diff.DifferenceListener += (comparison, outcome) => {
             Assert.Fail("found a difference: {}", comparison);
         };
