@@ -198,15 +198,29 @@
 
   <target name="create-nupkg" description="create NuGet package"
       depends="compile-core init-nuget">
+    <if test="${not string::starts-with(framework::get-runtime-framework(), 'mono')}">
       <exec program="${tools.dir}/nuget">
-      <arg value="pack"/>
-      <arg value="xmlunit.nuspec"/>
-      <arg value="-OutputDirectory"/>
-      <arg value="${nuget.dir}"/>
-      <arg value="-Version"/>
-      <arg value="${project.version4}"/>
-      <arg value="-NonInteractive"/>
-    </exec>
+        <arg value="pack"/>
+        <arg value="xmlunit.nuspec"/>
+        <arg value="-OutputDirectory"/>
+        <arg value="${nuget.dir}"/>
+        <arg value="-Version"/>
+        <arg value="${project.version4}"/>
+        <arg value="-NonInteractive"/>
+      </exec>
+    </if>
+    <if test="${string::starts-with(framework::get-runtime-framework(), 'mono')}">
+      <exec program="mono">
+        <arg value="${tools.dir}/nuget.exe"/>
+        <arg value="pack"/>
+        <arg value="xmlunit.nuspec"/>
+        <arg value="-OutputDirectory"/>
+        <arg value="${nuget.dir}"/>
+        <arg value="-Version"/>
+        <arg value="${project.version4}"/>
+        <arg value="-NonInteractive"/>
+      </exec>
+    </if>
   </target>
 
   <target name="publish-nupkg" description="publish NuGet package"
