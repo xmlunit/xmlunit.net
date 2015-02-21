@@ -51,6 +51,12 @@ Diff d = DiffBuilder.Compare(Input.FromFile("test-data/good.xml"))
 Assert.IsFalse(d.HasDifferences());
 ```
 
+or using the `CompareConstraint`
+
+```csharp
+Assert.That(CreateTestDocument(), CompareConstraint.IsIdenticalTo(Input.FromFile("test-data/good.xml")));
+```
+
 ### Asserting an XPath Value
 
 ```csharp

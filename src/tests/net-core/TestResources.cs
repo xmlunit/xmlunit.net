@@ -17,7 +17,7 @@ using System;
 namespace Org.XmlUnit {
 
     public sealed class TestResources {
-        private static readonly string PREFIX = "../../../";
+        public static readonly string PREFIX = "../../../";
 
         public static readonly string TESTS_DIR =
             PREFIX + "test-resources/";
