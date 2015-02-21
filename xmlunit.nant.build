@@ -191,8 +191,8 @@
   </target>
 
   <target name="init-nuget" description="ensures nuget.exe is available">
-      <if test="${not file::exists('${tools.dir}/nuget.exe')}">
-        <get src="http://nuget.org/nuget.exe" dest="${tools.dir}/nuget.exe" />
+    <if test="${not file::exists('${tools.dir}/nuget.exe')}">
+      <get src="http://nuget.org/nuget.exe" dest="${tools.dir}/nuget.exe" />
     </if>
   </target>
 
