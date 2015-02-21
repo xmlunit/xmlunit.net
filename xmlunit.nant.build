@@ -59,6 +59,7 @@
   
   <target name="clean" description="clean out compiled files">
     <delete dir="${build.dir}"/>
+    <delete dir="${nuget.dir}"/>
   </target>
   
   <target name="compile-core"
