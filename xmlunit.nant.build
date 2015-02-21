@@ -46,7 +46,9 @@
     overwrite="false"/>
   <property name="nunit.v2.bin.dir" overwrite="false"
     value="lib" />
-  
+
+  <property name="nuget.executable" overwrite="false" value="${tools.dir}/nuget.exe"/>
+
   <target name="init" description="prepare for other targets">
     <mkdir dir="${gen.core.dir}"/>
     <mkdir dir="${gen.constraints.dir}"/>
@@ -75,6 +77,7 @@
         <attribute type="ComVisibleAttribute" value="false"/>
         <attribute type="CLSCompliantAttribute" value="true"/>
         <attribute type="AssemblyVersionAttribute" value="${project.version4}"/>
+        <attribute type="AssemblyCompanyAttribute" value="XmlUnit Contributors"/>
         <attribute type="AssemblyTitleAttribute" value="XMLUnit Core" />
         <attribute type="AssemblyDescriptionAttribute"
                    value="Core Classes of XMLUnit for .NET" />
@@ -107,6 +110,7 @@
         <attribute type="ComVisibleAttribute" value="false"/>
         <attribute type="CLSCompliantAttribute" value="true"/>
         <attribute type="AssemblyVersionAttribute" value="${project.version4}"/>
+        <attribute type="AssemblyCompanyAttribute" value="XmlUnit Contributors"/>
         <attribute type="AssemblyTitleAttribute" value="XMLUnit Constraints for NUnit" />
         <attribute type="AssemblyDescriptionAttribute"
                    value="Constraints Classes of XMLUnit for .NET" />
@@ -191,15 +195,15 @@
   </target>
 
   <target name="init-nuget" description="ensures nuget.exe is available">
-    <if test="${not file::exists('${tools.dir}/nuget.exe')}">
-      <get src="http://nuget.org/nuget.exe" dest="${tools.dir}/nuget.exe" />
+    <if test="${not file::exists(nuget.executable)}">
+      <get src="http://nuget.org/nuget.exe" dest="${nuget.executable}" />
     </if>
   </target>
 
   <target name="create-nupkg" description="create NuGet package"
       depends="compile-core init-nuget">
     <if test="${not string::starts-with(framework::get-runtime-framework(), 'mono')}">
-      <exec program="${tools.dir}/nuget">
+      <exec program="${nuget.executable}">
         <arg value="pack"/>
         <arg value="xmlunit.nuspec"/>
         <arg value="-OutputDirectory"/>
@@ -211,7 +215,7 @@
     </if>
     <if test="${string::starts-with(framework::get-runtime-framework(), 'mono')}">
       <exec program="mono">
-        <arg value="${tools.dir}/nuget.exe"/>
+        <arg value="${nuget.executable}"/>
         <arg value="pack"/>
         <arg value="xmlunit.nuspec"/>
         <arg value="-OutputDirectory"/>
@@ -225,13 +229,13 @@
 
   <target name="publish-nupkg" description="publish NuGet package"
       depends="init-nuget create-nupkg">
-      <exec program="${tools.dir}/nuget">
+    <exec program="${nuget.executable}">
       <arg value="delete"/>
       <arg value="${project::get-name()}.core"/>
       <arg value="${project.version4}"/>
       <arg value="-NonInteractive"/>
     </exec>
-    <exec program="${tools.dir}/nuget">
+    <exec program="${nuget.executable}">
       <arg value="push"/>
       <arg value="${nuget.dir}/${project::get-name()}.core.${project.version4}.nupkg"/>
       <arg value="-Timeout"/>
