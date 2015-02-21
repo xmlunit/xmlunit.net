@@ -73,6 +73,13 @@ bool valid = result.Valid;
 IEnumerable<ValidationProblem> problems = result.Problems;
 ```
 
+or using `ValidationConstraint`
+
+```csharp
+Assert.That(Input.FromDocument(CreateDocument()).Build(),
+            new ValidationConstraint(Input.FromFile("local.xsd").Build()));
+```
+
 ## Requirements
 
 XMLUnit requires .NET 3.5 (it is known to work and actually is
