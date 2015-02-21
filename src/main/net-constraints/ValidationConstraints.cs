@@ -16,6 +16,7 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework.Constraints;
 using Org.XmlUnit.Validation;
+using InputBuilder = Org.XmlUnit.Builder.Input;
 
 namespace Org.XmlUnit.Constraints {
 
@@ -30,31 +31,26 @@ namespace Org.XmlUnit.Constraints {
         /// <summary>
         /// Creates the constraint validating against the given schema(s).
         /// </summary>
-        public SchemaValidConstraint(params ISource[] schema) : base(schema) {
+        public SchemaValidConstraint(params object[] schema) : base(schema) {
             validator = Validator.ForLanguage(Languages.W3C_XML_SCHEMA_NS_URI);
-            validator.SchemaSources = schema;
+            validator.SchemaSources = schema
+                .Select(s => InputBuilder.From(s).Build())
+                .ToArray();
         }
 
         public override bool Matches(object o) {
-            this.actual = o;
-            if (o is ISource) {
-                result = validator.ValidateInstance(o as ISource);
-                return result.Valid;
-            }
-            return false;
+            this.actual = InputBuilder.From(o).Build();
+            result = validator.ValidateInstance(o as ISource);
+            return result.Valid;
         }
 
         public override void WriteDescriptionTo(MessageWriter writer) {
-            writer.Write("{0} validates against {1}", GrabActual(),
+            writer.Write("{0} validates against {1}", GrabSystemId(actual as ISource),
                          GrabSystemIds());
         }
 
         public override void WriteActualValueTo(MessageWriter writer) {
-            if (actual is ISource) {
-                writer.Write("got validation errors: {0}", GrabProblems());
-            } else {
-                writer.Write("{0} that is not ISource", GrabActual());
-            }
+            writer.Write("got validation errors: {0}", GrabProblems());
         }
 
         private string GrabSystemIds() {
@@ -62,12 +58,6 @@ namespace Org.XmlUnit.Constraints {
                 .Aggregate(new StringBuilder(),
                            (sb, systemId) => sb.AppendLine(systemId),
                            sb => sb.Remove(sb.Length - 1, 1).ToString());
-        }
-
-        private string GrabActual() {
-            ISource actualSource = actual as ISource;
-            return actualSource != null ? GrabSystemId(actualSource)
-                : (actual ?? "null").ToString();
         }
 
         private string GrabSystemId(ISource s) {

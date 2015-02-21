@@ -82,8 +82,8 @@ IEnumerable<ValidationProblem> problems = result.Problems;
 or using `ValidationConstraint`
 
 ```csharp
-Assert.That(Input.FromDocument(CreateDocument()).Build(),
-            new ValidationConstraint(Input.FromFile("local.xsd").Build()));
+Assert.That(CreateDocument(),
+            new ValidationConstraint(Input.FromFile("local.xsd")));
 ```
 
 ## Requirements
