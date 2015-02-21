@@ -34,7 +34,9 @@
             overwrite="false"/>
   <property name="test.report.dir" value="${build.dir}/test-report"/>
   <property name="bin.dir" value="${build.dir}/bin" overwrite="false"/>
-
+  <property name="tools.dir" value="tools" overwrite="false"/>
+  <property name="nuget.dir" value="packages" overwrite="false"/>
+  
   <property name="csc.verbose" value="false" overwrite="false"/>
   <property name="deploy.file" overwrite="false"
     value="${project::get-name()}-${project.version}.zip"/>
@@ -49,12 +51,15 @@
     <mkdir dir="${gen.core.dir}"/>
     <mkdir dir="${gen.constraints.dir}"/>
     <mkdir dir="${bin.dir}"/>
+    <mkdir dir="${nuget.dir}"/>
+    <mkdir dir="${tools.dir}"/>
     <copy file="${nunit.v2.bin.dir}/${nunit.v2.assembly}"
       tofile="${bin.dir}/${nunit.v2.assembly}"/>
   </target>
   
   <target name="clean" description="clean out compiled files">
-    <delete dir="${build.dir}"/> 
+    <delete dir="${build.dir}"/>
+    <delete dir="${nuget.dir}"/>
   </target>
   
   <target name="compile-core"
@@ -184,8 +189,47 @@
       </fileset>
     </zip>
   </target>
-  
+
+  <target name="init-nuget" description="ensures nuget.exe is available">
+      <if test="${not file::exists('${tools.dir}/nuget.exe')}">
+        <get src="http://nuget.org/nuget.exe" dest="${tools.dir}/nuget.exe" />
+    </if>
+  </target>
+
+  <target name="create-nupkg" description="create NuGet package"
+      depends="compile-core init-nuget">
+      <exec program="${tools.dir}/nuget">
+      <arg value="pack"/>
+      <arg value="xmlunit.nuspec"/>
+      <arg value="-OutputDirectory"/>
+      <arg value="${nuget.dir}"/>
+      <arg value="-Version"/>
+      <arg value="${project.version4}"/>
+      <arg value="-NonInteractive"/>
+    </exec>
+  </target>
+
+  <target name="publish-nupkg" description="publish NuGet package"
+      depends="init-nuget create-nupkg">
+      <exec program="${tools.dir}/nuget">
+      <arg value="delete"/>
+      <arg value="${project::get-name()}.core"/>
+      <arg value="${project.version4}"/>
+      <arg value="-NonInteractive"/>
+    </exec>
+    <exec program="${tools.dir}/nuget">
+      <arg value="push"/>
+      <arg value="${nuget.dir}/${project::get-name()}.core.${project.version4}.nupkg"/>
+      <arg value="-Timeout"/>
+      <arg value="60"/>
+      <arg value="-NonInteractive"/>
+    </exec>
+  </target>
+
+  <target name="nuget" description="create and publish NuGet package"
+      depends="create-nupkg,publish-nupkg"/>
+
   <target name="all" description="execute all tasks in the project"
-    depends="clean,compile,test,deploy"/>
+    depends="clean,compile,test,deploy,nuget"/>
   
 </project>
