@@ -1,6 +1,9 @@
 build
+packages
+tools
 *~
 /.settings/
 /.classpath
 /.project
+
 
