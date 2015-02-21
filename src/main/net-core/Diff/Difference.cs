@@ -50,5 +50,24 @@ namespace Org.XmlUnit.Diff {
                 return comparison;
             }
         }
+
+        /// <summary>
+        /// Returns a string representation of this difference using the
+        /// given IComparisonFormatter.
+        /// <param name="formatter">the IComparisonFormatter to use</param>
+        /// <return>a string representation of this difference</return>
+        /// </summary>
+        public string ToString(IComparisonFormatter formatter) {
+            return string.Format("{0} ({1})", Comparison.ToString(formatter), Result);
+        }
+
+        /// <summary>
+        /// Returns a string representation of this difference using
+        /// DefaultComparisonFormatter.
+        /// <return>a string representation of this difference</return>
+        /// </summary>
+        public override string ToString() {
+            return ToString(new DefaultComparisonFormatter());
+        }
     }
 }

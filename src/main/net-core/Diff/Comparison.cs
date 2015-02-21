@@ -87,5 +87,24 @@ namespace Org.XmlUnit.Diff {
             }
         }
 
+
+        /// <summary>
+        /// Returns a string representation of this comparison using the
+        /// given IComparisonFormatter.
+        /// <param name="formatter"> the IComparisonFormatter to use</param>
+        /// <return>a string representation of this comparison</return>
+        /// </summary>
+        public string ToString(IComparisonFormatter formatter) {
+            return formatter.GetDescription(this);
+        }
+
+        /// <summary>
+        /// Returns a string representation of this comparison using
+        /// DefaultComparisonFormatter.
+        /// <return>a string representation of this comparison</return>
+        /// </summary>
+        public override string ToString() {
+            return ToString(new DefaultComparisonFormatter());
+        }
     }
 }

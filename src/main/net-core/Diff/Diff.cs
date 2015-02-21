@@ -68,7 +68,7 @@ namespace Org.XmlUnit.Diff {
             if (!HasDifferences()) {
                 return "[identical]";
             }
-            return formatter.GetDescription(differences.First().Comparison);
+            return differences.First().Comparison.ToString(formatter);
         }
     }
 }
