@@ -15,6 +15,6 @@
     </frameworkAssemblies>
   </metadata>
   <files>
-    <file src="build\net\bin\xmlunit-core.dll" target="lib\xmlunit-core.dll" />
+      <file src="build/net/bin/xmlunit-core.dll" target="lib/xmlunit-core.dll" />
   </files>
 </package>
