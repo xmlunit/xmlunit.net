@@ -35,7 +35,7 @@ These are some really small examples, more is to come in the [user guide](https:
 
 ```csharp
 ISource control = Input.FromFile("test-data/good.xml").Build();
-ISource test = Input.FromMemory(CreateTestDocument()).Build();
+ISource test = Input.FromByteArray(CreateTestDocument()).Build();
 IDifferenceEngine diff = new DOMDifferenceEngine();
 diff.DifferenceListener += (comparison, outcome) => {
             Assert.Fail("found a difference: {}", comparison);
@@ -60,7 +60,7 @@ Assert.That(CreateTestDocument(), CompareConstraint.IsIdenticalTo(Input.FromFile
 ### Asserting an XPath Value
 
 ```csharp
-ISource source = Input.FromMemory("<foo>bar</foo>").Build();
+ISource source = Input.FromString("<foo>bar</foo>").Build();
 IXPathEngine xpath = new XPathEngine();
 IEnumerable<XmlNode> allMatches = xpath.SelectNodes("/foo", source);
 string content = xpath.evaluate("/foo/text()", source);

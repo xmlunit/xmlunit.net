@@ -31,8 +31,8 @@ namespace Org.XmlUnit.Builder {
             string testXml = "<a>\n <b>\n  Test Value\n </b>\n</a>";
 
             // run test
-            var myDiff = DiffBuilder.Compare(Input.FromMemory(controlXml).Build())
-                .WithTest(Input.FromMemory(testXml).Build())
+            var myDiff = DiffBuilder.Compare(Input.FromString(controlXml).Build())
+                .WithTest(Input.FromString(testXml).Build())
                 .Build();
 
             // validate result
@@ -46,8 +46,8 @@ namespace Org.XmlUnit.Builder {
             string testXml = "<a>\n <b>\n  Test Value\n </b>\n</a>";
 
             // run test
-            var myDiff = DiffBuilder.Compare(Input.FromMemory(controlXml).Build())
-                .WithTest(Input.FromMemory(testXml).Build())
+            var myDiff = DiffBuilder.Compare(Input.FromString(controlXml).Build())
+                .WithTest(Input.FromString(testXml).Build())
                 .IgnoreWhitespace()
                 .Build();
 
@@ -62,8 +62,8 @@ namespace Org.XmlUnit.Builder {
             string testXml = "<a>\n <b>\n  Test Value\n </b>\n</a>";
 
             // run test
-            var myDiff = DiffBuilder.Compare(Input.FromMemory(controlXml).Build())
-                .WithTest(Input.FromMemory(testXml).Build())
+            var myDiff = DiffBuilder.Compare(Input.FromString(controlXml).Build())
+                .WithTest(Input.FromString(testXml).Build())
                 .Build();
 
             // validate result
@@ -77,8 +77,8 @@ namespace Org.XmlUnit.Builder {
             string testXml = "<a>\n <b>\n  Test\nValue\n </b>\n</a>";
 
             // run test
-            var myDiff = DiffBuilder.Compare(Input.FromMemory(controlXml).Build())
-                      .WithTest(Input.FromMemory(testXml).Build())
+            var myDiff = DiffBuilder.Compare(Input.FromString(controlXml).Build())
+                      .WithTest(Input.FromString(testXml).Build())
                       .NormalizeWhitespace()
                       .Build();
 
@@ -93,8 +93,8 @@ namespace Org.XmlUnit.Builder {
             string testXml = "<a>\n <b>\n Test\n Value\n </b>\n</a>";
 
             // run test
-            var myDiff = DiffBuilder.Compare(Input.FromMemory(controlXml).Build())
-                .WithTest(Input.FromMemory(testXml).Build())
+            var myDiff = DiffBuilder.Compare(Input.FromString(controlXml).Build())
+                .WithTest(Input.FromString(testXml).Build())
                 .NormalizeWhitespace()
                 .IgnoreWhitespace()
                 .Build();
@@ -110,8 +110,8 @@ namespace Org.XmlUnit.Builder {
             string testXml = "<a><![CDATA[Test Value]]></a>";
 
             // run test
-            var myDiff = DiffBuilder.Compare(Input.FromMemory(controlXml).Build())
-                .WithTest(Input.FromMemory(testXml).Build())
+            var myDiff = DiffBuilder.Compare(Input.FromString(controlXml).Build())
+                .WithTest(Input.FromString(testXml).Build())
                 .CheckForIdentical()
                 .Build();
 
@@ -126,8 +126,8 @@ namespace Org.XmlUnit.Builder {
             string testXml = "<a><![CDATA[Test Value]]></a>";
 
             // run test
-            var myDiff = DiffBuilder.Compare(Input.FromMemory(controlXml).Build())
-                .WithTest(Input.FromMemory(testXml).Build())
+            var myDiff = DiffBuilder.Compare(Input.FromString(controlXml).Build())
+                .WithTest(Input.FromString(testXml).Build())
                 .CheckForSimilar()
                 .Build();
 
@@ -142,8 +142,8 @@ namespace Org.XmlUnit.Builder {
             string testXml = "<a><b><!-- An other comment -->Test Value</b></a>";
 
             // run test
-            var myDiff = DiffBuilder.Compare(Input.FromMemory(controlXml).Build())
-                .WithTest(Input.FromMemory(testXml).Build())
+            var myDiff = DiffBuilder.Compare(Input.FromString(controlXml).Build())
+                .WithTest(Input.FromString(testXml).Build())
                 .Build();
 
             // validate result
@@ -157,8 +157,8 @@ namespace Org.XmlUnit.Builder {
             string testXml = "<a><b><!-- An other comment -->Test Value</b></a>";
 
             // run test
-            var myDiff = DiffBuilder.Compare(Input.FromMemory(controlXml).Build())
-                .WithTest(Input.FromMemory(testXml).Build())
+            var myDiff = DiffBuilder.Compare(Input.FromString(controlXml).Build())
+                .WithTest(Input.FromString(testXml).Build())
                 .IgnoreComments()
                 .Build();
 
@@ -172,7 +172,7 @@ namespace Org.XmlUnit.Builder {
             string controlXml = "<a><b>Test Value</b></a>";
 
             // run test
-            var myDiff = DiffBuilder.Compare(Input.FromMemory(controlXml).Build())
+            var myDiff = DiffBuilder.Compare(Input.FromString(controlXml).Build())
                 .WithTest(controlXml)
                 .Build();
 
@@ -186,8 +186,8 @@ namespace Org.XmlUnit.Builder {
             string controlXml = "<a><b>Test Value</b></a>";
 
             // run test
-            var myDiff = DiffBuilder.Compare(Input.FromMemory(controlXml))
-                .WithTest(Input.FromMemory(controlXml))
+            var myDiff = DiffBuilder.Compare(Input.FromString(controlXml))
+                .WithTest(Input.FromString(controlXml))
                 .Build();
 
             // validate result

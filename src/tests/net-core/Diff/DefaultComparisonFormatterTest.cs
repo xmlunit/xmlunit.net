@@ -95,7 +95,7 @@ namespace Org.XmlUnit.Diff {
         [Test]
         public void TestComparisonType_HAS_DOCTYPE_DECLARATION() {
             // prepare data
-            XmlDocument controlDoc = Convert.ToDocument(Org.XmlUnit.Builder.Input.FromMemory("<!DOCTYPE Book><a/>").Build());
+            XmlDocument controlDoc = Convert.ToDocument(Org.XmlUnit.Builder.Input.FromString("<!DOCTYPE Book><a/>").Build());
 
             Diff diff = DiffBuilder.Compare(controlDoc).WithTest("<a/>").Build();
             AssertPreRequirements(diff, ComparisonType.HAS_DOCTYPE_DECLARATION);
@@ -117,8 +117,8 @@ namespace Org.XmlUnit.Diff {
         [Test]
         public void TestComparisonType_DOCTYPE_NAME() {
             // prepare data
-            XmlDocument controlDoc = Convert.ToDocument(Org.XmlUnit.Builder.Input.FromMemory("<!DOCTYPE Book ><a/>").Build());
-            XmlDocument testDoc = Convert.ToDocument(Org.XmlUnit.Builder.Input.FromMemory("<!DOCTYPE XY ><a/>").Build());
+            XmlDocument controlDoc = Convert.ToDocument(Org.XmlUnit.Builder.Input.FromString("<!DOCTYPE Book ><a/>").Build());
+            XmlDocument testDoc = Convert.ToDocument(Org.XmlUnit.Builder.Input.FromString("<!DOCTYPE XY ><a/>").Build());
 
             Diff diff = DiffBuilder.Compare(controlDoc).WithTest(testDoc).Build();
             AssertPreRequirements(diff, ComparisonType.DOCTYPE_NAME);
@@ -140,9 +140,9 @@ namespace Org.XmlUnit.Diff {
         [Test]
         public void TestComparisonType_DOCTYPE_PUBLIC_ID() {
             // prepare data
-            XmlDocument controlDoc = Convert.ToDocument(Org.XmlUnit.Builder.Input.FromMemory(
+            XmlDocument controlDoc = Convert.ToDocument(Org.XmlUnit.Builder.Input.FromString(
                 "<!DOCTYPE Book PUBLIC \"XMLUNIT/TEST/PUB\" \"http://example.org/nonsense\"><a/>").Build());
-            XmlDocument testDoc = Convert.ToDocument(Org.XmlUnit.Builder.Input.FromMemory(
+            XmlDocument testDoc = Convert.ToDocument(Org.XmlUnit.Builder.Input.FromString(
                 "<!DOCTYPE Book SYSTEM \"http://example.org/nonsense\"><a/>").Build());
 
             Diff diff = DiffBuilder.Compare(controlDoc).WithTest(testDoc).Build();
@@ -166,9 +166,9 @@ namespace Org.XmlUnit.Diff {
         [Test]
         public void TestComparisonType_DOCTYPE_SYSTEM_ID() {
             // prepare data
-            XmlDocument controlDoc = Convert.ToDocument(Org.XmlUnit.Builder.Input.FromMemory(
+            XmlDocument controlDoc = Convert.ToDocument(Org.XmlUnit.Builder.Input.FromString(
                 "<!DOCTYPE Book PUBLIC \"XMLUNIT/TEST/PUB\" \"http://example.org/nonsense\"><a/>").Build());
-            XmlDocument testDoc = Convert.ToDocument(Org.XmlUnit.Builder.Input.FromMemory(
+            XmlDocument testDoc = Convert.ToDocument(Org.XmlUnit.Builder.Input.FromString(
                 "<!DOCTYPE Book PUBLIC \"XMLUNIT/TEST/PUB\" \"http://example.org/404\"><a/>").Build());
 
             Diff diff = DiffBuilder.Compare(controlDoc).WithTest(testDoc).Build();

@@ -124,7 +124,7 @@ namespace Org.XmlUnit.Util {
         }
 
         private XmlDocument HandleWsSetup() {
-            return Convert.ToDocument(InputBuilder.FromMemory(
+            return Convert.ToDocument(InputBuilder.FromString(
                 "<root>\n"
                 + "<!-- trim\tme -->\n"
                 + "<child attr=' trim me ' attr2='not me'>\n"

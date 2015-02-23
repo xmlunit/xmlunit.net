@@ -103,14 +103,14 @@ namespace Org.XmlUnit.Builder {
         /// <summary>
         /// Build an ISource from a string.
         /// </summary>
-        public static IBuilder FromMemory(string s) {
+        public static IBuilder FromString(string s) {
             return FromReader(new StringReader(s));
         }
 
         /// <summary>
         /// Build an ISource from an array of bytes.
         /// </summary>
-        public static IBuilder FromMemory(byte[] b) {
+        public static IBuilder FromByteArray(byte[] b) {
             return FromStream(new MemoryStream(b));
         }
 
@@ -196,9 +196,9 @@ namespace Org.XmlUnit.Builder {
             } else if (source is XmlNode) {
                 xml = Input.FromNode((XmlNode) source);
             } else if (source is byte[]) {
-                xml = Input.FromMemory((byte[]) source);
+                xml = Input.FromByteArray((byte[]) source);
             } else if (source is string) {
-                xml = Input.FromMemory((string) source);
+                xml = Input.FromString((string) source);
             } else if (source is Uri) {
                 xml = Input.FromURI((Uri) source);
             } else if (source is Stream) {

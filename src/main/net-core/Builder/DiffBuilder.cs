@@ -33,11 +33,11 @@ namespace Org.XmlUnit.Builder {
      * <pre>
      * String controlXml = &quot;&lt;a&gt;&lt;b&gt;Test Value&lt;/b&gt;&lt;/a&gt;&quot;;
      * String testXml = &quot;&lt;a&gt;\n &lt;b&gt;\n  Test Value\n &lt;/b&gt;\n&lt;/a&gt;&quot;;
-     * Diff myDiff = DiffBuilder.compare(Input.fromMemory(controlXml)).withTest(Input.fromMemory(testXml))
-     *     .checkForSimilar()
-     *     .ignoreWhitespace()
-     *     .build();
-     * assertFalse(&quot;XML similar &quot; + myDiff.toString(), myDiff.hasDifferences());
+     * Diff myDiff = DiffBuilder.compare(Input.FromString(controlXml)).WithTest(Input.fromString(testXml))
+     *     .CheckForSimilar()
+     *     .IgnoreWhitespace()
+     *     .Build();
+     * Assert.IsFalse(&quot;XML similar &quot; + myDiff, myDiff.HasDifferences());
      * </pre>
      */
     public class DiffBuilder {

@@ -72,12 +72,12 @@ namespace Org.XmlUnit.Builder {
         }
 
         [Test] public void ShouldParseString() {
-            AllIsWellFor(Input.FromMemory(Encoding.UTF8.GetString(ReadTestFile()))
+            AllIsWellFor(Input.FromString(Encoding.UTF8.GetString(ReadTestFile()))
                          .Build());
         }
 
         [Test] public void ShouldParseBytes() {
-            AllIsWellFor(Input.FromMemory(ReadTestFile()).Build());
+            AllIsWellFor(Input.FromByteArray(ReadTestFile()).Build());
         }
 
         [Test] public void ShouldParseFileFromURIString() {
@@ -97,7 +97,7 @@ namespace Org.XmlUnit.Builder {
         }
 
         [Test] public void ShouldParseATransformationFromSource() {
-            ISource input = Input.FromMemory("<animal>furry</animal>").Build();
+            ISource input = Input.FromString("<animal>furry</animal>").Build();
             ISource s = Input.ByTransforming(input)
                 .WithStylesheet(Input.FromFile(TestResources.TESTS_DIR + "animal.xsl")
                                 .Build())
@@ -109,7 +109,7 @@ namespace Org.XmlUnit.Builder {
         }
 
         [Test] public void ShouldParseATransformationFromBuilder() {
-            Input.IBuilder input = Input.FromMemory("<animal>furry</animal>");
+            Input.IBuilder input = Input.FromString("<animal>furry</animal>");
             ISource s = Input.ByTransforming(input)
                 .WithStylesheet(Input.FromFile(TestResources.TESTS_DIR + "animal.xsl"))
                 .Build();
@@ -121,9 +121,9 @@ namespace Org.XmlUnit.Builder {
 
         [Test] public void ShouldParseUnknownToSource() {
             // from ISource
-            AllIsWellFor(Input.From(Input.FromMemory(ReadTestFile()).Build()).Build());
+            AllIsWellFor(Input.From(Input.FromByteArray(ReadTestFile()).Build()).Build());
             // from IBuilder
-            AllIsWellFor(Input.From(Input.FromMemory(ReadTestFile())).Build());
+            AllIsWellFor(Input.From(Input.FromByteArray(ReadTestFile())).Build());
             // From XmlDocument
             AllIsWellFor(Input.From(Parse(Input.FromFile(TestResources.ANIMAL_FILE).Build()))
                          .Build());
