@@ -113,7 +113,7 @@ namespace Org.XmlUnit.Diff {
             if (attribs == null) {
                 throw new ArgumentNullException("attribs");
             }
-            ISet<string> ats = new HashSet<string>(attribs);
+            ICollection<string> ats = new HashSet<string>(attribs);
             return (controlElement, testElement) => {
                 if (!ByName(controlElement, testElement)) {
                     return false;

@@ -344,7 +344,7 @@ namespace Org.XmlUnit.Diff{
                                                               Attributes testAttributes) {
             return () => {
                 ComparisonState chain = new OngoingComparisonState(this);
-                ISet<XmlAttribute> foundTestAttributes = new HashSet<XmlAttribute>();
+                ICollection<XmlAttribute> foundTestAttributes = new HashSet<XmlAttribute>();
 
                 foreach (XmlAttribute controlAttr
                          in controlAttributes.RemainingAttributes) {
@@ -446,7 +446,7 @@ namespace Org.XmlUnit.Diff{
                 NodeMatcher.Match(controlSeq, testSeq);
             IList<XmlNode> controlList = new List<XmlNode>(controlSeq);
             IList<XmlNode> testList = new List<XmlNode>(testSeq);
-            ISet<XmlNode> seen = new HashSet<XmlNode>();
+            ICollection<XmlNode> seen = new HashSet<XmlNode>();
             foreach (KeyValuePair<XmlNode, XmlNode> pair in matches) {
                 XmlNode control = pair.Key;
                 seen.Add(control);
@@ -478,7 +478,7 @@ namespace Org.XmlUnit.Diff{
 
         private Func<ComparisonState> UnmatchedControlNodes(IList<XmlNode> controlList,
                                                             XPathContext controlContext,
-                                                            ISet<XmlNode> seen) {
+                                                            ICollection<XmlNode> seen) {
             return () => {
                 ComparisonState chain = new OngoingComparisonState(this);
                 int controlSize = controlList.Count;
@@ -503,7 +503,7 @@ namespace Org.XmlUnit.Diff{
 
         private Func<ComparisonState> UnmatchedTestNodes(IList<XmlNode> testList,
                                                          XPathContext testContext,
-                                                         ISet<XmlNode> seen) {
+                                                         ICollection<XmlNode> seen) {
             return () => {
                 ComparisonState chain = new OngoingComparisonState(this);
                 int testSize = testList.Count;

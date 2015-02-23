@@ -45,7 +45,7 @@ namespace Org.XmlUnit.Diff {
                 new LinkedList<KeyValuePair<XmlNode, XmlNode>>();
             IList<XmlNode> controlList = new List<XmlNode>(controlNodes);
             IList<XmlNode> testList = new List<XmlNode>(testNodes);
-            ISet<int> unmatchedTestIndexes = new HashSet<int>();
+            ICollection<int> unmatchedTestIndexes = new HashSet<int>();
             for (int i = 0; i < testList.Count; i++) {
                 unmatchedTestIndexes.Add(i);
             }
@@ -68,7 +68,7 @@ namespace Org.XmlUnit.Diff {
         private MatchInfo FindMatchingNode(XmlNode searchFor,
                                            IList<XmlNode> searchIn,
                                            int indexOfLastMatch,
-                                           ISet<int> availableIndexes) {
+                                           ICollection<int> availableIndexes) {
             int searchSize = searchIn.Count;
             for (int i = indexOfLastMatch + 1; i < searchSize; i++) {
                 if (!availableIndexes.Contains(i)) {
