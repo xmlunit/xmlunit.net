@@ -54,7 +54,7 @@ namespace Org.XmlUnit.Constraints {
         }
 
         private string GrabSystemIds() {
-            return validator.SchemaSources.Select(GrabSystemId)
+            return validator.SchemaSources.Select<ISource, string>(GrabSystemId)
                 .Aggregate(new StringBuilder(),
                            (sb, systemId) => sb.AppendLine(systemId),
                            sb => sb.Remove(sb.Length - 1, 1).ToString());

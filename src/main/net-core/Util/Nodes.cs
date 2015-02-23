@@ -53,7 +53,9 @@ namespace Org.XmlUnit.Util {
             GetAttributes(XmlNode n) {
             XmlAttributeCollection coll = n.Attributes;
             if (coll != null) {
-                return coll.Cast<XmlAttribute>().ToDictionary(GetQName, a => a.Value);
+                return coll.Cast<XmlAttribute>()
+                    .ToDictionary<XmlAttribute, XmlQualifiedName, string>(GetQName,
+                                                                          a => a.Value);
             }
             return new Dictionary<XmlQualifiedName, string>();
         }

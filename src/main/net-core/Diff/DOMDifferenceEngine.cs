@@ -168,9 +168,11 @@ namespace Org.XmlUnit.Diff{
 
             return () => {
                 controlContext
-                    .SetChildren(controlChildren.Select(TO_NODE_INFO));
+                    .SetChildren(controlChildren.Select<XmlNode, XPathContext.INodeInfo>
+                                 (TO_NODE_INFO));
                 testContext
-                    .SetChildren(testChildren.Select(TO_NODE_INFO));
+                    .SetChildren(testChildren.Select<XmlNode, XPathContext.INodeInfo>
+                                 (TO_NODE_INFO));
                 return CompareNodeLists(controlChildren, controlContext,
                                         testChildren, testContext);
             };
@@ -301,11 +303,11 @@ namespace Org.XmlUnit.Diff{
             Attributes controlAttributes = SplitAttributes(control.Attributes);
             controlContext
                 .AddAttributes(controlAttributes.RemainingAttributes
-                               .Select(Nodes.GetQName));
+                               .Select<XmlAttribute, XmlQualifiedName>(Nodes.GetQName));
             Attributes testAttributes = SplitAttributes(test.Attributes);
             testContext
                 .AddAttributes(testAttributes.RemainingAttributes
-                               .Select(Nodes.GetQName));
+                               .Select<XmlAttribute, XmlQualifiedName>(Nodes.GetQName));
 
             return Compare(new Comparison(ComparisonType.ELEMENT_NUM_ATTRIBUTES,
                                           control, GetXPath(controlContext),
