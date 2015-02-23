@@ -542,7 +542,7 @@ namespace Org.XmlUnit.Diff{
             }
             bool attributePresentOnBothSides = mustChangeControlContext
                 && mustChangeTestContext;
-            
+
             try {
                 XmlQualifiedName controlAttrName = null;
                 if (mustChangeControlContext) {
