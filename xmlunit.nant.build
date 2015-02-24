@@ -13,9 +13,12 @@
   limitations under the License.
 -->
 <project name="xmlunit" description="XMLUnit for .Net" default="compile">
-  <property name="project.version" value="2.0" overwrite="false"/>
-  <property name="project.version4" value="${project.version}.0.0"
+  <property name="project.version" value="2.0.0" overwrite="false"/>
+  <property name="project.version4" value="${project.version}.0"
             overwrite="false"/>
+  <property name="project.semantic.version" value="${project.version}-alpha-01"
+            overwrite="false"/>
+
   <property name="base.dir" value="${project::get-base-directory()}"
     overwrite="false"/>
   <property name="core.src.dir" value="src/main/net-core" overwrite="false"/>
@@ -77,6 +80,7 @@
         <attribute type="ComVisibleAttribute" value="false"/>
         <attribute type="CLSCompliantAttribute" value="true"/>
         <attribute type="AssemblyVersionAttribute" value="${project.version4}"/>
+        <attribute type="AssemblyInformationalVersionAttribute" value="${project.semantic.version}"/>
         <attribute type="AssemblyCompanyAttribute" value="XmlUnit Contributors"/>
         <attribute type="AssemblyTitleAttribute" value="XMLUnit Core" />
         <attribute type="AssemblyDescriptionAttribute"
@@ -110,6 +114,7 @@
         <attribute type="ComVisibleAttribute" value="false"/>
         <attribute type="CLSCompliantAttribute" value="true"/>
         <attribute type="AssemblyVersionAttribute" value="${project.version4}"/>
+        <attribute type="AssemblyInformationalVersionAttribute" value="${project.semantic.version}"/>
         <attribute type="AssemblyCompanyAttribute" value="XmlUnit Contributors"/>
         <attribute type="AssemblyTitleAttribute" value="XMLUnit Constraints for NUnit" />
         <attribute type="AssemblyDescriptionAttribute"
@@ -209,7 +214,7 @@
         <arg value="-OutputDirectory"/>
         <arg value="${nuget.dir}"/>
         <arg value="-Version"/>
-        <arg value="${project.version4}"/>
+        <arg value="${project.semantic.version}"/>
         <arg value="-NonInteractive"/>
       </exec>
     </if>
@@ -221,7 +226,7 @@
         <arg value="-OutputDirectory"/>
         <arg value="${nuget.dir}"/>
         <arg value="-Version"/>
-        <arg value="${project.version4}"/>
+        <arg value="${project.semantic.version}"/>
         <arg value="-NonInteractive"/>
       </exec>
     </if>
@@ -232,12 +237,12 @@
     <exec program="${nuget.executable}">
       <arg value="delete"/>
       <arg value="${project::get-name()}.core"/>
-      <arg value="${project.version4}"/>
+      <arg value="${project.semantic.version}"/>
       <arg value="-NonInteractive"/>
     </exec>
     <exec program="${nuget.executable}">
       <arg value="push"/>
-      <arg value="${nuget.dir}/${project::get-name()}.core.${project.version4}.nupkg"/>
+      <arg value="${nuget.dir}/${project::get-name()}.core.${project.semantic.version}.nupkg"/>
       <arg value="-Timeout"/>
       <arg value="60"/>
       <arg value="-NonInteractive"/>
