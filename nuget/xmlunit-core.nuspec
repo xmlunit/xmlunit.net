@@ -1,20 +1,21 @@
-<?xml version="1.0" encoding="utf-8"?>
-<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>XmlUnit.Core</id>
-    <version>0.0.0.0</version>
+    <version>$version$</version>
     <title>XmlUnit Core</title>
     <authors>XmlUnit Contributors</authors>
     <owners/>
     <projectUrl>http://www.xmlunit.org/</projectUrl>
     <licenseUrl>https://github.com/xmlunit/xmlunit/blob/master/LICENSE</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Unit Testing XML for Java and .NET</description>
+    <description>Core Classes of XMLUnit for .NET</description>
     <frameworkAssemblies>
-      <frameworkAssembly assemblyName="System.Xml.Linq" />
+      <frameworkAssembly assemblyName="System.Xml"/>
+      <frameworkAssembly assemblyName="System.Xml.Linq"/>
     </frameworkAssemblies>
   </metadata>
   <files>
-    <file src="build/net/bin/xmlunit-core.dll" target="lib/xmlunit-core.dll" />
+    <file src="$builddir$/xmlunit-core.dll" target="lib"/>
   </files>
 </package>
