@@ -304,8 +304,7 @@ namespace Org.XmlUnit.Diff {
                 throw new ArgumentNullException("es");
             }
 
-            return ConditionalSelector(e => e != null && e.LocalName == expectedName,
-                                       es);
+            return ConditionalSelector(ElementNamePredicate(expectedName), es);
         }
 
         /// <summary>
@@ -321,7 +320,7 @@ namespace Org.XmlUnit.Diff {
                 throw new ArgumentNullException("es");
             }
 
-            return ConditionalSelector(e => expectedName == Nodes.GetQName(e), es);
+            return ConditionalSelector(ElementNamePredicate(expectedName), es);
         }
 
         /// <summary>
@@ -390,6 +389,14 @@ namespace Org.XmlUnit.Diff {
 
         private static bool IsText(XmlNode n) {
             return n is XmlText || n is XmlCDataSection;
+        }
+
+        private static Predicate<XmlElement> ElementNamePredicate(string expectedName) {
+            return e => e != null && e.LocalName == expectedName;
+        }
+
+        private static Predicate<XmlElement> ElementNamePredicate(XmlQualifiedName expectedName) {
+            return e => expectedName == Nodes.GetQName(e);
         }
     }
 }
