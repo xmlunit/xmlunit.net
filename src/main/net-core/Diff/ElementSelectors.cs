@@ -376,6 +376,111 @@ namespace Org.XmlUnit.Diff {
             };
         }
 
+        /// <summary>
+        ///   then-part of conditional ElementSelectors built
+        ///   via IConditionalSelectorBuilder.
+        /// </summary>
+        public interface IConditionalSelectorBuilderThen {
+            /// <summary>
+            /// Specifies the ElementSelector to use when the condition holds true.
+            /// </summary>
+            IConditionalSelectorBuilder ThenUse(ElementSelector es);
+        }
+
+        /// <summary>
+        ///   Allows to build complex ElementSelectors by combining simpler blocks.
+        /// </summary>
+        /// <remarks>
+        ///   <para>
+        ///     All pairs created by the when*/thenUse pairs
+        ///     are evaluated in order until one returns true, finally the
+        ///     default, if any, is consulted.
+        ///   </para>
+        /// </remarks>
+        public interface IConditionalSelectorBuilder {
+            /// <summary>
+            /// Sets up a conditional ElementSelector.
+            /// </summary>
+            IConditionalSelectorBuilderThen When(Predicate<XmlElement> predicate);
+            /// <summary>
+            /// Sets up a conditional ElementSelector.
+            /// </summary>
+            IConditionalSelectorBuilderThen WhenElementIsNamed(string expectedName);
+            /// <summary>
+            /// Sets up a conditional ElementSelector.
+            /// </summary>
+            IConditionalSelectorBuilderThen WhenElementIsNamed(XmlQualifiedName expectedName);
+            /// <summary>
+            /// Assigns a default ElementSelector.
+            /// </summary>
+            IConditionalSelectorBuilder DefaultTo(ElementSelector es);
+            /// <summary>
+            /// Builds a conditional ElementSelector.
+            /// </summary>
+            ElementSelector Build();
+        }
+
+        /// <summary>
+        ///   Allows to build complex ElementSelectors by combining simpler blocks.
+        /// </summary>
+        /// <remarks>
+        ///   <para>
+        ///     All pairs created by the when*/thenUse pairs
+        ///     are evaluated in order until one returns true, finally the
+        ///     default, if any, is consulted.
+        ///   </para>
+        /// </remarks>
+        public static IConditionalSelectorBuilder ConditionalBuilder() {
+            return new DefaultConditionalSelectorBuilder();
+        }
+
+        private class DefaultConditionalSelectorBuilder
+            : IConditionalSelectorBuilder, IConditionalSelectorBuilderThen {
+            private ElementSelector defaultSelector;
+            private readonly IList<ElementSelector> conditionalSelectors = new List<ElementSelector>();
+            private Predicate<XmlElement> pendingCondition;
+
+            public IConditionalSelectorBuilder ThenUse(ElementSelector es) {
+                if (pendingCondition == null) {
+                    throw new ArgumentException("missing condition");
+                }
+                conditionalSelectors.Add(ConditionalSelector(pendingCondition, es));
+                pendingCondition = null;
+                return this;
+            }
+            public IConditionalSelectorBuilderThen When(Predicate<XmlElement> predicate) {
+                if (pendingCondition != null) {
+                    throw new ArgumentException("unbalanced conditions");
+                }
+                pendingCondition = predicate;
+                return this;
+            }
+            public IConditionalSelectorBuilder DefaultTo(ElementSelector es) {
+                if (defaultSelector != null) {
+                    throw new ArgumentException("can't have more than one default selector");
+                }
+                defaultSelector = es;
+                return this;
+            }
+            public IConditionalSelectorBuilderThen WhenElementIsNamed(string expectedName) {
+                return When(ElementNamePredicate(expectedName));
+            }
+            public IConditionalSelectorBuilderThen WhenElementIsNamed(XmlQualifiedName expectedName) {
+                return When(ElementNamePredicate(expectedName));
+            }
+            public ElementSelector Build() {
+                if (pendingCondition != null) {
+                    throw new ArgumentException("unbalanced conditions");
+                }
+                List<ElementSelector> es = new List<ElementSelector>();
+                es.AddRange(conditionalSelectors);
+                if (defaultSelector != null) {
+                    es.Add(defaultSelector);
+                }
+                return Or(es.ToArray());
+            }
+        }
+
         private static bool
             MapsEqualForKeys(IDictionary<XmlQualifiedName, string> control,
                              IDictionary<XmlQualifiedName, string> test,

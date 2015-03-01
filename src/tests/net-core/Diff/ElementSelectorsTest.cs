@@ -419,5 +419,19 @@ namespace Org.XmlUnit.Diff {
                            (control, test2));
         }
 
-    }
+        [Test]
+        public void ConditionalBuilder() {
+            XmlElement control = doc.CreateElement(FOO);
+            XmlElement test = doc.CreateElement(BAR);
+
+            ElementSelectors.IConditionalSelectorBuilder builder =
+                ElementSelectors.ConditionalBuilder()
+                .WhenElementIsNamed(FOO).ThenUse(ElementSelectors.ByName);
+
+            Assert.IsFalse(builder.Build()(control, test));
+
+            builder.DefaultTo(ElementSelectors.Default);
+            Assert.IsTrue(builder.Build()(control, test));
+        }
+   }
 }
