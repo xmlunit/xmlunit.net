@@ -262,8 +262,9 @@ namespace Org.XmlUnit.Diff {
             try {
                 int numberOfBlanksToIndent = formatXml ? 2 : -1;
                 StringBuilder sb = new StringBuilder();
-                XmlWriter writer = CreateXmlWriter(sb, numberOfBlanksToIndent);
-                nodeToConvert.WriteTo(writer);
+                using (XmlWriter writer = CreateXmlWriter(sb, numberOfBlanksToIndent)) {
+                    nodeToConvert.WriteTo(writer);
+                }
                 return sb.ToString();
             } catch (Exception e) {
                 return string.Format("ERROR {0}", e.Message);
