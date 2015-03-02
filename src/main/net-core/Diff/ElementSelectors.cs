@@ -442,7 +442,7 @@ namespace Org.XmlUnit.Diff {
 
             public IConditionalSelectorBuilder ThenUse(ElementSelector es) {
                 if (pendingCondition == null) {
-                    throw new ArgumentException("missing condition");
+                    throw new InvalidOperationException("missing condition");
                 }
                 conditionalSelectors.Add(ConditionalSelector(pendingCondition, es));
                 pendingCondition = null;
@@ -450,14 +450,14 @@ namespace Org.XmlUnit.Diff {
             }
             public IConditionalSelectorBuilderThen When(Predicate<XmlElement> predicate) {
                 if (pendingCondition != null) {
-                    throw new ArgumentException("unbalanced conditions");
+                    throw new InvalidOperationException("unbalanced conditions");
                 }
                 pendingCondition = predicate;
                 return this;
             }
             public IConditionalSelectorBuilder DefaultTo(ElementSelector es) {
                 if (defaultSelector != null) {
-                    throw new ArgumentException("can't have more than one default selector");
+                    throw new InvalidOperationException("can't have more than one default selector");
                 }
                 defaultSelector = es;
                 return this;
@@ -470,7 +470,7 @@ namespace Org.XmlUnit.Diff {
             }
             public ElementSelector Build() {
                 if (pendingCondition != null) {
-                    throw new ArgumentException("unbalanced conditions");
+                    throw new InvalidOperationException("unbalanced conditions");
                 }
                 List<ElementSelector> es = new List<ElementSelector>();
                 es.AddRange(conditionalSelectors);
