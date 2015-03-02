@@ -5,17 +5,17 @@
     <version>$version$</version>
     <title>XMLUnit Constraints for NUnit</title>
     <authors>XmlUnit Contributors</authors>
-    <owners/>
+    <owners />
     <projectUrl>http://www.xmlunit.org/</projectUrl>
     <licenseUrl>https://github.com/xmlunit/xmlunit/blob/master/LICENSE</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Constraints Classes of XMLUnit for .NET</description>
     <dependencies>
-      <dependency id="NUnit" version="2.5.10.11092"/>
-      <dependency id="XmlUnit.Core" version="[$version$]"/>
+      <dependency id="NUnit" version="2.5.10.11092" />
+      <dependency id="XmlUnit.Core" version="[$version$]" />
     </dependencies>
   </metadata>
   <files>
-    <file src="$builddir$/xmlunit-constraints.dll" target="lib"/>
+    <file src="$builddir$/xmlunit-constraints.dll" target="lib/net35" />
   </files>
 </package>

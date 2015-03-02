@@ -13,6 +13,13 @@
   limitations under the License.
 -->
 <project name="xmlunit" description="XMLUnit for .Net" default="compile">
+  <if test="${not string::starts-with(framework::get-runtime-framework(), 'mono')}">
+    <property name="nant.settings.currentframework" value="net-3.5" />
+  </if>
+  <if test="${string::starts-with(framework::get-runtime-framework(), 'mono')}">
+    <property name="nant.settings.currentframework" value="mono-3.5" />
+  </if>
+
   <property name="project.version" value="2.0.0" overwrite="false"/>
   <property name="project.version4" value="${project.version}.0"
             overwrite="false"/>

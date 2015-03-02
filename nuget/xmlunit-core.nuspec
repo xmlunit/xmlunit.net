@@ -5,17 +5,17 @@
     <version>$version$</version>
     <title>XmlUnit Core</title>
     <authors>XmlUnit Contributors</authors>
-    <owners/>
+    <owners />
     <projectUrl>http://www.xmlunit.org/</projectUrl>
     <licenseUrl>https://github.com/xmlunit/xmlunit/blob/master/LICENSE</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Core Classes of XMLUnit for .NET</description>
     <frameworkAssemblies>
-      <frameworkAssembly assemblyName="System.Xml"/>
-      <frameworkAssembly assemblyName="System.Xml.Linq"/>
+      <frameworkAssembly assemblyName="System.Xml" />
+      <frameworkAssembly assemblyName="System.Xml.Linq" />
     </frameworkAssemblies>
   </metadata>
   <files>
-    <file src="$builddir$/xmlunit-core.dll" target="lib"/>
+    <file src="$builddir$/xmlunit-core.dll" target="lib/net35" />
   </files>
 </package>
