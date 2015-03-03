@@ -282,6 +282,7 @@ namespace Org.XmlUnit.Diff {
                                                  int numberOfBlanksToIndent) {
             XmlWriterSettings settings = new XmlWriterSettings();
             settings.OmitXmlDeclaration = true;
+            settings.CloseOutput = true;
             if (numberOfBlanksToIndent >= 0) {
                 settings.Indent = true;
                 settings.IndentChars = string.Empty.PadLeft(numberOfBlanksToIndent);
