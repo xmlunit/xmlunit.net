@@ -391,8 +391,8 @@ namespace Org.XmlUnit.Diff {
             Assert.AreEqual("Expected element tag name 'a' but was 'b' - "
                             + "comparing <a...> at /a[1] to <b...> at /b[1]", description);
 
-            AssertEquals("<a>\n</a>", controlDetails);
-            AssertEquals("<b>\n</b>", testDetails);
+            AssertEqualsNoLineBreak("<a></a>", controlDetails);
+            AssertEqualsNoLineBreak("<b></b>", testDetails);
         }
 
         [Test]
@@ -412,8 +412,8 @@ namespace Org.XmlUnit.Diff {
             Assert.AreEqual("Expected number of attributes '1' but was '2' - "
                             + "comparing <a...> at /a[1] to <a...> at /a[1]", description);
 
-            AssertEquals("<a b=\"xxx\">\n</a>", controlDetails);
-            AssertEquals("<a b=\"xxx\" c=\"xxx\">\n</a>", testDetails);
+            AssertEqualsNoLineBreak("<a b=\"xxx\"></a>", controlDetails);
+            AssertEqualsNoLineBreak("<a b=\"xxx\" c=\"xxx\"></a>", testDetails);
         }
 
         [Test]
@@ -432,8 +432,8 @@ namespace Org.XmlUnit.Diff {
             Assert.AreEqual("Expected attribute value 'xxx' but was 'yyy' - "
                             + "comparing <a b=\"xxx\"...> at /a[1]/@b to <a b=\"yyy\"...> at /a[1]/@b", description);
 
-            AssertEquals("<a b=\"xxx\">\n</a>", controlDetails);
-            AssertEquals("<a b=\"yyy\">\n</a>", testDetails);
+            AssertEqualsNoLineBreak("<a b=\"xxx\"></a>", controlDetails);
+            AssertEqualsNoLineBreak("<a b=\"yyy\"></a>", testDetails);
         }
 
         [Test]
@@ -515,8 +515,8 @@ namespace Org.XmlUnit.Diff {
             Assert.AreEqual("Expected attribute name '/a[1]/@b' - "
                             + "comparing <a...> at /a[1]/@b to <a...> at /a[1]", description);
 
-            AssertEquals("<a b=\"xxx\">\n</a>", controlDetails);
-            AssertEquals("<a c=\"yyy\">\n</a>", testDetails);
+            AssertEqualsNoLineBreak("<a b=\"xxx\"></a>", controlDetails);
+            AssertEqualsNoLineBreak("<a c=\"yyy\"></a>", testDetails);
         }
 
         [Test]
@@ -569,10 +569,17 @@ namespace Org.XmlUnit.Diff {
 #endif
 
         /// <summary>
-        ///   Assert Equals for two strings where carriage returns removed.
+        ///   Assert Equals for two strings where carriage returns are removed.
         /// </summary>
         public static void AssertEquals(string expected, string actual) {
-            Assert.AreEqual(expected, actual.Replace("\r", ""));
+            Assert.AreEqual(expected, actual.Replace("\r", string.Empty));
+        }
+
+        /// <summary>
+        ///   Assert Equals for two strings where linefeeds and carriage returns are removed.
+        /// </summary>
+        public static void AssertEqualsNoLineBreak(string expected, string actual) {
+            AssertEquals(expected, actual.Replace("\n", string.Empty));
         }
 
         private void AssertPreRequirements(Diff diff, ComparisonType comparisonType) {
