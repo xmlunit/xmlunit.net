@@ -35,6 +35,13 @@ namespace Org.XmlUnit.Constraints {
                                                                     "Book.xsd")));
         }
 
+        [Test][Ignore("Validator doesn't seem to like https URIs")]
+        public void ShouldSuccessfullyValidateInstanceWithoutExplicitSchemaSource() {
+            Assert.That(new StreamSource(TestResources.TESTS_DIR
+                                         + "BookXsdGenerated.xml"),
+                        new SchemaValidConstraint());
+        }
+
         [Test][ExpectedException( typeof( ArgumentException ) )]
         public void ShouldThrowWhenSchemaSourcesContainsNull() {
             new SchemaValidConstraint(new object[] { null });

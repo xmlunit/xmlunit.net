@@ -52,8 +52,12 @@ namespace Org.XmlUnit.Constraints {
         }
 
         public override void WriteDescriptionTo(MessageWriter writer) {
-            writer.Write("{0} validates against {1}", GrabSystemId(actual as ISource),
-                         GrabSystemIds());
+            if (validator.SchemaSources.Length > 0) {
+                writer.Write("{0} validates against {1}", GrabSystemId(actual as ISource),
+                             GrabSystemIds());
+            } else {
+                writer.Write("{0} validates", GrabSystemId(actual as ISource));
+            }
         }
 
         public override void WriteActualValueTo(MessageWriter writer) {
@@ -64,7 +68,8 @@ namespace Org.XmlUnit.Constraints {
             return validator.SchemaSources.Select<ISource, string>(GrabSystemId)
                 .Aggregate(new StringBuilder(),
                            (sb, systemId) => sb.AppendLine(systemId),
-                           sb => sb.Remove(sb.Length - 1, 1).ToString());
+                           sb => sb.Length > 0 ? sb.Remove(sb.Length - 1, 1).ToString()
+                                               : sb.ToString());
         }
 
         private string GrabSystemId(ISource s) {
