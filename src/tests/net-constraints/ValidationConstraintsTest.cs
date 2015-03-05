@@ -35,5 +35,14 @@ namespace Org.XmlUnit.Constraints {
                                                                     "Book.xsd")));
         }
 
+        [Test][ExpectedException( typeof( ArgumentException ) )]
+        public void ShouldThrowWhenSchemaSourcesContainsNull() {
+            new SchemaValidConstraint(new object[] { null });
+        }
+
+        [Test][ExpectedException( typeof( ArgumentNullException ) )]
+        public void ShouldThrowWhenSchemaSourcesIsNull() {
+            new SchemaValidConstraint(null);
+        }
     }
 }

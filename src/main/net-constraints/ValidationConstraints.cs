@@ -12,6 +12,7 @@
   limitations under the License.
 */
 
+using System;
 using System.Linq;
 using System.Text;
 using NUnit.Framework.Constraints;
@@ -32,6 +33,12 @@ namespace Org.XmlUnit.Constraints {
         /// Creates the constraint validating against the given schema(s).
         /// </summary>
         public SchemaValidConstraint(params object[] schema) : base(schema) {
+            if (schema == null) {
+                throw new ArgumentNullException("schema");
+            }
+            if (schema.Any(s => s == null)) {
+                throw new ArgumentException("must not contain null values", "schema");
+            }
             validator = Validator.ForLanguage(Languages.W3C_XML_SCHEMA_NS_URI);
             validator.SchemaSources = schema
                 .Select(s => InputBuilder.From(s).Build())
