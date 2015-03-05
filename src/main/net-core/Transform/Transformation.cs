@@ -154,7 +154,10 @@ namespace Org.XmlUnit.Transform {
         /// </summary>
         private void Transform(Transformer transformer) {
             if (source == null) {
-                throw new ArgumentNullException("source");
+                throw new InvalidOperationException("source must not be null");
+            }
+            if (transformer == null) {
+                throw new ArgumentNullException("transformer");
             }
             try {
                 XslCompiledTransform t = new XslCompiledTransform();
