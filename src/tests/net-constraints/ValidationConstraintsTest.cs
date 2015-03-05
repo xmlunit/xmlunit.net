@@ -35,10 +35,27 @@ namespace Org.XmlUnit.Constraints {
                                                                     "Book.xsd")));
         }
 
+        [Test][ExpectedException(typeof(AssertionException))]
+        public void ShouldThrowOnBrokenInstance() {
+            Assert.That(new StreamSource(TestResources.TESTS_DIR
+                                         + "invalidBook.xml"),
+                        new SchemaValidConstraint(new StreamSource(TestResources
+                                                                   .TESTS_DIR +
+                                                                   "Book.xsd")));
+        }
+
         [Test][Ignore("Validator doesn't seem to like https URIs")]
         public void ShouldSuccessfullyValidateInstanceWithoutExplicitSchemaSource() {
             Assert.That(new StreamSource(TestResources.TESTS_DIR
                                          + "BookXsdGenerated.xml"),
+                        new SchemaValidConstraint());
+        }
+
+        // throws for the wrong reason, but throws :-)
+        [Test][ExpectedException(typeof(AssertionException))]
+        public void ShouldThrowOnBrokenInstanceWithoutExplicitSchemaSource() {
+            Assert.That(new StreamSource(TestResources.TESTS_DIR
+                                         + "invalidBook.xml"),
                         new SchemaValidConstraint());
         }
 
