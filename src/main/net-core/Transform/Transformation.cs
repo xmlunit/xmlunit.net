@@ -152,7 +152,7 @@ namespace Org.XmlUnit.Transform {
         /// <summary>
         /// Perform the transformation.
         /// </summary>
-        private void Transform(Transformer transformer) {
+        internal void Transform(Transformer transformer) {
             if (source == null) {
                 throw new InvalidOperationException("source must not be null");
             }
@@ -196,9 +196,9 @@ namespace Org.XmlUnit.Transform {
             }
         }
 
-        private delegate void Transformer(XslCompiledTransform t,
-                                          XmlReader r,
-                                          XsltArgumentList args);
+        internal delegate void Transformer(XslCompiledTransform t,
+                                           XmlReader r,
+                                           XsltArgumentList args);
 
         private static Transformer TransformToStream(Stream stream) {
             return (t, r, args) => t.Transform(r, args, stream);
