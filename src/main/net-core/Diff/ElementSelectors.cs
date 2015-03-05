@@ -74,6 +74,9 @@ namespace Org.XmlUnit.Diff {
             if (attribs == null) {
                 throw new ArgumentNullException("attribs");
             }
+            if (attribs.Any(a => a == null)) {
+                throw new ArgumentException("must not contain null values", "attribs");
+            }
             return ByNameAndAttributes(attribs
                                        .Select(a => new XmlQualifiedName(a))
                                        .ToArray());
@@ -88,6 +91,9 @@ namespace Org.XmlUnit.Diff {
             ByNameAndAttributes(params XmlQualifiedName[] attribs) {
             if (attribs == null) {
                 throw new ArgumentNullException("attribs");
+            }
+            if (attribs.Any(a => a == null)) {
+                throw new ArgumentException("must not contain null values", "attribs");
             }
             XmlQualifiedName[] qs = new XmlQualifiedName[attribs.Length];
             Array.Copy(attribs, 0, qs, 0, qs.Length);
@@ -112,6 +118,9 @@ namespace Org.XmlUnit.Diff {
             ByNameAndAttributesControlNS(params string[] attribs) {
             if (attribs == null) {
                 throw new ArgumentNullException("attribs");
+            }
+            if (attribs.Any(a => a == null)) {
+                throw new ArgumentException("must not contain null values", "attribs");
             }
             ICollection<string> ats = new HashSet<string>(attribs);
             return (controlElement, testElement) => {
@@ -249,6 +258,9 @@ namespace Org.XmlUnit.Diff {
             if (selectors == null) {
                 throw new ArgumentNullException("selectors");
             }
+            if (selectors.Any(s => s == null)) {
+                throw new ArgumentException("must not contain null values", "selectors");
+            }
             return (control, test) => selectors.Any(es => es(control, test));
         }
 
@@ -258,6 +270,9 @@ namespace Org.XmlUnit.Diff {
         public static ElementSelector And(params ElementSelector[] selectors) {
             if (selectors == null) {
                 throw new ArgumentNullException("selectors");
+            }
+            if (selectors.Any(s => s == null)) {
+                throw new ArgumentException("must not contain null values", "selectors");
             }
             return (control, test) => selectors.All(es => es(control, test));
         }
@@ -300,9 +315,6 @@ namespace Org.XmlUnit.Diff {
             if (expectedName == null) {
                 throw new ArgumentNullException("expectedName");
             }
-            if (es == null) {
-                throw new ArgumentNullException("es");
-            }
 
             return ConditionalSelector(ElementNamePredicate(expectedName), es);
         }
@@ -315,9 +327,6 @@ namespace Org.XmlUnit.Diff {
                                                               ElementSelector es) {
             if (expectedName == null) {
                 throw new ArgumentNullException("expectedName");
-            }
-            if (es == null) {
-                throw new ArgumentNullException("es");
             }
 
             return ConditionalSelector(ElementNamePredicate(expectedName), es);
