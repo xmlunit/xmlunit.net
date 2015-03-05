@@ -12,6 +12,7 @@
   limitations under the License.
 */
 
+using System.Collections.Generic;
 using System.Xml;
 using NUnit.Framework;
 using Org.XmlUnit.Input;
@@ -76,6 +77,15 @@ namespace Org.XmlUnit.Util {
             ConvertToNodeAndAssert(new DOMSource(d.DocumentElement));
             Assert.AreSame(d.DocumentElement,
                            Convert.ToNode(new DOMSource(d.DocumentElement)));
+        }
+
+        [Test]
+        public void ShouldFillNamespaceManager() {
+            XmlNamespaceManager mgr = Convert.ToNamespaceContext(new Dictionary<string, string> {
+                    { "foo", "bar" }
+                });
+            Assert.AreEqual("foo", mgr.LookupPrefix("bar"));
+            Assert.AreEqual("bar", mgr.LookupNamespace("foo"));
         }
     }
 }
