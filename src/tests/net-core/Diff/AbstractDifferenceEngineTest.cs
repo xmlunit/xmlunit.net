@@ -89,7 +89,7 @@ namespace Org.XmlUnit.Diff {
         }
 
         [Test]
-        public void CompareNotifiesListener() {
+        public void CompareNotifiesComparisonListener() {
             AbstractDifferenceEngine d = DifferenceEngine;
             int invocations = 0;
             d.ComparisonListener += delegate(Comparison comp,
@@ -103,6 +103,42 @@ namespace Org.XmlUnit.Diff {
                                                      Convert.ToInt16("2"),
                                                      null, null,
                                                      Convert.ToInt16("2"))));
+            Assert.AreEqual(1, invocations);
+        }
+
+        [Test]
+        public void CompareNotifiesMatchListener() {
+            AbstractDifferenceEngine d = DifferenceEngine;
+            int invocations = 0;
+            d.MatchListener += delegate(Comparison comp,
+                                             ComparisonResult r) {
+                invocations++;
+                Assert.AreEqual(ComparisonResult.EQUAL, r);
+            };
+            Assert.AreEqual(Wrap(ComparisonResult.EQUAL),
+                            d.Compare(new Comparison(ComparisonType.HAS_DOCTYPE_DECLARATION,
+                                                     null, null,
+                                                     Convert.ToInt16("2"),
+                                                     null, null,
+                                                     Convert.ToInt16("2"))));
+            Assert.AreEqual(1, invocations);
+        }
+
+        [Test]
+        public void CompareNotifiesDifferenceListener() {
+            AbstractDifferenceEngine d = DifferenceEngine;
+            int invocations = 0;
+            d.DifferenceListener += delegate(Comparison comp,
+                                             ComparisonResult r) {
+                invocations++;
+                Assert.AreEqual(ComparisonResult.SIMILAR, r);
+            };
+            Assert.AreEqual(Wrap(ComparisonResult.SIMILAR),
+                            d.Compare(new Comparison(ComparisonType.HAS_DOCTYPE_DECLARATION,
+                                                     null, null,
+                                                     Convert.ToInt16("2"),
+                                                     null, null,
+                                                     Convert.ToInt16("3"))));
             Assert.AreEqual(1, invocations);
         }
 
@@ -182,12 +218,56 @@ namespace Org.XmlUnit.Diff {
                             cs.AndIfTrueThen(false, () => Wrap(ComparisonResult.EQUAL)));
         }
 
+        [Test][ExpectedException(typeof(ArgumentNullException))]
+        public void CantSetNullNodeMatcher() {
+            DifferenceEngine.NodeMatcher = null;
+        }
+
+        [Test][ExpectedException(typeof(ArgumentNullException))]
+        public void CantSetNullComparisonController() {
+            DifferenceEngine.ComparisonController = null;
+        }
+
+        [Test][ExpectedException(typeof(ArgumentNullException))]
+        public void CantSetNullDifferenceEvaluator() {
+            DifferenceEngine.DifferenceEvaluator = null;
+        }
+
+        [Test]
+        public void ComparisonStateEqualsLooksAtType() {
+            Assert.AreNotEqual(Wrap(ComparisonResult.SIMILAR), new MyOngoing());
+        }
+
+        [Test]
+        public void ComparisonStateEqualsLooksAtResult() {
+            Assert.AreNotEqual(Wrap(ComparisonResult.SIMILAR),
+                               Wrap(ComparisonResult.DIFFERENT));
+        }
+
+        [Test]
+        public void HashCodeLooksAtFinished() {
+            Assert.AreNotEqual(Wrap(ComparisonResult.SIMILAR).GetHashCode(),
+                               WrapAndStop(ComparisonResult.SIMILAR).GetHashCode());
+        }
+
+        [Test]
+        public void TrivialComparisonStateToString() {
+            string s = Wrap(ComparisonResult.SIMILAR).ToString();
+            Assert.That(s, Is.StringContaining("OngoingComparisonState"));
+            Assert.That(s, Is.StringContaining("SIMILAR"));
+        }
+
         protected static AbstractDifferenceEngine.ComparisonState Wrap(ComparisonResult c) {
             return new AbstractDifferenceEngine.OngoingComparisonState(null, c);
         }
 
         protected static AbstractDifferenceEngine.ComparisonState WrapAndStop(ComparisonResult c) {
             return new AbstractDifferenceEngine.FinishedComparisonState(null, c);
+        }
+
+        internal class MyOngoing : AbstractDifferenceEngine.ComparisonState {
+            internal MyOngoing() : base(null, false, ComparisonResult.SIMILAR) {
+            }
         }
     }
 }

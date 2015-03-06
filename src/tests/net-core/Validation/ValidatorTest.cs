@@ -85,5 +85,17 @@ namespace Org.XmlUnit.Validation {
                 });
         }
 
+        [Test][ExpectedException(typeof(NotImplementedException))]
+        public void ShouldNotAllowSchemaValidationForDTD() {
+            Validator v = Validator.ForLanguage(Languages.XML_DTD_NS_URI);
+            v.SchemaSource = new StreamSource(TestResources.TESTS_DIR + "broken.xsd");
+            v.ValidateSchema();
+        }
+
+        [Test][ExpectedException(typeof(NotImplementedException))]
+        public void ShouldNotAllowSchemaValidationWithoutSource() {
+            Validator v = Validator.ForLanguage(Languages.W3C_XML_SCHEMA_NS_URI);
+            v.ValidateSchema();
+        }
     }
 }

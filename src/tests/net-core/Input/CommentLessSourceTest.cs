@@ -12,9 +12,10 @@
   limitations under the License.
 */
 
-using NUnit.Framework;
+using System;
 using System.IO;
 using System.Xml;
+using NUnit.Framework;
 
 namespace Org.XmlUnit.Input {
     [TestFixture]
@@ -34,6 +35,11 @@ namespace Org.XmlUnit.Input {
             Assert.IsTrue(d.ChildNodes[0] is XmlDeclaration);
             Assert.IsTrue(d.ChildNodes[1] is XmlElement);
             Assert.AreEqual(0, d.ChildNodes[1].ChildNodes.Count);
+        }
+
+        [Test][ExpectedException(typeof(ArgumentNullException))]
+        public void CantWrapNullSource() {
+            new CommentLessSource(null);
         }
     }
 }

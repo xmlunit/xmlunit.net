@@ -146,6 +146,14 @@ namespace Org.XmlUnit.Builder {
             using (StreamReader r = new StreamReader(TestResources.ANIMAL_FILE)) {
                 AllIsWellFor(Input.From(r).Build());
             }
+            Assert.That(Input.From(new XmlDocument().CreateElement("foo")).Build(),
+                        Is.Not.Null);
+        }
+
+        [Test]
+        public void CanCreateInputFromNode() {
+            Assert.That(Input.FromNode(new XmlDocument().CreateElement("foo")).Build(),
+                        Is.Not.Null);
         }
 
         private static void AllIsWellFor(ISource s) {
