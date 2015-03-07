@@ -12,6 +12,7 @@
   limitations under the License.
 */
 
+using System.IO;
 using System.Xml;
 using NUnit.Framework;
 
@@ -38,6 +39,52 @@ namespace Org.XmlUnit.Builder {
                 .Build()
                 .ToDocument();
             Assert.AreEqual("dog", doc.DocumentElement.Name);
+        }
+
+        [Test]
+        public void TransformAnimalToTextWriter() {
+            StringWriter sw = new StringWriter();
+            Transform
+                .Source(Input.FromFile(TestResources.DOG_FILE).Build())
+                .WithStylesheet(Input.FromFile(TestResources.ANIMAL_XSL).Build())
+                .Build()
+                .To(sw);
+            Assert.AreEqual("<?xml version=\"1.0\" encoding=\"utf-16\"?><dog />",
+                            sw.ToString().Replace("\n", string.Empty));
+        }
+
+        [Test]
+        public void TransformAnimalToXmlWriter() {
+            using (MemoryStream ms = new MemoryStream()) {
+                using (XmlWriter w = XmlWriter.Create(ms)) {
+                    Transform
+                        .Source(Input.FromFile(TestResources.DOG_FILE).Build())
+                        .WithStylesheet(Input.FromFile(TestResources.ANIMAL_XSL).Build())
+                        .Build()
+                        .To(w);
+                }
+                ms.Flush();
+                ms.Seek(0, SeekOrigin.Begin);
+                XmlDocument doc = new XmlDocument();
+                doc.Load(ms);
+                Assert.AreEqual("dog", doc.DocumentElement.Name);
+            }
+        }
+
+        [Test]
+        public void TransformAnimalToStream() {
+            using (MemoryStream ms = new MemoryStream()) {
+                Transform
+                    .Source(Input.FromFile(TestResources.DOG_FILE).Build())
+                    .WithStylesheet(Input.FromFile(TestResources.ANIMAL_XSL).Build())
+                    .Build()
+                    .To(ms);
+                ms.Flush();
+                ms.Seek(0, SeekOrigin.Begin);
+                XmlDocument doc = new XmlDocument();
+                doc.Load(ms);
+                Assert.AreEqual("dog", doc.DocumentElement.Name);
+            }
         }
     }
 }
