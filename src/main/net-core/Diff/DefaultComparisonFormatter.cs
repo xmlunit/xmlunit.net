@@ -51,7 +51,7 @@ namespace Org.XmlUnit.Diff {
                 ? NodeType((XmlNodeType) value) : value;
         }
 
-        private string GetShortString(object node, string xpath, ComparisonType type) {
+        private string GetShortString(XmlNode node, string xpath, ComparisonType type) {
             StringBuilder sb = new StringBuilder();
             if (type == ComparisonType.HAS_DOCTYPE_DECLARATION) {
                 XmlDocument doc = node as XmlDocument;
@@ -79,16 +79,13 @@ namespace Org.XmlUnit.Diff {
                 AppendText(sb, node as XmlCharacterData);
             } else if (node is XmlProcessingInstruction) {
                 AppendProcessingInstruction(sb, node as XmlProcessingInstruction);
-            } else if (node is XmlNode) {
-                XmlNode unknownNode = node as XmlNode;
-                sb.Append("<!--NodeType ").Append(unknownNode.NodeType)
-                    .Append(' ').Append(unknownNode.Name)
-                    .Append('/').Append(unknownNode.Value)
-                    .Append("-->");
             } else if (node == null) {
                 sb.Append("<NULL>");
             } else {
-                sb.Append("<!-- ").Append(node).Append(" -->");
+                sb.Append("<!--NodeType ").Append(node.NodeType)
+                    .Append(' ').Append(node.Name)
+                    .Append('/').Append(node.Value)
+                    .Append("-->");
             }
             if (!string.IsNullOrEmpty(xpath)) {
                 sb.Append(" at ").Append(xpath);
@@ -196,13 +193,10 @@ namespace Org.XmlUnit.Diff {
 
         public string GetDetails(Comparison.Detail difference, ComparisonType type,
                                  bool formatXml) {
-            if (difference.Target is XmlNode) {
-                return GetFullFormattedXml(difference.Target as XmlNode, type,
-                                           formatXml);
-            } else if (difference.Target == null) {
+            if (difference.Target == null) {
                 return "<NULL>";
             }
-            return difference.Target.ToString();
+            return GetFullFormattedXml(difference.Target, type, formatXml);
         }
 
         private string GetFullFormattedXml(XmlNode node, ComparisonType type,

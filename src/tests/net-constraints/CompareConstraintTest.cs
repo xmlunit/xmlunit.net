@@ -181,7 +181,7 @@ namespace Org.XmlUnit.Constraints {
 
         private DifferenceEvaluator IgnoreAttributeDifferenceEvaluator(string attributeName) {
             return (comparison, outcome) => {
-                XmlNode controlNode = (XmlNode) comparison.ControlDetails.Target;
+                XmlNode controlNode = comparison.ControlDetails.Target;
                 if (controlNode is XmlAttribute) {
                     XmlAttribute attr = (XmlAttribute) controlNode;
                     if (attr.Name == attributeName) {

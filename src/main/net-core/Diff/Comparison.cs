@@ -12,6 +12,8 @@
   limitations under the License.
 */
 
+using System.Xml;
+
 namespace Org.XmlUnit.Diff {
 
     /// <summary>
@@ -24,11 +26,11 @@ namespace Org.XmlUnit.Diff {
         /// XML node) that took part in the comparison.
         /// </summary>
         public sealed class Detail {
-            private readonly object target;
+            private readonly XmlNode target;
             private readonly string xpath;
             private readonly object value;
 
-            internal Detail(object t, string x, object v) {
+            internal Detail(XmlNode t, string x, object v) {
                 target = t;
                 xpath = x;
                 value = v;
@@ -37,7 +39,7 @@ namespace Org.XmlUnit.Diff {
             /// <summary>
             /// The actual target.
             /// </summary>
-            public object Target { get { return target; } }
+            public XmlNode Target { get { return target; } }
             /// <summary>
             /// XPath leading to the target.
             /// </summary>
@@ -51,9 +53,9 @@ namespace Org.XmlUnit.Diff {
         private readonly Detail control, test;
         private readonly ComparisonType type;
 
-        public Comparison(ComparisonType t, object controlTarget,
+        public Comparison(ComparisonType t, XmlNode controlTarget,
                           string controlXPath, object controlValue,
-                          object testTarget, string testXPath,
+                          XmlNode testTarget, string testXPath,
                           object testValue) {
             type = t;
             control = new Detail(controlTarget, controlXPath, controlValue);
