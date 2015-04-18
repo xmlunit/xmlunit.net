@@ -5,5 +5,7 @@ tools
 /.settings/
 /.classpath
 /.project
-
+*.suo
+*.user
+obj
 
