@@ -19,7 +19,7 @@
     <ProjectGuid>{9BF85579-75BF-4D44-953A-46FAFCD814C0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <NoStandardLibraries>false</NoStandardLibraries>
-    <AssemblyName>xmlunit-core-tests</AssemblyName>
+    <AssemblyName>xmlunit-core.tests</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -60,6 +60,9 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\shared\CommonAssemblyInfo.cs">
+      <Link>CommonAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Builder\DiffBuilderTest.cs" />
     <Compile Include="Builder\InputTest.cs" />
     <Compile Include="Builder\TransformTest.cs" />

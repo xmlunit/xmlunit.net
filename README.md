@@ -108,11 +108,8 @@ you'll need to run `git submodule update --init` once.
 ## Building
 
 *Warning*: the Visual Studio solutions and projects are a Work In
-Progess as part of resolving issue #8 - right now they cannot even
-compile `XMLUnit.Core.Tests` since they require an
-`InternalsVisibleTo` attribute in `XMLunit.Core` which should be added
-as part of the build process - the NAnt build generates
-`AssemblyInfo.cs` files and so should the MSBuild/xbuild process.
+Progess as part of resolving issue #8 - they may not even be suitable
+to compile XMLUnit.
 
 
 XMLUnit for .NET builds using NAnt, run `nant -projecthelp` for the

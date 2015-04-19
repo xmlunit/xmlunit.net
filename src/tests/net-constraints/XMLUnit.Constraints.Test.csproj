@@ -19,7 +19,7 @@
     <ProjectGuid>{33760FFE-9F43-46BE-8F64-ED34AE6B798C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <NoStandardLibraries>false</NoStandardLibraries>
-    <AssemblyName>xmlunit-net-constraints</AssemblyName>
+    <AssemblyName>xmlunit-constraints.tests</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -74,6 +74,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\shared\CommonAssemblyInfo.cs">
+      <Link>CommonAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="CompareConstraintTest.cs" />
     <Compile Include="ValidationConstraintsTest.cs" />
   </ItemGroup>
