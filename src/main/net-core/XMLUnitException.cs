@@ -18,6 +18,7 @@ namespace Org.XmlUnit {
     /// <summary>
     /// Base class of any Exception thrown within XMLUnit.
     /// </summary>
+    [Serializable]
     public class XMLUnitException : Exception {
         /// <summary>
         /// Inititializes the exception.
