@@ -37,7 +37,7 @@
   <property name="constraints.tests.src.dir" value="${base.dir}/src/tests/net-constraints"
     overwrite="false"/>
 
-  <property name="build.dir" value="build/net" overwrite="false"/>
+  <property name="build.dir" value="build" overwrite="false"/>
   <property name="gen.src.dir" value="${build.dir}/generated"
             overwrite="false"/>
   <property name="gen.core.dir" value="${gen.src.dir}/core"
