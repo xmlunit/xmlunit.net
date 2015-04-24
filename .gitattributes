@@ -1,0 +1,18 @@
+*.build  text
+*.cs     text diff=csharp
+*.csproj text
+*.dll    binary
+*.dtd    text
+*.html   text diff=html
+*.md     text
+*.nuspec text
+*.rng    text
+*.rngc   text
+*.sln    text
+*.snk    binary
+*.xml    text
+*.xsd    text
+*.xsl    text
+*.yml    text
+KEY      text
+LICENSE* text
