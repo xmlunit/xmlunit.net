@@ -212,7 +212,15 @@ namespace Org.XmlUnit.Diff {
                 XmlDocument doc = node.OwnerDocument;
                 AppendFullDocumentHeader(sb, doc);
                 return sb.ToString();
-            } else if (node is XmlAttribute) {
+            }
+            else if (node is XmlDeclaration)
+            {
+                XmlDeclaration dec = node as XmlDeclaration;
+                AppendDocumentXmlDeclaration(sb, dec);
+                return sb.ToString();
+            }
+            else if (node is XmlAttribute)
+            {
                 nodeToConvert = ((XmlAttribute) node).OwnerElement;
             } else if (node is XmlCharacterData) {
                 // in case of a simple text node, show the parent
