@@ -1,11 +1,5 @@
-language: c
- 
-install:
-  - sudo apt-get install mono-devel mono-gmcs nant
- 
-script:
-  - nant clean test
-
+language: csharp
+solution: XMLUnit.NET.sln
 notifications:
   email:
     - xmlunit-commits@lists.sourceforge.net
