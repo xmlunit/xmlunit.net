@@ -59,6 +59,41 @@ namespace Org.XmlUnit.Diff {
         }
 
         [Test]
+        public void AppendChildrenWithNonElements() {
+            List<XPathContext.INodeInfo> l = new List<XPathContext.INodeInfo>();
+            l.Add(new Text());
+            l.Add(new Comment());
+            l.Add(new CDATA());
+            l.Add(new PI());
+            XPathContext ctx = new XPathContext();
+            ctx.SetChildren(l);
+            ctx.AppendChildren(l);
+            ctx.NavigateToChild(0);
+            Assert.AreEqual("/text()[1]", ctx.XPath);
+            ctx.NavigateToParent();
+            ctx.NavigateToChild(1);
+            Assert.AreEqual("/comment()[1]", ctx.XPath);
+            ctx.NavigateToParent();
+            ctx.NavigateToChild(2);
+            Assert.AreEqual("/text()[2]", ctx.XPath);
+            ctx.NavigateToParent();
+            ctx.NavigateToChild(3);
+            Assert.AreEqual("/processing-instruction()[1]", ctx.XPath);
+            ctx.NavigateToParent();
+            ctx.NavigateToChild(4);
+            Assert.AreEqual("/text()[3]", ctx.XPath);
+            ctx.NavigateToParent();
+            ctx.NavigateToChild(5);
+            Assert.AreEqual("/comment()[2]", ctx.XPath);
+            ctx.NavigateToParent();
+            ctx.NavigateToChild(6);
+            Assert.AreEqual("/text()[4]", ctx.XPath);
+            ctx.NavigateToParent();
+            ctx.NavigateToChild(7);
+            Assert.AreEqual("/processing-instruction()[2]", ctx.XPath);
+        }
+
+        [Test]
         public void OneLevelOfElements() {
             List<Element> l = new List<Element>();
             l.Add(new Element("foo"));
