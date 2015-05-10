@@ -169,10 +169,10 @@ namespace Org.XmlUnit.Diff{
             return () => {
                 controlContext
                     .SetChildren(controlChildren.Select<XmlNode, XPathContext.INodeInfo>
-                                 (TO_NODE_INFO));
+                                 (ElementSelectors.TO_NODE_INFO));
                 testContext
                     .SetChildren(testChildren.Select<XmlNode, XPathContext.INodeInfo>
-                                 (TO_NODE_INFO));
+                                 (ElementSelectors.TO_NODE_INFO));
                 return CompareNodeLists(controlChildren, controlContext,
                                         testChildren, testContext);
             };
@@ -691,13 +691,6 @@ namespace Org.XmlUnit.Diff{
                 }
             }
             return null;
-        }
-
-        /// <summary>
-        /// Maps Nodes to their NodeInfo equivalent.
-        /// </summary>
-        private static XPathContext.INodeInfo TO_NODE_INFO(XmlNode n) {
-            return new XPathContext.DOMNodeInfo(n);
         }
 
         /// <summary>
