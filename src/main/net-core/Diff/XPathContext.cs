@@ -19,8 +19,8 @@ using System.Xml;
 using Org.XmlUnit.Util;
 
 namespace Org.XmlUnit.Diff {
-    public class XPathContext {
-        private readonly LinkedList<Level> path = new LinkedList<Level>();
+    public class XPathContext : ICloneable {
+        private LinkedList<Level> path = new LinkedList<Level>();
         private readonly IDictionary<string, string> uri2Prefix;
 
         private const string COMMENT = "comment()";
@@ -144,6 +144,18 @@ namespace Org.XmlUnit.Diff {
             }
         }
 
+        /// <summary>
+        /// Creates a deep copy of this XPathContext.
+        /// </summary>
+        public object Clone() {
+            XPathContext c = (XPathContext) MemberwiseClone();
+            c.path = new LinkedList<Level>();
+            foreach (Level l in path) {
+                c.path.AddLast((Level) l.Clone());
+            }
+            return c;
+        }
+
         private static string GetXPath(LinkedListNode<Level> l) {
             if (l == null) {
                 return string.Empty;
@@ -181,11 +193,11 @@ namespace Org.XmlUnit.Diff {
             return index;
         }
 
-        internal class Level {
+        internal class Level : ICloneable {
             private string xpath;
             internal readonly string Expression;
-            internal readonly IList<Level> Children = new List<Level>();
-            internal readonly IDictionary<XmlQualifiedName, Level> Attributes =
+            internal IList<Level> Children = new List<Level>();
+            internal IDictionary<XmlQualifiedName, Level> Attributes =
                 new Dictionary<XmlQualifiedName, Level>();
             internal string XPath {
                 get { return xpath; }
@@ -193,6 +205,18 @@ namespace Org.XmlUnit.Diff {
             }
             internal Level(string expression) {
                 this.Expression = expression;
+            }
+            public object Clone() {
+                Level l = (Level) MemberwiseClone();
+                l.Children = new List<Level>();
+                foreach (Level c in Children) {
+                    l.Children.Add((Level) c.Clone());
+                }
+                l.Attributes = new Dictionary<XmlQualifiedName, Level>();
+                foreach (var e in Attributes) {
+                    l.Attributes[e.Key] = (Level) e.Value.Clone();
+                }
+                return l;
             }
         }
 

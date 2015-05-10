@@ -201,6 +201,25 @@ namespace Org.XmlUnit.Diff {
             ctx.NavigateToParent();
         }
 
+        [Test]
+        public void ShouldCreateCopyOnClone() {
+            List<Element> l = new List<Element>();
+            l.Add(new Element("foo"));
+            l.Add(new Element("foo"));
+            l.Add(new Element("bar"));
+            XPathContext ctx = new XPathContext();
+            ctx.SetChildren(l);
+            ctx.NavigateToChild(1);
+            Assert.AreEqual("/foo[2]", ctx.XPath);
+            XPathContext clone = (XPathContext) ctx.Clone();
+            Assert.AreEqual("/foo[2]", clone.XPath);
+            Assert.AreNotSame(ctx, clone);
+            clone.NavigateToParent();
+            clone.NavigateToChild(2);
+            Assert.AreEqual("/bar[1]", clone.XPath);
+            Assert.AreEqual("/foo[2]", ctx.XPath);
+        }
+
         internal class Element : XPathContext.INodeInfo {
             private readonly XmlQualifiedName name;
             internal Element(string name) {
