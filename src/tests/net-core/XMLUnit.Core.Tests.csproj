@@ -102,17 +102,15 @@
     <VisualStudio AllowExistingFolder="true" />
   </ProjectExtensions>
 
-  <UsingTask AssemblyFile="$(SolutionDir)\packages\MSBuild.NUnit.1.0.2\tools\MSBuild.NUnit.dll" TaskName="MSBuild.Tasks.NUnit" />
+  <PropertyGroup Condition=" '$(OS)' != 'Unix' ">
+    <NunitCommand>$(SolutionDir)packages\NUnit.Runners.2.6.4\tools\nunit-console.exe -nologo -noshadow -nodots $(OutputPath)$(AssemblyName).dll -config=$(Configuration) -xml=..\..\..\build\test-results\Core.Tests.Results.xml -framework=net-3.5 -process=Single</NunitCommand>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(OS)' == 'Unix' ">
+    <NunitCommand>mono $(SolutionDir)packages/NUnit.Runners.2.6.4/tools/nunit-console.exe -nologo -noshadow -nodots $(OutputPath)$(AssemblyName).dll -config=$(Configuration) -xml=../../../build/test-results/Core.Tests.Results.xml -framework=net-3.5 -process=Single</NunitCommand>
+  </PropertyGroup>
   <Target Name="RunUnitTest">
     <MakeDir Directories="..\..\..\build\test-results" />
-    <NUnit Assemblies="$(ProjectName).csproj"
-           ToolPath="$(SolutionDir)\packages\NUnit.Runners.2.6.4\tools"
-           DisableShadowCopy="true" Force32Bit="false"
-           ProjectConfiguration="$(Configuration)"
-           FrameworkToUse="net-3.5"
-           WorkingDirectory="$(ProjectDir)"
-           OutputXmlFile="..\..\..\build\test-results\Core.Tests.Results.xml"
-           ContinueOnError="false" ProcessModel="Single" HideDots="true" />
+    <Exec Command="$(NunitCommand)" WorkingDirectory="$(ProjectDir)" />
   </Target>
   <Target Name="AfterBuild" DependsOnTargets="RunUnitTest">
   </Target>  
