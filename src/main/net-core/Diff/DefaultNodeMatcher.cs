@@ -69,16 +69,19 @@ namespace Org.XmlUnit.Diff {
                                            IList<XmlNode> searchIn,
                                            int indexOfLastMatch,
                                            ICollection<int> availableIndexes) {
-            int searchSize = searchIn.Count;
-            for (int i = indexOfLastMatch + 1; i < searchSize; i++) {
-                if (!availableIndexes.Contains(i)) {
-                    continue;
-                }
-                if (NodesMatch(searchFor, searchIn[i])) {
-                    return new MatchInfo(searchIn[i], i);
-                }
-            }
-            for (int i = 0; i < indexOfLastMatch; i++) {
+            MatchInfo m = SearchIn(searchFor, searchIn,
+                                   availableIndexes,
+                                   indexOfLastMatch + 1, searchIn.Count);
+            return m ?? SearchIn(searchFor, searchIn,
+                                 availableIndexes,
+                                 0, indexOfLastMatch);
+        }
+
+        private MatchInfo SearchIn(XmlNode searchFor,
+                                   IList<XmlNode> searchIn,
+                                   ICollection<int> availableIndexes,
+                                   int fromInclusive, int toExclusive) {
+            for (int i = fromInclusive; i < toExclusive; i++) {
                 if (!availableIndexes.Contains(i)) {
                     continue;
                 }
