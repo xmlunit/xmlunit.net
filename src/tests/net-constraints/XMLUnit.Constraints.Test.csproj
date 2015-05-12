@@ -95,10 +95,10 @@
   </ProjectExtensions>
   
   <PropertyGroup Condition=" '$(OS)' != 'Unix' ">
-    <NunitCommand>$(SolutionDir)packages\NUnit.Runners.2.6.4\tools\nunit-console.exe -nologo -noshadow -nodots $(OutputPath)$(AssemblyName).dll -config=$(Configuration) -xml=..\..\..\build\test-results\Constraints.Tests.Results.xml -framework=net-3.5 -process=Single</NunitCommand>
+    <NunitCommand>"$(SolutionDir)packages\NUnit.Runners.2.6.4\tools\nunit-console.exe" -nologo -noshadow -nodots "$(OutputPath)$(AssemblyName).dll" -config=$(Configuration) -xml=..\..\..\build\test-results\Constraints.Tests.Results.xml -framework=net-3.5 -process=Single</NunitCommand>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(OS)' == 'Unix' ">
-    <NunitCommand>mono $(SolutionDir)packages/NUnit.Runners.2.6.4/tools/nunit-console.exe -nologo -noshadow -nodots $(OutputPath)$(AssemblyName).dll -config=$(Configuration) -xml=../../../build/test-results/Constraints.Tests.Results.xml -framework=net-3.5 -process=Single</NunitCommand>
+    <NunitCommand>mono "$(SolutionDir)packages/NUnit.Runners.2.6.4/tools/nunit-console.exe" -nologo -noshadow -nodots "$(OutputPath)$(AssemblyName).dll" -config=$(Configuration) -xml=../../../build/test-results/Constraints.Tests.Results.xml -framework=net-3.5 -process=Single</NunitCommand>
   </PropertyGroup>
   <Target Name="RunUnitTest">
     <MakeDir Directories="..\..\..\build\test-results" />
