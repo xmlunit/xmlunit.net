@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <!--
   This file is licensed to You under the Apache License, Version 2.0
   (the "License"); you may not use this file except in compliance with
@@ -69,6 +69,7 @@
     <Compile Include="Builder\DiffBuilderTest.cs" />
     <Compile Include="Builder\InputTest.cs" />
     <Compile Include="Builder\TransformTest.cs" />
+    <Compile Include="VerifySetup.cs" />
     <Compile Include="Diff\AbstractDifferenceEngineTest.cs" />
     <Compile Include="Diff\ComparisonControllersTest.cs" />
     <Compile Include="Diff\DefaultComparisonFormatterTest.cs" />
@@ -101,7 +102,6 @@
   <ProjectExtensions>
     <VisualStudio AllowExistingFolder="true" />
   </ProjectExtensions>
-
   <PropertyGroup Condition=" '$(OS)' != 'Unix' ">
     <NunitCommand>"$(SolutionDir)packages\NUnit.Runners.2.6.4\tools\nunit-console.exe" -nologo -noshadow -nodots "$(OutputPath)$(AssemblyName).dll" -config=$(Configuration) -xml=..\..\..\build\test-results\Core.Tests.Results.xml -framework=net-3.5 -process=Single</NunitCommand>
   </PropertyGroup>
@@ -113,5 +113,5 @@
     <Exec Command="$(NunitCommand)" WorkingDirectory="$(ProjectDir)" />
   </Target>
   <Target Name="AfterBuild" DependsOnTargets="RunUnitTest">
-  </Target>  
+  </Target>
 </Project>
