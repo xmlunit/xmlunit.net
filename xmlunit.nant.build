@@ -45,7 +45,7 @@
   <property name="gen.constraints.dir" value="${gen.src.dir}/constraints"
             overwrite="false"/>
   <property name="test.report.dir" value="${build.dir}/test-report"/>
-  <property name="bin.dir" value="${build.dir}/bin" overwrite="false"/>
+  <property name="bin.dir" value="${build.dir}/bin/Debug" overwrite="false"/>
   <property name="tools.dir" value="tools" overwrite="false"/>
   <property name="nuspec.dir" value="nuget" overwrite="false"/>
   <property name="nuget.dir" value="packages" overwrite="false"/>

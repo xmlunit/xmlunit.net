@@ -13,6 +13,7 @@
 */
 
 using NUnit.Framework;
+using NUnit.Framework.Constraints;
 using System.IO;
 
 namespace Org.XmlUnit.Builder
@@ -23,7 +24,7 @@ namespace Org.XmlUnit.Builder
         [Test]
         public void VerifyCurrentWorkingDirectory()
         {
-            StringAssert.EndsWith("bin", Path.GetFullPath("."));
+            Assert.That(Path.GetFullPath("."), Is.StringEnding("Debug") | Is.StringEnding("Release"));
         }
 
         [Test]
