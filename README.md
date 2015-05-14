@@ -137,7 +137,7 @@ it staying a supported option for building XMLUnit.
 <a name="nuget-linux">1</a>: In order to run `nuget` and `xbuild` on
 Linux (or any other platform supported by Mono) you'll need to install
 Mono itself and the xbuild package (the deb packages are
-`mono-complete` and `mono-xbuild`.  You'll need to download `nuget`
+`mono-complete` and `mono-xbuild`).  You'll need to download `nuget`
 and finally, if you encounter "System.Net.WebException: Error getting
 response stream" when running `nuget.exe`, you'll need to execute
 
