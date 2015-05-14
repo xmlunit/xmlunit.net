@@ -107,22 +107,29 @@ you'll need to run `git submodule update --init` once.
 
 ## Building
 
-*Warning*: the Visual Studio solutions and projects are a Work In
-Progess as part of resolving issue #8 - they may not even be suitable
-to compile XMLUnit.
+XMLUnit for .NET uses NuGet and `msbuild`/`xbuild` - or Visual Studio.
 
+When using Visual Studio the build should automatically refresh the NuGet packages, build the `core` and `constraints` assemblies as well as the unit test projects and run all NUnit tests.
 
-XMLUnit for .NET builds using NAnt, run `nant -projecthelp` for the
-available targets, but mainly you want to run
+When not using Visual Studio you need to [install nuget](http://docs.nuget.org/consume/installing-nuget) as well as `msbuild` or `xbuild` and run
 
 ```sh
-$ nant
+$ nuget restore XMLUnit.NET.sln
 ```
 
-in order to compile `core` and `constraints` and build the assemblies.
+once to download the packages used by XMLUnit during the build (really only NUnit right now).  After that you can run `msbuild` or `xbuild` like
 
 ```sh
-$ nant test
+> msbuild /p:Configuration=Debug XMLUnit.NET.sln
+```
+```sh
+$ xbuild /p:Configuration=Debug XMLUnit.NET.sln
 ```
 
-executes the NUnit tests.
+which compiles `core` and `constraints`, builds the assemblies and executes the NUnit tests.
+
+### NAnt build
+
+XMLUnit has used NAnt in the past and the build file is still in place
+until we've taught one of our CI systems to use xbuild - don't rely on
+it staying a supported option for building XMLUnit.
