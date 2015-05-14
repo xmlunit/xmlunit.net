@@ -111,7 +111,7 @@ XMLUnit for .NET uses NuGet and `msbuild`/`xbuild` - or Visual Studio.
 
 When using Visual Studio the build should automatically refresh the NuGet packages, build the `core` and `constraints` assemblies as well as the unit test projects and run all NUnit tests.
 
-When not using Visual Studio you need to [install nuget](http://docs.nuget.org/consume/installing-nuget) as well as `msbuild` or `xbuild` and run
+When not using Visual Studio you need to [install nuget](http://docs.nuget.org/consume/installing-nuget) as well as `msbuild` or `xbuild`<sup>[1](#nuget-linux)</sup> and run
 
 ```sh
 $ nuget restore XMLUnit.NET.sln
@@ -133,3 +133,17 @@ which compiles `core` and `constraints`, builds the assemblies and executes the 
 XMLUnit has used NAnt in the past and the build file is still in place
 until we've taught one of our CI systems to use xbuild - don't rely on
 it staying a supported option for building XMLUnit.
+
+<a name="nuget-linux">1</a>: In order to run `nuget` and `xbuild` on
+Linux (or any other platform supported by Mono) you'll need to install
+Mono itself and the xbuild package (the deb packages are
+`mono-complete` and `mono-xbuild`.  You'll need to download `nuget`
+and finally, if you encounter "System.Net.WebException: Error getting
+response stream" when running `nuget.exe`, you'll need to execute
+
+```sh
+$ mozroots --import --sync
+```
+
+to install the same certificates into your Mono truststore that are
+trusted by Firefox' default installation.
