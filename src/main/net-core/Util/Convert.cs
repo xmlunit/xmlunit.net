@@ -25,7 +25,7 @@ namespace Org.XmlUnit.Util {
         /// <summary>
         /// Creates a DOM Document from an ISource.
         /// </summary>
-        public static XmlDocument ToDocument(ISource s) {
+        public static XmlDocument ToDocument(this ISource s) {
             return ToDocument(s, true);
         }
 
@@ -54,7 +54,7 @@ namespace Org.XmlUnit.Util {
         /// Unless the source is a DOMSource this will return the same
         /// result as ToDocument.
         /// </remarks>
-        public static XmlNode ToNode(ISource s) {
+        public static XmlNode ToNode(this ISource s) {
             DOMSource ds = s as DOMSource;
             return ds != null ? ds.Node : ToDocument(s);
         }

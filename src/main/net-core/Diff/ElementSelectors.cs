@@ -47,8 +47,8 @@ namespace Org.XmlUnit.Diff {
         public static bool ByName(XmlElement controlElement,
                                   XmlElement testElement) {
             return controlElement != null && testElement != null
-                && object.Equals(Nodes.GetQName(controlElement),
-                                 Nodes.GetQName(testElement));
+                && object.Equals(controlElement.GetQName(),
+                                 testElement.GetQName());
         }
 
         /// <summary>
@@ -446,7 +446,7 @@ namespace Org.XmlUnit.Diff {
         }
 
         private static Predicate<XmlElement> ElementNamePredicate(XmlQualifiedName expectedName) {
-            return e => expectedName == Nodes.GetQName(e);
+            return e => expectedName == e.GetQName();
         }
 
         /// <summary>

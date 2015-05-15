@@ -50,7 +50,7 @@ namespace Org.XmlUnit.Diff {
             }
             path.AddLast(new Level(string.Empty));
             if (root != null) {
-                SetChildren(Linqy.Singleton(new DOMNodeInfo(root)));
+                SetChildren(new DOMNodeInfo(root).Singleton());
                 NavigateToChild(0);
             }
         }
@@ -229,7 +229,7 @@ namespace Org.XmlUnit.Diff {
             private readonly XmlQualifiedName name;
             private readonly XmlNodeType type;
             public DOMNodeInfo(XmlNode n) {
-                name = Nodes.GetQName(n);
+                name = n.GetQName();
                 type = n.NodeType;
             }
             public XmlQualifiedName Name { get { return name; } }

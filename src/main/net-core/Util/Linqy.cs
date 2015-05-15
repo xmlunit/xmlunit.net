@@ -25,14 +25,14 @@ namespace Org.XmlUnit.Util {
         /// <summary>
         /// An enumerable containing a single element.
         /// </summary>
-        public static IEnumerable<T> Singleton<T>(T t) {
+        public static IEnumerable<T> Singleton<T>(this T t) {
             yield return t;
         }
 
         /// <summary>
         /// Like Enumerable.FirstOrDefault but with a configurable default value.
         /// </summary>
-        public static T FirstOrDefault<T>(IEnumerable<T> enumerable,
+        public static T FirstOrDefault<T>(this IEnumerable<T> enumerable,
                                           Func<T, bool> predicate,
                                           T defaultValue)
             where T : class {
@@ -42,7 +42,7 @@ namespace Org.XmlUnit.Util {
         /// <summary>
         /// Like Enumerable.FirstOrDefault but with a configurable default value.
         /// </summary>
-        public static T FirstOrDefaultValue<T>(IEnumerable<T> enumerable,
+        public static T FirstOrDefaultValue<T>(this IEnumerable<T> enumerable,
                                                Predicate<T> predicate,
                                                T defaultValue)
             where T : struct {

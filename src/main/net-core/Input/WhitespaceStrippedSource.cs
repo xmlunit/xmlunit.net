@@ -22,7 +22,7 @@ namespace Org.XmlUnit.Input {
     /// </summary>
     public class WhitespaceStrippedSource : DOMSource {
         public WhitespaceStrippedSource(ISource originalSource) :
-            base(Nodes.StripWhitespace(Convert.ToDocument(originalSource))) {
+            base(Nodes.StripWhitespace(originalSource.ToDocument())) {
             SystemId = originalSource.SystemId;
         }
     }

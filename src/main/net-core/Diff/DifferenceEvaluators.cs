@@ -72,12 +72,11 @@ namespace Org.XmlUnit.Diff {
         /// one that changes the outcome wins.
         /// </summary>
         public static DifferenceEvaluator
-            First(params DifferenceEvaluator[] evaluators) {
+            First(params DifferenceEvaluator[] evaluators)
+        {
             return (comparison, orig) =>
-                Linqy
-                    .FirstOrDefaultValue(evaluators
-                                            .Select(ev => ev(comparison, orig)),
-                                         evaluated => evaluated != orig,
+                    evaluators.Select(ev => ev(comparison, orig))
+                    .FirstOrDefaultValue(evaluated => evaluated != orig,
                                          orig);
         }
 

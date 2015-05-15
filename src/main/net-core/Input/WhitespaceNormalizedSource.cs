@@ -27,7 +27,7 @@ namespace Org.XmlUnit.Input {
     /// </remarks>
     public class WhitespaceNormalizedSource : DOMSource {
         public WhitespaceNormalizedSource(ISource originalSource) :
-            base(Nodes.NormalizeWhitespace(Convert.ToDocument(originalSource)))
+            base(Nodes.NormalizeWhitespace(originalSource.ToDocument()))
             {
             SystemId = originalSource.SystemId;
         }

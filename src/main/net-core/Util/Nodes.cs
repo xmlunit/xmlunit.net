@@ -26,7 +26,7 @@ namespace Org.XmlUnit.Util {
         /// <summary>
         /// Extracts a Node's name and namespace URI (if any).
         /// </summary>
-        public static XmlQualifiedName GetQName(XmlNode n) {
+        public static XmlQualifiedName GetQName(this XmlNode n) {
             return new XmlQualifiedName(n.LocalName, n.NamespaceURI);
         }
 

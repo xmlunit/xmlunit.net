@@ -34,8 +34,8 @@ namespace Org.XmlUnit.Diff{
                 throw new ArgumentNullException("test");
             }
             try {
-                XmlNode controlNode = Org.XmlUnit.Util.Convert.ToNode(control);
-                XmlNode testNode = Org.XmlUnit.Util.Convert.ToNode(test);
+                XmlNode controlNode = control.ToNode();
+                XmlNode testNode = test.ToNode();
                 CompareNodes(controlNode, XPathContextFor(controlNode),
                              testNode, XPathContextFor(testNode));
             } catch (Exception ex) {
@@ -350,12 +350,12 @@ namespace Org.XmlUnit.Diff{
 
                 foreach (XmlAttribute controlAttr
                          in controlAttributes.RemainingAttributes) {
-                    XmlQualifiedName controlAttrName = Nodes.GetQName(controlAttr);
+                             XmlQualifiedName controlAttrName = controlAttr.GetQName();
                     XmlAttribute testAttr =
                         FindMatchingAttr(testAttributes.RemainingAttributes,
                                          controlAttr);
                     XmlQualifiedName testAttrName = testAttr != null
-                        ? Nodes.GetQName(testAttr) : null;
+                        ? testAttr.GetQName() : null;
 
                     controlContext.NavigateToAttribute(controlAttrName);
                     try {
@@ -388,7 +388,7 @@ namespace Org.XmlUnit.Diff{
                         foreach (XmlAttribute testAttr
                                  in testAttributes.RemainingAttributes) {
                             if (!foundTestAttributes.Contains(testAttr)) {
-                                XmlQualifiedName testAttrName = Nodes.GetQName(testAttr);
+                                XmlQualifiedName testAttrName = testAttr.GetQName();
                                 testContext.NavigateToAttribute(testAttrName);
                                 try {
                                     secondChain =
@@ -492,7 +492,7 @@ namespace Org.XmlUnit.Diff{
                                 .AndThen(new Comparison(ComparisonType.CHILD_LOOKUP,
                                                         controlList[i],
                                                         GetXPath(controlContext),
-                                                        Nodes.GetQName(controlList[i]),
+                                                        controlList[i].GetQName(),
                                                         null, null, null));
                         } finally {
                             controlContext.NavigateToParent();
@@ -518,7 +518,7 @@ namespace Org.XmlUnit.Diff{
                                                         null, null, null,
                                                         testList[i],
                                                         GetXPath(testContext),
-                                                        Nodes.GetQName(testList[i])));
+                                                        testList[i].GetQName()));
                         } finally {
                             testContext.NavigateToParent();
                         }
@@ -546,13 +546,13 @@ namespace Org.XmlUnit.Diff{
             try {
                 XmlQualifiedName controlAttrName = null;
                 if (mustChangeControlContext) {
-                    controlAttrName = Nodes.GetQName(control);
+                    controlAttrName = control.GetQName();
                     controlContext.AddAttribute(controlAttrName);
                     controlContext.NavigateToAttribute(controlAttrName);
                 }
                 XmlQualifiedName testAttrName = null;
                 if (mustChangeTestContext) {
-                    testAttrName = Nodes.GetQName(test);
+                    testAttrName = test.GetQName();
                     testContext.AddAttribute(testAttrName);
                     testContext.NavigateToAttribute(testAttrName);
                 }
