@@ -78,6 +78,7 @@
     <Compile Include="Diff\DifferenceTest.cs" />
     <Compile Include="Diff\DOMDifferenceEngineTest.cs" />
     <Compile Include="Diff\ElementSelectorsTest.cs" />
+    <Compile Include="Diff\MultiLevelByNameAndTextSelectorTest.cs" />
     <Compile Include="Diff\XPathContextTest.cs" />
     <Compile Include="Input\CommentLessSourceTest.cs" />
     <Compile Include="TestResources.cs" />

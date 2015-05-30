@@ -89,6 +89,7 @@
     <Compile Include="Diff\IComparisonFormatter.cs" />
     <Compile Include="Diff\IDifferenceEngine.cs" />
     <Compile Include="Diff\INodeMatcher.cs" />
+    <Compile Include="Diff\MultiLevelByNameAndTextSelector.cs" />
     <Compile Include="Diff\XPathContext.cs" />
     <Compile Include="Input\AbstractSource.cs" />
     <Compile Include="Input\CommentLessSource.cs" />
