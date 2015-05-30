@@ -81,6 +81,7 @@
     <Compile Include="Diff\MultiLevelByNameAndTextSelectorTest.cs" />
     <Compile Include="Diff\XPathContextTest.cs" />
     <Compile Include="Input\CommentLessSourceTest.cs" />
+    <Compile Include="Input\NormalizedSourceTest.cs" />
     <Compile Include="TestResources.cs" />
     <Compile Include="Transform\TransformationTest.cs" />
     <Compile Include="Util\ConvertTest.cs" />

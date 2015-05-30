@@ -95,6 +95,7 @@
     <Compile Include="Input\CommentLessSource.cs" />
     <Compile Include="Input\DOMSource.cs" />
     <Compile Include="Input\LinqSource.cs" />
+    <Compile Include="Input\NormalizedSource.cs" />
     <Compile Include="Input\ReaderSource.cs" />
     <Compile Include="Input\StreamSource.cs" />
     <Compile Include="Input\WhitespaceNormalizedSource.cs" />

@@ -12,6 +12,7 @@
   limitations under the License.
 */
 
+using System;
 using System.Collections.Generic;
 using System.Xml;
 using Org.XmlUnit.Input;
@@ -33,6 +34,9 @@ namespace Org.XmlUnit.Util {
         /// Creates a DOM Document from an ISource.
         /// </summary>
         public static XmlDocument ToDocument(ISource s, bool prohibitDTD) {
+            if (s == null) {
+                throw new ArgumentNullException("s");
+            }
             DOMSource ds = s as DOMSource;
             if (ds != null) {
                 XmlDocument doc = ds.Node as XmlDocument;
