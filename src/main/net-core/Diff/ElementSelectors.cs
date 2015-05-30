@@ -168,16 +168,6 @@ namespace Org.XmlUnit.Diff {
         }
 
         /// <summary>
-        /// Elements with the same local name (and namespace URI - if any)
-        /// and child elements and nested text at each level (if any) can
-        /// be compared.
-        /// </summary>
-        public static bool ByNameAndTextRec(XmlElement controlElement,
-                                            XmlElement testElement) {
-            return new ByNameAndTextRecSelector().CanBeCompared(controlElement, testElement);
-        }
-
-        /// <summary>
         ///   Negates another ElementSelector
         /// </summary>
         public static ElementSelector Not(ElementSelector es) {
@@ -437,10 +427,6 @@ namespace Org.XmlUnit.Diff {
             });
         }
 
-        private static bool IsText(XmlNode n) {
-            return n is XmlText || n is XmlCDataSection;
-        }
-
         private static Predicate<XmlElement> ElementNamePredicate(string expectedName) {
             return e => e != null && e.LocalName == expectedName;
         }
@@ -456,72 +442,5 @@ namespace Org.XmlUnit.Diff {
             return new XPathContext.DOMNodeInfo(n);
         }
 
-        private class ByNameAndTextRecSelector {
-
-            public bool CanBeCompared(XmlElement controlElement,
-                                      XmlElement testElement) {
-                if (!ByNameAndText(controlElement, testElement)) {
-                    return false;
-                }
-
-                XmlNodeList controlChildren = controlElement.ChildNodes;
-                XmlNodeList testChildren = testElement.ChildNodes;
-                int controlLen = controlChildren.Count;
-                int testLen = testChildren.Count;
-                int controlIndex, testIndex;
-                for (controlIndex = testIndex = 0;
-                     controlIndex < controlLen && testIndex < testLen;
-                     ) {
-                    // find next non-text child nodes
-                    XmlNode c = FindNonText(controlChildren, ref controlIndex, controlLen);
-                    if (IsText(c)) {
-                        break;
-                    }
-                    XmlNode t = FindNonText(testChildren, ref testIndex, testLen);
-                    if (IsText(t)) {
-                        break;
-                    }
-
-                    // different types of children make elements
-                    // non-comparable
-                    if (c.NodeType != t.NodeType) {
-                        return false;
-                    }
-                    // recurse for child elements
-                    if (c is XmlElement
-                        && !ByNameAndTextRec(c as XmlElement, t as XmlElement)) {
-                        return false;
-                    }
-
-                    controlIndex++;
-                    testIndex++;
-                }
-
-                // child lists exhausted?
-                if (controlIndex < controlLen) {
-                    FindNonText(controlChildren, ref controlIndex, controlLen);
-                    // some non-Text children remained
-                    if (controlIndex < controlLen) {
-                        return false;
-                    }
-                }
-                if (testIndex < testLen) {
-                    FindNonText(testChildren, ref testIndex, testLen);
-                    // some non-Text children remained
-                    if (testIndex < testLen) {
-                        return false;
-                    }
-                }
-                return true;
-            }
-
-            private XmlNode FindNonText(XmlNodeList nl, ref int current, int len) {
-                XmlNode n = nl[current];
-                while (IsText(n) && ++current < len) {
-                    n = nl[current];
-                }
-                return n;
-            }
-        }
     }
 }

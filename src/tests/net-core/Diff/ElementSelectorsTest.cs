@@ -20,17 +20,23 @@ namespace Org.XmlUnit.Diff {
 
     [TestFixture]
     public class ElementSelectorsTest {
-        private const string FOO = "foo";
-        private const string BAR = "bar";
-        private const string SOME_URI = "urn:some:uri";
+        internal const string FOO = "foo";
+        internal const string BAR = "bar";
+        internal const string SOME_URI = "urn:some:uri";
 
         private XmlDocument doc;
 
-        [SetUp] public void CreateDoc() {
+        [SetUp]
+        public void CreateDoc() {
             doc = new XmlDocument();
         }
 
         private void PureElementNameComparisons(ElementSelector s) {
+            PureElementNameComparisons(s, doc);
+        }
+
+        internal static void PureElementNameComparisons(ElementSelector s,
+                                                        XmlDocument doc) {
             XmlElement control = doc.CreateElement(FOO);
             XmlElement equal = doc.CreateElement(FOO);
             XmlElement different = doc.CreateElement(BAR);
@@ -54,6 +60,11 @@ namespace Org.XmlUnit.Diff {
         }
 
         private void ByNameAndText_SingleLevel(ElementSelector s) {
+            ByNameAndText_SingleLevel(s, doc);
+        }
+
+        internal static void ByNameAndText_SingleLevel(ElementSelector s,
+                                                       XmlDocument doc) {
             XmlElement control = doc.CreateElement(FOO);
             control.AppendChild(doc.CreateTextNode(BAR));
             XmlElement equal = doc.CreateElement(FOO);
@@ -73,48 +84,6 @@ namespace Org.XmlUnit.Diff {
 
         [Test] public void ByNameAndText() {
             ByNameAndText_SingleLevel(ElementSelectors.ByNameAndText);
-        }
-
-        [Test] public void ByNameAndTextRec_NamePart() {
-            PureElementNameComparisons(ElementSelectors.ByNameAndTextRec);
-        }
-
-        [Test] public void ByNameAndTextRec_Single() {
-            ByNameAndText_SingleLevel(ElementSelectors.ByNameAndTextRec);
-        }
-
-        [Test] public void ByNameAndTextRec() {
-            XmlElement control = doc.CreateElement(FOO);
-            XmlElement child = doc.CreateElement(BAR);
-            control.AppendChild(child);
-            child.AppendChild(doc.CreateTextNode(BAR));
-            XmlElement equal = doc.CreateElement(FOO);
-            XmlElement child2 = doc.CreateElement(BAR);
-            equal.AppendChild(child2);
-            child2.AppendChild(doc.CreateTextNode(BAR));
-            XmlElement equalC = doc.CreateElement(FOO);
-            XmlElement child3 = doc.CreateElement(BAR);
-            equalC.AppendChild(child3);
-            child3.AppendChild(doc.CreateCDataSection(BAR));
-            XmlElement noText = doc.CreateElement(FOO);
-            XmlElement differentLevel = doc.CreateElement(FOO);
-            differentLevel.AppendChild(doc.CreateTextNode(BAR));
-            XmlElement differentElement = doc.CreateElement(FOO);
-            XmlElement child4 = doc.CreateElement(FOO);
-            differentElement.AppendChild(child4);
-            child4.AppendChild(doc.CreateTextNode(BAR));
-            XmlElement differentText = doc.CreateElement(FOO);
-            XmlElement child5 = doc.CreateElement(BAR);
-            differentText.AppendChild(child5);
-            child5.AppendChild(doc.CreateTextNode(FOO));
-
-            ElementSelector s = ElementSelectors.ByNameAndTextRec;
-            Assert.IsTrue(s(control, equal));
-            Assert.IsTrue(s(control, equalC));
-            Assert.IsFalse(s(control, noText));
-            Assert.IsFalse(s(control, differentLevel));
-            Assert.IsFalse(s(control, differentElement));
-            Assert.IsFalse(s(control, differentText));
         }
 
         [Test] public void ByNameAndAllAttributes_NamePart() {
