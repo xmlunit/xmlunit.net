@@ -88,7 +88,7 @@ namespace Org.XmlUnit.Diff {
             return true;
         }
 
-        private XmlNode static FindNonText(XmlNodeList nl, ref int current, int len) {
+        private static XmlNode FindNonText(XmlNodeList nl, ref int current, int len) {
             XmlNode n = nl[current];
             while (IsText(n) && ++current < len) {
                 n = nl[current];

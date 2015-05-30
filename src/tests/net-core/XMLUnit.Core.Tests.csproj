@@ -71,6 +71,7 @@
     <Compile Include="Builder\TransformTest.cs" />
     <Compile Include="VerifySetup.cs" />
     <Compile Include="Diff\AbstractDifferenceEngineTest.cs" />
+    <Compile Include="Diff\ByNameAndTextRecSelectorTest.cs" />
     <Compile Include="Diff\ComparisonControllersTest.cs" />
     <Compile Include="Diff\DefaultComparisonFormatterTest.cs" />
     <Compile Include="Diff\DifferenceEvaluatorsTest.cs" />

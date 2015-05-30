@@ -69,6 +69,7 @@
     <Compile Include="Builder\ITransformationBuilderBase.cs" />
     <Compile Include="Builder\Transform.cs" />
     <Compile Include="Diff\AbstractDifferenceEngine.cs" />
+    <Compile Include="Diff\ByNameAndTextRecSelector.cs" />
     <Compile Include="Diff\Comparison.cs" />
     <Compile Include="Diff\ComparisonController.cs" />
     <Compile Include="Diff\ComparisonControllers.cs" />

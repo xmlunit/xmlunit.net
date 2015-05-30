@@ -36,7 +36,8 @@ namespace Org.XmlUnit.Diff {
 
         [Test]
         public void ByNameAndTextRec_Single() {
-            ElementSelectorsTest.ByNameAndText_SingleLevel(ByNameAndTextRecSelector.CanBeCompared);
+            ElementSelectorsTest.ByNameAndText_SingleLevel(ByNameAndTextRecSelector.CanBeCompared,
+                                                           doc);
         }
 
         [Test]
