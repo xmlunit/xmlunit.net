@@ -21,7 +21,6 @@ namespace Org.XmlUnit.Diff {
     /// Strategy that matches control and tests nodes for comparison.
     /// </summary>
     public class DefaultNodeMatcher : INodeMatcher {
-        private static readonly object DUMMY = new object();
 
         private readonly ElementSelector elementSelector;
         private readonly NodeTypeMatcher nodeTypeMatcher;
