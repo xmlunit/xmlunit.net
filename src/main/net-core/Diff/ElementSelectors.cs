@@ -260,7 +260,7 @@ namespace Org.XmlUnit.Diff {
 
         /// <summary>
         /// Selects two elements as matching if the child elements selected
-        //  via XPath match using the given childSelector.
+        /// via XPath match using the given childSelector.
         /// </summary>
         /// <remarks>
         ///   <para>
@@ -279,7 +279,7 @@ namespace Org.XmlUnit.Diff {
 
         /// <summary>
         /// Selects two elements as matching if the child elements selected
-        //  via XPath match using the given childSelector.
+        /// via XPath match using the given childSelector.
         /// </summary>
         /// <remarks>
         ///   <para>

@@ -598,7 +598,7 @@ namespace Org.XmlUnit.Diff{
         }
 
         /// <summary>
-        // Compares whether two attributes are specified explicitly.
+        /// Compares whether two attributes are specified explicitly.
         /// </summary>
         private ComparisonState CompareAttributeExplicitness(XmlAttribute control,
                                                              XPathContext controlContext,
