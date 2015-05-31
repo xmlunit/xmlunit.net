@@ -1,0 +1,6 @@
+<Namespace Name="Org.XmlUnit.Input">
+  <Docs>
+    <summary>Some useful <see cref="T:Org.XmlUnit.ISource"/> implementations.</summary>
+    <remarks>Some useful <see cref="T:Org.XmlUnit.ISource"/> implementations.</remarks>
+  </Docs>
+</Namespace>

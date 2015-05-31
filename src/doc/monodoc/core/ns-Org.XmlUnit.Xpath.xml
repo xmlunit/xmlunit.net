@@ -1,0 +1,6 @@
+<Namespace Name="Org.XmlUnit.Xpath">
+  <Docs>
+    <summary>XPath convenience layer.</summary>
+    <remarks>XPath convenience layer.</remarks>
+  </Docs>
+</Namespace>

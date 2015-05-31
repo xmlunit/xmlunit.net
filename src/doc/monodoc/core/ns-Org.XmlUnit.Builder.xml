@@ -1,0 +1,6 @@
+<Namespace Name="Org.XmlUnit.Builder">
+  <Docs>
+    <summary>Provides fluent builders for core parts of XMLUnit.</summary>
+    <remarks>Provides fluent builders for core parts of XMLUnit.</remarks>
+  </Docs>
+</Namespace>

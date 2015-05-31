@@ -1,0 +1,6 @@
+<Namespace Name="Org.XmlUnit.Constraints">
+  <Docs>
+    <summary>NUnit Constraints on top of XMLUnit's core.</summary>
+    <remarks>NUnit Constraints on top of XMLUnit's core.</remarks>
+  </Docs>
+</Namespace>

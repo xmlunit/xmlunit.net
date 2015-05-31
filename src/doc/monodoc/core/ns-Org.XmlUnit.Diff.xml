@@ -1,0 +1,10 @@
+<Namespace Name="Org.XmlUnit.Diff">
+  <Docs>
+    <summary>Contains XMLUnit <see cref="T:Org.XmlUnit.Diff.IDifferenceEngine"/> that is
+    at the heart of all comparisons as well as supporting interfaces
+    and implementations.</summary>
+    <remarks>Contains XMLUnit <see cref="T:Org.XmlUnit.Diff.IDifferenceEngine"/> that is
+    at the heart of all comparisons as well as supporting interfaces
+    and implementations.</remarks>
+  </Docs>
+</Namespace>

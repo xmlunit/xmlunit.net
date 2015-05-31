@@ -1,0 +1,6 @@
+<Namespace Name="Org.XmlUnit.Validation">
+  <Docs>
+    <summary>Validation of XML documents and schemas.</summary>
+    <remarks>Validation of XML documents and schemas.</remarks>
+  </Docs>
+</Namespace>

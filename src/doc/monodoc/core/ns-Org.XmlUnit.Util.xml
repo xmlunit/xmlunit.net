@@ -1,0 +1,16 @@
+<Namespace Name="Org.XmlUnit.Util">
+  <Docs>
+    <summary><format type="text/html"><b>Internal</b></format>
+    utilities hiding the differences between .NET and Java
+    implementations.</summary>
+    <remarks>
+      <para><format type="text/html"><b>Internal</b></format>
+      utilities hiding the differences between .NET and Java
+      implementations.</para>
+      <para>The classes and interfaces of this package are public as
+      an implementation detail and are not considered part of
+      XMLUnit's public API.  Everything may change or get removed
+      completely in point releases.</para>
+    </remarks>
+  </Docs>
+</Namespace>

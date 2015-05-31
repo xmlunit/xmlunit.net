@@ -1,0 +1,6 @@
+<Namespace Name="Org.XmlUnit">
+  <Docs>
+    <summary>XMLUnit helps testing code that creates XML.</summary>
+    <remarks>XMLUnit helps testing code that creates XML.</remarks>
+  </Docs>
+</Namespace>

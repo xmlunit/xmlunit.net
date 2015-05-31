@@ -1,0 +1,6 @@
+<Namespace Name="Org.XmlUnit.Transform">
+  <Docs>
+    <summary>XSLT convenience layer.</summary>
+    <remarks>XSLT convenience layer.</remarks>
+  </Docs>
+</Namespace>
