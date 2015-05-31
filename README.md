@@ -128,12 +128,6 @@ $ xbuild /p:Configuration=Debug XMLUnit.NET.sln
 
 which compiles `core` and `constraints`, builds the assemblies and executes the NUnit tests.
 
-### NAnt build
-
-XMLUnit has used NAnt in the past and the build file is still in place
-until we've taught one of our CI systems to use xbuild - don't rely on
-it staying a supported option for building XMLUnit.
-
 <a name="nuget-linux">1</a>: In order to run `nuget` and `xbuild` on
 Linux (or any other platform supported by Mono) you'll need to install
 Mono itself and the xbuild package (the deb packages are
