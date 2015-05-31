@@ -40,10 +40,22 @@ namespace Org.XmlUnit.Input {
         private readonly XmlReader reader;
         private readonly XmlNode node;
 
-        public NormalizedSource(XmlNode node) : this(node, null) {
+        /// <summary>
+        /// Creates a new Source wrapping a XmlNode after normalizing it.
+        /// </summary>
+        /// <param name="node">source with the original content</param>
+        public NormalizedSource(XmlNode node)
+            : this(node, null)
+        {
         }
 
-        public NormalizedSource(XmlNode node, string systemId) {
+        /// <summary>
+        /// Creates a new Source wrapping a XmlNode after normalizing it.
+        /// </summary>
+        /// <param name="node">source with the original content</param>
+        /// <param name="systemId">the systemId to use</param>
+        public NormalizedSource(XmlNode node, string systemId)
+        {
             if (node == null) {
                 throw new ArgumentNullException("node");
             }
@@ -53,6 +65,10 @@ namespace Org.XmlUnit.Input {
             SystemId = systemId;
         }
 
+        /// <summary>
+        /// Creates a new Source with the same content as another source normalizing the document.
+        /// </summary>
+        /// <param name="originalSource">source with the original content</param>
         public NormalizedSource(ISource originalSource)
             : this(originalSource.ToDocument(), originalSource.SystemId) {
         }
@@ -66,13 +82,17 @@ namespace Org.XmlUnit.Input {
             }
         }
 
-        public XmlReader Reader {
+        /// <inheritdoc/>
+        public XmlReader Reader
+        {
             get {
                 return reader;
             }
         }
 
-        public string SystemId {
+        /// <inheritdoc/>
+        public string SystemId
+        {
             get {
                 return systemId;
             }
@@ -81,7 +101,9 @@ namespace Org.XmlUnit.Input {
             }
         }
 
-        public override string ToString() {
+        /// <inheritdoc/>
+        public override string ToString()
+        {
             return string.Format("{0} with systemId {1}", GetType().Name,
                                  SystemId);
         }

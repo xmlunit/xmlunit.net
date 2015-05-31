@@ -31,6 +31,7 @@ namespace Org.XmlUnit.Diff {
     /// </remarks>
     public static class ByNameAndTextRecSelector {
 
+        /// <inheritdoc cref="ElementSelector"/>
         public static bool CanBeCompared(XmlElement controlElement,
                                          XmlElement testElement) {
             if (!ElementSelectors.ByNameAndText(controlElement, testElement)) {

@@ -74,8 +74,7 @@ namespace Org.XmlUnit.Builder {
         /// <summary>
         ///   Create a DiffBuilder instance.
         /// </summary>
-        /// <param name="param">controlSource the expected reference Result.</param>
-        /// <param name="testSource">the test result which must be compared with the control source.</param>
+        /// <param name="controlSource">controlSource the expected reference Result.</param>
         private DiffBuilder(ISource controlSource) {
             this.controlSource = controlSource;
         }

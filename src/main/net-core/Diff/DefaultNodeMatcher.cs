@@ -26,18 +26,32 @@ namespace Org.XmlUnit.Diff {
         private readonly ElementSelector elementSelector;
         private readonly NodeTypeMatcher nodeTypeMatcher;
 
+        /// <summary>
+        /// Creates a new DefaultNodeMatcher using <see cref="ElementSelectors.Default"/> and <see cref="DefaultNodeTypeMatcher"/>.
+        /// </summary>
         public DefaultNodeMatcher() : this(ElementSelectors.Default) {
         }
 
+        /// <summary>
+        /// Creates a new DefaultNodeMatcher using the given <see cref="ElementSelector"/> and <see cref="DefaultNodeTypeMatcher"/>.
+        /// </summary>
+        /// <param name="es">the element selector to use</param>
         public DefaultNodeMatcher(ElementSelector es) :
             this(es, DefaultNodeTypeMatcher) {
         }
 
-        public DefaultNodeMatcher(ElementSelector es, NodeTypeMatcher ntm) {
+        /// <summary>
+        /// Creates a new DefaultNodeMatcher using the given <see cref="ElementSelector"/> and <see cref="NodeTypeMatcher"/>.
+        /// </summary>
+        /// <param name="es">the element selector to use</param>
+        /// <param name="ntm">NodeTypeMatcher to use</param>
+        public DefaultNodeMatcher(ElementSelector es, NodeTypeMatcher ntm)
+        {
             elementSelector = es;
             nodeTypeMatcher = ntm;
         }
 
+        /// <inheritdoc/>
         public IEnumerable<KeyValuePair<XmlNode, XmlNode>>
             Match(IEnumerable<XmlNode> controlNodes,
                   IEnumerable<XmlNode> testNodes) {
@@ -108,9 +122,21 @@ namespace Org.XmlUnit.Diff {
             }
         }
 
+        /// <summary>
+        /// Decides whether to node types can be compared to each other.
+        /// </summary>
+        /// <param name="controlType">node type on the control side</param>
+        /// <param name="testType">node type on the test side</param>
+        /// <returns>whether the two node types can be compared</returns>
         public delegate bool NodeTypeMatcher(XmlNodeType controlType,
                                              XmlNodeType testType);
 
+        /// <summary>
+        /// Default implementation of <see cref="NodeTypeMatcher"/> that makes node types of the same type eligible and allows Text and CDATA nodes to be compared to each other.
+        /// </summary>
+        /// <param name="controlType">node type on the control side</param>
+        /// <param name="testType">node type on the test side</param>
+        /// <returns>whether the two node types can be compared</returns>
         public static bool DefaultNodeTypeMatcher(XmlNodeType controlType,
                                                   XmlNodeType testType) {
             return controlType == testType

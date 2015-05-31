@@ -18,6 +18,10 @@ namespace Org.XmlUnit.Input {
     /// ISource implementation encapsulating a plain XmlReader.
     /// </summary>
     public class ReaderSource : AbstractSource {
+        /// <summary>
+        /// Wraps the given reader as ISource.
+        /// </summary>
+        /// <param name="rdr">the reader to wrap</param>
         public ReaderSource(XmlReader rdr)
             : base(rdr) {
         }

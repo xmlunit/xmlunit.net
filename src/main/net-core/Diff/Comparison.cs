@@ -53,6 +53,16 @@ namespace Org.XmlUnit.Diff {
         private readonly Detail control, test;
         private readonly ComparisonType type;
 
+        /// <summary>
+        /// Encapsulates a comparison of two parts of the pieces of XML to compare.
+        /// </summary>
+        /// <param name="t">the type of comparison</param>
+        /// <param name="controlTarget">part inside the control document</param>
+        /// <param name="controlXPath">XPath of the part inside the control document</param>
+        /// <param name="controlValue">value inside the control document</param>
+        /// <param name="testTarget">part inside the test document</param>
+        /// <param name="testXPath">XPath of the part inside the test document</param>
+        /// <param name="testValue">value inside the control document</param>
         public Comparison(ComparisonType t, XmlNode controlTarget,
                           string controlXPath, object controlValue,
                           XmlNode testTarget, string testXPath,

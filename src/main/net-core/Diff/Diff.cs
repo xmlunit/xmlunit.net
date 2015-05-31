@@ -29,6 +29,12 @@ namespace Org.XmlUnit.Diff {
         private static readonly IComparisonFormatter DEFAULT_FORMATTER =
             new DefaultComparisonFormatter();
 
+        /// <summary>
+        /// Creates the result of comparing two documents.
+        /// </summary>
+        /// <param name="controlSource">the reference document</param>
+        /// <param name="testSource">the test document</param>
+        /// <param name="differences">list of differences found</param>
         public Diff(ISource controlSource, ISource testSource,
                     IEnumerable<Difference> differences) {
             this.controlSource = controlSource;
@@ -48,22 +54,34 @@ namespace Org.XmlUnit.Diff {
             }
         }
 
+        /// <summary>
+        /// The reference source.
+        /// </summary>
         public ISource ControlSource {
             get {
                 return controlSource;
             }
         }
 
+        /// <summary>
+        /// The test source.
+        /// </summary>
         public ISource TestSource {
             get {
                 return testSource;
             }
         }
 
+        /// <inheritdoc/>
         public override string ToString() {
             return ToString(DEFAULT_FORMATTER);
         }
 
+        /// <summary>
+        /// Stringify the outcome using the fiven formatter
+        /// </summary>
+        /// <param name="formatter">the formatter to use</param>
+        /// <returns>a string representation of the outcome</returns>
         public string ToString(IComparisonFormatter formatter) {
             if (!HasDifferences()) {
                 return "[identical]";

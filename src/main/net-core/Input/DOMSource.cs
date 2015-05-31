@@ -19,6 +19,11 @@ namespace Org.XmlUnit.Input {
     /// </summary>
     public class DOMSource : AbstractSource {
         private readonly XmlNode node;
+
+        /// <summary>
+        /// Wraps the given XmlNode as ISource.
+        /// </summary>
+        /// <param name="node">the node to wrap</param>
         public DOMSource(XmlNode node)
             : base(new XmlNodeReader(node)) {
             this.node = node;

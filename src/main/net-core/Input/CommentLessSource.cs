@@ -26,7 +26,12 @@ namespace Org.XmlUnit.Input {
         private readonly XmlReader reader;
         private string systemId;
 
-        public CommentLessSource(ISource originalSource) {
+        /// <summary>
+        /// Creates a new Source with the same content as another source removing all comments.
+        /// </summary>
+        /// <param name="originalSource">source with the original content</param>
+        public CommentLessSource(ISource originalSource)
+        {
             if (originalSource == null) {
                 throw new ArgumentNullException();
             }
@@ -37,12 +42,17 @@ namespace Org.XmlUnit.Input {
             reader = new XmlNodeReader(t.TransformToDocument());
         }
 
-        public XmlReader Reader {
+        /// <inheritdoc/>
+        public XmlReader Reader
+        {
             get {
                 return reader;
             }
         }
-        public string SystemId {
+
+        /// <inheritdoc/>
+        public string SystemId
+        {
             get {
                 return systemId;
             }

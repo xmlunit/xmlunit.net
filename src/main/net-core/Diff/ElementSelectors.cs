@@ -272,6 +272,7 @@ namespace Org.XmlUnit.Diff {
         /// <param name="xpath">XPath expression applied in the context of the
         /// elements to chose from that selects the children to compare.</param>
         /// <param name="childSelector">ElementSelector to apply to the selected children.</param>
+        /// <returns>an ElementSelector</returns>
         public static ElementSelector ByXPath(string xpath, ElementSelector childSelector) {
             return ByXPath(xpath, null, childSelector);
         }

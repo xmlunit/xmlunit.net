@@ -67,6 +67,8 @@ namespace Org.XmlUnit.Diff {
         /// <summary>
         /// Compares two pieces of XML and invokes the registered listeners.
         /// </summary>
+        /// <param name="control">the control document holding the expected content</param>
+        /// <param name="test">the document to test</param>
         void Compare(ISource control, ISource test);
     }
 }

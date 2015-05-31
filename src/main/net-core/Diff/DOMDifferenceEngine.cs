@@ -26,6 +26,7 @@ namespace Org.XmlUnit.Diff{
     /// </summary>
     public sealed class DOMDifferenceEngine : AbstractDifferenceEngine {
 
+        /// <inheritdoc/>
         public override void Compare(ISource control, ISource test) {
             if (control == null) {
                 throw new ArgumentNullException("control");

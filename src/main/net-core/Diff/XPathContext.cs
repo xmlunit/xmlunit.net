@@ -19,6 +19,10 @@ using System.Xml;
 using Org.XmlUnit.Util;
 
 namespace Org.XmlUnit.Diff {
+
+    /// <summary>
+    /// Mutable representation of an XPath.
+    /// </summary>
     public class XPathContext : ICloneable {
         private LinkedList<Level> path = new LinkedList<Level>();
         private readonly IDictionary<string, string> uri2Prefix;
@@ -31,16 +35,34 @@ namespace Org.XmlUnit.Diff {
         private const string SEP = "/";
         private const string ATTR = "@";
 
+        /// <summary>
+        /// Creates a new empty context without namespace context.
+        /// </summary>
         public XPathContext() : this(null, null) {
         }
 
-        public XPathContext(XmlNode root) : this(null, root) {
+        /// <summary>
+        /// Creates a new empty context with a given root without namespace context.
+        /// </summary>
+        /// <param name="root">the root of the XPath</param>
+        public XPathContext(XmlNode root)
+            : this(null, root)
+        {
         }
 
+        /// <summary>
+        /// Creates a new empty context with namespace context.
+        /// </summary>
+        /// <param name="uri2Prefix">map from namespace URI to prefix to use when building the XPath expression</param>
         public XPathContext(IDictionary<string, string> uri2Prefix)
             : this(uri2Prefix, null) {
         }
 
+        /// <summary>
+        /// Creates a new empty context with a given root and namespace context.
+        /// </summary>
+        /// <param name="root">the root of the XPath</param>
+        /// <param name="uri2Prefix">map from namespace URI to prefix to use when building the XPath expression</param>
         public XPathContext(IDictionary<string, string> uri2Prefix,
                             XmlNode root) {
                 if (uri2Prefix == null) {
@@ -55,18 +77,34 @@ namespace Org.XmlUnit.Diff {
             }
         }
 
-        public void NavigateToChild(int index) {
-            path.AddLast(path.Last.Value.Children[index]);
+        /// <summary>
+        /// Positions the XPath at the nth child of the current context.
+        /// </summary>
+        /// <param name="n">index of child to navigate to</param>
+        public void NavigateToChild(int n) {
+            path.AddLast(path.Last.Value.Children[n]);
         }
 
+        /// <summary>
+        /// Positions the XPath at the named attribute of the current element.
+        /// </summary>
+        /// <param name="attribute">name of the attribute</param>
         public void NavigateToAttribute(XmlQualifiedName attribute) {
             path.AddLast(path.Last.Value.Attributes[attribute]);
         }
 
-        public void NavigateToParent() {
+        /// <summary>
+        /// Positions the XPath at the parent of the current context.
+        /// </summary>
+        public void NavigateToParent()
+        {
             path.RemoveLast();
         }
 
+        /// <summary>
+        /// Makes the list of attributes known to this context.
+        /// </summary>
+        /// <param name="attributes">the attributes to learn</param>
         public void AddAttributes<Q>(IEnumerable<Q> attributes)
             where Q : XmlQualifiedName {
             Level current = path.Last.Value;
@@ -76,12 +114,22 @@ namespace Org.XmlUnit.Diff {
             }
         }
 
-        public void AddAttribute(XmlQualifiedName attribute) {
+        /// <summary>
+        /// Makes the an attribute known to this context.
+        /// </summary>
+        /// <param name="attribute">the attribute to learn</param>
+        public void AddAttribute(XmlQualifiedName attribute)
+        {
             Level current = path.Last.Value;
             current.Attributes[attribute] =
                 new Level(ATTR + GetName(attribute));
         }
 
+        /// <summary>
+        /// Replaces knowledge about children of the current context with the new list.
+        /// </summary>
+        /// <typeparam name="N">abstract representation of a child</typeparam>
+        /// <param name="children">list of children to learn</param>
         public void SetChildren<N>(IEnumerable<N> children) 
             where N : INodeInfo {
             Level current = path.Last.Value;
@@ -89,6 +137,11 @@ namespace Org.XmlUnit.Diff {
             AppendChildren(children);
         }
 
+        /// <summary>
+        /// Adds knowledge about children of the current context with the new list - adds to the children already known.
+        /// </summary>
+        /// <typeparam name="N">abstract representation of a child</typeparam>
+        /// <param name="children">list of children to learn</param>
         public void AppendChildren<N>(IEnumerable<N> children) 
             where N : INodeInfo {
             Level current = path.Last.Value;
@@ -138,6 +191,9 @@ namespace Org.XmlUnit.Diff {
             }
         }
 
+        /// <summary>
+        /// A stringified XPath describing the current context.
+        /// </summary>
         public string XPath {
             get {
                 return GetXPath(path.Last);
@@ -220,19 +276,38 @@ namespace Org.XmlUnit.Diff {
             }
         }
 
+        /// <summary>
+        /// Abstract representation of a node inside the XPathContext.
+        /// </summary>
         public interface INodeInfo {
+            /// <summary>
+            /// The fully qualified name of a node.
+            /// </summary>
             XmlQualifiedName Name { get; }
+            /// <summary>
+            /// The type of a node.
+            /// </summary>
             XmlNodeType Type { get; }
         }
 
+        /// <summary>
+        /// DOM based implementation of <see cref="INodeInfo"/>.
+        /// </summary>
         public class DOMNodeInfo : INodeInfo {
             private readonly XmlQualifiedName name;
             private readonly XmlNodeType type;
+            /// <summary>
+            /// Obtains information from the given XmlNode
+            /// </summary>
+            /// <param name="n">node to read information from</param>
             public DOMNodeInfo(XmlNode n) {
                 name = n.GetQName();
                 type = n.NodeType;
             }
+
+            /// <inheritdoc/>
             public XmlQualifiedName Name { get { return name; } }
+            /// <inheritdoc/>
             public XmlNodeType Type { get { return type; } }
         }
     }

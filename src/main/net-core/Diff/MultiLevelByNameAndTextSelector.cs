@@ -49,6 +49,7 @@ namespace Org.XmlUnit.Diff {
         ///   Does not ignore empty text nodes.
         ///   </para>
         /// </remarks>
+        /// <param name="levels">number of levels to traverse before the text content is encountered</param>
         public MultiLevelByNameAndTextSelector(int levels) : this(levels, false) {
         }
 
@@ -59,7 +60,9 @@ namespace Org.XmlUnit.Diff {
         /// </summary>
         /// <param name="ignoreEmptyTexts">whether whitespace-only
         /// textnodes should be ignored.</param>
-        public MultiLevelByNameAndTextSelector(int levels, bool ignoreEmptyTexts) {
+        /// <param name="levels">number of levels to traverse before the text content is encountered</param>
+        public MultiLevelByNameAndTextSelector(int levels, bool ignoreEmptyTexts)
+        {
             if (levels < 1) {
                 throw new ArgumentException("levels must be equal or"
                                             + " greater than one", "levels");
@@ -69,6 +72,7 @@ namespace Org.XmlUnit.Diff {
         }
 
 
+        /// <inheritdoc cref="ElementSelector"/>
         public bool CanBeCompared(XmlElement controlElement,
                                   XmlElement testElement) {
             XmlElement currentControl = controlElement;

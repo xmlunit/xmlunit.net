@@ -23,6 +23,11 @@ namespace Org.XmlUnit.Validation {
         private readonly bool valid;
         private readonly IEnumerable<ValidationProblem> problems;
 
+        /// <summary>
+        /// Captures the result of a validation.
+        /// </summary>
+        /// <param name="valid">valid/not valid result</param>
+        /// <param name="problems">list of problems encountered</param>
         public ValidationResult(bool valid, IEnumerable<ValidationProblem> problems) {
             this.valid = valid;
             this.problems = problems;

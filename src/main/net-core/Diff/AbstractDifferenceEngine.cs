@@ -22,12 +22,19 @@ namespace Org.XmlUnit.Diff {
     /// IDifferenceEngine interface.
     /// </summary>
     public abstract class AbstractDifferenceEngine : IDifferenceEngine {
+
+        /// <inheritdoc/>
         public event ComparisonListener ComparisonListener;
+        /// <inheritdoc/>
         public event ComparisonListener MatchListener;
+        /// <inheritdoc/>
         public event ComparisonListener DifferenceListener;
 
         private INodeMatcher nodeMatcher = new DefaultNodeMatcher();
-        public virtual INodeMatcher NodeMatcher {
+
+        /// <inheritdoc/>
+        public virtual INodeMatcher NodeMatcher
+        {
             set {
                 if (value == null) {
                     throw new ArgumentNullException("node matcher");
@@ -40,7 +47,9 @@ namespace Org.XmlUnit.Diff {
         }
 
         private DifferenceEvaluator diffEvaluator = DifferenceEvaluators.Default;
-        public virtual DifferenceEvaluator DifferenceEvaluator {
+        /// <inheritdoc/>
+        public virtual DifferenceEvaluator DifferenceEvaluator
+        {
             set {
                 if (value == null) {
                     throw new ArgumentNullException("difference evaluator");
@@ -53,7 +62,9 @@ namespace Org.XmlUnit.Diff {
         }
 
         private ComparisonController comparisonController = ComparisonControllers.Default;
-        public virtual ComparisonController ComparisonController {
+        /// <inheritdoc/>
+        public virtual ComparisonController ComparisonController
+        {
             set {
                 if (value == null) {
                     throw new ArgumentNullException("comparison controller");
@@ -65,11 +76,14 @@ namespace Org.XmlUnit.Diff {
             }
         }
 
+        /// <inheritdoc/>
         public abstract void Compare(ISource control, ISource test);
 
         private IDictionary<string, string> namespaceContext;
 
-        public IDictionary<string, string> NamespaceContext {
+        /// <inheritdoc/>
+        public IDictionary<string, string> NamespaceContext
+        {
             set {
                 namespaceContext = value == null ? value
                     : new Dictionary<string, string>(value);
@@ -112,6 +126,11 @@ namespace Org.XmlUnit.Diff {
             }
         }
 
+        /// <summary>
+        /// Evaluates an XPathContext in a null-safe way
+        /// </summary>
+        /// <param name="ctx">the XPath to evaluate</param>
+        /// <returns>the stringified XPath or null if the XPathContext was null</returns>
         protected static string GetXPath(XPathContext ctx) {
             return ctx == null ? null : ctx.XPath;
         }
@@ -125,6 +144,12 @@ namespace Org.XmlUnit.Diff {
             private readonly bool finished;
             private readonly ComparisonResult result;
 
+            /// <summary>
+            /// Creates a ComparisonState
+            /// </summary>
+            /// <param name="engine">engine used to evaluate comparisons</param>
+            /// <param name="finished">whether the engine will stop comparing</param>
+            /// <param name="result">the current result of the comparison process</param>
             protected ComparisonState(AbstractDifferenceEngine engine, bool finished,
                                       ComparisonResult result) {
                 this.engine = engine;
@@ -132,41 +157,72 @@ namespace Org.XmlUnit.Diff {
                 this.result = result;
             }
 
+            /// <summary>
+            /// May combine the current result with a function that creates a new result.
+            /// </summary>
+            /// <param name="newStateProducer">calculates the new state unless the engine was already finished</param>
+            /// <returns>the old result if the engine is already finished or the result of evaluating the producer</returns>
             public ComparisonState AndThen(Func<ComparisonState> newStateProducer) {
                 return finished ? this : newStateProducer();
             }
 
+            /// <summary>
+            /// May combine the current result with a function that creates a new result.
+            /// </summary>
+            /// <param name="newStateProducer">calculates the new state unless the engine was already finished</param>
+            /// <param name="predicate">whether to actually evaluate the producer</param>
+            /// <returns>the old result if the engine is already finished or the predicate is false - or the result of evaluating the producer</returns>
             public ComparisonState AndIfTrueThen(bool predicate,
-                                                 Func<ComparisonState> newStateProducer) {
+                                                 Func<ComparisonState> newStateProducer)
+            {
                 return predicate ? AndThen(newStateProducer) : this;
             }
 
-            public ComparisonState AndThen(Comparison comp) {
+            /// <summary>
+            /// May combine the current result with evaluating a comparison.
+            /// </summary>
+            /// <param name="comp">new state will be obtained by performing the comparison</param>
+            /// <returns>the old result if the engine is already finished or the result of evaluating the comparison</returns>
+            public ComparisonState AndThen(Comparison comp)
+            {
                 return AndThen(() => engine.Compare(comp));
             }
 
+            /// <summary>
+            /// May combine the current result with evaluating a comparison.
+            /// </summary>
+            /// <param name="comp">new state will be obtained by performing the comparison</param>
+            /// <param name="predicate">whether to actually evaluate the comparison</param>
+            /// <returns>the old result if the engine is already finished or the predicate is false - or the result of evaluating the comparison</returns>
             public ComparisonState AndIfTrueThen(bool predicate,
                                                  Comparison comp) {
                 return AndIfTrueThen(predicate, () => engine.Compare(comp));
             }
 
+            /// <inheritdoc/>
             public override string ToString() {
                 return string.Format("{0}: current result is {1}", GetType().Name,
                                      result);
             }
 
-            public override bool Equals(object other) {
+            /// <inheritdoc/>
+            public override bool Equals(object other)
+            {
                 return Equals(other as ComparisonState);
             }
 
-            public bool Equals(ComparisonState other) {
+            /// <inheritdoc/>
+            public bool Equals(ComparisonState other)
+            {
                 return other != null
                     && GetType() == other.GetType()
                     && finished == other.finished
                     && result == other.result;
             }
 
-            public override int GetHashCode() {
+            /// <inheritdoc/>
+            public override int GetHashCode()
+            {
                 return (finished ? 7 : 1) * result.GetHashCode();
             }
         }

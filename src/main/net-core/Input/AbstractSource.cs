@@ -13,32 +13,51 @@
 */
 using System.Xml;
 
-namespace Org.XmlUnit.Input {
+namespace Org.XmlUnit.Input
+{
     /// <summary>
     /// Provides a base implementation for the different concrete ISource
     /// implementations.
     /// </summary>
-    public abstract class AbstractSource : ISource {
+    public abstract class AbstractSource : ISource
+    {
         private string systemId;
         private readonly XmlReader reader;
-        protected AbstractSource(XmlReader r) {
+        /// <summary>
+        /// Creates a new Source wrapping a reader.
+        /// </summary>
+        /// <param name="r">the reader to wrap</param>
+        protected AbstractSource(XmlReader r)
+        {
             reader = r;
             systemId = r.BaseURI;
         }
-        public XmlReader Reader {
-            get {
+
+        /// <inheritdoc/>
+        public XmlReader Reader
+        {
+            get
+            {
                 return reader;
             }
         }
-        public string SystemId {
-            get {
+
+        /// <inheritdoc/>
+        public string SystemId
+        {
+            get
+            {
                 return systemId;
             }
-            set {
+            set
+            {
                 systemId = value;
             }
         }
-        public override string ToString() {
+
+        /// <inheritdoc/>
+        public override string ToString()
+        {
             return string.Format("{0} with systemId {1}", GetType().Name,
                                  SystemId);
         }

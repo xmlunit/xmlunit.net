@@ -21,6 +21,10 @@ namespace Org.XmlUnit.Input {
     /// all empty text nodes and trimming the non-empty ones.
     /// </summary>
     public class WhitespaceStrippedSource : DOMSource {
+        /// <summary>
+        /// Creates a new Source with the same content as another source trimming whitespace from Text nodes.
+        /// </summary>
+        /// <param name="originalSource">source with the original content</param>
         public WhitespaceStrippedSource(ISource originalSource) :
             base(Nodes.StripWhitespace(originalSource.ToDocument())) {
             SystemId = originalSource.SystemId;

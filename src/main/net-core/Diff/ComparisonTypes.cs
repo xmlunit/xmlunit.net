@@ -33,6 +33,11 @@ namespace Org.XmlUnit.Diff {
             DESCS[ComparisonType.ATTR_NAME_LOOKUP] = "attribute name";
         }
 
+        /// <summary>
+        /// Obtains a textual description of a comparison type.
+        /// </summary>
+        /// <param name="type">the comparison type to describe</param>
+        /// <returns>a textual description of the comparison type</returns>
         public static string GetDescription(this ComparisonType type) {
             string description;
             if (DESCS.TryGetValue(type, out description)) {

@@ -26,6 +26,10 @@ namespace Org.XmlUnit.Input {
     /// characters are collapsed.
     /// </remarks>
     public class WhitespaceNormalizedSource : DOMSource {
+        /// <summary>
+        /// Creates a new Source with the same content as another source normalizing whitespace in Text nodes.
+        /// </summary>
+        /// <param name="originalSource">source with the original content</param>
         public WhitespaceNormalizedSource(ISource originalSource) :
             base(Nodes.NormalizeWhitespace(originalSource.ToDocument()))
             {

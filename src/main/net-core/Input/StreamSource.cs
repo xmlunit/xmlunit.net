@@ -20,14 +20,26 @@ namespace Org.XmlUnit.Input {
     /// or a reader.
     /// </summary>
     public class StreamSource : AbstractSource {
+        /// <summary>
+        /// Wraps the given reader.
+        /// </summary>
+        /// <param name="rdr">the reader to wrap</param>
         public StreamSource(TextReader rdr)
             : base(XmlReader.Create(rdr)) {
         }
 
+        /// <summary>
+        /// Wraps the given stream.
+        /// </summary>
+        /// <param name="stream">the stream to wrap</param>
         public StreamSource(Stream stream)
             : base(XmlReader.Create(stream)) {
         }
 
+        /// <summary>
+        /// Reads from the given URI
+        /// </summary>
+        /// <param name="uri">the URI to read</param>
         public StreamSource(string uri)
             : base(XmlReader.Create(uri)) {
         }

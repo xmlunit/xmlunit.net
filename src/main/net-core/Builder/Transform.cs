@@ -22,12 +22,18 @@ namespace Org.XmlUnit.Builder {
     /// </summary>
     public sealed class Transform {
 
+        /// <summary>
+        /// Builder for an XSLT transformation.
+        /// </summary>
         public interface IBuilder : ITransformationBuilderBase<IBuilder> {
             /// <summary>
             /// Create the result of the transformation.
             /// </summary>
             ITransformationResult Build();
         }
+        /// <summary>
+        /// Possible ways to obtain output of an XSLT transformation.
+        /// </summary>
         public interface ITransformationResult {
             /// <summary>
             /// Output the result to a stream.

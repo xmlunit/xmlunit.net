@@ -19,12 +19,22 @@ namespace Org.XmlUnit.Validation {
     /// A validation "problem" which may be an error or a warning.
     /// </summary>
     public class ValidationProblem {
+        /// <summary>
+        /// Used as line or column number if the the real value is unknown
+        /// </summary>
         public const int UNKNOWN = -1;
 
         private readonly int line, column;
         private readonly XmlSeverityType type;
         private readonly string message;
 
+        /// <summary>
+        /// Creates an instance of ValidationProblem.
+        /// </summary>
+        /// <param name="message">the problem's message</param>
+        /// <param name="line">line the problem was detected in</param>
+        /// <param name="column">column the problem was detected at</param>
+        /// <param name="type">the type of problem</param>
         public ValidationProblem(string message, int line, int column,
                                  XmlSeverityType type) {
             this.message = message;
@@ -77,7 +87,9 @@ namespace Org.XmlUnit.Validation {
                                          e.Severity);
         }
 
-        public override string ToString() {
+        /// <inheritdoc/>
+        public override string ToString()
+        {
             return string.Format("ValidationProblem {{ line={0}, column={1}, type={2},"
                                  + " message=\'{3}'\' }}", Line, Column, Type, Message);
         }

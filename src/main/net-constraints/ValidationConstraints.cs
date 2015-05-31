@@ -45,13 +45,16 @@ namespace Org.XmlUnit.Constraints {
                 .ToArray();
         }
 
+        /// <inheritdoc/>
         public override bool Matches(object o) {
             this.actual = InputBuilder.From(o).Build();
             result = validator.ValidateInstance(o as ISource);
             return result.Valid;
         }
 
-        public override void WriteDescriptionTo(MessageWriter writer) {
+        /// <inheritdoc/>
+        public override void WriteDescriptionTo(MessageWriter writer)
+        {
             if (validator.SchemaSources.Length > 0) {
                 writer.Write("{0} validates against {1}", GrabSystemId(actual as ISource),
                              GrabSystemIds());
@@ -60,7 +63,9 @@ namespace Org.XmlUnit.Constraints {
             }
         }
 
-        public override void WriteActualValueTo(MessageWriter writer) {
+        /// <inheritdoc/>
+        public override void WriteActualValueTo(MessageWriter writer)
+        {
             writer.Write("got validation errors: {0}", GrabProblems());
         }
 

@@ -19,6 +19,11 @@ namespace Org.XmlUnit.Input {
     /// </summary>
     public class LinqSource : AbstractSource {
         private readonly XNode node;
+
+        /// <summary>
+        /// Wraps the given XNode as ISource.
+        /// </summary>
+        /// <param name="node">the node to wrap</param>
         public LinqSource(XNode node)
             : base(node.CreateReader()) {
             this.node = node;

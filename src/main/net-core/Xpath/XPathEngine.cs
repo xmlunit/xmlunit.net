@@ -63,7 +63,17 @@ namespace Org.XmlUnit.Xpath {
             }
         }
 
-        public IDictionary<string, string> NamespaceContext {
+        /// <summary>
+        /// Establish a namespace context mapping from URI to prefix
+        /// that will be used in Comparison.Detail.XPath.
+        /// </summary>
+        /// <remarks>
+        /// Without a namespace context (or with an empty context) the
+        /// XPath expressions will only use local names for elements and
+        /// attributes.
+        /// </remarks>
+        public IDictionary<string, string> NamespaceContext
+        {
             set {
                 nsContext = Convert.ToNamespaceContext(value);
             }

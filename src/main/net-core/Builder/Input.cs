@@ -22,6 +22,9 @@ namespace Org.XmlUnit.Builder {
     /// Fluent API to create ISource instances.
     /// </summary>
     public sealed class Input {
+        /// <summary>
+        /// Builder for <see cref="ISource"/>.
+        /// </summary>
         public interface IBuilder {
             /// <summary>
             /// build the actual ISource instance.
@@ -130,6 +133,9 @@ namespace Org.XmlUnit.Builder {
             return new StreamBuilder(uri.AbsoluteUri);
         }
 
+        /// <summary>
+        /// Builds <see cref="ISource"/> by applying an XSLT transformation on a different <see cref="ISource"/>.
+        /// </summary>
         public interface ITransformationBuilder
             : ITransformationBuilderBase<ITransformationBuilder>, IBuilder {
             /// <summary>

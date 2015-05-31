@@ -70,39 +70,68 @@ namespace Org.XmlUnit.Constraints {
             return this;
         }
 
+        /// <summary>
+        /// Ignore whitespace differences.
+        /// </summary>
         public CompareConstraint IgnoreWhitespace() {
             formatXml = true;
             diffBuilder.IgnoreWhitespace();
             return this;
         }
 
+        /// <summary>
+        /// Normalize whitespace before comparing.
+        /// </summary>
         public CompareConstraint NormalizeWhitespace() {
             formatXml = true;
             diffBuilder.NormalizeWhitespace();
             return this;
         }
 
-        public CompareConstraint IgnoreComments() {
+        /// <summary>
+        /// Ignore comments.
+        /// </summary>
+        public CompareConstraint IgnoreComments()
+        {
             diffBuilder.IgnoreComments();
             return this;
         }
 
+        /// <summary>
+        /// Use the given <see cref="INodeMatcher"/> when comparing.
+        /// </summary>
+        /// <param name="nodeMatcher">INodeMatcher to use</param>
         public CompareConstraint WithNodeMatcher(INodeMatcher nodeMatcher) {
             diffBuilder.WithNodeMatcher(nodeMatcher);
             return this;
         }
 
-        public CompareConstraint WithDifferenceEvaluator(DifferenceEvaluator differenceEvaluator) {
+        /// <summary>
+        /// Use the given <see cref="DifferenceEvaluator"/> when comparing.
+        /// </summary>
+        /// <param name="differenceEvaluator">DifferenceEvaluator to use</param>
+        public CompareConstraint WithDifferenceEvaluator(DifferenceEvaluator differenceEvaluator)
+        {
             diffBuilder.WithDifferenceEvaluator(differenceEvaluator);
             return this;
         }
 
-        public CompareConstraint WithComparisonListeners(params ComparisonListener[] comparisonListeners) {
+        /// <summary>
+        /// Use the given <see cref="ComparisonListener"/>s when comparing.
+        /// </summary>
+        /// <param name="comparisonListeners">ComparisonListeners to use</param>
+        public CompareConstraint WithComparisonListeners(params ComparisonListener[] comparisonListeners)
+        {
             diffBuilder.WithComparisonListeners(comparisonListeners);
             return this;
         }
 
-        public CompareConstraint WithDifferenceListeners(params ComparisonListener[] comparisonListeners) {
+        /// <summary>
+        /// Use the given <see cref="ComparisonListener"/>s as difference listeners when comparing.
+        /// </summary>
+        /// <param name="comparisonListeners">ComparisonListeners to use</param>
+        public CompareConstraint WithDifferenceListeners(params ComparisonListener[] comparisonListeners)
+        {
             diffBuilder.WithDifferenceListeners(comparisonListeners);
             return this;
         }
@@ -115,6 +144,7 @@ namespace Org.XmlUnit.Constraints {
             return this;
         }
 
+        /// <inheritdoc/>
         public override bool Matches(object o) {
             if (checkFor == ComparisonResult.EQUAL) {
                 diffBuilder.WithComparisonController(ComparisonControllers.StopWhenSimilar);
@@ -126,13 +156,17 @@ namespace Org.XmlUnit.Constraints {
             return !diffResult.HasDifferences();
         }
 
-        public override void WriteDescriptionTo(MessageWriter writer) {
+        /// <inheritdoc/>
+        public override void WriteDescriptionTo(MessageWriter writer)
+        {
             writer.Write("{0} is {1} to {2}", diffResult.TestSource.SystemId,
                          checkFor == ComparisonResult.EQUAL ? "identical" : "similar",
                          diffResult.ControlSource.SystemId);
         }
 
-        public override void WriteMessageTo(MessageWriter writer) {
+        /// <inheritdoc/>
+        public override void WriteMessageTo(MessageWriter writer)
+        {
             Comparison c = diffResult.Differences.First().Comparison;
             writer.WriteMessageLine(comparisonFormatter.GetDescription(c));
             if (diffResult.TestSource.SystemId != null

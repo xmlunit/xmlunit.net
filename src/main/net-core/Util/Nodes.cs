@@ -129,7 +129,7 @@ namespace Org.XmlUnit.Util {
 
         /// <summary>
         /// Normalize a string.
-        /// <summary>
+        /// </summary>
         /// <remarks>
         /// "normalized" in this context means all whitespace
         /// characters are replaced by space characters and

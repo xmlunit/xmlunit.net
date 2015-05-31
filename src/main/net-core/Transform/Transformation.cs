@@ -38,8 +38,14 @@ namespace Org.XmlUnit.Transform {
         private readonly XsltSettings settings = new XsltSettings();
         private readonly XsltArgumentList args = new XsltArgumentList();
 
+        /// <summary>
+        /// Creates a new transformation without source or stylesheet.
+        /// </summary>
         public Transformation() {
         }
+        /// <summary>
+        /// Creates a new transformation with a given source.
+        /// </summary>
         /// <param name="s">the source to transform - must not be null.</param>
         public Transformation(ISource s) {
             Source = s;
@@ -59,7 +65,6 @@ namespace Org.XmlUnit.Transform {
         /// Set the stylesheet to use - may be null in which case an
         /// identity transformation will be performed.
         /// </summary>
-        /// <param name="s">the stylesheet to use</param>
         public ISource Stylesheet {
             set {
                 styleSheet = value;

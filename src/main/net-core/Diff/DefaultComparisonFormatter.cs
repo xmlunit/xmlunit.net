@@ -23,6 +23,7 @@ namespace Org.XmlUnit.Diff {
     /// </summary>
     public class DefaultComparisonFormatter : IComparisonFormatter {
 
+        /// <inheritdoc/>
         public string GetDescription(Comparison difference) {
             ComparisonType type = difference.Type;
             string description = type.GetDescription();
@@ -191,6 +192,7 @@ namespace Org.XmlUnit.Diff {
                 .Append(aNode.Value).Append("\"...>");
         }
 
+        /// <inheritdoc/>
         public string GetDetails(Comparison.Detail difference, ComparisonType type,
                                  bool formatXml) {
             if (difference.Target == null) {
