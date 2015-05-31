@@ -16,3 +16,4 @@
 *.yml    text
 KEY      text
 LICENSE* text
+*.shfbproj text
