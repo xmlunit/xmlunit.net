@@ -1,0 +1,23 @@
+version: 2.0.0.{build}
+
+skip_tags: true
+
+cache:
+  - packages -> **\packages.config
+
+before-build:
+  - cmd: nuget restore XMLUnit.NET.sln
+
+configuration:
+  - Debug
+  - Release
+
+matrix:
+  fast_finish: true
+
+notifications:
+  - provider: Email
+    to:
+      - xmlunit-commits@lists.sourceforge.net
+    on_build_status_changed: true
+    on_build_failure: true
