@@ -5,9 +5,9 @@ skip_tags: true
 cache:
   - packages -> **\packages.config
 
-before_build:
-  - cmd: nuget restore XMLUnit.NET.sln
+install:
   - cmd: git submodule update --init
+  - cmd: nuget restore XMLUnit.NET.sln
 
 configuration:
   - Debug
