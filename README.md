@@ -1,7 +1,9 @@
 XMLUnit.NET 2.x
 ===============
 
-[![Build Status XMLUnit.NET 2.x](https://travis-ci.org/xmlunit/xmlunit.net.svg?branch=master)](https://travis-ci.org/xmlunit/xmlunit.net)
+Builds:
+  * Travis CI using Mono 4.0 on Linux: [![Build Status XMLUnit.NET 2.x](https://travis-ci.org/xmlunit/xmlunit.net.svg?branch=master)](https://travis-ci.org/xmlunit/xmlunit.net)
+  * Appveyor using .NET 3.5 on Windows: [![Build status](https://ci.appveyor.com/api/projects/status/am34dfbr4vbcarr3?svg=true)](https://ci.appveyor.com/project/bodewig/xmlunit-net)
 
 XMLUnit is a library that supports testing XML output in several ways.
 
