@@ -5,7 +5,7 @@ skip_tags: true
 cache:
   - packages -> **\packages.config
 
-before-build:
+before_build:
   - cmd: nuget restore XMLUnit.NET.sln
 
 configuration:
