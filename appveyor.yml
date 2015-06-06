@@ -22,3 +22,6 @@ notifications:
       - xmlunit-commits@lists.sourceforge.net
     on_build_status_changed: true
     on_build_failure: true
+
+# tests are already run during build phase
+test: off
