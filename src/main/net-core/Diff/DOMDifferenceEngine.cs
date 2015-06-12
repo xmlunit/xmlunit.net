@@ -636,6 +636,9 @@ namespace Org.XmlUnit.Diff{
         }
 
         private static XmlQualifiedName ValueAsQName(XmlAttribute attribute) {
+            if (attribute == null) {
+                return null;
+            }
             // split QName into prefix and local name
             string[] pieces = attribute.Value.Split(':');
             if (pieces.Length < 2) {

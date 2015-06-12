@@ -901,6 +901,28 @@ namespace Org.XmlUnit.Diff {
                                            d2, new XPathContext()));
         }
 
+        [Test]
+        public void ShouldDetectMissingXsiType() {
+            DOMDifferenceEngine d = new DOMDifferenceEngine();
+            XmlDocument d1 =
+                Org.XmlUnit.Util.Convert.ToDocument(InputBuilder.FromString("<doc xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">"
+                                                                            + "<effectiveTime xsi:type=\"IVL_TS\"></effectiveTime></doc>")
+                                                    .Build());
+            XmlDocument d2 =
+                Org.XmlUnit.Util.Convert.ToDocument(InputBuilder.FromString("<doc xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">"
+                                                                     + "<effectiveTime></effectiveTime></doc>")
+                                                    .Build());
+
+            DiffExpecter ex = new DiffExpecter(ComparisonType.ATTR_NAME_LOOKUP,
+                                               "/doc[1]/effectiveTime[1]/@type",
+                                               "/doc[1]/effectiveTime[1]");
+            d.DifferenceListener += ex.ComparisonPerformed;
+            d.ComparisonController = ComparisonControllers.StopWhenDifferent;
+            Assert.AreEqual(WrapAndStop(ComparisonResult.DIFFERENT),
+                            d.CompareNodes(d1, new XPathContext(),
+                                           d2, new XPathContext()));
+        }
+
         private XmlDocument DocumentForString(string s) {
             return Org.XmlUnit.Util.Convert.ToDocument(InputBuilder.FromString(s).Build());
         }
