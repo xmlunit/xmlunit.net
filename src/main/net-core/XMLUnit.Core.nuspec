@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>XmlUnit.Core</id>
@@ -7,7 +7,7 @@
     <authors>XmlUnit Contributors</authors>
     <owners />
     <projectUrl>http://www.xmlunit.org/</projectUrl>
-    <licenseUrl>https://github.com/xmlunit/xmlunit/blob/master/LICENSE</licenseUrl>
+    <licenseUrl>https://github.com/xmlunit/xmlunit.net/blob/master/LICENSE</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Core Classes of XMLUnit for .NET</description>
     <frameworkAssemblies>
@@ -15,7 +15,4 @@
       <frameworkAssembly assemblyName="System.Xml.Linq" />
     </frameworkAssemblies>
   </metadata>
-  <files>
-    <file src="$builddir$/xmlunit-core.dll" target="lib/net35" />
-  </files>
 </package>
