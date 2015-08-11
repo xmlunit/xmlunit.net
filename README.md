@@ -29,6 +29,17 @@ If you are looking for something to work on, we've compiled a
 Please see the [contributing guide](CONTRIBUTING.md) for details on
 how to contribute.
 
+## SNAPSHOT builds
+
+There is no released version of XMLUnit.NET 2.x, we'll need to
+hash out a few remaining API questions before we can think about
+cutting an alpha version.
+
+NuGet packages are available from out CI builds at
+[AppVeyour](https://ci.appveyor.com/project/bodewig/xmlunit-net).
+Follow the link to the Debug or Release Configuration and then the
+link to Artifacts.
+
 ## Examples
 
 These are some really small examples, more is to come in the [user guide](https://github.com/xmlunit/user-guide/wiki)
