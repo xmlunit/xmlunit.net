@@ -72,6 +72,7 @@
     <Compile Include="VerifySetup.cs" />
     <Compile Include="Diff\AbstractDifferenceEngineTest.cs" />
     <Compile Include="Diff\ByNameAndTextRecSelectorTest.cs" />
+    <Compile Include="Diff\ChildNodeXPathContextProviderTest.cs" />
     <Compile Include="Diff\ComparisonControllersTest.cs" />
     <Compile Include="Diff\DefaultComparisonFormatterTest.cs" />
     <Compile Include="Diff\DifferenceEvaluatorsTest.cs" />
@@ -79,6 +80,7 @@
     <Compile Include="Diff\DOMDifferenceEngineTest.cs" />
     <Compile Include="Diff\ElementSelectorsTest.cs" />
     <Compile Include="Diff\MultiLevelByNameAndTextSelectorTest.cs" />
+    <Compile Include="Diff\RecursiveXPathBuilderTest.cs" />
     <Compile Include="Diff\XPathContextTest.cs" />
     <Compile Include="Input\CommentLessSourceTest.cs" />
     <Compile Include="Input\NormalizedSourceTest.cs" />

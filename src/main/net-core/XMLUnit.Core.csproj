@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   This file is licensed to You under the Apache License, Version 2.0
   (the "License"); you may not use this file except in compliance with
@@ -71,6 +71,7 @@
     <Compile Include="Builder\Transform.cs" />
     <Compile Include="Diff\AbstractDifferenceEngine.cs" />
     <Compile Include="Diff\ByNameAndTextRecSelector.cs" />
+    <Compile Include="Diff\ChildNodeXPathContextProvider.cs" />
     <Compile Include="Diff\Comparison.cs" />
     <Compile Include="Diff\ComparisonController.cs" />
     <Compile Include="Diff\ComparisonControllers.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="Diff\IDifferenceEngine.cs" />
     <Compile Include="Diff\INodeMatcher.cs" />
     <Compile Include="Diff\MultiLevelByNameAndTextSelector.cs" />
+    <Compile Include="Diff\RecursiveXPathBuilder.cs" />
     <Compile Include="Diff\XPathContext.cs" />
     <Compile Include="Input\AbstractSource.cs" />
     <Compile Include="Input\CommentLessSource.cs" />
