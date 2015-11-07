@@ -55,11 +55,12 @@ namespace Org.XmlUnit.Constraints {
         /// <inheritdoc/>
         public override void WriteDescriptionTo(MessageWriter writer)
         {
-            if (validator.SchemaSources.Length > 0) {
-                writer.Write("{0} validates against {1}", GrabSystemId(actual as ISource),
+            if (validator.SchemaSources.Count(s => !string.IsNullOrEmpty(s.SystemId)) > 0) {
+                writer.Write("{0} validates against {1}",
+                             GrabSystemId(actual as ISource) ?? "instance",
                              GrabSystemIds());
             } else {
-                writer.Write("{0} validates", GrabSystemId(actual as ISource));
+                writer.Write("{0} validates", GrabSystemId(actual as ISource) ?? "instance");
             }
         }
 
@@ -71,6 +72,7 @@ namespace Org.XmlUnit.Constraints {
 
         private string GrabSystemIds() {
             return validator.SchemaSources.Select<ISource, string>(GrabSystemId)
+                .Where(s => !string.IsNullOrEmpty(s))
                 .Aggregate(new StringBuilder(),
                            (sb, systemId) => sb.AppendLine(systemId),
                            sb => sb.Length > 0 ? sb.Remove(sb.Length - 1, 1).ToString()
