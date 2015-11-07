@@ -44,7 +44,7 @@ namespace Org.XmlUnit.Constraints {
                                                                    "Book.xsd")));
         }
 
-        [Test][Ignore("Validator doesn't seem to like https URIs")]
+        [Test]
         public void ShouldSuccessfullyValidateInstanceWithoutExplicitSchemaSource() {
             Assert.That(new StreamSource(TestResources.TESTS_DIR
                                          + "BookXsdGenerated.xml"),
