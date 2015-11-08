@@ -180,6 +180,30 @@ namespace Org.XmlUnit.Diff {
         /// <summary>
         ///   Accepts two elements if at least one of the given ElementSelectors does.
         /// </summary>
+        /// <remarks>
+        /// <para>There is an important difference between using
+        /// ElementSelectors#Or to combine multiple ElementSelectors
+        /// and using DefaultNodeMatcher's constructor with multiple
+        /// ElementSelectors:</para>
+        ///
+        /// <para>Consider ElementSelectors e1 and e2 and
+        /// two control and test nodes each.  Assume e1 would match the
+        /// first control node to the second test node and vice versa if used
+        /// alone, while e2 would match the nodes in order (the first
+        /// control node to the first test and so on).</para>
+        ///
+        /// <para>ElementSelectors#Or creates a combined
+        /// ElementSelector that is willing to match the first control node to
+        /// both of the test nodes - and the same for the second control node.
+        /// Since nodes are compared in order when possible the result will be
+        /// the same as running e2 alone.</para>
+        ///
+        /// <para>DefaultNodeMatcher with two ElementSelectors
+        /// will consult the ElementSelectors separately and only
+        /// invoke e2 if there are any nodes not matched by e1
+        /// at all.  In this case the result will be the same as running
+        /// e1 alone.</para>
+        /// </remarks>
         public static ElementSelector Or(params ElementSelector[] selectors) {
             if (selectors == null) {
                 throw new ArgumentNullException("selectors");

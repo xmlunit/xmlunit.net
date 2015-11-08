@@ -20,9 +20,33 @@ namespace Org.XmlUnit.Diff {
     /// <summary>
     /// Strategy that matches control and tests nodes for comparison.
     /// </summary>
+    /// <remarks>
+    /// <para>There is an important difference between using
+    /// ElementSelectors#Or to combine multiple ElementSelectors
+    /// and using DefaultNodeMatcher's constructor with multiple
+    /// ElementSelectors:</para>
+    ///
+    /// <para>Consider ElementSelectors e1 and e2 and
+    /// two control and test nodes each.  Assume e1 would match the
+    /// first control node to the second test node and vice versa if used
+    /// alone, while e2 would match the nodes in order (the first
+    /// control node to the first test and so on).</para>
+    ///
+    /// <para>ElementSelectors#Or creates a combined
+    /// ElementSelector that is willing to match the first control node to
+    /// both of the test nodes - and the same for the second control node.
+    /// Since nodes are compared in order when possible the result will be
+    /// the same as running e2 alone.</para>
+    ///
+    /// <para>DefaultNodeMatcher with two ElementSelectors
+    /// will consult the ElementSelectors separately and only
+    /// invoke e2 if there are any nodes not matched by e1
+    /// at all.  In this case the result will be the same as running
+    /// e1 alone.</para>
+    /// </remarks>
     public class DefaultNodeMatcher : INodeMatcher {
 
-        private readonly ElementSelector elementSelector;
+        private readonly ElementSelector[] elementSelectors;
         private readonly NodeTypeMatcher nodeTypeMatcher;
 
         /// <summary>
@@ -32,11 +56,17 @@ namespace Org.XmlUnit.Diff {
         }
 
         /// <summary>
-        /// Creates a new DefaultNodeMatcher using the given <see cref="ElementSelector"/> and <see cref="DefaultNodeTypeMatcher"/>.
+        /// Creates a new DefaultNodeMatcher using the given <see cref="ElementSelector"/>s and <see cref="DefaultNodeTypeMatcher"/>.
         /// </summary>
-        /// <param name="es">the element selector to use</param>
-        public DefaultNodeMatcher(ElementSelector es) :
-            this(es, DefaultNodeTypeMatcher) {
+        /// <param name="es">the element selectors to use</param>
+        /// <remarks>
+        /// <para>The <see cref="ElementSelector"/>s are consulted in order so that
+        /// the second <see cref="ElementSelector"/> only gets to match the nodes
+        /// that the first one couldn't match to any test nodes ate all and
+        /// so on.</para>
+        /// </remarks>
+        public DefaultNodeMatcher(params ElementSelector[] es) :
+            this(DefaultNodeTypeMatcher, es) {
         }
 
         /// <summary>
@@ -44,10 +74,16 @@ namespace Org.XmlUnit.Diff {
         /// </summary>
         /// <param name="es">the element selector to use</param>
         /// <param name="ntm">NodeTypeMatcher to use</param>
-        public DefaultNodeMatcher(ElementSelector es, NodeTypeMatcher ntm)
+        /// <remarks>
+        /// <para>The <see cref="ElementSelector"/>s are consulted in order so that
+        /// the second <see cref="ElementSelector"/> only gets to match the nodes
+        /// that the first one couldn't match to any test nodes ate all and
+        /// so on.</para>
+        /// </remarks>
+        public DefaultNodeMatcher(NodeTypeMatcher ntm, params ElementSelector[] es)
         {
-            elementSelector = es;
             nodeTypeMatcher = ntm;
+            elementSelectors = es;
         }
 
         /// <inheritdoc/>
@@ -94,18 +130,32 @@ namespace Org.XmlUnit.Diff {
                                    IList<XmlNode> searchIn,
                                    ICollection<int> availableIndexes,
                                    int fromInclusive, int toExclusive) {
+            foreach (ElementSelector e in elementSelectors) {
+                MatchInfo m = SearchIn(searchFor, searchIn, availableIndexes, fromInclusive, toExclusive, e);
+                if (m != null) {
+                    return m;
+                }
+            }
+            return null;
+        }
+
+        private MatchInfo SearchIn(XmlNode searchFor,
+                                   IList<XmlNode> searchIn,
+                                   ICollection<int> availableIndexes,
+                                   int fromInclusive, int toExclusive,
+                                   ElementSelector e) {
             for (int i = fromInclusive; i < toExclusive; i++) {
                 if (!availableIndexes.Contains(i)) {
                     continue;
                 }
-                if (NodesMatch(searchFor, searchIn[i])) {
+                if (NodesMatch(searchFor, searchIn[i], e)) {
                     return new MatchInfo(searchIn[i], i);
                 }
             }
             return null;
         }
 
-        private bool NodesMatch(XmlNode n1, XmlNode n2) {
+        private bool NodesMatch(XmlNode n1, XmlNode n2, ElementSelector elementSelector) {
             if (n1 is XmlElement && n2 is XmlElement) {
                 return elementSelector(n1 as XmlElement, n2 as XmlElement);
             }

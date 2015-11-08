@@ -75,6 +75,69 @@ namespace Org.XmlUnit.Diff {
             Assert.IsFalse(s(control, differentText));
         }
 
+        [Test]
+        public void ByNameAndTextRec_Multilevel() {
+            XmlDocument control = new XmlDocument();
+            {
+                XmlElement root = control.CreateElement("root");
+                control.AppendChild(root);
+
+                XmlElement controlSub = control.CreateElement("sub");
+                root.AppendChild(controlSub);
+                XmlElement controlSubSubValue = control.CreateElement("value");
+                controlSub.AppendChild(controlSubSubValue);
+                controlSubSubValue.AppendChild(control.CreateTextNode("1"));
+                controlSubSubValue = control.CreateElement("value");
+                controlSub.AppendChild(controlSubSubValue);
+                controlSubSubValue.AppendChild(control.CreateTextNode("2"));
+
+                controlSub = control.CreateElement("sub");
+                root.AppendChild(controlSub);
+                controlSubSubValue = control.CreateElement("value");
+                controlSub.AppendChild(controlSubSubValue);
+                controlSubSubValue.AppendChild(control.CreateTextNode("3"));
+                controlSubSubValue = control.CreateElement("value");
+                controlSub.AppendChild(controlSubSubValue);
+                controlSubSubValue.AppendChild(control.CreateTextNode("4"));
+            }
+            XmlDocument test = new XmlDocument();
+            {
+                XmlElement root = test.CreateElement("root");
+                test.AppendChild(root);
+
+                XmlElement testSub = test.CreateElement("sub");
+                root.AppendChild(testSub);
+                XmlElement testSubValue = test.CreateElement("value");
+                testSub.AppendChild(testSubValue);
+                testSubValue.AppendChild(test.CreateTextNode("1"));
+                testSubValue = test.CreateElement("value");
+                testSub.AppendChild(testSubValue);
+                testSubValue.AppendChild(test.CreateTextNode("2"));
+
+                testSub = test.CreateElement("sub");
+                root.AppendChild(testSub);
+                testSubValue = test.CreateElement("value");
+                testSub.AppendChild(testSubValue);
+                testSubValue.AppendChild(test.CreateTextNode("4"));
+                testSubValue = test.CreateElement("value");
+                testSub.AppendChild(testSubValue);
+                testSubValue.AppendChild(test.CreateTextNode("3"));
+            }
+
+            Org.XmlUnit.Builder.DiffBuilder builder = Org.XmlUnit.Builder.DiffBuilder.Compare(control)
+                .WithTest(test).CheckForSimilar()
+                .WithNodeMatcher(new DefaultNodeMatcher(ElementSelectors.Or(ByNameAndTextRecSelector.CanBeCompared,
+                                                                            ElementSelectors.ByName)));
+            Diff d = builder.Build();
+            Assert.IsTrue(d.HasDifferences(), d.ToString(new DefaultComparisonFormatter()));
+
+            builder = Org.XmlUnit.Builder.DiffBuilder.Compare(control)
+                .WithTest(test).CheckForSimilar()
+                .WithNodeMatcher(new DefaultNodeMatcher(ByNameAndTextRecSelector.CanBeCompared,
+                                                        ElementSelectors.ByName));
+            d = builder.Build();
+            Assert.IsFalse(d.HasDifferences(), d.ToString(new DefaultComparisonFormatter()));
+        }
     }
 
 }
