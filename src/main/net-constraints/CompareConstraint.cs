@@ -12,7 +12,9 @@
   limitations under the License.
 */
 
+using System;
 using System.Linq;
+using System.Xml;
 using NUnit.Framework.Constraints;
 using Org.XmlUnit.Builder;
 using Org.XmlUnit.Diff;
@@ -141,6 +143,27 @@ namespace Org.XmlUnit.Constraints {
         /// </summary>
         public CompareConstraint WithComparisonFormatter(IComparisonFormatter comparisonFormatter) {
             this.comparisonFormatter = comparisonFormatter;
+            return this;
+        }
+
+        /// <summary>
+        ///   Registers a filter for attributes.
+        /// </summary>
+        /// <remarks>
+        ///   <para>
+        /// Only attributes for which the predicate returns true are
+        /// part of the comparison.  By default all attributes are
+        /// considered.
+        ///   </para>
+        ///   <para>
+        /// The "special" namespace, namespace-location and
+        /// schema-instance-type attributes can not be ignored this way.
+        /// If you want to suppress comparison of them you'll need to
+        /// implement <see cref="DifferenceEvaluator"/>
+        ///   </para>
+        /// </remarks>
+        public CompareConstraint WithAttributeFilter(Predicate<XmlAttribute> attributeFilter) {
+            diffBuilder.WithAttributeFilter(attributeFilter);
             return this;
         }
 

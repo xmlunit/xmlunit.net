@@ -12,8 +12,10 @@
   limitations under the License.
  */
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml;
 using Org.XmlUnit.Diff;
 using Org.XmlUnit.Input;
 
@@ -60,6 +62,8 @@ namespace Org.XmlUnit.Builder {
 
         private List<ComparisonListener> comparisonListeners = new List<ComparisonListener>();
         private List<ComparisonListener> differenceListeners = new List<ComparisonListener>();
+
+        private Predicate<XmlAttribute> attributeFilter;
 
         private ComparisonResult[] comparisonResultsToCheck = CHECK_FOR_IDENTICAL;
 
@@ -218,6 +222,27 @@ namespace Org.XmlUnit.Builder {
         }
 
         /// <summary>
+        ///   Registers a filter for attributes.
+        /// </summary>
+        /// <remarks>
+        ///   <para>
+        /// Only attributes for which the predicate returns true are
+        /// part of the comparison.  By default all attributes are
+        /// considered.
+        ///   </para>
+        ///   <para>
+        /// The "special" namespace, namespace-location and
+        /// schema-instance-type attributes can not be ignored this way.
+        /// If you want to suppress comparison of them you'll need to
+        /// implement <see cref="DifferenceEvaluator"/>
+        ///   </para>
+        /// </remarks>
+        public DiffBuilder WithAttributeFilter(Predicate<XmlAttribute> attributeFilter) {
+            this.attributeFilter = attributeFilter;
+            return this;
+        }
+
+        /// <summary>
         ///   check test source with the control source for similarity.
         /// </summary>
         /// <remarks>
@@ -291,6 +316,9 @@ namespace Org.XmlUnit.Builder {
             }
             if (namespaceContext != null) {
                 d.NamespaceContext = namespaceContext;
+            }
+            if (attributeFilter != null) {
+                d.AttributeFilter = attributeFilter;
             }
             d.Compare(Wrap(controlSource), Wrap(testSource));
 

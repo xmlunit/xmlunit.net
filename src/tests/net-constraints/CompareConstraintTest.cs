@@ -152,6 +152,19 @@ namespace Org.XmlUnit.Constraints {
                         CompareConstraint.IsSimilarTo(test));
         }
 
+        [Test]
+        public void TestDiff_withAttributeDifferences() {
+            string control = "<a><b attr1=\"abc\" attr2=\"def\"></b></a>";
+            string test = "<a><b attr1=\"xyz\" attr2=\"def\"></b></a>";
+
+            ExpectThrows("Expected attribute value 'abc' but was 'xyz'", "",
+                         () => Assert.That(test,
+                                           CompareConstraint.IsSimilarTo(control)));
+            Assert.That(test,
+                        CompareConstraint.IsSimilarTo(control)
+                        .WithAttributeFilter(a => "attr1" != a.Name));
+        }
+
         private void ExpectThrows(string start, string detail, TestDelegate act) {
             Assert.That(act, Throws.TypeOf<AssertionException>()
                         .With.Property("Message").Contains(start)

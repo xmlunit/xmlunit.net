@@ -12,6 +12,7 @@
   limitations under the License.
 */
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
@@ -358,6 +359,31 @@ namespace Org.XmlUnit.Builder {
             // validate result
             Assert.IsTrue(myDiff.HasDifferences());
             Assert.That(myDiff.Differences.Count(), Is.EqualTo(1));
+        }
+
+        [Test]
+        public void TestDiff_withAttributeDifferences() {
+            // prepare testData
+            string control = "<a><b attr1=\"abc\" attr2=\"def\"></b></a>";
+            string test = "<a><b attr1=\"uvw\" attr2=\"def\"></b></a>";
+
+            // run test
+            var myDiff = DiffBuilder.Compare(control).WithTest(test)
+                .WithComparisonController(ComparisonControllers.StopWhenDifferent)
+                .Build();
+
+            // validate result
+            Assert.IsTrue(myDiff.HasDifferences());
+            Assert.That(myDiff.Differences.Count(), Is.EqualTo(1));
+
+            // run test
+            var myDiffWithFilter = DiffBuilder.Compare(control).WithTest(test)
+                .WithAttributeFilter(a => "attr1" != a.Name)
+                .WithComparisonController(ComparisonControllers.StopWhenDifferent)
+                .Build();
+
+            // validate result
+            Assert.IsFalse(myDiffWithFilter.HasDifferences());
         }
     }
 }
