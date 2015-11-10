@@ -12,7 +12,9 @@
   limitations under the License.
 */
 
+using System;
 using System.Collections.Generic;
+using System.Xml;
 
 namespace Org.XmlUnit.Diff {
 
@@ -63,6 +65,25 @@ namespace Org.XmlUnit.Diff {
         /// attributes.
         /// </remarks>
         IDictionary<string, string> NamespaceContext { set; }
+
+        /// <summary>
+        /// Sets the optional strategy that decides which attributes to
+        /// consider and which to ignore during comparison.
+        /// </summary>
+        /// <remarks>
+        ///   <para>
+        /// Only attributes for which the predicate returns true are
+        /// part of the comparison.  By default all attributes are
+        /// considered.
+        ///   </para>
+        ///   <para>
+        /// The "special" namespace, namespace-location and
+        /// schema-instance-type attributes can not be ignored this way.
+        /// If you want to suppress comparison of them you'll need to
+        /// implement <see cref="DifferenceEvaluator"/>
+        ///   </para>
+        /// </remarks>
+        Predicate<XmlAttribute> AttributeFilter { set; }
 
         /// <summary>
         /// Compares two pieces of XML and invokes the registered listeners.

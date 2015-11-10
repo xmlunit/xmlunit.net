@@ -14,6 +14,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Xml;
 
 namespace Org.XmlUnit.Diff {
 
@@ -31,6 +32,8 @@ namespace Org.XmlUnit.Diff {
         public event ComparisonListener DifferenceListener;
 
         private INodeMatcher nodeMatcher = new DefaultNodeMatcher();
+
+        private Predicate<XmlAttribute> attributeFilter = a => true;
 
         /// <inheritdoc/>
         public virtual INodeMatcher NodeMatcher
@@ -73,6 +76,20 @@ namespace Org.XmlUnit.Diff {
             }
             get {
                 return comparisonController;
+            }
+        }
+
+        /// <inheritdoc/>
+        public virtual Predicate<XmlAttribute> AttributeFilter
+        {
+            set {
+                if (value == null) {
+                    throw new ArgumentNullException("attribute filter");
+                }
+                attributeFilter = value;
+            }
+            get {
+                return attributeFilter;
             }
         }
 

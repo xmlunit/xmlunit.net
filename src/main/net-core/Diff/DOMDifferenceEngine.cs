@@ -615,7 +615,7 @@ namespace Org.XmlUnit.Diff{
         /// Separates XML namespace related attributes from "normal"
         /// attributes.
         /// </summary>
-        private static Attributes SplitAttributes(XmlAttributeCollection map) {
+        private Attributes SplitAttributes(XmlAttributeCollection map) {
             XmlAttribute sLoc = map.GetNamedItem("schemaLocation",
                                                  XmlSchema.InstanceNamespace)
                 as XmlAttribute;
@@ -628,7 +628,8 @@ namespace Org.XmlUnit.Diff{
             List<XmlAttribute> rest = new List<XmlAttribute>();
             foreach (XmlAttribute a in map) {
                 if ("http://www.w3.org/2000/xmlns/" != a.NamespaceURI
-                    && a != sLoc && a != nNsLoc && a != type) {
+                    && a != sLoc && a != nNsLoc && a != type
+                    && AttributeFilter(a)) {
                     rest.Add(a);
                 }
             }

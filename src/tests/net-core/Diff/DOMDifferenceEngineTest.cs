@@ -543,6 +543,33 @@ namespace Org.XmlUnit.Diff {
         }
 
         [Test]
+        public void CompareAttributesWithAttributeSelector() {
+            DOMDifferenceEngine d = new DOMDifferenceEngine();
+            d.AttributeFilter = a => "x" == a.Name;
+            DiffExpecter ex = new DiffExpecter(ComparisonType.ATTR_VALUE);
+            d.DifferenceListener += ex.ComparisonPerformed;
+            d.ComparisonController = ComparisonControllers.StopWhenDifferent;
+
+            XmlElement e1 = doc.CreateElement("foo");
+            e1.SetAttribute("x", "1");
+            e1.SetAttribute("a", "xxx");
+            XmlElement e2 = doc.CreateElement("foo");
+            e2.SetAttribute("x", "1");
+            e2.SetAttribute("b", "xxx");
+            e2.SetAttribute("c", "xxx");
+            XmlElement e3 = doc.CreateElement("foo");
+            e3.SetAttribute("x", "3");
+
+            Assert.AreEqual(Wrap(ComparisonResult.EQUAL),
+                            d.CompareNodes(e1, new XPathContext(),
+                                           e2, new XPathContext()));
+            Assert.AreEqual(WrapAndStop(ComparisonResult.DIFFERENT),
+                            d.CompareNodes(e1, new XPathContext(),
+                                           e3, new XPathContext()));
+            Assert.AreEqual(1, ex.invoked);
+        }
+
+        [Test]
         public void NaiveRecursion() {
             XmlElement e1 = doc.CreateElement("foo");
             XmlElement e2 = doc.CreateElement("foo");

@@ -233,6 +233,11 @@ namespace Org.XmlUnit.Diff {
             DifferenceEngine.DifferenceEvaluator = null;
         }
 
+        [Test][ExpectedException(typeof(ArgumentNullException))]
+        public void CantSetNullAttributeFilter() {
+            DifferenceEngine.AttributeFilter = null;
+        }
+
         [Test]
         public void ComparisonStateEqualsLooksAtType() {
             Assert.AreNotEqual(Wrap(ComparisonResult.SIMILAR), new MyOngoing());
