@@ -385,5 +385,30 @@ namespace Org.XmlUnit.Builder {
             // validate result
             Assert.IsFalse(myDiffWithFilter.HasDifferences());
         }
+
+        [Test]
+        public void TestDiff_withExtraNodes() {
+            // prepare testData
+            string control = "<a><b></b><c/></a>";
+            string test = "<a><b></b><c/><d/></a>";
+
+            // run test
+            var myDiff = DiffBuilder.Compare(control).WithTest(test)
+                .WithComparisonController(ComparisonControllers.StopWhenDifferent)
+                .Build();
+
+            // validate result
+            Assert.IsTrue(myDiff.HasDifferences());
+            Assert.That(myDiff.Differences.Count(), Is.EqualTo(1));
+
+            // run test
+            var myDiffWithFilter = DiffBuilder.Compare(control).WithTest(test)
+                .WithNodeFilter(n => "d" != n.Name)
+                .WithComparisonController(ComparisonControllers.StopWhenDifferent)
+                .Build();
+
+            // validate result
+            Assert.IsFalse(myDiffWithFilter.HasDifferences());
+        }
     }
 }

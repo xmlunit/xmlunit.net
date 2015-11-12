@@ -65,6 +65,8 @@ namespace Org.XmlUnit.Builder {
 
         private Predicate<XmlAttribute> attributeFilter;
 
+        private Predicate<XmlNode> nodeFilter;
+
         private ComparisonResult[] comparisonResultsToCheck = CHECK_FOR_IDENTICAL;
 
         private IDictionary<string, string> namespaceContext;
@@ -243,6 +245,21 @@ namespace Org.XmlUnit.Builder {
         }
 
         /// <summary>
+        ///   Registers a filter for nodes.
+        /// </summary>
+        /// <remarks>
+        ///   <para>
+        /// Only nodes for which the predicate returns true are part
+        /// of the comparison.  By default nodes that are neither
+        /// document types nor XML declarations are considered.
+        ///   </para>
+        /// </remarks>
+        public DiffBuilder WithNodeFilter(Predicate<XmlNode> nodeFilter) {
+            this.nodeFilter = nodeFilter;
+            return this;
+        }
+
+        /// <summary>
         ///   check test source with the control source for similarity.
         /// </summary>
         /// <remarks>
@@ -319,6 +336,9 @@ namespace Org.XmlUnit.Builder {
             }
             if (attributeFilter != null) {
                 d.AttributeFilter = attributeFilter;
+            }
+            if (nodeFilter != null) {
+                d.NodeFilter = nodeFilter;
             }
             d.Compare(Wrap(controlSource), Wrap(testSource));
 

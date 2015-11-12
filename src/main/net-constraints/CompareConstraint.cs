@@ -167,6 +167,21 @@ namespace Org.XmlUnit.Constraints {
             return this;
         }
 
+        /// <summary>
+        ///   Registers a filter for nodes.
+        /// </summary>
+        /// <remarks>
+        ///   <para>
+        /// Only nodes for which the predicate returns true are part
+        /// of the comparison.  By default nodes that are neither
+        /// document types nor XML declarations are considered.
+        ///   </para>
+        /// </remarks>
+        public CompareConstraint WithNodeFilter(Predicate<XmlNode> nodeFilter) {
+            diffBuilder.WithNodeFilter(nodeFilter);
+            return this;
+        }
+
         /// <inheritdoc/>
         public override bool Matches(object o) {
             if (checkFor == ComparisonResult.EQUAL) {

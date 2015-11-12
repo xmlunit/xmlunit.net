@@ -165,6 +165,19 @@ namespace Org.XmlUnit.Constraints {
                         .WithAttributeFilter(a => "attr1" != a.Name));
         }
 
+        [Test]
+        public void TestDiff_withExtraNodes() {
+            string control = "<a><b></b><c/></a>";
+            string test = "<a><b></b><c/><d/></a>";
+
+            ExpectThrows("Expected child nodelist length '2' but was '3'", "",
+                         () => Assert.That(test,
+                                           CompareConstraint.IsSimilarTo(control)));
+            Assert.That(test,
+                        CompareConstraint.IsSimilarTo(control)
+                        .WithNodeFilter(n => "d" != n.Name));
+        }
+
         private void ExpectThrows(string start, string detail, TestDelegate act) {
             Assert.That(act, Throws.TypeOf<AssertionException>()
                         .With.Property("Message").Contains(start)
