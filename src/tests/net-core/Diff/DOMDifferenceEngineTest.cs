@@ -543,7 +543,7 @@ namespace Org.XmlUnit.Diff {
         }
 
         [Test]
-        public void CompareAttributesWithAttributeSelector() {
+        public void CompareAttributesWithAttributeFilter() {
             DOMDifferenceEngine d = new DOMDifferenceEngine();
             d.AttributeFilter = a => "x" == a.Name;
             DiffExpecter ex = new DiffExpecter(ComparisonType.ATTR_VALUE);
