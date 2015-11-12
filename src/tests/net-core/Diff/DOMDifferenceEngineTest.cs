@@ -570,7 +570,7 @@ namespace Org.XmlUnit.Diff {
         }
 
         [Test]
-        public void CompareAttributesWithNodeFilter() {
+        public void CompareNodesWithNodeFilter() {
             DOMDifferenceEngine d = new DOMDifferenceEngine();
             d.NodeFilter = n => "x" == n.Name || "foo" == n.Name;
             DiffExpecter ex = new DiffExpecter(ComparisonType.CHILD_NODELIST_LENGTH,
