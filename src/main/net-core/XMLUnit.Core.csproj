@@ -91,6 +91,7 @@
     <Compile Include="Diff\IComparisonFormatter.cs" />
     <Compile Include="Diff\IDifferenceEngine.cs" />
     <Compile Include="Diff\INodeMatcher.cs" />
+    <Compile Include="Diff\NodeFilters.cs" />
     <Compile Include="Diff\MultiLevelByNameAndTextSelector.cs" />
     <Compile Include="Diff\RecursiveXPathBuilder.cs" />
     <Compile Include="Diff\XPathContext.cs" />

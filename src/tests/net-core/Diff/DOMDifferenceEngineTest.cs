@@ -570,6 +570,34 @@ namespace Org.XmlUnit.Diff {
         }
 
         [Test]
+        public void CompareAttributesWithNodeFilter() {
+            DOMDifferenceEngine d = new DOMDifferenceEngine();
+            d.NodeFilter = n => "x" == n.Name || "foo" == n.Name;
+            DiffExpecter ex = new DiffExpecter(ComparisonType.CHILD_NODELIST_LENGTH,
+                                               "/", "/");
+            d.DifferenceListener += ex.ComparisonPerformed;
+            d.ComparisonController = ComparisonControllers.StopWhenDifferent;
+
+            XmlElement e1 = doc.CreateElement("foo");
+            e1.AppendChild(doc.CreateElement("x"));
+            e1.AppendChild(doc.CreateElement("y"));
+            XmlElement e2 = doc.CreateElement("foo");
+            e2.AppendChild(doc.CreateElement("x"));
+            e2.AppendChild(doc.CreateElement("y"));
+            e2.AppendChild(doc.CreateElement("z"));
+            XmlElement e3 = doc.CreateElement("foo");
+            e3.AppendChild(doc.CreateElement("y"));
+
+            Assert.AreEqual(Wrap(ComparisonResult.EQUAL),
+                            d.CompareNodes(e1, new XPathContext(),
+                                           e2, new XPathContext()));
+            Assert.AreEqual(WrapAndStop(ComparisonResult.DIFFERENT),
+                            d.CompareNodes(e1, new XPathContext(),
+                                           e3, new XPathContext()));
+            Assert.AreEqual(1, ex.invoked);
+        }
+
+        [Test]
         public void NaiveRecursion() {
             XmlElement e1 = doc.CreateElement("foo");
             XmlElement e2 = doc.CreateElement("foo");

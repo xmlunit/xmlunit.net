@@ -86,6 +86,19 @@ namespace Org.XmlUnit.Diff {
         Predicate<XmlAttribute> AttributeFilter { set; }
 
         /// <summary>
+        /// Sets the optional strategy that decides which nodes to
+        /// consider and which to ignore during comparison.
+        /// </summary>
+        /// <remarks>
+        ///   <para>
+        /// Only nodes for which the predicate returns true are part
+        /// of the comparison.  By default nodes that are neither
+        /// document types nor XML declarations are considered.
+        ///   </para>
+        /// </remarks>
+        Predicate<XmlNode> NodeFilter { set; }
+
+        /// <summary>
         /// Compares two pieces of XML and invokes the registered listeners.
         /// </summary>
         /// <param name="control">the control document holding the expected content</param>

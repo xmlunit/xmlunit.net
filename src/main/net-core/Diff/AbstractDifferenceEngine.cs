@@ -34,6 +34,7 @@ namespace Org.XmlUnit.Diff {
         private INodeMatcher nodeMatcher = new DefaultNodeMatcher();
 
         private Predicate<XmlAttribute> attributeFilter = a => true;
+        private Predicate<XmlNode> nodeFilter = NodeFilters.Default;
 
         /// <inheritdoc/>
         public virtual INodeMatcher NodeMatcher
@@ -90,6 +91,20 @@ namespace Org.XmlUnit.Diff {
             }
             get {
                 return attributeFilter;
+            }
+        }
+
+        /// <inheritdoc/>
+        public virtual Predicate<XmlNode> NodeFilter
+        {
+            set {
+                if (value == null) {
+                    throw new ArgumentNullException("node filter");
+                }
+                nodeFilter = value;
+            }
+            get {
+                return nodeFilter;
             }
         }
 

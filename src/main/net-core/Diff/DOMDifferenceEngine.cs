@@ -64,9 +64,9 @@ namespace Org.XmlUnit.Diff{
                                               XmlNode test,
                                               XPathContext testContext) {
             IEnumerable<XmlNode> controlChildren =
-                control.ChildNodes.Cast<XmlNode>().Where(INTERESTING_NODES);
+                control.ChildNodes.Cast<XmlNode>().Where(n => NodeFilter(n));
             IEnumerable<XmlNode> testChildren =
-                test.ChildNodes.Cast<XmlNode>().Where(INTERESTING_NODES);
+                test.ChildNodes.Cast<XmlNode>().Where(n => NodeFilter(n));
 
             return Compare(new Comparison(ComparisonType.NODE_TYPE,
                                           control, GetXPath(controlContext),
@@ -696,14 +696,6 @@ namespace Org.XmlUnit.Diff{
                 }
             }
             return null;
-        }
-
-        /// <summary>
-        /// Suppresses document-type and XML declaration nodes.
-        /// </summary>
-        private static bool INTERESTING_NODES(XmlNode n) {
-            return n.NodeType != XmlNodeType.DocumentType
-                && n.NodeType != XmlNodeType.XmlDeclaration;
         }
 
     }
