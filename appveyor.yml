@@ -31,5 +31,6 @@ nuget:
   disable_publish_on_pr: true
 
 build:
+  project: XMLUnit.NET.sln
   publish_nuget: true
   publish_nuget_symbols: true

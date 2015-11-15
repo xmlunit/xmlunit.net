@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  This file is licensed to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<!--
+   This is a failed attempt for automating the build of the ZIP
+   files but I get "An element with the same key already exists in the
+   dictionary." errors that indicate I must be doing something wrong
+   (there certainly are no duplicate files, most likely the directory
+   structure is flattened even though I tell it not to)
+-->
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">.\</SolutionDir>
+    <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+    <RestorePackages>true</RestorePackages>
+    <MSBuildCommunityTasksLib>$(SolutionDir)\packages\MSBuildTasks.1.4.0.128\tools\MSBuild.Community.Tasks.dll</MSBuildCommunityTasksLib>
+
+
+    <SrcDistDir>$(SolutionDir)\build\src-dist\xmlunit-$(Version)</SrcDistDir>
+    <BinDistDir>$(SolutionDir)\build\bin-dist\xmlunit-$(Version)</BinDistDir>
+  </PropertyGroup>  
+
+  <UsingTask AssemblyFile="$(MSBuildCommunityTasksLib)" TaskName="MSBuild.Community.Tasks.Zip" />
+
+  <Target Name="SetUp">
+    <MakeDir Directories="$(SrcDistDir);$(BinDistDir)"/>
+    <ItemGroup>
+      <SourceFiles
+          Include="**\*.*"
+          Exclude=".git\**\*.*;**\*.*~;*.yml;.git*;build\**\*.*;packages\**\*.*;.nuget\**\*.*"
+          />
+    </ItemGroup>
+    <Copy SourceFiles="@(SourceFiles)"
+          DestinationFiles="@(SourceFiles->'$(SrcDistDir)\%(RecursiveDir)%(Filename)%(Extension)')"
+          />
+    <ItemGroup>
+      <BinFiles Include="README.md"/>
+      <BinFiles Include="LICENSE"/>
+      <BinFiles Include="build/bin/$(Configuration)/xmlunit-*.dll"/>
+    </ItemGroup>
+    <ItemGroup>
+      <DocFiles Include="build\html\**\*.*"/>
+    </ItemGroup>
+    <Copy SourceFiles="@(BinFiles)"
+          DestinationFolder="$(BinDistDir)"
+          />
+    <Copy SourceFiles="@(DocFiles)"
+          DestinationFiles="@(DocFiles->'$(BinDistDir)\apidocs\%(RecursiveDir)%(Filename)%(Extension)')"
+          />
+  </Target>
+
+  <Target Name="Build" DependsOnTargets="SetUp">
+    <ItemGroup>
+      <BinZipFiles Include="$(SolutionDir)\build\bin-dist\**\*.*"/>
+    </ItemGroup>
+    <Zip Files="@(BinZipFiles)"
+         Flatten="False"
+         ZipFileName="$(SolutionDir)\build\xmlunit-$(Version)-bin.zip"
+         />
+  </Target>
+</Project>
