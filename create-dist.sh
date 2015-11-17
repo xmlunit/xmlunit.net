@@ -21,9 +21,13 @@ if [ $# -lt 1 ]; then
     exit 1
 fi
 
-mkdir -p build/bindist-tmp/xmlunit-$1/apidocs
+mkdir -p build/bindist-tmp/xmlunit-$1
 cp README.md LICENSE build/bindist-tmp/xmlunit-$1
-cp build/bin/Debug/xmlunit-*.dll build/bindist-tmp/xmlunit-$1
+for d in Debug Release; do
+    mkdir build/bindist-tmp/xmlunit-$1/$d
+    cp build/bin/$d/xmlunit-* build/bindist-tmp/xmlunit-$1/$d
+done
+mkdir build/bindist-tmp/xmlunit-$1/apidocs
 cp -r build/html/* build/bindist-tmp/xmlunit-$1/apidocs
 cd build/bindist-tmp
 zip -r xmlunit-$1-bin.zip xmlunit-$1
