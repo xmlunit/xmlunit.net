@@ -22,7 +22,7 @@ if [ $# -lt 1 ]; then
 fi
 
 mkdir -p build/bindist-tmp/xmlunit-$1
-cp README.md LICENSE build/bindist-tmp/xmlunit-$1
+cp README.md LICENSE RELEASE_NOTES.md build/bindist-tmp/xmlunit-$1
 for d in Debug Release; do
     mkdir build/bindist-tmp/xmlunit-$1/$d
     cp build/bin/$d/xmlunit-* build/bindist-tmp/xmlunit-$1/$d
