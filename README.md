@@ -1,6 +1,8 @@
 XMLUnit.NET 2.x
 ===============
 
+[![nuget](https://img.shields.io/nuget/v/XmlUnit.Core.svg)](https://img.shields.io/nuget/v/XmlUnit.Core.svg)
+
 Builds:
   * Travis CI using Mono 4.0 on Linux: [![Build Status XMLUnit.NET 2.x](https://travis-ci.org/xmlunit/xmlunit.net.svg?branch=master)](https://travis-ci.org/xmlunit/xmlunit.net)
   * Appveyor using .NET 3.5 on Windows: [![Build status](https://ci.appveyor.com/api/projects/status/am34dfbr4vbcarr3?svg=true)](https://ci.appveyor.com/project/bodewig/xmlunit-net)
@@ -18,7 +20,8 @@ Some goals for XMLUnit 2.x:
   - comparisons
 * be independent of any test framework
 
-We are in the process of finalizing the API for XMLUnit 2.x.
+We are in the process of finalizing the API for XMLUnit 2.x so the
+current release is an alpha release.
 
 ## Documentation
 
@@ -34,11 +37,16 @@ If you are looking for something to work on, we've compiled a
 Please see the [contributing guide](CONTRIBUTING.md) for details on
 how to contribute.
 
-## SNAPSHOT builds
+## Latest Release
 
-There is no released version of XMLUnit.NET 2.x, we'll need to
-hash out a few remaining API questions before we can think about
-cutting an alpha version.
+The latest releases are available as
+[GitHub releases](https://github.com/xmlunit/xmlunit.net/releases) or
+via [nuget](https://www.nuget.org/packages/XmlUnit.Core/).  *Note:*
+Due to a glitch in the `nuspec` files the package ids for the alpha-02
+release are wrong, we'll be using XMLUnit.Core and XMLUnit.Constraints
+(with capital M and L) for future releases.
+
+## SNAPSHOT builds
 
 NuGet packages are available from out CI builds at
 [AppVeyour](https://ci.appveyor.com/project/bodewig/xmlunit-net).
