@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
-    <id>XmlUnit.Core</id>
+    <id>XMLUnit.Core</id>
     <version>$version$</version>
-    <title>XmlUnit Core</title>
-    <authors>XmlUnit Contributors</authors>
+    <title>XMLUnit Core</title>
+    <authors>XMLUnit Contributors</authors>
     <owners />
     <projectUrl>http://www.xmlunit.org/</projectUrl>
     <licenseUrl>https://github.com/xmlunit/xmlunit.net/blob/master/LICENSE</licenseUrl>

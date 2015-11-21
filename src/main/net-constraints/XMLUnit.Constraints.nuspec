@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
-    <id>XmlUnit.Constraints</id>
+    <id>XMLUnit.Constraints</id>
     <version>$version$</version>
     <title>XMLUnit Constraints for NUnit</title>
-    <authors>XmlUnit Contributors</authors>
+    <authors>XMLUnit Contributors</authors>
     <owners />
     <projectUrl>http://www.xmlunit.org/</projectUrl>
     <licenseUrl>https://github.com/xmlunit/xmlunit.net/blob/master/LICENSE</licenseUrl>
@@ -12,7 +12,7 @@
     <description>Constraints Classes of XMLUnit for .NET</description>
     <dependencies>
       <dependency id="NUnit" version="2.5.10.11092" />
-      <dependency id="XmlUnit.Core" version="[$version$]" />
+      <dependency id="XMLUnit.Core" version="[$version$]" />
     </dependencies>
   </metadata>
 </package>
