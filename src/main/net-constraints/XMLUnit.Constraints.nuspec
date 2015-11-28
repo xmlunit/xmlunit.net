@@ -17,7 +17,7 @@
     outcomes.</description>
     <description>Constraints Classes of XMLUnit.NET</description>
     <dependencies>
-      <dependency id="NUnit" version="2.5.10.11092" />
+      <dependency id="NUnit" version="2.6.4" />
       <dependency id="XMLUnit.Core" version="[$version$]" />
     </dependencies>
     <frameworkAssemblies>
