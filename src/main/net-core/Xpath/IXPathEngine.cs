@@ -31,6 +31,15 @@ namespace Org.XmlUnit.Xpath {
         /// </summary>
         string Evaluate(string xPath, ISource s);
         /// <summary>
+        /// Returns a potentially empty collection of Nodes matching an
+        /// XPath expression.
+        /// </summary>
+        IEnumerable<XmlNode> SelectNodes(string xPath, XmlNode n);
+        /// <summary>
+        /// Evaluates an XPath expression and stringifies the result.
+        /// </summary>
+        string Evaluate(string xPath, XmlNode n);
+        /// <summary>
         /// Establish a namespace context - maps from prefix to namespace URI.
         /// </summary>
         IDictionary<string, string> NamespaceContext { set; }

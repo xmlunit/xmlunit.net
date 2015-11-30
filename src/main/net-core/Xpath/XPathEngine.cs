@@ -34,7 +34,7 @@ namespace Org.XmlUnit.Xpath {
             try {
                 XmlDocument doc = new XmlDocument();
                 doc.Load(s.Reader);
-                return doc.SelectNodes(xPath, nsContext).Cast<XmlNode>();
+                return SelectNodes(xPath, doc);
             } catch (XPathException ex) {
                 throw new XMLUnitException(ex);
             }
@@ -44,23 +44,27 @@ namespace Org.XmlUnit.Xpath {
         /// Evaluates an XPath expression and stringifies the result.
         /// </summary>
         public string Evaluate(string xPath, ISource s) {
+            XPathDocument doc = new XPathDocument(s.Reader);
+            return Evaluate(xPath, doc.CreateNavigator());
+        }
+
+        /// <summary>
+        /// Returns a potentially empty collection of Nodes matching an
+        /// XPath expression.
+        /// </summary>
+        public IEnumerable<XmlNode> SelectNodes(string xPath, XmlNode n) {
             try {
-                XPathDocument doc = new XPathDocument(s.Reader);
-                object v = doc.CreateNavigator().Evaluate(xPath, nsContext);
-                if (v == null) {
-                    return string.Empty;
-                } else if (v is XPathNodeIterator) {
-                    XPathNodeIterator it = v as XPathNodeIterator;
-                    if (it.MoveNext()) {
-                        return (string) it.Current
-                            .ValueAs(typeof(string), nsContext);
-                    }
-                    return string.Empty;
-                }
-                return v.ToString();
+                return n.SelectNodes(xPath, nsContext).Cast<XmlNode>();
             } catch (XPathException ex) {
                 throw new XMLUnitException(ex);
             }
+        }
+
+        /// <summary>
+        /// Evaluates an XPath expression and stringifies the result.
+        /// </summary>
+        public string Evaluate(string xPath, XmlNode n) {
+            return Evaluate(xPath, n.CreateNavigator());
         }
 
         /// <summary>
@@ -76,6 +80,25 @@ namespace Org.XmlUnit.Xpath {
         {
             set {
                 nsContext = Convert.ToNamespaceContext(value);
+            }
+        }
+
+        private string Evaluate(string xPath, XPathNavigator navigator) {
+            try {
+                object v = navigator.Evaluate(xPath, nsContext);
+                if (v == null) {
+                    return string.Empty;
+                } else if (v is XPathNodeIterator) {
+                    XPathNodeIterator it = v as XPathNodeIterator;
+                    if (it.MoveNext()) {
+                        return (string) it.Current
+                            .ValueAs(typeof(string), nsContext);
+                    }
+                    return string.Empty;
+                }
+                return v.ToString();
+            } catch (XPathException ex) {
+                throw new XMLUnitException(ex);
             }
         }
     }
