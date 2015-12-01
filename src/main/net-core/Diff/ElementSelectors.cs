@@ -326,12 +326,9 @@ namespace Org.XmlUnit.Diff {
             }
             INodeMatcher nm = new DefaultNodeMatcher(childSelector);
             return (control, test) => {
-                IEnumerable<XmlNode> controlChildren =
-                    engine.SelectNodes(xpath, new DOMSource(control));
+                IEnumerable<XmlNode> controlChildren = engine.SelectNodes(xpath, control);
                 int expected = controlChildren.Count();
-                int matched = nm.Match(controlChildren,
-                                       engine.SelectNodes(xpath, new DOMSource(test)))
-                    .Count();
+                int matched = nm.Match(controlChildren, engine.SelectNodes(xpath, test)).Count();
                 return expected == matched;
             };
         }

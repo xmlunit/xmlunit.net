@@ -387,6 +387,9 @@ namespace Org.XmlUnit.Diff {
             Assert.IsFalse(ElementSelectors.ByXPath(".//BAZ",
                                                     ElementSelectors.ByNameAndText)
                            (control, test2));
+
+            Assert.IsTrue(ElementSelectors.ByXPath("./BAZ", ElementSelectors.ByNameAndText)
+                          (control.FirstChild as XmlElement, test.FirstChild as XmlElement));
         }
 
         [Test]
