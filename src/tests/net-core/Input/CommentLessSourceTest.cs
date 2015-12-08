@@ -37,9 +37,10 @@ namespace Org.XmlUnit.Input {
             Assert.AreEqual(0, d.ChildNodes[1].ChildNodes.Count);
         }
 
-        [Test][ExpectedException(typeof(ArgumentNullException))]
+        [Test]
         public void CantWrapNullSource() {
-            new CommentLessSource(null);
+            Assert.Throws<ArgumentNullException>(() =>
+            new CommentLessSource(null));
         }
     }
 }

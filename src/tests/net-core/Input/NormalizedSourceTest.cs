@@ -27,14 +27,16 @@ namespace Org.XmlUnit.Input {
             doc = new XmlDocument();
         }
 
-        [Test][ExpectedException(typeof(ArgumentNullException))]
+        [Test]
         public void CantWrapNullSource() {
-            new NormalizedSource((ISource) null);
+            Assert.Throws<ArgumentNullException>(() =>
+            new NormalizedSource((ISource) null));
         }
 
-        [Test][ExpectedException(typeof(ArgumentNullException))]
+        [Test]
         public void CantWrapNullNode() {
-            new NormalizedSource((XmlNode) null);
+            Assert.Throws<ArgumentNullException>(() =>
+            new NormalizedSource((XmlNode) null));
         }
 
         [Test]

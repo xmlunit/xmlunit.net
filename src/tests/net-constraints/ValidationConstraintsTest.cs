@@ -35,13 +35,14 @@ namespace Org.XmlUnit.Constraints {
                                                                     "Book.xsd")));
         }
 
-        [Test][ExpectedException(typeof(AssertionException))]
+        [Test]
         public void ShouldThrowOnBrokenInstance() {
+            Assert.Throws<AssertionException>(() =>
             Assert.That(new StreamSource(TestResources.TESTS_DIR
                                          + "invalidBook.xml"),
                         new SchemaValidConstraint(new StreamSource(TestResources
                                                                    .TESTS_DIR +
-                                                                   "Book.xsd")));
+                                                                   "Book.xsd"))));
         }
 
         [Test][Ignore("Validator doesn't seem to like http URIs - at least in AppVeyor")]
@@ -52,21 +53,24 @@ namespace Org.XmlUnit.Constraints {
         }
 
         // throws for the wrong reason, but throws :-)
-        [Test][ExpectedException(typeof(AssertionException))]
+        [Test]
         public void ShouldThrowOnBrokenInstanceWithoutExplicitSchemaSource() {
+            Assert.Throws<AssertionException>(() =>
             Assert.That(new StreamSource(TestResources.TESTS_DIR
                                          + "invalidBook.xml"),
-                        new SchemaValidConstraint());
+                        new SchemaValidConstraint()));
         }
 
-        [Test][ExpectedException( typeof( ArgumentException ) )]
+        [Test]
         public void ShouldThrowWhenSchemaSourcesContainsNull() {
-            new SchemaValidConstraint(new object[] { null });
+            Assert.Throws<ArgumentException>(() =>
+            new SchemaValidConstraint(new object[] { null }));
         }
 
-        [Test][ExpectedException( typeof( ArgumentNullException ) )]
+        [Test]
         public void ShouldThrowWhenSchemaSourcesIsNull() {
-            new SchemaValidConstraint(null);
+            Assert.Throws<ArgumentNullException>(() =>
+            new SchemaValidConstraint(null));
         }
     }
 }

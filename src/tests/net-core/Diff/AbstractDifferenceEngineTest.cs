@@ -218,29 +218,34 @@ namespace Org.XmlUnit.Diff {
                             cs.AndIfTrueThen(false, () => Wrap(ComparisonResult.EQUAL)));
         }
 
-        [Test][ExpectedException(typeof(ArgumentNullException))]
+        [Test]
         public void CantSetNullNodeMatcher() {
-            DifferenceEngine.NodeMatcher = null;
+            Assert.Throws<ArgumentNullException>(() =>
+            DifferenceEngine.NodeMatcher = null);
         }
 
-        [Test][ExpectedException(typeof(ArgumentNullException))]
+        [Test]
         public void CantSetNullComparisonController() {
-            DifferenceEngine.ComparisonController = null;
+            Assert.Throws<ArgumentNullException>(() =>
+            DifferenceEngine.ComparisonController = null);
         }
 
-        [Test][ExpectedException(typeof(ArgumentNullException))]
+        [Test]
         public void CantSetNullDifferenceEvaluator() {
-            DifferenceEngine.DifferenceEvaluator = null;
+            Assert.Throws<ArgumentNullException>(() =>
+            DifferenceEngine.DifferenceEvaluator = null);
         }
 
-        [Test][ExpectedException(typeof(ArgumentNullException))]
+        [Test]
         public void CantSetNullAttributeFilter() {
-            DifferenceEngine.AttributeFilter = null;
+            Assert.Throws<ArgumentNullException>(() =>
+            DifferenceEngine.AttributeFilter = null);
         }
 
-        [Test][ExpectedException(typeof(ArgumentNullException))]
+        [Test]
         public void CantSetNullNodeFilter() {
-            DifferenceEngine.NodeFilter = null;
+            Assert.Throws<ArgumentNullException>(() =>
+            DifferenceEngine.NodeFilter = null);
         }
 
         [Test]
