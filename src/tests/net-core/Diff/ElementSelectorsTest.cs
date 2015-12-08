@@ -407,130 +407,152 @@ namespace Org.XmlUnit.Diff {
             Assert.IsTrue(builder.Build()(control, test));
         }
 
-        [Test][ExpectedException(typeof(ArgumentNullException))]
+        [Test]
         public void ByNameAndAttributesDoesntLikeNullArgumentStringVersion() {
-            ElementSelectors.ByNameAndAttributes((string[]) null);
+            Assert.Throws<ArgumentNullException>(() =>
+            ElementSelectors.ByNameAndAttributes((string[]) null));
         }
 
-        [Test][ExpectedException(typeof(ArgumentNullException))]
+        [Test]
         public void ByNameAndAttributesControlNSDoesntLikeNullArgument() {
-            ElementSelectors.ByNameAndAttributesControlNS((String[]) null);
+            Assert.Throws<ArgumentNullException>(() =>
+            ElementSelectors.ByNameAndAttributesControlNS((String[]) null));
         }
 
-        [Test][ExpectedException(typeof(ArgumentNullException))]
+        [Test]
         public void ByNameAndAttributesDoesntLikeNullArgumentXmlQualifiedNameVersion() {
-            ElementSelectors.ByNameAndAttributes((XmlQualifiedName[]) null);
+            Assert.Throws<ArgumentNullException>(() =>
+            ElementSelectors.ByNameAndAttributes((XmlQualifiedName[]) null));
         }
 
-        [Test][ExpectedException(typeof(ArgumentException))]
+        [Test]
         public void ByNameAndAttributesDoesntLikeNullNameStringVersion() {
-            ElementSelectors.ByNameAndAttributes(new string[] { null });
+            Assert.Throws<ArgumentException>(() =>
+            ElementSelectors.ByNameAndAttributes(new string[] { null }));
         }
 
-        [Test][ExpectedException(typeof(ArgumentException))]
+        [Test]
         public void ByNameAndAttributesControlNSDoesntLikeNullName() {
-            ElementSelectors.ByNameAndAttributesControlNS(new string[] { null });
+            Assert.Throws<ArgumentException>(() =>
+            ElementSelectors.ByNameAndAttributesControlNS(new string[] { null }));
         }
 
-        [Test][ExpectedException(typeof(ArgumentException))]
+        [Test]
         public void ByNameAndAttributesDoesntLikeNullNameXmlQualifiedNameVersion() {
-            ElementSelectors.ByNameAndAttributes(new XmlQualifiedName[] { null });
+            Assert.Throws<ArgumentException>(() =>
+            ElementSelectors.ByNameAndAttributes(new XmlQualifiedName[] { null }));
         }
 
-        [Test][ExpectedException(typeof(ArgumentNullException))]
+        [Test]
         public void NotDoesntLikeNullElementSelector() {
-            ElementSelectors.Not(null);
+            Assert.Throws<ArgumentNullException>(() =>
+            ElementSelectors.Not(null));
         }
 
-        [Test][ExpectedException(typeof(ArgumentNullException))]
+        [Test]
         public void OrDoesntLikeNullElementSelectorList() {
-            ElementSelectors.Or((ElementSelector[]) null);
+            Assert.Throws<ArgumentNullException>(() =>
+            ElementSelectors.Or((ElementSelector[]) null));
         }
 
-        [Test][ExpectedException(typeof(ArgumentException))]
+        [Test]
         public void OrDoesntLikeNullElementSelector() {
-            ElementSelectors.Or(new ElementSelector[] { null });
+            Assert.Throws<ArgumentException>(() =>
+            ElementSelectors.Or(new ElementSelector[] { null }));
         }
 
-        [Test][ExpectedException(typeof(ArgumentNullException))]
+        [Test]
         public void AndDoesntLikeNullElementSelectorList() {
-            ElementSelectors.And((ElementSelector[]) null);
+            Assert.Throws<ArgumentNullException>(() =>
+            ElementSelectors.And((ElementSelector[]) null));
         }
 
-        [Test][ExpectedException(typeof(ArgumentException))]
+        [Test]
         public void AndDoesntLikeNullElementSelector() {
-            ElementSelectors.And(new ElementSelector[] { null });
+            Assert.Throws<ArgumentException>(() =>
+            ElementSelectors.And(new ElementSelector[] { null }));
         }
 
-        [Test][ExpectedException(typeof(ArgumentNullException))]
+        [Test]
         public void XorDoesntLikeNullElementSelector1() {
-            ElementSelectors.Xor(null, ElementSelectors.ByName);
+            Assert.Throws<ArgumentNullException>(() =>
+            ElementSelectors.Xor(null, ElementSelectors.ByName));
         }
 
-        [Test][ExpectedException(typeof(ArgumentNullException))]
+        [Test]
         public void XorDoesntLikeNullElementSelector2() {
-            ElementSelectors.Xor(ElementSelectors.ByName, null);
+            Assert.Throws<ArgumentNullException>(() =>
+            ElementSelectors.Xor(ElementSelectors.ByName, null));
         }
 
-        [Test][ExpectedException(typeof(ArgumentNullException))]
+        [Test]
         public void ConditionalSelectorDoesntLikeNullElementSelector() {
-            ElementSelectors.ConditionalSelector(x => x != null, null);
+            Assert.Throws<ArgumentNullException>(() =>
+            ElementSelectors.ConditionalSelector(x => x != null, null));
         }
 
-        [Test][ExpectedException(typeof(ArgumentNullException))]
+        [Test]
         public void ConditionalSelectorDoesntLikeNullPredicate() {
-            ElementSelectors.ConditionalSelector(null, ElementSelectors.ByName);
+            Assert.Throws<ArgumentNullException>(() =>
+            ElementSelectors.ConditionalSelector(null, ElementSelectors.ByName));
         }
 
-        [Test][ExpectedException(typeof(ArgumentNullException))]
+        [Test]
         public void SelectorForElementNamedDoesntLikeNullElementSelectorStringVersion() {
-            ElementSelectors.SelectorForElementNamed("foo", null);
+            Assert.Throws<ArgumentNullException>(() =>
+            ElementSelectors.SelectorForElementNamed("foo", null));
         }
 
-        [Test][ExpectedException(typeof(ArgumentNullException))]
+        [Test]
         public void SelectorForElementNamedDoesntLikeNullNameStringVersion() {
-            ElementSelectors.SelectorForElementNamed((string) null, ElementSelectors.ByName);
+            Assert.Throws<ArgumentNullException>(() =>
+            ElementSelectors.SelectorForElementNamed((string) null, ElementSelectors.ByName));
         }
 
-        [Test][ExpectedException(typeof(ArgumentNullException))]
+        [Test]
         public void SelectorForElementNamedDoesntLikeNullElementSelectorXmlQualifiedNameVersion() {
-            ElementSelectors.SelectorForElementNamed(new XmlQualifiedName("foo"), null);
+            Assert.Throws<ArgumentNullException>(() =>
+            ElementSelectors.SelectorForElementNamed(new XmlQualifiedName("foo"), null));
         }
 
-        [Test][ExpectedException(typeof(ArgumentNullException))]
+        [Test]
         public void SelectorForElementNamedDoesntLikeNullNameXmlQualifiedNameVersion() {
-            ElementSelectors.SelectorForElementNamed((XmlQualifiedName) null, ElementSelectors.ByName);
+            Assert.Throws<ArgumentNullException>(() =>
+            ElementSelectors.SelectorForElementNamed((XmlQualifiedName) null, ElementSelectors.ByName));
         }
 
-        [Test][ExpectedException(typeof(InvalidOperationException))]
+        [Test]
         public void ConditionalSelectorBuilderWontAllowThenWithoutWhen() {
+            Assert.Throws<InvalidOperationException>(() => {
             ElementSelectors.IConditionalSelectorBuilderThen t =
                 (ElementSelectors.IConditionalSelectorBuilderThen) ElementSelectors.ConditionalBuilder();
-            t.ThenUse(ElementSelectors.ByName);
+            t.ThenUse(ElementSelectors.ByName);});
         }
 
-        [Test][ExpectedException(typeof(InvalidOperationException))]
         public void ConditionalSelectorBuilderWontAllowWhensWithoutThens() {
+            Assert.Throws<InvalidOperationException>(() => {
             ElementSelectors.IConditionalSelectorBuilder b =
                 ElementSelectors.ConditionalBuilder();
             b.When(x => x != null);
-            b.Build();
+            b.Build();});
         }
 
-        [Test][ExpectedException(typeof(InvalidOperationException))]
+        [Test]
         public void ConditionalSelectorBuilderWontAllowMultipleWhensWithoutInterleavingThens() {
+            Assert.Throws<InvalidOperationException>(() => {
             ElementSelectors.IConditionalSelectorBuilder b =
                 ElementSelectors.ConditionalBuilder();
             b.When(x => x != null);
-            b.WhenElementIsNamed(new XmlQualifiedName("foo"));
+            b.WhenElementIsNamed(new XmlQualifiedName("foo"));});
         }
 
-        [Test][ExpectedException(typeof(InvalidOperationException))]
+        [Test]
         public void ConditionalSelectorBuilderWontAllowMultipleDefaults() {
+            Assert.Throws<InvalidOperationException>(() => {
             ElementSelectors.IConditionalSelectorBuilder b =
                 ElementSelectors.ConditionalBuilder();
             b.DefaultTo(ElementSelectors.ByName);
-            b.DefaultTo(ElementSelectors.ByName);
+            b.DefaultTo(ElementSelectors.ByName);});
         }
     }
 }

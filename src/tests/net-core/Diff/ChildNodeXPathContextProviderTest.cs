@@ -53,10 +53,10 @@ namespace Org.XmlUnit.Diff {
         }
 
         [Test]
-        [ExpectedException(typeof(KeyNotFoundException))]
         public void ShouldThrowIfNodeIsNotInInitialList() {
+            Assert.Throws<KeyNotFoundException>(() => {
             ChildNodeXPathContextProvider p = new ChildNodeXPathContextProvider(ctx, elements);
-            p.Map(doc.CreateElement("foo"));
+            p.Map(doc.CreateElement("foo"));});
         }
     }
 }

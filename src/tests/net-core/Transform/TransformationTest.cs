@@ -41,43 +41,50 @@ namespace Org.XmlUnit.Transform {
             Assert.AreEqual("dog", doc.DocumentElement.Name);
         }
 
-        [Test][ExpectedException(typeof(ArgumentNullException))]
+        [Test]
         public void ShouldRejectNullSourceInSetSource() {
+            Assert.Throws<ArgumentNullException>(() => {
             Transformation t = new Transformation();
-            t.Source = null;
+            t.Source = null; });
         }
 
-        [Test][ExpectedException(typeof(ArgumentNullException))]
+        [Test]
         public void ShouldRejectNullExtensionObjectUri() {
-            t.AddExtensionObject(null, "foo");
+            Assert.Throws<ArgumentNullException>(() =>
+            t.AddExtensionObject(null, "foo"));
         }
 
-        [Test][ExpectedException(typeof(ArgumentNullException))]
+        [Test]
         public void ShouldRejectNullParameterName() {
-            t.AddParameter(null, "foo", "bar");
+            Assert.Throws<ArgumentNullException>(() =>
+            t.AddParameter(null, "foo", "bar"));
         }
 
-        [Test][ExpectedException(typeof(ArgumentNullException))]
+        [Test]
         public void ShouldRejectNullParameterUri() {
-            t.AddParameter("foo", null, "bar");
+            Assert.Throws<ArgumentNullException>(() =>
+            t.AddParameter("foo", null, "bar"));
         }
 
-        [Test][ExpectedException(typeof(InvalidOperationException))]
+        [Test]
         public void ShouldRejectNullSourceInTransform() {
+            Assert.Throws<InvalidOperationException>(() => {
             Transformation t = new Transformation();
-            t.TransformToString();
+            t.TransformToString();});
         }
 
-        [Test][ExpectedException(typeof(ArgumentNullException))]
+        [Test]
         public void ShouldRejectNullTransformer() {
-            t.Transform(null);
+            Assert.Throws<ArgumentNullException>(() =>
+            t.Transform(null));
         }
 
-        [Test][ExpectedException(typeof(XMLUnitException))]
+        [Test]
         public void ShouldMapTransformerException() {
+            Assert.Throws<XMLUnitException>(() =>
             t.Transform((ct, r, args) => {
                     throw new NullReferenceException();
-                });
+                }));
         }
 
         [Test]
