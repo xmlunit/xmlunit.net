@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>XMLUnit.NUnit2.Constraints</id>
+    <version>$version$</version>
+    <title>XMLUnit Constraints for NUnit 2</title>
+    <authors>XMLUnit Contributors</authors>
+    <owners />
+    <projectUrl>http://www.xmlunit.org/</projectUrl>
+    <licenseUrl>https://github.com/xmlunit/xmlunit.net/blob/master/LICENSE</licenseUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>This package contains NUnit Constraints to be used
+    with XMLUnit.NET's core. XMLUnit provides you with the tools to
+    verify the XML you emit is the one you want to create. It provides
+    helpers to validate against an XML Schema, assert the values of
+    XPath queries or compare XML documents against expected
+    outcomes.</description>
+    <description>Constraints Classes of XMLUnit.NET</description>
+    <dependencies>
+      <dependency id="NUnit" version="2.6.4" />
+      <dependency id="XMLUnit.Core" version="[$version$]" />
+    </dependencies>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System.Xml" />
+      <frameworkAssembly assemblyName="System.Xml.Linq" />
+    </frameworkAssemblies>
+  </metadata>
+</package>
