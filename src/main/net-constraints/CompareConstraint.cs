@@ -28,7 +28,6 @@ namespace Org.XmlUnit.Constraints {
 
         private readonly DiffBuilder diffBuilder;
         private ComparisonResult checkFor;
-        private Org.XmlUnit.Diff.Diff diffResult;
         private bool formatXml;
         private IComparisonFormatter comparisonFormatter = new DefaultComparisonFormatter();
 
@@ -183,42 +182,45 @@ namespace Org.XmlUnit.Constraints {
         }
 
         /// <inheritdoc/>
-        public override bool Matches(object o) {
+        public override ConstraintResult ApplyTo<TActual>(TActual actual) {
             if (checkFor == ComparisonResult.EQUAL) {
                 diffBuilder.WithComparisonController(ComparisonControllers.StopWhenSimilar);
             } else if (checkFor == ComparisonResult.SIMILAR) {
                 diffBuilder.WithComparisonController(ComparisonControllers.StopWhenDifferent);
             }
 
-            diffResult = diffBuilder.WithTest(o).Build();
-            return !diffResult.HasDifferences();
+            Diff.Diff diffResult = diffBuilder.WithTest(actual).Build();
+            return new CompareConstraintResult(this, actual, diffResult);
         }
 
-        /// <inheritdoc/>
-        public override void WriteDescriptionTo(MessageWriter writer)
-        {
-            writer.Write("{0} is {1} to {2}", diffResult.TestSource.SystemId,
-                         checkFor == ComparisonResult.EQUAL ? "identical" : "similar",
-                         diffResult.ControlSource.SystemId);
-        }
+        public class CompareConstraintResult : ConstraintResult {
+            private readonly CompareConstraint constraint;
+            private readonly Diff.Diff diffResult;
 
-        /// <inheritdoc/>
-        public override void WriteMessageTo(MessageWriter writer)
-        {
-            Comparison c = diffResult.Differences.First().Comparison;
-            writer.WriteMessageLine(comparisonFormatter.GetDescription(c));
-            if (diffResult.TestSource.SystemId != null
-                || diffResult.ControlSource.SystemId != null) {
-                writer.WriteMessageLine(string.Format("comparing {0} to {1}",
-                                                      diffResult.TestSource.SystemId,
-                                                      diffResult.ControlSource.SystemId));
+            public CompareConstraintResult(CompareConstraint constraint, object actualValue, Diff.Diff diffResult)
+                : base(constraint, actualValue, !diffResult.HasDifferences()) {
+                this.constraint = constraint;
+                this.diffResult = diffResult;
             }
-            writer.DisplayDifferences(GetDetails(c.ControlDetails, c.Type),
-                                      GetDetails(c.TestDetails, c.Type));
-        }
 
-        private string GetDetails(Comparison.Detail detail, ComparisonType type) {
-            return comparisonFormatter.GetDetails(detail, type, formatXml);
+            /// <inheritdoc/>
+            public override void WriteMessageTo(MessageWriter writer) {
+                Comparison c = diffResult.Differences.First().Comparison;
+                writer.WriteMessageLine(constraint.comparisonFormatter.GetDescription(c));
+                if (diffResult.TestSource.SystemId != null
+                    || diffResult.ControlSource.SystemId != null)
+                {
+                    writer.WriteMessageLine(string.Format("comparing {0} to {1}",
+                                                          diffResult.TestSource.SystemId,
+                                                          diffResult.ControlSource.SystemId));
+                }
+                writer.DisplayDifferences(GetDetails(c.ControlDetails, c.Type),
+                                          GetDetails(c.TestDetails, c.Type));
+            }
+
+            private string GetDetails(Comparison.Detail detail, ComparisonType type) {
+                return constraint.comparisonFormatter.GetDetails(detail, type, constraint.formatXml);
+            }
         }
     }
 }

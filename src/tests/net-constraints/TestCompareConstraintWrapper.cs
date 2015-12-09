@@ -35,16 +35,16 @@ namespace Org.XmlUnit.Constraints
             return new TestCompareConstraintWrapper(CompareConstraint.IsSimilarTo(control));
         }
 
-        public override bool Matches(object testItem)
+        public override ConstraintResult ApplyTo<TActual>(TActual actual)
         {
             if (fileName == null)
             {
-                return compareMatcher.Matches(testItem);
+                return compareMatcher.ApplyTo(actual);
             }
             // do something with your Test-Source
-            var builder = Builder.Input.From(testItem);
+            var builder = XmlUnit.Builder.Input.From(actual);
             string testFile = WriteIntoTestResultFolder(builder.Build());
-            return compareMatcher.Matches(Builder.Input.FromFile(testFile));
+            return compareMatcher.ApplyTo(XmlUnit.Builder.Input.FromFile(testFile));
         }
 
         private string WriteIntoTestResultFolder(ISource source)
@@ -60,16 +60,6 @@ namespace Org.XmlUnit.Constraints
         {
             XmlDocument doc = Convert.ToDocument(source);
             doc.WriteTo(new XmlTextWriter(fop));
-        }
-
-        public override void WriteDescriptionTo(MessageWriter writer)
-        {
-            compareMatcher.WriteDescriptionTo(writer);
-        }
-
-        public override void WriteMessageTo(MessageWriter writer)
-        {
-            compareMatcher.WriteMessageTo(writer);
         }
     }
 }

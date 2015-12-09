@@ -46,52 +46,54 @@ namespace Org.XmlUnit.Constraints {
         }
 
         /// <inheritdoc/>
-        public override bool Matches(object o) {
-            this.actual = InputBuilder.From(o).Build();
-            result = validator.ValidateInstance(o as ISource);
-            return result.Valid;
+        public override ConstraintResult ApplyTo<TActual>(TActual actual) {
+            result = validator.ValidateInstance(actual as ISource);
+            return new SchemaValidationConstraintResult(this, actual, result);
         }
 
-        /// <inheritdoc/>
-        public override void WriteDescriptionTo(MessageWriter writer)
-        {
-            if (validator.SchemaSources.Count(s => !string.IsNullOrEmpty(s.SystemId)) > 0) {
-                writer.Write("{0} validates against {1}",
-                             GrabSystemId(actual as ISource) ?? "instance",
-                             GrabSystemIds());
-            } else {
-                writer.Write("{0} validates", GrabSystemId(actual as ISource) ?? "instance");
+        public class SchemaValidationConstraintResult : ConstraintResult {
+            private readonly ValidationResult result;
+            private readonly SchemaValidConstraint constraint;
+
+            public SchemaValidationConstraintResult(SchemaValidConstraint constraint, object actualValue, ValidationResult result)
+                : base(constraint, actualValue, result.Valid) {
+                this.constraint = constraint;
+                this.result = result;
             }
-        }
 
-        /// <inheritdoc/>
-        public override void WriteActualValueTo(MessageWriter writer)
-        {
-            writer.Write("got validation errors: {0}", GrabProblems());
-        }
+            public override void WriteMessageTo(MessageWriter writer) {
+                if (constraint.validator.SchemaSources.Count(s => !string.IsNullOrEmpty(s.SystemId)) > 0) {
+                    writer.WriteLine("{0} does not validate against {1}",
+                        GrabSystemId(ActualValue as ISource) ?? "instance",
+                        GrabSystemIds());
+                }
+                else {
+                    writer.WriteLine("{0} does not validate",
+                        GrabSystemId(ActualValue as ISource) ?? "instance");
+                    writer.WriteLine();
+                }
+                writer.Write(GrabProblems());
+            }
 
-        private string GrabSystemIds() {
-            return validator.SchemaSources.Select<ISource, string>(GrabSystemId)
-                .Where(s => !string.IsNullOrEmpty(s))
-                .Aggregate(new StringBuilder(),
-                           (sb, systemId) => sb.AppendLine(systemId),
-                           sb => sb.Length > 0 ? sb.Remove(sb.Length - 1, 1).ToString()
-                                               : sb.ToString());
-        }
+            private string GrabSystemIds() {
+                return constraint.validator.SchemaSources.Select<ISource, string>(GrabSystemId)
+                    .Where(s => !string.IsNullOrEmpty(s))
+                    .Aggregate(new StringBuilder(),
+                               (sb, systemId) => sb.AppendLine(systemId),
+                               sb => sb.Length > 0 ? sb.Remove(sb.Length - 1, 1).ToString()
+                                                   : sb.ToString());
+            }
 
-        private string GrabSystemId(ISource s) {
-            return s.SystemId;
-        }
+            private string GrabSystemId(ISource s) {
+                return s.SystemId;
+            }
 
-        private string GrabProblems() {
-            return result.Problems
-                .Aggregate(new StringBuilder(),
-                           (sb, p) => sb.AppendFormat("{0}, ", p),
-                           sb => sb.Remove(sb.Length - 2, 2).ToString());
-        }
-
-        private string ProblemToString(ValidationProblem problem) {
-            return problem.ToString();
+            private string GrabProblems() {
+                return result.Problems
+                    .Aggregate(new StringBuilder(),
+                               (sb, p) => sb.AppendFormat("{0}, ", p),
+                               sb => sb.Remove(sb.Length - 2, 2).ToString());
+            }
         }
     }
 }
