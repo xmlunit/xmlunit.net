@@ -21,8 +21,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMLUnit.Core.Tests", "src\t
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMLUnit.Constraints", "src\main\net-constraints\XMLUnit.Constraints.csproj", "{77A34DDD-85E6-4E2F-91C5-5736FDA78481}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMLUnit.NUnit2.Constraints", "src\main\net-constraints-nunit2\XMLUnit.NUnit2.Constraints.csproj", "{A665F28A-6C81-43E3-A20D-9D0F5FFE44A3}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMLUnit.Constraints.Test", "src\tests\net-constraints\XMLUnit.Constraints.Test.csproj", "{33760FFE-9F43-46BE-8F64-ED34AE6B798C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{09656F33-416B-489B-9CB5-665387E41CC5}"
@@ -31,6 +29,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{09656F
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMLUnit.NUnit2.Constraints", "src\main\net-constraints-nunit2\XMLUnit.NUnit2.Constraints.csproj", "{A665F28A-6C81-43E3-A20D-9D0F5FFE44A3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMLUnit.Nunit2.Constraints.Test", "src\tests\net-constraints-nunit2\XMLUnit.Nunit2.Constraints.Test.csproj", "{F334C998-E18B-435B-9185-129798C537F2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -58,6 +60,10 @@ Global
 		{A665F28A-6C81-43E3-A20D-9D0F5FFE44A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A665F28A-6C81-43E3-A20D-9D0F5FFE44A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A665F28A-6C81-43E3-A20D-9D0F5FFE44A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F334C998-E18B-435B-9185-129798C537F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F334C998-E18B-435B-9185-129798C537F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F334C998-E18B-435B-9185-129798C537F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F334C998-E18B-435B-9185-129798C537F2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
