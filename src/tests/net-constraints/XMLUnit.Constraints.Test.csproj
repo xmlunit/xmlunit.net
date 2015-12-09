@@ -71,14 +71,13 @@
       <Project>{97960a9c-7e2b-4548-90bd-31105c54e129}</Project>
       <Name>XMLUnit.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\net-core\XMLUnit.Core.Tests.csproj">
-      <Project>{9bf85579-75bf-4d44-953a-46fafcd814c0}</Project>
-      <Name>XMLUnit.Core.Tests</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\shared\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\net-core\TestResources.cs">
+      <Link>TestResources.cs</Link>
     </Compile>
     <Compile Include="CompareConstraintTest.cs" />
     <Compile Include="TestCompareConstraintWrapper.cs" />
