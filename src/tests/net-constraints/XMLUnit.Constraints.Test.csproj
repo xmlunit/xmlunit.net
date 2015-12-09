@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <!--
   This file is licensed to You under the Apache License, Version 2.0
   (the "License"); you may not use this file except in compliance with
@@ -81,6 +81,7 @@
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="CompareConstraintTest.cs" />
+    <Compile Include="TestCompareConstraintWrapper.cs" />
     <Compile Include="ValidationConstraintsTest.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -93,7 +94,6 @@
   <ProjectExtensions>
     <VisualStudio AllowExistingFolder="true" />
   </ProjectExtensions>
-  
   <PropertyGroup Condition=" '$(OS)' != 'Unix' ">
     <NunitCommand>"$(SolutionDir)packages\NUnit.Runners.2.6.4\tools\nunit-console.exe" -nologo -noshadow -nodots "$(OutputPath)$(AssemblyName).dll" -config=$(Configuration) -xml=..\..\..\build\test-results\Constraints.Tests.Results.xml -framework=net-3.5 -process=Single</NunitCommand>
   </PropertyGroup>
@@ -105,5 +105,5 @@
     <Exec Command="$(NunitCommand)" WorkingDirectory="$(ProjectDir)" />
   </Target>
   <Target Name="AfterBuild" DependsOnTargets="RunUnitTest">
-  </Target>  
+  </Target>
 </Project>

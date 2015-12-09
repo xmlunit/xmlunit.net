@@ -11,15 +11,12 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-using System;
+
 using System.IO;
 using System.Xml;
 using NUnit.Framework;
-using NUnit.Framework.Constraints;
 using Org.XmlUnit.Diff;
 using Org.XmlUnit.Input;
-using InputBuilder = Org.XmlUnit.Builder.Input;
-using UtilConvert = Org.XmlUnit.Util.Convert;
 
 namespace Org.XmlUnit.Constraints {
     [TestFixture]
@@ -142,13 +139,13 @@ namespace Org.XmlUnit.Constraints {
             string control = "<a><b attr=\"abc\"></b></a>";
             string test = "<a><b attr=\"xyz\"></b></a>";
 
-            string fileName = "testCompareConstraintWrapper.xml";
+            string fileName = GetTestResultFolder() + "/testCompareConstraintWrapper.xml";
             GetTestResultFolder();
             ExpectThrows("Expected attribute value 'abc' but was 'xyz'", "",
                          () => Assert.That(test,
                                            TestCompareConstraintWrapper.IsSimilarTo(control)
                                            .WithTestFileName(fileName)));
-            Assert.That(new StreamSource(GetTestResultFolder() + "/" + fileName),
+            Assert.That(new StreamSource(fileName),
                         CompareConstraint.IsSimilarTo(test));
         }
 
@@ -240,63 +237,5 @@ namespace Org.XmlUnit.Constraints {
                 }
             }
         }
-
-        /// <summary>
-        ///   Example Wrapper for {@link CompareConstraint}.
-        /// </summary>
-        /// <remarks>
-        ///   <para>
-        ///    This example will write the Test-Input into the Files
-        ///    System.  This could be useful for manual reviews or as
-        ///    template for a control-File.
-        ///   </para>
-        /// </remarks>
-        private class TestCompareConstraintWrapper : Constraint {
-            private readonly CompareConstraint compareMatcher;
-            private String fileName;
-            internal TestCompareConstraintWrapper(CompareConstraint compareMatcher) {
-                this.compareMatcher = compareMatcher;
-            }
-            public TestCompareConstraintWrapper WithTestFileName(string fileName) {
-                this.fileName = fileName;
-                return this;
-            }
-
-            public static TestCompareConstraintWrapper IsSimilarTo(object control) {
-                return new TestCompareConstraintWrapper(CompareConstraint.IsSimilarTo(control));
-            }
-
-            public override bool Matches(object testItem) {
-                if (fileName == null) {
-                    return compareMatcher.Matches(testItem);
-                }
-                // do something with your Test-Source
-                var builder = InputBuilder.From(testItem);
-                string testFile = WriteIntoTestResultFolder(builder.Build());
-                return compareMatcher.Matches(InputBuilder.FromFile(testFile));
-            }
-
-            private string WriteIntoTestResultFolder(ISource source) {
-                string file = GetTestResultFolder() + "/" + fileName;
-                using (TextWriter fs = new StreamWriter(file)) {
-                    marshal(source, fs);
-                }
-                return file;
-            }
-
-            private void marshal(ISource source, TextWriter fop) {
-                XmlDocument doc = UtilConvert.ToDocument(source);
-                doc.WriteTo(new XmlTextWriter(fop));
-            }
-
-            public override void WriteDescriptionTo(MessageWriter writer) {
-                compareMatcher.WriteDescriptionTo(writer);
-            }
-
-            public override void WriteMessageTo(MessageWriter writer) {
-                compareMatcher.WriteMessageTo(writer);
-            }
-        }
-
     }
 }
