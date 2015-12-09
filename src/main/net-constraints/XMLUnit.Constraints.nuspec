@@ -15,7 +15,7 @@
     helpers to validate against an XML Schema, assert the values of
     XPath queries or compare XML documents against expected
     outcomes.</description>
-    <description>Constraints Classes of XMLUnit.NET</description>
+    <summary>Constraints Classes of XMLUnit.NET</summary>
     <dependencies>
       <dependency id="NUnit" version="3.0.1" />
       <dependency id="XMLUnit.Core" version="[$version$]" />
