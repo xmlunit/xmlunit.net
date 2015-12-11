@@ -7,6 +7,7 @@ cache:
 
 install:
   - cmd: git submodule update --init
+  - ps: (New-Object Net.WebClient).DownloadFile('https://api.nuget.org/downloads/nuget.exe', 'C:\Tools\NuGet\NuGet.exe')
   - cmd: nuget restore XMLUnit.NET.sln
 
 configuration:
