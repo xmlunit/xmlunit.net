@@ -30,7 +30,7 @@ namespace Org.XmlUnit.Diff {
                                                          "/",
                                                          Convert.ToInt16("2")),
                                           ComparisonResult.EQUAL);
-            Assert.That(d.ToString(), Is.StringContaining(" (EQUAL)"));
+            Assert.That(d.ToString(), Does.Contain(" (EQUAL)"));
         }
     }
 }

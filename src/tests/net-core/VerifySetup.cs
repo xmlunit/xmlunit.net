@@ -24,7 +24,7 @@ namespace Org.XmlUnit.Builder
         [Test]
         public void VerifyCurrentWorkingDirectory()
         {
-            Assert.That(Path.GetFullPath("."), Is.StringEnding("Debug") | Is.StringEnding("Release"));
+            Assert.That(Path.GetFullPath("."), Does.EndWith("Debug") | Does.EndWith("Release"));
         }
 
         [Test]

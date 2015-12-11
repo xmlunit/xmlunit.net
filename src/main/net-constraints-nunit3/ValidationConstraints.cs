@@ -51,16 +51,23 @@ namespace Org.XmlUnit.Constraints {
             return new SchemaValidationConstraintResult(this, actual, result);
         }
 
+        /// <summary>
+        ///   Result of a ValidationConstraint.
+        /// </summary>
         public class SchemaValidationConstraintResult : ConstraintResult {
             private readonly ValidationResult result;
             private readonly SchemaValidConstraint constraint;
 
+            /// <summary>
+            /// Creates the result.
+            /// </summary>
             public SchemaValidationConstraintResult(SchemaValidConstraint constraint, object actualValue, ValidationResult result)
                 : base(constraint, actualValue, result.Valid) {
                 this.constraint = constraint;
                 this.result = result;
             }
 
+            /// <inheritdoc/>
             public override void WriteMessageTo(MessageWriter writer) {
                 if (constraint.validator.SchemaSources.Count(s => !string.IsNullOrEmpty(s.SystemId)) > 0) {
                     writer.WriteLine("{0} does not validate against {1}",

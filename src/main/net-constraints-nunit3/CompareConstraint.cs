@@ -193,10 +193,16 @@ namespace Org.XmlUnit.Constraints {
             return new CompareConstraintResult(this, actual, diffResult);
         }
 
+        /// <summary>
+        ///   Result of a CompareConstraint.
+        /// </summary>
         public class CompareConstraintResult : ConstraintResult {
             private readonly CompareConstraint constraint;
             private readonly Diff.Diff diffResult;
 
+            /// <summary>
+            /// Creates the result.
+            /// </summary>
             public CompareConstraintResult(CompareConstraint constraint, object actualValue, Diff.Diff diffResult)
                 : base(constraint, actualValue, !diffResult.HasDifferences()) {
                 this.constraint = constraint;

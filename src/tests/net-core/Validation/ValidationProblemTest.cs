@@ -22,10 +22,10 @@ namespace Org.XmlUnit.Validation {
         public void TrivialToStringTest() {
             ValidationProblem p = new ValidationProblem("foo", 1, 2, XmlSeverityType.Error);
             String s = p.ToString();
-            Assert.That(s, Is.StringContaining("line=1"));
-            Assert.That(s, Is.StringContaining("column=2"));
-            Assert.That(s, Is.StringContaining("type=Error"));
-            Assert.That(s, Is.StringContaining("message='foo'"));
+            Assert.That(s, Does.Contain("line=1"));
+            Assert.That(s, Does.Contain("column=2"));
+            Assert.That(s, Does.Contain("type=Error"));
+            Assert.That(s, Does.Contain("message='foo'"));
         }
     }
 }

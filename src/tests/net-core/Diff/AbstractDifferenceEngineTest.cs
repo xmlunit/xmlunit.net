@@ -268,8 +268,8 @@ namespace Org.XmlUnit.Diff {
         [Test]
         public void TrivialComparisonStateToString() {
             string s = Wrap(ComparisonResult.SIMILAR).ToString();
-            Assert.That(s, Is.StringContaining("OngoingComparisonState"));
-            Assert.That(s, Is.StringContaining("SIMILAR"));
+            Assert.That(s, Does.Contain("OngoingComparisonState"));
+            Assert.That(s, Does.Contain("SIMILAR"));
         }
 
         protected static AbstractDifferenceEngine.ComparisonState Wrap(ComparisonResult c) {
