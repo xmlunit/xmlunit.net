@@ -12,7 +12,6 @@ cache:
 
 install:
   - cmd: git submodule update --init
-  - cmd: nuget restore XMLUnit.NET.sln
 
 configuration:
   - Debug
