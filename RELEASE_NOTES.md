@@ -2,9 +2,10 @@
 
 ## Next Release
 
-* fixed the nuget package names - now using XMLUnit.Core and
-  XMLUnit.Constraints
-* The XMLUnit.Constraints nuget package now depends on NUNit 2.6.4 -
+* fixed the nuget package name of the core library to now use
+* The XMLUnit.Constraints nuget package has been replaced with
+  XMLUnit.NUnit2.Constraints and XMLUnit.NUnit3.Constraints
+* The XMLUnit.NUnit2.Constraints nuget package now depends on NUNit 2.6.4 -
   which it has been compiled against - rather than 2.5.10.
 * added new overloads to `IXPathEngine`
 * fixed the XPath context used by the `ByXPath` element selector so

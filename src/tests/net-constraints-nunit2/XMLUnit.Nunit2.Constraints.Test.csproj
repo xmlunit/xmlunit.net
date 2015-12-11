@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   This file is licensed to You under the Apache License, Version 2.0
   (the "License"); you may not use this file except in compliance with
@@ -76,10 +76,10 @@
     <Compile Include="..\..\shared\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="..\net-constraints\CompareConstraintTest.cs">
+    <Compile Include="..\net-constraints-nunit3\CompareConstraintTest.cs">
       <Link>CompareConstraintTest.cs</Link>
     </Compile>
-    <Compile Include="..\net-constraints\ValidationConstraintsTest.cs">
+    <Compile Include="..\net-constraints-nunit3\ValidationConstraintsTest.cs">
       <Link>ValidationConstraintsTest.cs</Link>
     </Compile>
     <Compile Include="..\net-core\TestResources.cs">

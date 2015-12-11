@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
-    <id>XMLUnit.Constraints</id>
+    <id>XMLUnit.NUnit3.Constraints</id>
     <version>$version$</version>
-    <title>XMLUnit Constraints for NUnit</title>
+    <title>XMLUnit Constraints for NUnit 3.</title>
     <authors>XMLUnit Contributors</authors>
     <owners />
     <projectUrl>http://www.xmlunit.org/</projectUrl>
@@ -15,7 +15,7 @@
     helpers to validate against an XML Schema, assert the values of
     XPath queries or compare XML documents against expected
     outcomes.</description>
-    <summary>Constraints Classes of XMLUnit.NET</summary>
+    <summary>NUnit 3.x Constraints Classes of XMLUnit.NET</summary>
     <dependencies>
       <dependency id="NUnit" version="3.0.1" />
       <dependency id="XMLUnit.Core" version="[$version$]" />

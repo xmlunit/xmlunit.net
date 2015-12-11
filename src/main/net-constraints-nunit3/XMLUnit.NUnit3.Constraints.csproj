@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   This file is licensed to You under the Apache License, Version 2.0
   (the "License"); you may not use this file except in compliance with
@@ -19,7 +19,7 @@
     <ProjectGuid>{77A34DDD-85E6-4E2F-91C5-5736FDA78481}</ProjectGuid>
     <OutputType>Library</OutputType>
     <NoStandardLibraries>false</NoStandardLibraries>
-    <AssemblyName>xmlunit-constraints</AssemblyName>
+    <AssemblyName>xmlunit-nunit3-constraints</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\</SolutionDir>
