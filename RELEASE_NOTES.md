@@ -3,6 +3,11 @@
 ## Next Release
 
 * fixed the nuget package name of the core library to now use
+  XMLUnit.Core
+* switched core tests to use to NUnit 3.x and provided a new library
+  to support NUnit 3.x constraints.
+  [#19](https://github.com/xmlunit/xmlunit.net/pull/19) by
+  [@e-tobi](https://github.com/e-tobi)
 * The XMLUnit.Constraints nuget package has been replaced with
   XMLUnit.NUnit2.Constraints and XMLUnit.NUnit3.Constraints
 * The XMLUnit.NUnit2.Constraints nuget package now depends on NUNit 2.6.4 -

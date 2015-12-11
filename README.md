@@ -118,8 +118,9 @@ XMLUnit requires .NET 3.5 (it is known to work and actually is
 developed on Mono 4).
 
 The `core` library provides all functionality needed to test XML
-output and hasn't got any dependencies.  It uses NUnit 2.x for its own
-tests.  The core library is complemented by NUnit constraints.
+output and hasn't got any dependencies.  It uses NUnit 3.x for its own
+tests.  The core library is complemented by two libaries of NUnit
+constraints targeting NUnit 2.x and 3.x respectively.
 
 ## Checking out XMLUnit.NET
 
