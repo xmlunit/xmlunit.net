@@ -1,6 +1,6 @@
 # Release Notes
 
-## Next Release
+## XMLUnit.NET 2.0.0-alpha-03 - /Released 2015-12-13/
 
 * fixed the nuget package name of the core library to now use
   XMLUnit.Core
