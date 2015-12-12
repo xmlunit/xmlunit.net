@@ -403,8 +403,12 @@ namespace Org.XmlUnit.Diff {
 
             Assert.IsFalse(builder.Build()(control, test));
 
-            builder.DefaultTo(ElementSelectors.Default);
-            Assert.IsTrue(builder.Build()(control, test));
+            builder.ElseUse(ElementSelectors.Default);
+            // not or-ed
+            Assert.IsFalse(builder.Build()(control, test));
+
+            XmlElement control2 = doc.CreateElement("baz");
+            Assert.IsTrue(builder.Build()(control2, test));
         }
 
         [Test]
@@ -549,10 +553,10 @@ namespace Org.XmlUnit.Diff {
         [Test]
         public void ConditionalSelectorBuilderWontAllowMultipleDefaults() {
             Assert.Throws<InvalidOperationException>(() => {
-            ElementSelectors.IConditionalSelectorBuilder b =
-                ElementSelectors.ConditionalBuilder();
-            b.DefaultTo(ElementSelectors.ByName);
-            b.DefaultTo(ElementSelectors.ByName);});
+                    ElementSelectors.IConditionalSelectorBuilder b = ElementSelectors.ConditionalBuilder();
+                    b.ElseUse(ElementSelectors.ByName);
+                    b.ElseUse(ElementSelectors.ByName);
+                });
         }
     }
 }

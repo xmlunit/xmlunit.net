@@ -16,6 +16,10 @@
 * fixed the XPath context used by the `ByXPath` element selector so
   that "." now refers to the current element.
   Issue [xmlunit/#39](https://github.com/xmlunit/xmlunit/issues/39)
+* `ElementSelectors.ConditionalBuilder` now stops at the first
+  predicate returning `true`, even if the associated `ElementSelector`
+  returns false.
+  Issue [xmlunit/#40](https://github.com/xmlunit/xmlunit/issues/40)
 
 ## XMLUnit.NET 2.0.0-alpha-02 - /Released 2015-11-21/
 

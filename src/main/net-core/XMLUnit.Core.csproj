@@ -80,6 +80,7 @@
     <Compile Include="Diff\ComparisonType.cs" />
     <Compile Include="Diff\ComparisonTypes.cs" />
     <Compile Include="Diff\DefaultComparisonFormatter.cs" />
+    <Compile Include="Diff\DefaultConditionalSelectorBuilder.cs" />
     <Compile Include="Diff\DefaultNodeMatcher.cs" />
     <Compile Include="Diff\Diff.cs" />
     <Compile Include="Diff\Difference.cs" />

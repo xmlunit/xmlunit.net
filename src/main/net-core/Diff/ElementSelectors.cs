@@ -349,9 +349,10 @@ namespace Org.XmlUnit.Diff {
         /// </summary>
         /// <remarks>
         ///   <para>
-        ///     All pairs created by the when*/thenUse pairs
-        ///     are evaluated in order until one returns true, finally the
-        ///     default, if any, is consulted.
+        /// All When*s are consulted in order and if one returns true
+        /// then the associated ElementSelector is used.  If all of
+        /// them return false, the default set up with ElseUse if any
+        /// is used.
         ///   </para>
         /// </remarks>
         public interface IConditionalSelectorBuilder {
@@ -368,9 +369,10 @@ namespace Org.XmlUnit.Diff {
             /// </summary>
             IConditionalSelectorBuilderThen WhenElementIsNamed(XmlQualifiedName expectedName);
             /// <summary>
-            /// Assigns a default ElementSelector.
+            /// Assigns a default ElementSelector that is used if all
+            /// Whens have returned false.
             /// </summary>
-            IConditionalSelectorBuilder DefaultTo(ElementSelector es);
+            IConditionalSelectorBuilder ElseUse(ElementSelector es);
             /// <summary>
             /// Builds a conditional ElementSelector.
             /// </summary>
@@ -391,53 +393,6 @@ namespace Org.XmlUnit.Diff {
             return new DefaultConditionalSelectorBuilder();
         }
 
-        private class DefaultConditionalSelectorBuilder
-            : IConditionalSelectorBuilder, IConditionalSelectorBuilderThen {
-            private ElementSelector defaultSelector;
-            private readonly IList<ElementSelector> conditionalSelectors = new List<ElementSelector>();
-            private Predicate<XmlElement> pendingCondition;
-
-            public IConditionalSelectorBuilder ThenUse(ElementSelector es) {
-                if (pendingCondition == null) {
-                    throw new InvalidOperationException("missing condition");
-                }
-                conditionalSelectors.Add(ConditionalSelector(pendingCondition, es));
-                pendingCondition = null;
-                return this;
-            }
-            public IConditionalSelectorBuilderThen When(Predicate<XmlElement> predicate) {
-                if (pendingCondition != null) {
-                    throw new InvalidOperationException("unbalanced conditions");
-                }
-                pendingCondition = predicate;
-                return this;
-            }
-            public IConditionalSelectorBuilder DefaultTo(ElementSelector es) {
-                if (defaultSelector != null) {
-                    throw new InvalidOperationException("can't have more than one default selector");
-                }
-                defaultSelector = es;
-                return this;
-            }
-            public IConditionalSelectorBuilderThen WhenElementIsNamed(string expectedName) {
-                return When(ElementNamePredicate(expectedName));
-            }
-            public IConditionalSelectorBuilderThen WhenElementIsNamed(XmlQualifiedName expectedName) {
-                return When(ElementNamePredicate(expectedName));
-            }
-            public ElementSelector Build() {
-                if (pendingCondition != null) {
-                    throw new InvalidOperationException("unbalanced conditions");
-                }
-                List<ElementSelector> es = new List<ElementSelector>();
-                es.AddRange(conditionalSelectors);
-                if (defaultSelector != null) {
-                    es.Add(defaultSelector);
-                }
-                return Or(es.ToArray());
-            }
-        }
-
         private static bool
             MapsEqualForKeys(IDictionary<XmlQualifiedName, string> control,
                              IDictionary<XmlQualifiedName, string> test,
@@ -449,11 +404,11 @@ namespace Org.XmlUnit.Diff {
             });
         }
 
-        private static Predicate<XmlElement> ElementNamePredicate(string expectedName) {
+        internal static Predicate<XmlElement> ElementNamePredicate(string expectedName) {
             return e => e != null && e.LocalName == expectedName;
         }
 
-        private static Predicate<XmlElement> ElementNamePredicate(XmlQualifiedName expectedName) {
+        internal static Predicate<XmlElement> ElementNamePredicate(XmlQualifiedName expectedName) {
             return e => expectedName == e.GetQName();
         }
 
