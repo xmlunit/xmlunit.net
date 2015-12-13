@@ -1,7 +1,7 @@
 XMLUnit.NET 2.x
 ===============
 
-[![nuget](https://img.shields.io/nuget/v/XmlUnit.Core.svg)](https://www.nuget.org/packages/XmlUnit.Core/)
+[![nuget](https://img.shields.io/nuget/v/XMLUnit.Core.svg)](https://www.nuget.org/packages/XMLUnit.Core/)
 
 Builds:
   * Travis CI using Mono 4.0 on Linux: [![Build Status XMLUnit.NET 2.x](https://travis-ci.org/xmlunit/xmlunit.net.svg?branch=master)](https://travis-ci.org/xmlunit/xmlunit.net)
