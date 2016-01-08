@@ -21,28 +21,14 @@ namespace Org.XmlUnit.Validation {
 
     /// <summary>
     /// Validates a piece of XML against a schema given in a supported
-    /// language or the defintion of such a schema itself.
+    /// language or the definition of such a schema itself.
     /// </summary>
     public class Validator {
         private readonly ValidationType language;
-        private string schemaURI;
         private ISource[] sourceLocations;
 
         private Validator(ValidationType language) {
             this.language = language;
-        }
-
-        /// <summary>
-        /// The URI (or for example the System ID in case of a DTD) that
-        /// identifies the schema to validate or use during validation.
-        /// </summary>
-        public virtual string SchemaURI {
-            set {
-                schemaURI = value;
-            }
-            get {
-                return schemaURI;
-            }
         }
 
         /// <summary>
