@@ -203,7 +203,7 @@ namespace Org.XmlUnit.Diff {
             l.Add(new Element("foo"));
             l.Add(new Element("foo", "urn:foo:bar"));
             Dictionary<string, string> m = new Dictionary<string, string>();
-            m["urn:foo:bar"] = "bar";
+            m["bar"] = "urn:foo:bar";
             XPathContext ctx = new XPathContext(m);
             ctx.SetChildren(l);
             ctx.NavigateToChild(0);
@@ -219,7 +219,7 @@ namespace Org.XmlUnit.Diff {
         [Test]
         public void AttributesAndNs() {
             Dictionary<string, string> m = new Dictionary<string, string>();
-            m["urn:foo:bar"] = "bar";
+            m["bar"] = "urn:foo:bar";
             XPathContext ctx = new XPathContext(m);
             ctx.SetChildren(Linqy.Singleton(new Element("foo",
                                                              "urn:foo:bar")));

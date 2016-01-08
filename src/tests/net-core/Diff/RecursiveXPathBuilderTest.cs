@@ -83,8 +83,8 @@ namespace Org.XmlUnit.Diff {
             XmlElement e = doc.CreateElement("foo", "http://www.xmlunit.org/test");
             e.SetAttribute("foo", "http://www.xmlunit.org/test", "bar");
             e.SetAttribute("baz", "http://www.xmlunit.org/test", "xyzzy");
-            var u2p = new Dictionary<string, string> {{"http://www.xmlunit.org/test", "x"}};
-            builder.NamespaceContext = u2p;
+            var p2u = new Dictionary<string, string> {{"x", "http://www.xmlunit.org/test"}};
+            builder.NamespaceContext = p2u;
             Assert.AreEqual("/x:foo[1]/@x:foo",
                             builder.Map(e.GetAttributeNode("foo")).XPath);
         }

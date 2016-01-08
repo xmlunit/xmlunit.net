@@ -56,7 +56,7 @@ namespace Org.XmlUnit.Diff {
         ComparisonController ComparisonController { set; }
 
         /// <summary>
-        /// Establish a namespace context mapping from URI to prefix
+        /// Establish a namespace context mapping from prefix to URI
         /// that will be used in Comparison.Detail.XPath.
         /// </summary>
         /// <remarks>

@@ -24,10 +24,10 @@ namespace Org.XmlUnit.Diff {
     /// </summary>
     public class RecursiveXPathBuilder {
 
-        private IDictionary<string, string> uri2Prefix;
+        private IDictionary<string, string> prefix2uri;
 
         /// <summary>
-        /// Establish a namespace context mapping from URI to prefix
+        /// Establish a namespace context mapping from prefix to URI
         /// that will be used in Comparison.Detail.XPath.
         /// </summary>
         /// <remarks>
@@ -38,7 +38,7 @@ namespace Org.XmlUnit.Diff {
         public IDictionary<string, string> NamespaceContext
         {
             set {
-                uri2Prefix = value == null ? value : new Dictionary<string, string>(value);
+                prefix2uri = value == null ? value : new Dictionary<string, string>(value);
             }
         }
 
@@ -57,7 +57,7 @@ namespace Org.XmlUnit.Diff {
         private XPathContext GetXPathForNonAttribute(XmlNode n) {
             XmlNode parent = n.ParentNode;
             if (parent == null || parent is XmlDocument) {
-                return new XPathContext(uri2Prefix, n);
+                return new XPathContext(prefix2uri, n);
             }
             XPathContext parentContext = GetXPathForNonAttribute(parent);
             IEnumerable<XmlNode> children = parent.ChildNodes.Cast<XmlNode>();

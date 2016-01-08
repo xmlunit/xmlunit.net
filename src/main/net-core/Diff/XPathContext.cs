@@ -14,6 +14,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Xml;
 using Org.XmlUnit.Util;
@@ -53,22 +54,22 @@ namespace Org.XmlUnit.Diff {
         /// <summary>
         /// Creates a new empty context with namespace context.
         /// </summary>
-        /// <param name="uri2Prefix">map from namespace URI to prefix to use when building the XPath expression</param>
-        public XPathContext(IDictionary<string, string> uri2Prefix)
-            : this(uri2Prefix, null) {
+        /// <param name="prefix2uri">map from prefix to namespace URI to use when building the XPath expression</param>
+        public XPathContext(IDictionary<string, string> prefix2uri)
+            : this(prefix2uri, null) {
         }
 
         /// <summary>
         /// Creates a new empty context with a given root and namespace context.
         /// </summary>
         /// <param name="root">the root of the XPath</param>
-        /// <param name="uri2Prefix">map from namespace URI to prefix to use when building the XPath expression</param>
-        public XPathContext(IDictionary<string, string> uri2Prefix,
+        /// <param name="prefix2uri">map from prefix to namespace URI to use when building the XPath expression</param>
+        public XPathContext(IDictionary<string, string> prefix2uri,
                             XmlNode root) {
-                if (uri2Prefix == null) {
+            if (prefix2uri == null) {
                 this.uri2Prefix = new Dictionary<string, string>();
             } else {
-                this.uri2Prefix = new Dictionary<string, string>(uri2Prefix);
+                this.uri2Prefix = new Dictionary<string, string>(Invert(prefix2uri));
             }
             path.AddLast(new Level(string.Empty));
             if (root != null) {
@@ -309,6 +310,10 @@ namespace Org.XmlUnit.Diff {
             public XmlQualifiedName Name { get { return name; } }
             /// <inheritdoc/>
             public XmlNodeType Type { get { return type; } }
+        }
+
+        private static IDictionary<string, string> Invert(IDictionary<string, string> m) {
+            return m.ToDictionary(e => e.Value, e => e.Key);
         }
     }
 }

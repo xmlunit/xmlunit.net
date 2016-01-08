@@ -315,14 +315,15 @@ namespace Org.XmlUnit.Diff {
         /// <param name="xpath">XPath expression applied in the context of the
         /// elements to chose from that selects the children to compare.</param>
         /// <param name="childSelector">ElementSelector to apply to the selected children.</param>
-        /// <param name="namespaceContext">provides prefix mapping for namespace
-        /// prefixes used inside the xpath expression.</param>
+        /// <param name="prefix2Uri">provides prefix mapping for
+        /// namespace prefixes used inside the xpath expression. Maps
+        /// from prefix to namespace URI</param>
         public static ElementSelector ByXPath(string xpath,
-                                              IDictionary<string, string> namespaceContext,
+                                              IDictionary<string, string> prefix2Uri,
                                               ElementSelector childSelector) {
             IXPathEngine engine = new XPathEngine();
-            if (namespaceContext != null) {
-                engine.NamespaceContext = namespaceContext;
+            if (prefix2Uri != null) {
+                engine.NamespaceContext = prefix2Uri;
             }
             INodeMatcher nm = new DefaultNodeMatcher(childSelector);
             return (control, test) => {

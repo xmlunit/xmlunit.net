@@ -3,6 +3,9 @@
 ## XMLUnit for Java 2.0.0-alpha-04
 
 * the unused `SchemaURI` property of `Validator` has been removed.
+* the mapping of `IDifferenceEngine.NamespaceContext` has been
+  inverted from prefix -> URI to URI -> prefix in order to be
+  consistent with the same concept in `IXPathEngine`.
 
 ## XMLUnit.NET 2.0.0-alpha-03 - /Released 2015-12-13/
 
