@@ -6,6 +6,13 @@
 * the mapping of `IDifferenceEngine.NamespaceContext` has been
   inverted from prefix -> URI to URI -> prefix in order to be
   consistent with the same concept in `IXPathEngine`.
+* `Comparison` now also contains the XPath of the parent of the
+  compared nodes or attributes which is most useful in cases of
+  missing nodes/attributes because the XPath on one side is `null` in
+  these cases.
+  Issue [#48](https://github.com/xmlunit/xmlunit/issues/48)
+  ported from PR [#50](https://github.com/xmlunit/xmlunit/pull/50)
+  by [@eguib](https://github.com/eguib).
 
 ## XMLUnit.NET 2.0.0-alpha-03 - /Released 2015-12-13/
 

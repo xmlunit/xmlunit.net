@@ -25,10 +25,10 @@ namespace Org.XmlUnit.Diff {
             Difference d = new Difference(new Comparison(ComparisonType.ELEMENT_TAG_NAME,
                                                          new XmlDocument().CreateElement("a"),
                                                          "/",
-                                                         Convert.ToInt16("2"),
+                                                         Convert.ToInt16("2"), string.Empty,
                                                          new XmlDocument().CreateElement("y"),
                                                          "/",
-                                                         Convert.ToInt16("2")),
+                                                         Convert.ToInt16("2"), string.Empty),
                                           ComparisonResult.EQUAL);
             Assert.That(d.ToString(), Does.Contain(" (EQUAL)"));
         }

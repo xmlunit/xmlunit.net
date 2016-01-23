@@ -47,15 +47,19 @@ namespace Org.XmlUnit.Diff {
             ctx.AppendChildren(l);
             ctx.NavigateToChild(0);
             Assert.AreEqual("/foo[1]", ctx.XPath);
+            Assert.AreEqual("/", ctx.ParentXPath);
             ctx.NavigateToParent();
             ctx.NavigateToChild(1);
             Assert.AreEqual("/foo[2]", ctx.XPath);
+            Assert.AreEqual("/", ctx.ParentXPath);
             ctx.NavigateToParent();
             ctx.NavigateToChild(2);
             Assert.AreEqual("/bar[1]", ctx.XPath);
+            Assert.AreEqual("/", ctx.ParentXPath);
             ctx.NavigateToParent();
             ctx.NavigateToChild(3);
             Assert.AreEqual("/foo[3]", ctx.XPath);
+            Assert.AreEqual("/", ctx.ParentXPath);
         }
 
         [Test]
@@ -70,27 +74,35 @@ namespace Org.XmlUnit.Diff {
             ctx.AppendChildren(l);
             ctx.NavigateToChild(0);
             Assert.AreEqual("/text()[1]", ctx.XPath);
+            Assert.AreEqual("/", ctx.ParentXPath);
             ctx.NavigateToParent();
             ctx.NavigateToChild(1);
             Assert.AreEqual("/comment()[1]", ctx.XPath);
+            Assert.AreEqual("/", ctx.ParentXPath);
             ctx.NavigateToParent();
             ctx.NavigateToChild(2);
             Assert.AreEqual("/text()[2]", ctx.XPath);
+            Assert.AreEqual("/", ctx.ParentXPath);
             ctx.NavigateToParent();
             ctx.NavigateToChild(3);
             Assert.AreEqual("/processing-instruction()[1]", ctx.XPath);
+            Assert.AreEqual("/", ctx.ParentXPath);
             ctx.NavigateToParent();
             ctx.NavigateToChild(4);
             Assert.AreEqual("/text()[3]", ctx.XPath);
+            Assert.AreEqual("/", ctx.ParentXPath);
             ctx.NavigateToParent();
             ctx.NavigateToChild(5);
             Assert.AreEqual("/comment()[2]", ctx.XPath);
+            Assert.AreEqual("/", ctx.ParentXPath);
             ctx.NavigateToParent();
             ctx.NavigateToChild(6);
             Assert.AreEqual("/text()[4]", ctx.XPath);
+            Assert.AreEqual("/", ctx.ParentXPath);
             ctx.NavigateToParent();
             ctx.NavigateToChild(7);
             Assert.AreEqual("/processing-instruction()[2]", ctx.XPath);
+            Assert.AreEqual("/", ctx.ParentXPath);
         }
 
         [Test]
@@ -104,15 +116,19 @@ namespace Org.XmlUnit.Diff {
             ctx.SetChildren(l);
             ctx.NavigateToChild(0);
             Assert.AreEqual("/foo[1]", ctx.XPath);
+            Assert.AreEqual("/", ctx.ParentXPath);
             ctx.NavigateToParent();
             ctx.NavigateToChild(1);
             Assert.AreEqual("/foo[2]", ctx.XPath);
+            Assert.AreEqual("/", ctx.ParentXPath);
             ctx.NavigateToParent();
             ctx.NavigateToChild(2);
             Assert.AreEqual("/bar[1]", ctx.XPath);
+            Assert.AreEqual("/", ctx.ParentXPath);
             ctx.NavigateToParent();
             ctx.NavigateToChild(3);
             Assert.AreEqual("/foo[3]", ctx.XPath);
+            Assert.AreEqual("/", ctx.ParentXPath);
         }
 
         [Test]
@@ -126,14 +142,18 @@ namespace Org.XmlUnit.Diff {
             ctx.SetChildren(l);
             ctx.NavigateToChild(0);
             Assert.AreEqual("/foo[1]", ctx.XPath);
+            Assert.AreEqual("/", ctx.ParentXPath);
             ctx.SetChildren(l);
             ctx.NavigateToChild(3);
             Assert.AreEqual("/foo[1]/foo[3]", ctx.XPath);
+            Assert.AreEqual("/foo[1]", ctx.ParentXPath);
             ctx.NavigateToParent();
             Assert.AreEqual("/foo[1]", ctx.XPath);
+            Assert.AreEqual("/", ctx.ParentXPath);
             ctx.NavigateToParent();
             ctx.NavigateToChild(2);
             Assert.AreEqual("/bar[1]", ctx.XPath);
+            Assert.AreEqual("/", ctx.ParentXPath);
         }
 
         [Test]
@@ -146,6 +166,7 @@ namespace Org.XmlUnit.Diff {
             ctx.AddAttributes(l);
             ctx.NavigateToAttribute(new XmlQualifiedName("bar"));
             Assert.AreEqual("/foo[1]/@bar", ctx.XPath);
+            Assert.AreEqual("/foo[1]", ctx.ParentXPath);
         }
 
         [Test]
@@ -156,6 +177,7 @@ namespace Org.XmlUnit.Diff {
             ctx.AddAttribute(new XmlQualifiedName("bar"));
             ctx.NavigateToAttribute(new XmlQualifiedName("bar"));
             Assert.AreEqual("/foo[1]/@bar", ctx.XPath);
+            Assert.AreEqual("/foo[1]", ctx.ParentXPath);
         }
 
         [Test]
@@ -173,27 +195,35 @@ namespace Org.XmlUnit.Diff {
             ctx.SetChildren(l);
             ctx.NavigateToChild(0);
             Assert.AreEqual("/text()[1]", ctx.XPath);
+            Assert.AreEqual("/", ctx.ParentXPath);
             ctx.NavigateToParent();
             ctx.NavigateToChild(1);
             Assert.AreEqual("/comment()[1]", ctx.XPath);
+            Assert.AreEqual("/", ctx.ParentXPath);
             ctx.NavigateToParent();
             ctx.NavigateToChild(2);
             Assert.AreEqual("/text()[2]", ctx.XPath);
+            Assert.AreEqual("/", ctx.ParentXPath);
             ctx.NavigateToParent();
             ctx.NavigateToChild(3);
             Assert.AreEqual("/processing-instruction()[1]", ctx.XPath);
+            Assert.AreEqual("/", ctx.ParentXPath);
             ctx.NavigateToParent();
             ctx.NavigateToChild(4);
             Assert.AreEqual("/text()[3]", ctx.XPath);
+            Assert.AreEqual("/", ctx.ParentXPath);
             ctx.NavigateToParent();
             ctx.NavigateToChild(5);
             Assert.AreEqual("/comment()[2]", ctx.XPath);
+            Assert.AreEqual("/", ctx.ParentXPath);
             ctx.NavigateToParent();
             ctx.NavigateToChild(6);
             Assert.AreEqual("/processing-instruction()[2]", ctx.XPath);
+            Assert.AreEqual("/", ctx.ParentXPath);
             ctx.NavigateToParent();
             ctx.NavigateToChild(7);
             Assert.AreEqual("/text()[4]", ctx.XPath);
+            Assert.AreEqual("/", ctx.ParentXPath);
         }
 
         [Test]
@@ -208,12 +238,15 @@ namespace Org.XmlUnit.Diff {
             ctx.SetChildren(l);
             ctx.NavigateToChild(0);
             Assert.AreEqual("/foo[1]", ctx.XPath);
+            Assert.AreEqual("/", ctx.ParentXPath);
             ctx.NavigateToParent();
             ctx.NavigateToChild(1);
             Assert.AreEqual("/foo[2]", ctx.XPath);
+            Assert.AreEqual("/", ctx.ParentXPath);
             ctx.NavigateToParent();
             ctx.NavigateToChild(2);
             Assert.AreEqual("/bar:foo[1]", ctx.XPath);
+            Assert.AreEqual("/", ctx.ParentXPath);
         }
 
         [Test]
@@ -230,9 +263,11 @@ namespace Org.XmlUnit.Diff {
             ctx.AddAttributes(l);
             ctx.NavigateToAttribute(new XmlQualifiedName("baz"));
             Assert.AreEqual("/bar:foo[1]/@baz", ctx.XPath);
+            Assert.AreEqual("/bar:foo[1]", ctx.ParentXPath);
             ctx.NavigateToParent();
             ctx.NavigateToAttribute(new XmlQualifiedName("baz", "urn:foo:bar"));
             Assert.AreEqual("/bar:foo[1]/@bar:baz", ctx.XPath);
+            Assert.AreEqual("/bar:foo[1]", ctx.ParentXPath);
             ctx.NavigateToParent();
         }
 
@@ -246,13 +281,23 @@ namespace Org.XmlUnit.Diff {
             ctx.SetChildren(l);
             ctx.NavigateToChild(1);
             Assert.AreEqual("/foo[2]", ctx.XPath);
+            Assert.AreEqual("/", ctx.ParentXPath);
             XPathContext clone = (XPathContext) ctx.Clone();
             Assert.AreEqual("/foo[2]", clone.XPath);
+            Assert.AreEqual("/", clone.ParentXPath);
             Assert.AreNotSame(ctx, clone);
             clone.NavigateToParent();
             clone.NavigateToChild(2);
             Assert.AreEqual("/bar[1]", clone.XPath);
+            Assert.AreEqual("/", clone.ParentXPath);
             Assert.AreEqual("/foo[2]", ctx.XPath);
+            Assert.AreEqual("/", ctx.ParentXPath);
+        }
+
+        [Test]
+        public void ParentXPathEdgeCases() {
+            XPathContext ctx = new XPathContext();
+            Assert.AreEqual(string.Empty, ctx.ParentXPath);
         }
 
         internal class Element : XPathContext.INodeInfo {

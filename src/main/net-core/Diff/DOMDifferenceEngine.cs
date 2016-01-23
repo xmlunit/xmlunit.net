@@ -70,25 +70,25 @@ namespace Org.XmlUnit.Diff{
 
             return Compare(new Comparison(ComparisonType.NODE_TYPE,
                                           control, GetXPath(controlContext),
-                                          control.NodeType,
+                                          control.NodeType, GetParentXPath(controlContext),
                                           test, GetXPath(testContext),
-                                          test.NodeType))
+                                          test.NodeType, GetParentXPath(testContext)))
                 .AndThen(new Comparison(ComparisonType.NAMESPACE_URI,
                                         control, GetXPath(controlContext),
-                                        control.NamespaceURI,
+                                        control.NamespaceURI, GetParentXPath(controlContext),
                                         test, GetXPath(testContext),
-                                        test.NamespaceURI))
+                                        test.NamespaceURI, GetParentXPath(testContext)))
                 .AndThen(new Comparison(ComparisonType.NAMESPACE_PREFIX,
                                         control, GetXPath(controlContext),
-                                        control.Prefix,
+                                        control.Prefix, GetParentXPath(controlContext),
                                         test, GetXPath(testContext),
-                                        test.Prefix))
+                                        test.Prefix, GetParentXPath(testContext)))
                 .AndIfTrueThen(control.NodeType != XmlNodeType.Attribute,
                                new Comparison(ComparisonType.CHILD_NODELIST_LENGTH,
                                               control, GetXPath(controlContext),
-                                              controlChildren.Count(),
+                                              controlChildren.Count(), GetParentXPath(controlContext),
                                               test, GetXPath(testContext),
-                                              testChildren.Count()))
+                                              testChildren.Count(), GetParentXPath(testContext)))
                 .AndThen(() => NodeTypeSpecificComparison(control, controlContext,
                                                           test, testContext))
                 // and finally recurse into children
@@ -188,9 +188,9 @@ namespace Org.XmlUnit.Diff{
                                                      XPathContext testContext) {
             return Compare(new Comparison(ComparisonType.TEXT_VALUE, control,
                                           GetXPath(controlContext),
-                                          control.Data,
+                                          control.Data, GetParentXPath(controlContext),
                                           test, GetXPath(testContext),
-                                          test.Data));
+                                          test.Data, GetParentXPath(testContext)));
         }
 
         /// <summary>
@@ -205,9 +205,9 @@ namespace Org.XmlUnit.Diff{
 
             return Compare(new Comparison(ComparisonType.HAS_DOCTYPE_DECLARATION,
                                           control, GetXPath(controlContext),
-                                          controlDt != null,
+                                          controlDt != null, GetParentXPath(controlContext),
                                           test, GetXPath(testContext),
-                                          testDt != null))
+                                          testDt != null, GetParentXPath(testContext)))
                 .AndIfTrueThen(controlDt != null && testDt != null,
                                () => CompareNodes(controlDt, controlContext,
                                                   testDt, testContext))
@@ -226,19 +226,19 @@ namespace Org.XmlUnit.Diff{
                                                 XPathContext testContext) {
             return Compare(new Comparison(ComparisonType.DOCTYPE_NAME,
                                           control, GetXPath(controlContext),
-                                          control.Name,
+                                          control.Name, GetParentXPath(controlContext),
                                           test, GetXPath(testContext),
-                                          test.Name))
+                                          test.Name, GetParentXPath(testContext)))
                 .AndThen(new Comparison(ComparisonType.DOCTYPE_PUBLIC_ID,
                                         control, GetXPath(controlContext),
-                                        control.PublicId,
+                                        control.PublicId, GetParentXPath(controlContext),
                                         test, GetXPath(testContext),
-                                        test.PublicId))
+                                        test.PublicId, GetParentXPath(testContext)))
                 .AndThen(new Comparison(ComparisonType.DOCTYPE_SYSTEM_ID,
                                         control, GetXPath(controlContext),
-                                        control.SystemId,
+                                        control.SystemId, GetParentXPath(controlContext),
                                         test, GetXPath(testContext),
-                                        test.SystemId));
+                                        test.SystemId, GetParentXPath(testContext)));
         }
 
         /// <summary>
@@ -262,19 +262,19 @@ namespace Org.XmlUnit.Diff{
 
             return Compare(new Comparison(ComparisonType.XML_VERSION,
                                           control, GetXPath(controlContext),
-                                          controlVersion,
+                                          controlVersion, GetParentXPath(controlContext),
                                           test, GetXPath(testContext),
-                                          testVersion))
+                                          testVersion, GetParentXPath(testContext)))
                 .AndThen(new Comparison(ComparisonType.XML_STANDALONE,
                                         control, GetXPath(controlContext),
-                                        controlStandalone,
+                                        controlStandalone, GetParentXPath(controlContext),
                                         test, GetXPath(testContext),
-                                        testStandalone))
+                                        testStandalone, GetParentXPath(testContext)))
                 .AndThen(new Comparison(ComparisonType.XML_ENCODING,
                                         control, GetXPath(controlContext),
-                                        controlEncoding,
+                                        controlEncoding, GetParentXPath(controlContext),
                                         test, GetXPath(testContext),
-                                        testEncoding));
+                                        testEncoding, GetParentXPath(testContext)));
         }
 
         /// <summary>
@@ -287,9 +287,9 @@ namespace Org.XmlUnit.Diff{
                                                 XPathContext testContext) {
             return Compare(new Comparison(ComparisonType.ELEMENT_TAG_NAME,
                                           control, GetXPath(controlContext),
-                                          control.Name,
+                                          control.Name, GetParentXPath(controlContext),
                                           test, GetXPath(testContext),
-                                          test.Name))
+                                          test.Name, GetParentXPath(testContext)))
                 .AndThen(() => CompareElementAttributes(control, controlContext,
                                                         test, testContext));
         }
@@ -313,26 +313,30 @@ namespace Org.XmlUnit.Diff{
             return Compare(new Comparison(ComparisonType.ELEMENT_NUM_ATTRIBUTES,
                                           control, GetXPath(controlContext),
                                           controlAttributes.RemainingAttributes.Count,
+                                          GetParentXPath(controlContext),
                                           test, GetXPath(testContext),
-                                          testAttributes.RemainingAttributes.Count))
+                                          testAttributes.RemainingAttributes.Count,
+                                          GetParentXPath(testContext)))
                 .AndThen(() => CompareXsiType(controlAttributes.Type, controlContext,
                                               testAttributes.Type, testContext))
                 .AndThen(new Comparison(ComparisonType.SCHEMA_LOCATION,
                                         control, GetXPath(controlContext),
                                         controlAttributes.SchemaLocation != null 
                                         ? controlAttributes.SchemaLocation.Value : null,
+                                        GetParentXPath(controlContext),
                                         test, GetXPath(testContext),
                                         testAttributes.SchemaLocation != null
-                                        ? testAttributes.SchemaLocation.Value : null))
+                                        ? testAttributes.SchemaLocation.Value : null,
+                                        GetParentXPath(testContext)))
                 .AndThen(new Comparison(ComparisonType.NO_NAMESPACE_SCHEMA_LOCATION,
                                         control, GetXPath(controlContext),
                                         controlAttributes.NoNamespaceSchemaLocation != null
                                         ? controlAttributes.NoNamespaceSchemaLocation.Value
-                                        : null,
+                                        : null, GetParentXPath(controlContext),
                                         test, GetXPath(testContext),
                                         testAttributes.NoNamespaceSchemaLocation != null
                                         ? testAttributes.NoNamespaceSchemaLocation.Value
-                                        : null))
+                                        : null, GetParentXPath(testContext)))
                 .AndThen(NormalAttributeComparer(control, controlContext,
                                                  controlAttributes,
                                                  test, testContext,
@@ -364,8 +368,10 @@ namespace Org.XmlUnit.Diff{
                             chain.AndThen(new Comparison(ComparisonType.ATTR_NAME_LOOKUP,
                                                          control, GetXPath(controlContext),
                                                          controlAttrName,
+                                                         GetParentXPath(controlContext),
                                                          test, GetXPath(testContext),
-                                                         testAttrName));
+                                                         testAttrName,
+                                                         GetParentXPath(testContext)));
 
                         if (testAttr != null) {
                             testContext.NavigateToAttribute(testAttrName);
@@ -397,10 +403,11 @@ namespace Org.XmlUnit.Diff{
                                         .AndThen(new Comparison(ComparisonType.ATTR_NAME_LOOKUP,
                                                                 control,
                                                                 GetXPath(controlContext),
-                                                                null,
+                                                                null, GetParentXPath(controlContext),
                                                                 test,
                                                                 GetXPath(testContext),
-                                                                testAttrName));
+                                                                testAttrName,
+                                                                GetParentXPath(testContext)));
                                 } finally {
                                     testContext.NavigateToParent();
                                 }
@@ -420,14 +427,14 @@ namespace Org.XmlUnit.Diff{
                                                               XPathContext testContext) {
             return Compare(new Comparison(ComparisonType.PROCESSING_INSTRUCTION_TARGET,
                                           control, GetXPath(controlContext),
-                                          control.Target,
+                                          control.Target, GetParentXPath(controlContext),
                                           test, GetXPath(testContext),
-                                          test.Target))
+                                          test.Target, GetParentXPath(testContext)))
                 .AndThen(new Comparison(ComparisonType.PROCESSING_INSTRUCTION_DATA,
                                         control, GetXPath(controlContext),
-                                        control.Data,
+                                        control.Data, GetParentXPath(controlContext),
                                         test, GetXPath(testContext),
-                                        test.Data));
+                                        test.Data, GetParentXPath(testContext)));
         }
 
         /// <summary>
@@ -463,9 +470,9 @@ namespace Org.XmlUnit.Diff{
                     chain =
                         chain.AndThen(new Comparison(ComparisonType.CHILD_NODELIST_SEQUENCE,
                                                      control, GetXPath(controlContext),
-                                                     controlIndex,
+                                                     controlIndex, GetParentXPath(controlContext),
                                                      test, GetXPath(testContext),
-                                                     testIndex))
+                                                     testIndex, GetParentXPath(testContext)))
                         .AndThen(() => CompareNodes(control, controlContext,
                                                     test, testContext));
                 } finally {
@@ -475,13 +482,14 @@ namespace Org.XmlUnit.Diff{
             }
 
             return chain
-                .AndThen(UnmatchedControlNodes(controlList, controlContext, seen))
-                .AndThen(UnmatchedTestNodes(testList, testContext, seen));
+                .AndThen(UnmatchedControlNodes(controlList, controlContext, seen, testContext))
+                .AndThen(UnmatchedTestNodes(testList, testContext, seen, controlContext));
         }
 
         private Func<ComparisonState> UnmatchedControlNodes(IList<XmlNode> controlList,
                                                             XPathContext controlContext,
-                                                            ICollection<XmlNode> seen) {
+                                                            ICollection<XmlNode> seen,
+                                                            XPathContext testContext) {
             return () => {
                 ComparisonState chain = new OngoingComparisonState(this);
                 int controlSize = controlList.Count;
@@ -494,7 +502,9 @@ namespace Org.XmlUnit.Diff{
                                                         controlList[i],
                                                         GetXPath(controlContext),
                                                         controlList[i].GetQName(),
-                                                        null, null, null));
+                                                        GetParentXPath(controlContext),
+                                                        null, null, null,
+                                                        GetXPath(testContext)));
                         } finally {
                             controlContext.NavigateToParent();
                         }
@@ -506,7 +516,8 @@ namespace Org.XmlUnit.Diff{
 
         private Func<ComparisonState> UnmatchedTestNodes(IList<XmlNode> testList,
                                                          XPathContext testContext,
-                                                         ICollection<XmlNode> seen) {
+                                                         ICollection<XmlNode> seen,
+                                                         XPathContext controlContext) {
             return () => {
                 ComparisonState chain = new OngoingComparisonState(this);
                 int testSize = testList.Count;
@@ -517,9 +528,11 @@ namespace Org.XmlUnit.Diff{
                             chain = chain
                                 .AndThen(new Comparison(ComparisonType.CHILD_LOOKUP,
                                                         null, null, null,
+                                                        GetXPath(controlContext),
                                                         testList[i],
                                                         GetXPath(testContext),
-                                                        testList[i].GetQName()));
+                                                        testList[i].GetQName(),
+                                                        GetParentXPath(testContext)));
                         } finally {
                             testContext.NavigateToParent();
                         }
@@ -560,8 +573,9 @@ namespace Org.XmlUnit.Diff{
                 return Compare(new Comparison(ComparisonType.ATTR_NAME_LOOKUP,
                                               control, GetXPath(controlContext),
                                               controlAttrName,
+                                              GetParentXPath(controlContext),
                                               test, GetXPath(testContext),
-                                              testAttrName))
+                                              testAttrName, GetParentXPath(testContext)))
                     .AndIfTrueThen(attributePresentOnBothSides,
                                    () => CompareAttributeExplicitness(control, controlContext,
                                                                       test, testContext))
@@ -569,8 +583,10 @@ namespace Org.XmlUnit.Diff{
                                    new Comparison(ComparisonType.ATTR_VALUE,
                                                   control, GetXPath(controlContext),
                                                   ValueAsQName(control),
+                                                  GetParentXPath(controlContext),
                                                   test, GetXPath(testContext),
-                                                  ValueAsQName(test)));
+                                                  ValueAsQName(test),
+                                                  GetParentXPath(testContext)));
             } finally {
                 if (mustChangeControlContext) {
                     controlContext.NavigateToParent();
@@ -592,9 +608,9 @@ namespace Org.XmlUnit.Diff{
                                                 test, testContext)
                 .AndThen(new Comparison(ComparisonType.ATTR_VALUE,
                                         control, GetXPath(controlContext),
-                                        control.Value,
+                                        control.Value, GetParentXPath(controlContext),
                                         test, GetXPath(testContext),
-                                        test.Value));
+                                        test.Value, GetParentXPath(testContext)));
         }
 
         /// <summary>
@@ -606,9 +622,9 @@ namespace Org.XmlUnit.Diff{
                                                              XPathContext testContext) {
             return Compare(new Comparison(ComparisonType.ATTR_VALUE_EXPLICITLY_SPECIFIED,
                                           control, GetXPath(controlContext),
-                                          control.Specified,
+                                          control.Specified, GetParentXPath(controlContext),
                                           test, GetXPath(testContext),
-                                          test.Specified));
+                                          test.Specified, GetParentXPath(testContext)));
         }
 
         /// <summary>

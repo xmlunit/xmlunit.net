@@ -28,12 +28,14 @@ namespace Org.XmlUnit.Diff {
         public sealed class Detail {
             private readonly XmlNode target;
             private readonly string xpath;
+            private readonly string parentXpath;
             private readonly object value;
 
-            internal Detail(XmlNode t, string x, object v) {
+            internal Detail(XmlNode t, string x, object v, string parentX) {
                 target = t;
                 xpath = x;
                 value = v;
+                parentXpath = parentX;
             }
 
             /// <summary>
@@ -44,6 +46,10 @@ namespace Org.XmlUnit.Diff {
             /// XPath leading to the target.
             /// </summary>
             public string XPath { get { return xpath; } }
+            /// <summary>
+            /// XPath leading to the target's parent.
+            /// </summary>
+            public string ParentXPath { get { return parentXpath; } }
             /// <summary>
             /// The value for comparison found at the current target.
             /// </summary>
@@ -60,16 +66,18 @@ namespace Org.XmlUnit.Diff {
         /// <param name="controlTarget">part inside the control document</param>
         /// <param name="controlXPath">XPath of the part inside the control document</param>
         /// <param name="controlValue">value inside the control document</param>
+        /// <param name="controlParentXPath">Parent XPath of the part inside the control document</param>
         /// <param name="testTarget">part inside the test document</param>
         /// <param name="testXPath">XPath of the part inside the test document</param>
-        /// <param name="testValue">value inside the control document</param>
+        /// <param name="testValue">value inside the test document</param>
+        /// <param name="testParentXPath">Parent XPath of the part inside the test document</param>
         public Comparison(ComparisonType t, XmlNode controlTarget,
-                          string controlXPath, object controlValue,
+                          string controlXPath, object controlValue, string controlParentXPath, 
                           XmlNode testTarget, string testXPath,
-                          object testValue) {
+                          object testValue, string testParentXPath) {
             type = t;
-            control = new Detail(controlTarget, controlXPath, controlValue);
-            test = new Detail(testTarget, testXPath, testValue);
+            control = new Detail(controlTarget, controlXPath, controlValue, controlParentXPath);
+            test = new Detail(testTarget, testXPath, testValue, testParentXPath);
         }
 
         /// <summary>

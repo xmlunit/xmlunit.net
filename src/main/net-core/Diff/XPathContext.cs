@@ -202,6 +202,16 @@ namespace Org.XmlUnit.Diff {
         }
 
         /// <summary>
+        /// A stringified XPath describing the current context's parent.
+        /// </summary>
+        public string ParentXPath {
+            get {
+                LinkedListNode<Level> l = path.Last;
+                return l == null ? XPath : GetXPath(l.Previous);
+            }
+        }
+
+        /// <summary>
         /// Creates a deep copy of this XPathContext.
         /// </summary>
         public object Clone() {

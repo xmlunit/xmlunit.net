@@ -35,8 +35,8 @@ namespace Org.XmlUnit.Diff {
             d.DifferenceEvaluator = ResultGrabber;
             Assert.AreEqual(Wrap(ComparisonResult.EQUAL),
                             d.Compare(new Comparison(ComparisonType.HAS_DOCTYPE_DECLARATION,
-                                                     null, null, null,
-                                                     null, null, null)));
+                                                     null, null, null, null,
+                                                     null, null, null, null)));
             Assert.AreEqual(ComparisonResult.EQUAL, outcome);
         }
 
@@ -46,8 +46,8 @@ namespace Org.XmlUnit.Diff {
             d.DifferenceEvaluator = ResultGrabber;
             Assert.AreEqual(Wrap(ComparisonResult.DIFFERENT),
                          d.Compare(new Comparison(ComparisonType.HAS_DOCTYPE_DECLARATION,
-                                                  null, null, null,
-                                                  null, null, "")));
+                                                  null, null, null, null,
+                                                  null, null, "", null)));
             Assert.AreEqual(ComparisonResult.DIFFERENT, outcome);
         }
 
@@ -57,8 +57,8 @@ namespace Org.XmlUnit.Diff {
             d.DifferenceEvaluator = ResultGrabber;
             Assert.AreEqual(Wrap(ComparisonResult.DIFFERENT),
                             d.Compare(new Comparison(ComparisonType.HAS_DOCTYPE_DECLARATION,
-                                                     null, null, "",
-                                                     null, null, null)));
+                                                     null, null, "", null,
+                                                     null, null, null, null)));
             Assert.AreEqual(ComparisonResult.DIFFERENT, outcome);
         }
 
@@ -69,9 +69,9 @@ namespace Org.XmlUnit.Diff {
             Assert.AreEqual(Wrap(ComparisonResult.DIFFERENT),
                             d.Compare(new Comparison(ComparisonType.HAS_DOCTYPE_DECLARATION,
                                                      null, null,
-                                                     Convert.ToInt16("1"),
+                                                     Convert.ToInt16("1"), null,
                                                      null, null,
-                                                     Convert.ToInt16("2"))));
+                                                     Convert.ToInt16("2"), null)));
             Assert.AreEqual(ComparisonResult.DIFFERENT, outcome);
         }
 
@@ -82,9 +82,9 @@ namespace Org.XmlUnit.Diff {
             Assert.AreEqual(Wrap(ComparisonResult.EQUAL),
                             d.Compare(new Comparison(ComparisonType.HAS_DOCTYPE_DECLARATION,
                                                      null, null,
-                                                     Convert.ToInt16("2"),
+                                                     Convert.ToInt16("2"), null,
                                                      null, null,
-                                                     Convert.ToInt16("2"))));
+                                                     Convert.ToInt16("2"), null)));
             Assert.AreEqual(ComparisonResult.EQUAL, outcome);
         }
 
@@ -100,9 +100,9 @@ namespace Org.XmlUnit.Diff {
             Assert.AreEqual(Wrap(ComparisonResult.EQUAL),
                             d.Compare(new Comparison(ComparisonType.HAS_DOCTYPE_DECLARATION,
                                                      null, null,
-                                                     Convert.ToInt16("2"),
+                                                     Convert.ToInt16("2"), null,
                                                      null, null,
-                                                     Convert.ToInt16("2"))));
+                                                     Convert.ToInt16("2"), null)));
             Assert.AreEqual(1, invocations);
         }
 
@@ -118,9 +118,9 @@ namespace Org.XmlUnit.Diff {
             Assert.AreEqual(Wrap(ComparisonResult.EQUAL),
                             d.Compare(new Comparison(ComparisonType.HAS_DOCTYPE_DECLARATION,
                                                      null, null,
-                                                     Convert.ToInt16("2"),
+                                                     Convert.ToInt16("2"), null,
                                                      null, null,
-                                                     Convert.ToInt16("2"))));
+                                                     Convert.ToInt16("2"), null)));
             Assert.AreEqual(1, invocations);
         }
 
@@ -136,9 +136,9 @@ namespace Org.XmlUnit.Diff {
             Assert.AreEqual(Wrap(ComparisonResult.SIMILAR),
                             d.Compare(new Comparison(ComparisonType.HAS_DOCTYPE_DECLARATION,
                                                      null, null,
-                                                     Convert.ToInt16("2"),
+                                                     Convert.ToInt16("2"), null,
                                                      null, null,
-                                                     Convert.ToInt16("3"))));
+                                                     Convert.ToInt16("3"), null)));
             Assert.AreEqual(1, invocations);
         }
 
@@ -158,9 +158,9 @@ namespace Org.XmlUnit.Diff {
             Assert.AreEqual(Wrap(ComparisonResult.SIMILAR),
                             d.Compare(new Comparison(ComparisonType.HAS_DOCTYPE_DECLARATION,
                                                      null, null,
-                                                     Convert.ToInt16("2"),
+                                                     Convert.ToInt16("2"), null,
                                                      null, null,
-                                                     Convert.ToInt16("2"))));
+                                                     Convert.ToInt16("2"), null)));
             Assert.AreEqual(1, invocations);
         }
 
@@ -177,9 +177,9 @@ namespace Org.XmlUnit.Diff {
             Assert.AreEqual(WrapAndStop(ComparisonResult.SIMILAR),
                             d.Compare(new Comparison(ComparisonType.HAS_DOCTYPE_DECLARATION,
                                                      null, null,
-                                                     Convert.ToInt16("1"),
+                                                     Convert.ToInt16("1"), null,
                                                      null, null,
-                                                     Convert.ToInt16("2"))));
+                                                     Convert.ToInt16("2"), null)));
             Assert.AreEqual(1, invocations);
         }
         [Test]

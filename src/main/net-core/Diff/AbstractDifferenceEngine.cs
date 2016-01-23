@@ -168,6 +168,16 @@ namespace Org.XmlUnit.Diff {
         }
 
         /// <summary>
+        /// Returns a string representation of the given XPathContext's parent context.
+        /// </summary>
+        /// <param name="ctx">the XPath to evaluate</param>
+        /// <returns>the stringified XPath of the parent or null if
+        /// the XPathContext was null</returns>
+        protected static string GetParentXPath(XPathContext ctx) {
+            return ctx == null ? null : ctx.ParentXPath;
+        }
+
+        /// <summary>
         ///   Encapsulates the current result and a flag that
         ///   indicates whether comparison should be stopped.
         /// </summary>
