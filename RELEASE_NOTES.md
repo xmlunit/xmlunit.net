@@ -1,6 +1,6 @@
 # Release Notes
 
-## XMLUnit for Java 2.0.0-alpha-04
+## XMLUnit for Java 2.0.0-alpha-04 - /Released 2016-02-06/
 
 * the unused `SchemaURI` property of `Validator` has been removed.
 * the mapping of `IDifferenceEngine.NamespaceContext` has been
