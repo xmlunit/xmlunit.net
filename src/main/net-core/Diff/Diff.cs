@@ -22,12 +22,13 @@ namespace Org.XmlUnit.Diff {
     /// </summary>
     public class Diff {
 
+        private static readonly IComparisonFormatter DEFAULT_FORMATTER =
+            new DefaultComparisonFormatter();
+
         private readonly IEnumerable<Difference> differences;
         private readonly ISource controlSource;
         private readonly ISource testSource;
-
-        private static readonly IComparisonFormatter DEFAULT_FORMATTER =
-            new DefaultComparisonFormatter();
+        private readonly IComparisonFormatter formatter;
 
         /// <summary>
         /// Creates the result of comparing two documents.
@@ -36,9 +37,23 @@ namespace Org.XmlUnit.Diff {
         /// <param name="testSource">the test document</param>
         /// <param name="differences">list of differences found</param>
         public Diff(ISource controlSource, ISource testSource,
+                    IEnumerable<Difference> differences)
+            : this(controlSource, testSource, DEFAULT_FORMATTER, differences) {
+        }
+
+        /// <summary>
+        /// Creates the result of comparing two documents.
+        /// </summary>
+        /// <param name="controlSource">the reference document</param>
+        /// <param name="testSource">the test document</param>
+        /// <param name="formatter">formatter to use</param>
+        /// <param name="differences">list of differences found</param>
+        public Diff(ISource controlSource, ISource testSource,
+                    IComparisonFormatter formatter,
                     IEnumerable<Difference> differences) {
             this.controlSource = controlSource;
             this.testSource = testSource;
+            this.formatter = formatter;
             this.differences = differences;
         }
 
@@ -74,7 +89,7 @@ namespace Org.XmlUnit.Diff {
 
         /// <inheritdoc/>
         public override string ToString() {
-            return ToString(DEFAULT_FORMATTER);
+            return ToString(formatter);
         }
 
         /// <summary>

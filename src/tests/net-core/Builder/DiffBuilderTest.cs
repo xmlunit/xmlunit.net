@@ -410,5 +410,30 @@ namespace Org.XmlUnit.Builder {
             // validate result
             Assert.IsFalse(myDiffWithFilter.HasDifferences());
         }
+
+        [Test]
+        public void UsesCustomComparisonFormatter() {
+            string control = "<a><b></b><c/></a>";
+            string test = "<a><b></b><c/><d/></a>";
+
+            var myDiff = DiffBuilder.Compare(control).WithTest(test)
+                .WithComparisonController(ComparisonControllers.StopWhenDifferent)
+                .WithComparisonFormatter(new DummyComparisonFormatter())
+                .Build();
+
+            Assert.AreEqual("foo", myDiff.ToString());
+        }
+
+        internal class DummyComparisonFormatter : IComparisonFormatter {
+            public string GetDescription(Comparison difference) {
+                return "foo";
+            }
+
+            public string GetDetails(Comparison.Detail details, ComparisonType type,
+                                     bool formatXml) {
+                return "bar";
+            }
+        }
+
     }
 }

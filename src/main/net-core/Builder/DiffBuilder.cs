@@ -67,6 +67,8 @@ namespace Org.XmlUnit.Builder {
 
         private Predicate<XmlNode> nodeFilter;
 
+        private IComparisonFormatter formatter;
+
         private ComparisonResult[] comparisonResultsToCheck = CHECK_FOR_IDENTICAL;
 
         private IDictionary<string, string> namespaceContext;
@@ -311,6 +313,14 @@ namespace Org.XmlUnit.Builder {
         }
 
         /// <summary>
+        /// Sets a non-default formatter for the differences found.
+        /// </summary>
+        public DiffBuilder WithComparisonFormatter(IComparisonFormatter formatter) {
+            this.formatter = formatter;
+            return this;
+        }
+
+        /// <summary>
         ///   Compare the Test-XML (WithTest(Object)) with the
         ///   Control-XML (Ccompare(Object)) and return the collected
         ///   differences in a Diff object.
@@ -342,8 +352,11 @@ namespace Org.XmlUnit.Builder {
             }
             d.Compare(Wrap(controlSource), Wrap(testSource));
 
-            return new Org.XmlUnit.Diff.Diff(controlSource, testSource,
-                                             collectResultsListener.Differences);
+            return formatter == null
+                ? new Org.XmlUnit.Diff.Diff(controlSource, testSource,
+                                            collectResultsListener.Differences)
+                : new Org.XmlUnit.Diff.Diff(controlSource, testSource, formatter,
+                                            collectResultsListener.Differences);
         }
 
         private ISource Wrap(ISource source) {
