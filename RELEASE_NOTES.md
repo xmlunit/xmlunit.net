@@ -16,8 +16,8 @@
   compared nodes or attributes which is most useful in cases of
   missing nodes/attributes because the XPath on one side is `null` in
   these cases.
-  Issue [#48](https://github.com/xmlunit/xmlunit/issues/48)
-  ported from PR [#50](https://github.com/xmlunit/xmlunit/pull/50)
+  Issue [xmlunit/#48](https://github.com/xmlunit/xmlunit/issues/48)
+  ported from PR [xmlunit/#50](https://github.com/xmlunit/xmlunit/pull/50)
   by [@eguib](https://github.com/eguib).
 
 ## XMLUnit.NET 2.0.0-alpha-03 - /Released 2015-12-13/
