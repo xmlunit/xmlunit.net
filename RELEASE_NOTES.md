@@ -1,12 +1,12 @@
 # Release Notes
 
-## Next Release
+## XMLUnit.NET 2.0.0
 
 * implemented `DiffBuilder.WithComparisonFormatter` mentioned in user
   guide.
   Issue [xmlunit/#51](https://github.com/xmlunit/xmlunit/issues/51)
 
-## XMLUnit for Java 2.0.0-alpha-04 - /Released 2016-02-06/
+## XMLUnit.NET 2.0.0-alpha-04 - /Released 2016-02-06/
 
 * the unused `SchemaURI` property of `Validator` has been removed.
 * the mapping of `IDifferenceEngine.NamespaceContext` has been

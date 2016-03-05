@@ -20,9 +20,6 @@ Some goals for XMLUnit 2.x:
   - comparisons
 * be independent of any test framework
 
-We are in the process of finalizing the API for XMLUnit 2.x so the
-current release is an alpha release.
-
 ## Documentation
 
 * [Developer Guide](https://github.com/xmlunit/xmlunit/wiki)
