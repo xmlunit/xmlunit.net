@@ -13,6 +13,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 using NUnit.Framework.Constraints;
@@ -179,6 +180,20 @@ namespace Org.XmlUnit.Constraints {
         /// </remarks>
         public CompareConstraint WithNodeFilter(Predicate<XmlNode> nodeFilter) {
             diffBuilder.WithNodeFilter(nodeFilter);
+            return this;
+        }
+
+        /// <summary>
+        /// Establish a namespace context mapping from URI to prefix
+        /// that will be used in Comparison.Detail.XPath.
+        /// </summary>
+        /// <remarks>
+        /// Without a namespace context (or with an empty context) the
+        /// XPath expressions will only use local names for elements and
+        /// attributes.
+        /// </remarks>
+        public CompareConstraint WithNamespaceContext(IDictionary<string, string> ctx) {
+            diffBuilder.WithNamespaceContext(ctx);
             return this;
         }
 
