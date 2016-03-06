@@ -1,5 +1,7 @@
 # Release Notes
 
+## Next Release
+
 ## XMLUnit.NET 2.0.0 - /Released 2016-03-06/
 
 * implemented `DiffBuilder.WithComparisonFormatter` mentioned in user
