@@ -26,6 +26,13 @@ namespace Org.XmlUnit.Input {
         private readonly XmlReader reader;
         private string systemId;
 
+        private const string STYLE =
+            "<stylesheet xmlns=\"http://www.w3.org/1999/XSL/Transform\" version=\"1.0\">"
+            + "<template match=\"node()[not(self::comment())]|@*\"><copy>"
+            + "<apply-templates select=\"node()[not(self::comment())]|@*\"/>"
+            + "</copy></template>"
+            + "</stylesheet>";
+
         /// <summary>
         /// Creates a new Source with the same content as another source removing all comments.
         /// </summary>
@@ -60,13 +67,6 @@ namespace Org.XmlUnit.Input {
                 systemId = value;
             }
         }
-
-        private const string STYLE =
-            "<stylesheet xmlns=\"http://www.w3.org/1999/XSL/Transform\" version=\"1.0\">"
-            + "<template match=\"node()[not(self::comment())]|@*\"><copy>"
-            + "<apply-templates select=\"node()[not(self::comment())]|@*\"/>"
-            + "</copy></template>"
-            + "</stylesheet>";
 
         private static ISource Stylesheet {
             get {

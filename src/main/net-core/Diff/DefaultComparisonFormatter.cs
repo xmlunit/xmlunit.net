@@ -94,7 +94,7 @@ namespace Org.XmlUnit.Diff {
             return sb.ToString();
         }
 
-        private bool AppendDocumentXmlDeclaration(StringBuilder sb, XmlDeclaration dec) {
+        private static bool AppendDocumentXmlDeclaration(StringBuilder sb, XmlDeclaration dec) {
             string version = dec == null ? "1.0" : dec.Version;
             string encoding = dec == null ? string.Empty : dec.Encoding;
             string standalone = dec == null ? string.Empty : dec.Standalone;
@@ -121,13 +121,13 @@ namespace Org.XmlUnit.Diff {
         /// <summary>
         /// A short indication of the documents root element like "&lt;ElementName...&gt;".
         /// </summary>
-        private void AppendDocumentElementIndication(StringBuilder sb, XmlDocument doc) {
+        private static void AppendDocumentElementIndication(StringBuilder sb, XmlDocument doc) {
             sb.Append("<")
                 .Append(doc.DocumentElement.Name)
                 .Append("...>");
         }
 
-        private bool AppendDocumentType(StringBuilder sb, XmlDocumentType type) {
+        private static bool AppendDocumentType(StringBuilder sb, XmlDocumentType type) {
             if (type == null) {
                 return false;
             }
@@ -147,21 +147,21 @@ namespace Org.XmlUnit.Diff {
             return true;
         }
 
-        private void AppendProcessingInstruction(StringBuilder sb,
-                                                 XmlProcessingInstruction instr) {
+        private static void AppendProcessingInstruction(StringBuilder sb,
+                                                        XmlProcessingInstruction instr) {
             sb.Append("<?")
                 .Append(instr.Target)
                 .Append(' ').Append(instr.Data)
                 .Append("?>");
         }
 
-        private void AppendComment(StringBuilder sb, XmlComment aNode) {
+        private static void AppendComment(StringBuilder sb, XmlComment aNode) {
             sb.Append("<!--")
                 .Append(aNode.Value)
                 .Append("-->");
         }
 
-        private void AppendText(StringBuilder sb, XmlCharacterData aNode) {
+        private static void AppendText(StringBuilder sb, XmlCharacterData aNode) {
             sb.Append("<")
                 .Append(aNode.ParentNode.Name)
                 .Append(" ...>");
@@ -179,13 +179,13 @@ namespace Org.XmlUnit.Diff {
                 .Append(">");
         }
 
-        private void AppendElement(StringBuilder sb, XmlElement aNode) {
+        private static void AppendElement(StringBuilder sb, XmlElement aNode) {
             sb.Append("<")
                 .Append(aNode.Name).Append("...")
                 .Append(">");
         }
 
-        private void AppendAttribute(StringBuilder sb, XmlAttribute aNode) {
+        private static void AppendAttribute(StringBuilder sb, XmlAttribute aNode) {
             sb.Append("<").Append(aNode.OwnerElement.Name);
             sb.Append(' ')
                 .Append(aNode.Name).Append("=\"")
@@ -262,7 +262,7 @@ namespace Org.XmlUnit.Diff {
             }
         }
 
-        private string GetFormattedNodeXml(XmlNode nodeToConvert, bool formatXml) {
+        private static string GetFormattedNodeXml(XmlNode nodeToConvert, bool formatXml) {
             try {
                 int numberOfBlanksToIndent = formatXml ? 2 : -1;
                 StringBuilder sb = new StringBuilder();
@@ -296,12 +296,13 @@ namespace Org.XmlUnit.Diff {
             return XmlWriter.Create(sb, settings);
         }
 
-        private String NodeType(XmlNodeType type) {
+        private static String NodeType(XmlNodeType type) {
             switch(type) {
                 case XmlNodeType.DocumentType:          return "Document Type";
                 case XmlNodeType.EntityReference:       return "Entity Reference";
                 case XmlNodeType.CDATA:                 return "CDATA Section";
                 case XmlNodeType.ProcessingInstruction: return "Processing Instruction";
+                default: break;
             }
             return Enum.GetName(typeof(XmlNodeType), type);
         }

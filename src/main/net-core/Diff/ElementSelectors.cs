@@ -394,17 +394,6 @@ namespace Org.XmlUnit.Diff {
             return new DefaultConditionalSelectorBuilder();
         }
 
-        private static bool
-            MapsEqualForKeys(IDictionary<XmlQualifiedName, string> control,
-                             IDictionary<XmlQualifiedName, string> test,
-                             IEnumerable<XmlQualifiedName> keys) {
-            return !keys.Any(q => {
-                string c, t;
-                return control.TryGetValue(q, out c) != test.TryGetValue(q, out t)
-                    || !object.Equals(c, t);
-            });
-        }
-
         internal static Predicate<XmlElement> ElementNamePredicate(string expectedName) {
             return e => e != null && e.LocalName == expectedName;
         }
@@ -418,6 +407,17 @@ namespace Org.XmlUnit.Diff {
         /// </summary>
         internal static XPathContext.INodeInfo TO_NODE_INFO(XmlNode n) {
             return new XPathContext.DOMNodeInfo(n);
+        }
+
+        private static bool
+            MapsEqualForKeys(IDictionary<XmlQualifiedName, string> control,
+                             IDictionary<XmlQualifiedName, string> test,
+                             IEnumerable<XmlQualifiedName> keys) {
+            return !keys.Any(q => {
+                string c, t;
+                return control.TryGetValue(q, out c) != test.TryGetValue(q, out t)
+                    || !object.Equals(c, t);
+            });
         }
 
     }
