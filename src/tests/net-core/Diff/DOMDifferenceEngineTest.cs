@@ -669,7 +669,7 @@ namespace Org.XmlUnit.Diff {
                             d.CompareNodes(e1, new XPathContext(),
                                            e2, new XPathContext()));
             Assert.AreEqual(1, ex.invoked);
-            if(true) return;
+
             // symmetric?
             d = new DOMDifferenceEngine();
             ex = new DiffExpecter(ComparisonType.CHILD_LOOKUP,
