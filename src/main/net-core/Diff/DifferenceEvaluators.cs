@@ -62,6 +62,8 @@ namespace Org.XmlUnit.Diff {
                 case ComparisonType.CHILD_NODELIST_SEQUENCE:
                     outcome = ComparisonResult.SIMILAR;
                     break;
+                default:
+                    break;
                 }
             }
             return outcome;

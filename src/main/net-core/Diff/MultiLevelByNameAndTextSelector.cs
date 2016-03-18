@@ -105,7 +105,9 @@ namespace Org.XmlUnit.Diff {
             if (ignoreEmptyTexts) {
                 while (IsText(n1) && string.Empty == n1.Value.Trim()) {
                     XmlNode n2 = n1.NextSibling;
-                    if (n2 == null) break;
+                    if (n2 == null) {
+                        break;
+                    }
                     n1 = n2;
                 }
             }

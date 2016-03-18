@@ -156,6 +156,8 @@ namespace Org.XmlUnit.Diff{
                                              (XmlAttribute) test, testContext);
                 }
                 break;
+            default:
+                break;
             }
             return new OngoingComparisonState(this);
         }

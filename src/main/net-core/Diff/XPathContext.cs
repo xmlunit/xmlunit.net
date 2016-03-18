@@ -165,7 +165,7 @@ namespace Org.XmlUnit.Diff {
             }
 
             foreach (INodeInfo child in children) {
-                Level l = null;
+                Level l;
                 switch (child.Type) {
                 case XmlNodeType.Comment:
                     l = new Level(COMMENT + OPEN + (++comments) + CLOSE);
