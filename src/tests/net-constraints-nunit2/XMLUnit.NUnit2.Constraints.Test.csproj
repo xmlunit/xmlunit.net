@@ -79,6 +79,9 @@
     <Compile Include="..\net-constraints-nunit3\CompareConstraintTest.cs">
       <Link>CompareConstraintTest.cs</Link>
     </Compile>
+    <Compile Include="..\net-constraints-nunit3\HasXPathConstraintTest.cs">
+      <Link>HasXPathConstraintTest.cs</Link>
+    </Compile>
     <Compile Include="..\net-constraints-nunit3\ValidationConstraintsTest.cs">
       <Link>ValidationConstraintsTest.cs</Link>
     </Compile>
