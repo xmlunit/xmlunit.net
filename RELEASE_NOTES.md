@@ -6,6 +6,10 @@
   port of PR [#54](https://github.com/xmlunit/xmlunit/pull/54) by
   [@cboehme](https://github.com/cboehme).
 
+* added new implementations inside `DifferenceEvaluators` for common
+  tasks like changing the outcome for specific differences or ignoring
+  changes inside the XML prolog.
+
 ## XMLUnit.NET 2.0.0 - /Released 2016-03-06/
 
 * implemented `DiffBuilder.WithComparisonFormatter` mentioned in user

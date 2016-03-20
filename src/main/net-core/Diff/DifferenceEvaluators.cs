@@ -93,5 +93,122 @@ namespace Org.XmlUnit.Diff {
                 evaluators.Aggregate(orig, (r, ev) => ev(comparison, r));
         }
 
+        /// <summary>
+        /// Creates a DifferenceEvaluator that returns a EQUAL result for
+        /// differences found in one of the given ComparisonTypes.
+        /// </summary>
+        /// <remarks>
+        ///   <para>
+        ///  since XMLUnit 2.1.0
+        ///   </para>
+        /// </remarks>
+        public static DifferenceEvaluator
+            DowngradeDifferencesToEqual(params ComparisonType[] types) {
+            return RecordDifferencesAs(ComparisonResult.EQUAL, types);
+        }
+
+        /// <summary>
+        /// Creates a DifferenceEvaluator that returns a SIMILAR result for
+        /// differences (Comparisons that are not EQUAL) found in one of
+        /// the given ComparisonTypes.
+        /// </summary>
+        /// <remarks>
+        ///   <para>
+        /// since XMLUnit 2.1.0
+        ///   </para>
+        /// </remarks>
+        public static DifferenceEvaluator
+            DowngradeDifferencesToSimilar(params ComparisonType[] types) {
+            return RecordDifferencesAs(ComparisonResult.SIMILAR, types);
+        }
+
+        /// <summary>
+        /// Creates a DifferenceEvaluator that returns a DIFFERENT result
+        /// for differences (Comparisons that are not EQUAL) found in one
+        /// of the given ComparisonTypes.
+        /// </summary>
+        /// <remarks>
+        ///   <para>
+        /// since XMLUnit 2.1.0
+        ///   </para>
+        /// </remarks>
+        public static DifferenceEvaluator
+            UpgradeDifferencesToDifferent(params ComparisonType[] types) {
+            return RecordDifferencesAs(ComparisonResult.DIFFERENT, types);
+        }
+
+        /// <summary>
+        /// Ignore any differences that are part of the XML prolog.
+        /// </summary>
+        /// <remarks>
+        /// <para>Here "ignore" means return {@code ComparisonResult.EQUAL}.</para>
+        /// </remarks>
+        /// <remarks>
+        ///   <para>
+        /// since XMLUnit 2.1.0
+        ///   </para>
+        /// </remarks>
+        public static DifferenceEvaluator IgnorePrologDifferences() {
+            return (comparison, orig) =>
+                BelongsToProlog(comparison, true) || IsSequenceOfRootElement(comparison)
+                ? ComparisonResult.EQUAL : orig;
+        }
+
+        /// <summary>
+        /// Ignore any differences except differences inside the doctype
+        /// declaration that are part of the XML prolog.
+        /// </summary>
+        /// <remarks>
+        /// <p>Here "ignore" means return {@code ComparisonResult.EQUAL}.</p>
+        /// </remarks>
+        /// <remarks>
+        ///   <para>
+        /// since XMLUnit 2.1.0
+        ///   </para>
+        /// </remarks>
+        public static DifferenceEvaluator IgnorePrologDifferencesExceptDoctype() {
+            return (comparison, orig) =>
+                BelongsToProlog(comparison, false) || IsSequenceOfRootElement(comparison)
+                ? ComparisonResult.EQUAL : orig;
+        }
+
+        private static DifferenceEvaluator
+            RecordDifferencesAs(ComparisonResult outcome, ComparisonType[] types) {
+            return (comparison, orig) =>
+                orig != ComparisonResult.EQUAL && types.Contains(comparison.Type)
+                ? outcome : orig;
+        }
+
+        private static bool BelongsToProlog(Comparison comparison,
+                                            bool ignoreDoctypeDeclarationAsWell) {
+            if (comparison.Type.IsDoctypeComparison()) {
+                return ignoreDoctypeDeclarationAsWell;
+            }
+            return BelongsToProlog(comparison.ControlDetails.Target,
+                                   ignoreDoctypeDeclarationAsWell)
+                || BelongsToProlog(comparison.TestDetails.Target,
+                                   ignoreDoctypeDeclarationAsWell);
+        }
+
+        private static bool BelongsToProlog(XmlNode n,
+                                            bool ignoreDoctypeDeclarationAsWell) {
+            if (n == null || n is XmlElement) {
+                return false;
+            }
+            if (!ignoreDoctypeDeclarationAsWell && n is XmlDocumentType) {
+                return false;
+            }
+            if (n is XmlDocument) {
+                return true;
+            }
+            return BelongsToProlog(n.ParentNode, ignoreDoctypeDeclarationAsWell);
+        }
+
+        private static bool IsSequenceOfRootElement(Comparison comparison) {
+            return comparison.Type == ComparisonType.CHILD_NODELIST_SEQUENCE
+                && comparison.ControlDetails.Target is XmlElement
+                && comparison.ControlDetails.Target.ParentNode is XmlDocument;
+        }
+
     }
 }

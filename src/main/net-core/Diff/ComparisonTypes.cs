@@ -23,6 +23,8 @@ namespace Org.XmlUnit.Diff {
     public static class ComparisonTypes {
         private static readonly IDictionary<ComparisonType, string> DESCS
             = new Dictionary<ComparisonType, string>();
+        private static readonly HashSet<ComparisonType> DOCTYPE_COMPARISONS
+            = new HashSet<ComparisonType>();
 
         static ComparisonTypes() {
             DESCS[ComparisonType.ATTR_VALUE_EXPLICITLY_SPECIFIED]
@@ -31,6 +33,11 @@ namespace Org.XmlUnit.Diff {
             DESCS[ComparisonType.ATTR_VALUE] = "attribute value";
             DESCS[ComparisonType.CHILD_LOOKUP] = "child";
             DESCS[ComparisonType.ATTR_NAME_LOOKUP] = "attribute name";
+
+            DOCTYPE_COMPARISONS.Add(ComparisonType.HAS_DOCTYPE_DECLARATION);
+            DOCTYPE_COMPARISONS.Add(ComparisonType.DOCTYPE_NAME);
+            DOCTYPE_COMPARISONS.Add(ComparisonType.DOCTYPE_PUBLIC_ID);
+            DOCTYPE_COMPARISONS.Add(ComparisonType.DOCTYPE_SYSTEM_ID);
         }
 
         /// <summary>
@@ -45,6 +52,10 @@ namespace Org.XmlUnit.Diff {
             }
             return Enum.GetName(typeof(ComparisonType), type)
                 .ToLowerInvariant().Replace('_', ' ');
+        }
+
+        internal static bool IsDoctypeComparison(this ComparisonType type) {
+            return DOCTYPE_COMPARISONS.Contains(type);
         }
     }
 }
