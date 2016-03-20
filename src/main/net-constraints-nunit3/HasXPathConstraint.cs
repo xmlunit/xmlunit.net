@@ -20,7 +20,8 @@ using Org.XmlUnit.Util;
 using Org.XmlUnit.Xpath;
 using InputBuilder = Org.XmlUnit.Builder.Input;
 
-namespace Org.XmlUnit.Constraints {
+namespace Org.XmlUnit.Constraints
+{
 
     /// <summary>
     /// This NUnit3 Constraint verifies whether the provided XPath
@@ -63,9 +64,10 @@ namespace Org.XmlUnit.Constraints {
     ///                            .WithNamespaceContext(prefix2Uri));
     /// </code>
     /// </example>
-    public class HasXPathConstraint : Constraint {
+    public class HasXPathConstraint : Constraint
+    {
 
-        private string xPath;
+        private readonly string xPath;
         private IDictionary<string, string> prefix2Uri;
 
         /// <summary>
@@ -73,14 +75,17 @@ namespace Org.XmlUnit.Constraints {
         /// associated XPath expression.
         /// </summary>
         /// <param name="xPath">xPath expression</param>
-        public HasXPathConstraint(string xPath) {
+        public HasXPathConstraint(string xPath)
+        {
             this.xPath = xPath;
         }
 
         /// <inheritdoc/>
-        public override ConstraintResult ApplyTo<TActual>(TActual actual) {
+        public override ConstraintResult ApplyTo<TActual>(TActual actual)
+        {
             XPathEngine engine = new XPathEngine();
-            if (prefix2Uri != null) {
+            if (prefix2Uri != null)
+            {
                 engine.NamespaceContext = prefix2Uri;
             }
 
@@ -103,7 +108,8 @@ namespace Org.XmlUnit.Constraints {
         /// Assert.That(xml, HasXPath("/root/cars[0]/audi"))
         /// </code>
         /// </example>
-        public static HasXPathConstraint HasXPath(string xPath) {
+        public static HasXPathConstraint HasXPath(string xPath)
+        {
             return new HasXPathConstraint(xPath);
         }
 
@@ -114,7 +120,8 @@ namespace Org.XmlUnit.Constraints {
         /// <param name="prefix2Uri">maps from prefix to namespace
         /// URI. It is used to resolve XML namespace prefixes in the
         /// XPath expression</param>
-         public HasXPathConstraint WithNamespaceContext(IDictionary<string, string> prefix2Uri) {
+         public HasXPathConstraint WithNamespaceContext(IDictionary<string, string> prefix2Uri)
+        {
             this.prefix2Uri = prefix2Uri;
             return this;
         }
@@ -122,14 +129,16 @@ namespace Org.XmlUnit.Constraints {
         /// <summary>
         ///   Result of a HasXPathConstraint.
         /// </summary>
-        public class HasXPathConstraintResult : ConstraintResult {
+        public class HasXPathConstraintResult : ConstraintResult
+        {
             private readonly HasXPathConstraint constraint;
 
             /// <summary>
             /// Creates the result.
             /// </summary>
             public HasXPathConstraintResult(HasXPathConstraint constraint, object actual, IEnumerable<XmlNode> result)
-                : base(constraint, actual, result.Count() > 0) {
+                : base(constraint, actual, result.Count() > 0)
+            {
                 this.constraint = constraint;
             }
             

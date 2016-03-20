@@ -19,7 +19,8 @@ using Org.XmlUnit.Util;
 using Org.XmlUnit.Xpath;
 using InputBuilder = Org.XmlUnit.Builder.Input;
 
-namespace Org.XmlUnit.Constraints {
+namespace Org.XmlUnit.Constraints
+{
 
     /// <summary>
     /// This NUnit2 {@link Constraint} verifies whether the provided XPath expression corresponds to at least
@@ -61,23 +62,27 @@ namespace Org.XmlUnit.Constraints {
     ///                            .WithNamespaceContext(prefix2Uri));
     /// </code>
     /// </example>
-    public class HasXPathConstraint : Constraint {
+    public class HasXPathConstraint : Constraint
+    {
 
-        private string xPath;
+        private readonly string xPath;
         private IDictionary<string, string> prefix2Uri;
 
         /// <summary>
         /// Creates a HasXPathConstraint instance with the associated XPath expression.
         /// </summary>
         /// <param name="xPath">xPath expression</param>
-        public HasXPathConstraint(string xPath) {
+        public HasXPathConstraint(string xPath)
+        {
             this.xPath = xPath;
         }
 
         /// <inheritdoc/>
-        public override bool Matches(object o) {
+        public override bool Matches(object o)
+        {
             XPathEngine engine = new XPathEngine();
-            if (prefix2Uri != null) {
+            if (prefix2Uri != null)
+            {
                 engine.NamespaceContext = prefix2Uri;
             }
 
@@ -114,7 +119,8 @@ namespace Org.XmlUnit.Constraints {
         /// Assert.That(xml, HasXPath("/root/cars[0]/audi"))
         /// </code>
         /// </example>
-        public static HasXPathConstraint HasXPath(string xPath) {
+        public static HasXPathConstraint HasXPath(string xPath)
+        {
             return new HasXPathConstraint(xPath);
         }
 
@@ -125,7 +131,8 @@ namespace Org.XmlUnit.Constraints {
         /// <param name="prefix2Uri">maps from prefix to namespace
         /// URI. It is used to resolve XML namespace prefixes in the
         /// XPath expression</param>
-        public HasXPathConstraint WithNamespaceContext(IDictionary<string, string> prefix2Uri) {
+        public HasXPathConstraint WithNamespaceContext(IDictionary<string, string> prefix2Uri)
+        {
             this.prefix2Uri = prefix2Uri;
             return this;
         }

@@ -17,12 +17,15 @@ using System.Collections.Generic;
 using System.Xml;
 using NUnit.Framework;
 
-namespace Org.XmlUnit.Constraints {
+namespace Org.XmlUnit.Constraints
+{
     [TestFixture]
-    public class HasXPathConstraintTest {
+    public class HasXPathConstraintTest
+    {
 
         [Test]
-        public void XPathIsFoundInDocumentWithASingleOccurence() {
+        public void XPathIsFoundInDocumentWithASingleOccurence()
+        {
             string xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
                 "<feed>" +
                 "   <title>title</title>" +
@@ -42,7 +45,8 @@ namespace Org.XmlUnit.Constraints {
         }
 
         [Test]
-        public void XPathIsFoundInStringWithASingleOccurence() {
+        public void XPathIsFoundInStringWithASingleOccurence()
+        {
             string xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
                 "<feed>" +
                 "   <title>title</title>" +
@@ -58,7 +62,8 @@ namespace Org.XmlUnit.Constraints {
         }
 
         [Test]
-        public void XPathIsFoundInStringWithMultipleOccurences() {
+        public void XPathIsFoundInStringWithMultipleOccurences()
+        {
             string xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
                 "<feed>" +
                 "   <title>title</title>" +
@@ -78,7 +83,8 @@ namespace Org.XmlUnit.Constraints {
         }
 
         [Test]
-        public void XPathAttributeIsFound() {
+        public void XPathAttributeIsFound()
+        {
             string xml = "<a><b attr=\"abc\"></b></a>";
             Assert.That(xml, HasXPathConstraint.HasXPath("//a/b/@attr"));
 
@@ -89,7 +95,8 @@ namespace Org.XmlUnit.Constraints {
         }
 
         [Test]
-        public void XPathIsFoundInDocumentWithNamespaceContextWithASingleOccurence() {
+        public void XPathIsFoundInDocumentWithNamespaceContextWithASingleOccurence()
+        {
             string xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
                 "<feed xmlns=\"http://www.w3.org/2005/Atom\">" +
                 "   <title>title</title>" +
