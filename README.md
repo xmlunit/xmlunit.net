@@ -89,6 +89,14 @@ IEnumerable<XmlNode> allMatches = xpath.SelectNodes("/foo", source);
 string content = xpath.evaluate("/foo/text()", source);
 ```
 
+or using `HasXPathConstraint` and `EvaluateXPathConstraint`
+
+```csharp
+Assert.That("<foo>bar</foo>", HasXPathConstraint.HasXPath("/foo"));
+Assert.That("<foo>bar</foo>", EvaluateXPathConstraint.HasXPath("/foo/text()",
+                                                               Is.EqualTo("bar")));
+```
+
 ### Validating a Document Against an XML Schema
 
 ```csharp
