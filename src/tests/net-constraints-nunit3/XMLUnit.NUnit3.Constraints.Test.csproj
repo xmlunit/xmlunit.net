@@ -80,6 +80,7 @@
       <Link>TestResources.cs</Link>
     </Compile>
     <Compile Include="CompareConstraintTest.cs" />
+    <Compile Include="EvaluateXPathConstraintTest.cs" />
     <Compile Include="HasXPathConstraintTest.cs" />
     <Compile Include="TestCompareConstraintWrapper.cs" />
     <Compile Include="ValidationConstraintsTest.cs" />

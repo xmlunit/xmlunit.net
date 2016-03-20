@@ -10,6 +10,12 @@
   tasks like changing the outcome for specific differences or ignoring
   changes inside the XML prolog.
 
+* new `HasXPath` constraints that check for the existence of an XPath
+  inside of a piece of XML or verify additional assertions on the
+  XPath's stringified result.
+  Port of corresponding matchers in XMLUnit for Java by
+  [@mariusneo](https://github.com/mariusneo).
+
 ## XMLUnit.NET 2.0.0 - /Released 2016-03-06/
 
 * implemented `DiffBuilder.WithComparisonFormatter` mentioned in user

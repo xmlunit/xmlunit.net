@@ -74,6 +74,7 @@
     </Compile>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="CompareConstraint.cs" />
+    <Compile Include="EvaluateXPathConstraint.cs" />
     <Compile Include="HasXPathConstraint.cs" />
     <Compile Include="ValidationConstraints.cs" />
   </ItemGroup>
