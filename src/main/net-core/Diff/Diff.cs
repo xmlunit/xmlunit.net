@@ -55,6 +55,9 @@ namespace Org.XmlUnit.Diff {
             this.testSource = testSource;
             this.formatter = formatter;
             this.differences = differences;
+            foreach (Difference d in differences) {
+                d.Formatter = formatter;
+            }
         }
 
         /// <return>true if there was at least one difference.</return>

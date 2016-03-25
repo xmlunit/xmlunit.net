@@ -424,6 +424,19 @@ namespace Org.XmlUnit.Builder {
             Assert.AreEqual("foo", myDiff.ToString());
         }
 
+        [Test]
+        public void UsesCustomComparisonFormatterForDifferences() {
+            string control = "<a><b></b><c/></a>";
+            string test = "<a><b></b><c/><d/></a>";
+
+            var myDiff = DiffBuilder.Compare(control).WithTest(test)
+                .WithComparisonController(ComparisonControllers.StopWhenDifferent)
+                .WithComparisonFormatter(new DummyComparisonFormatter())
+                .Build();
+
+            Assert.AreEqual("foo (DIFFERENT)", myDiff.Differences.First().ToString());
+        }
+
         internal class DummyComparisonFormatter : IComparisonFormatter {
             public string GetDescription(Comparison difference) {
                 return "foo";

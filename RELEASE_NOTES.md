@@ -16,6 +16,10 @@
   Port of corresponding matchers in XMLUnit for Java by
   [@mariusneo](https://github.com/mariusneo).
 
+* `DiffBuilder.WithComparisonFormatter` now also fully applies to the
+  `Difference`s contained within the `Diff`.
+  Issue [xmlunit/#55](https://github.com/xmlunit/xmlunit/issues/55)
+
 ## XMLUnit.NET 2.0.0 - /Released 2016-03-06/
 
 * implemented `DiffBuilder.WithComparisonFormatter` mentioned in user

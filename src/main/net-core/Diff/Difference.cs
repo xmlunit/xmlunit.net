@@ -24,6 +24,7 @@ namespace Org.XmlUnit.Diff {
     public class Difference {
         private readonly ComparisonResult result;
         private readonly Comparison comparison;
+        private IComparisonFormatter formatter = new DefaultComparisonFormatter();
 
         /// <summary>
         ///   Combines comparison and result.
@@ -52,6 +53,15 @@ namespace Org.XmlUnit.Diff {
         }
 
         /// <summary>
+        ///   Sets the default formatter to use with ToString().
+        /// </summary>
+        public IComparisonFormatter Formatter {
+            set {
+                formatter = value;
+            }
+        }
+
+        /// <summary>
         /// Returns a string representation of this difference using the
         /// given IComparisonFormatter.
         /// <param name="formatter">the IComparisonFormatter to use</param>
@@ -67,7 +77,7 @@ namespace Org.XmlUnit.Diff {
         /// <return>a string representation of this difference</return>
         /// </summary>
         public override string ToString() {
-            return ToString(new DefaultComparisonFormatter());
+            return ToString(formatter);
         }
     }
 }
