@@ -1,6 +1,6 @@
 # Release Notes
 
-## XMLUnit for Java 2.1.0 - /No released, yet/
+## XMLUnit for Java 2.1.0 - /Released 2016-03-26/
 
 * added `CompareConstraint.WithNamespaceContext`
   port of PR [#54](https://github.com/xmlunit/xmlunit/pull/54) by
