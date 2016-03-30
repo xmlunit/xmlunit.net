@@ -93,9 +93,9 @@ namespace Org.XmlUnit.Diff{
                                                           test, testContext))
                 // and finally recurse into children
                 .AndIfTrueThen(control.NodeType != XmlNodeType.Attribute,
-                               CompareChildren(control, controlContext,
+                               CompareChildren(controlContext,
                                                controlChildren,
-                                               test, testContext,
+                                               testContext,
                                                testChildren));
         }
 
@@ -162,10 +162,8 @@ namespace Org.XmlUnit.Diff{
             return new OngoingComparisonState(this);
         }
 
-        private Func<ComparisonState> CompareChildren(XmlNode control,
-                                                      XPathContext controlContext,
+        private Func<ComparisonState> CompareChildren(XPathContext controlContext,
                                                       IEnumerable<XmlNode> controlChildren,
-                                                      XmlNode test,
                                                       XPathContext testContext,
                                                       IEnumerable<XmlNode> testChildren) {
 
