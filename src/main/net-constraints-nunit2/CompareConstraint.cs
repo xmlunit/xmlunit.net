@@ -212,9 +212,14 @@ namespace Org.XmlUnit.Constraints {
         /// <inheritdoc/>
         public override void WriteDescriptionTo(MessageWriter writer)
         {
-            writer.Write("{0} is {1} to {2}", diffResult.TestSource.SystemId,
-                         checkFor == ComparisonResult.EQUAL ? "identical" : "similar",
-                         diffResult.ControlSource.SystemId);
+            string identicalOrSimilar = checkFor == ComparisonResult.EQUAL ? "identical" : "similar";
+            if (diffResult == null) {
+                writer.Write("is {0} to the control document", identicalOrSimilar);
+            } else {
+                writer.Write("{0} is {1} to {2}", diffResult.TestSource.SystemId,
+                             identicalOrSimilar,
+                             diffResult.ControlSource.SystemId);
+            }
         }
 
         /// <inheritdoc/>

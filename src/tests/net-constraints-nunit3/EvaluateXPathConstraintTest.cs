@@ -91,5 +91,30 @@ namespace Org.XmlUnit.Constraints {
                                                               Is.EqualTo("Bing"))
                         .WithNamespaceContext(prefix2Uri));
         }
+
+        /// <summary>
+        /// Really only tests there is no NPE. See https://github.com/xmlunit/xmlunit/issues/81
+        /// </summary>
+        [Test]
+        public void CanBeCombinedWithFailingMatcher() {
+            Assert.That(() =>
+                        Assert.That("foo", Is.StringContaining("bar")
+                                    & EvaluateXPathConstraint
+                                    .HasXPath("//a/b/@attr", Is.EqualTo("something"))),
+                        Throws.TypeOf<AssertionException>());
+        }
+
+        [Test]
+        public void CanBeCombinedWithPassingMatcher() {
+            string xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
+                "<fruits>" +
+                "<fruit name=\"apple\"/>" +
+                "<fruit name=\"orange\"/>" +
+                "<fruit name=\"banana\"/>" +
+                "</fruits>";
+            Assert.That(xml, Is.StringContaining("apple")
+                        & EvaluateXPathConstraint
+                        .HasXPath("count(//fruits/fruit)", Is.EqualTo("3")));
+        }
     }
 }

@@ -175,6 +175,25 @@ namespace Org.XmlUnit.Constraints {
                         .WithNodeFilter(n => "d" != n.Name));
         }
 
+        /// <summary>
+        /// Really only tests there is no NPE. See https://github.com/xmlunit/xmlunit/issues/81
+        /// </summary>
+        [Test]
+        public void CanBeCombinedWithFailingMatcher() {
+            Assert.That(() =>
+                        Assert.That("foo", Is.StringContaining("bar")
+                                    & CompareConstraint.IsSimilarTo("")),
+                        Throws.TypeOf<AssertionException>());
+        }
+
+        [Test]
+        public void CanBeCombinedWithPassingMatcher() {
+            string xml = "<a><c/><b/></a>";
+            Assert.That(xml, Is.StringContaining("c")
+                        & CompareConstraint.IsSimilarTo("<a><b/><c/></a>")
+                        .WithNodeMatcher(new DefaultNodeMatcher(ElementSelectors.ByName)));
+        }
+
         private void ExpectThrows(string start, string detail, TestDelegate act) {
             Assert.That(act, Throws.TypeOf<AssertionException>()
                         .With.Property("Message").Contains(start)

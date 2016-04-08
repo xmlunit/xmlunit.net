@@ -117,5 +117,24 @@ namespace Org.XmlUnit.Constraints
             Assert.That(xmlRootElement,
                         !HasXPathConstraint.HasXPath("//atom:feed/atom:entry/atom:description").WithNamespaceContext(prefix2Uri));
         }
+
+        /// <summary>
+        /// Really only tests there is no NPE. See https://github.com/xmlunit/xmlunit/issues/81
+        /// </summary>
+        [Test]
+        public void CanBeCombinedWithFailingMatcher() {
+            Assert.That(() =>
+                        Assert.That("foo", Is.StringContaining("bar")
+                                    & HasXPathConstraint.HasXPath("//a/b/@attr")),
+                        Throws.TypeOf<AssertionException>());
+        }
+
+        [Test]
+        public void CanBeCombinedWithPassingMatcher() {
+            string xml = "<a><b attr=\"abc\"></b></a>";
+            Assert.That(xml, Is.StringContaining("abc")
+                        & HasXPathConstraint.HasXPath("//a/b/@attr"));
+        }
+
     }
 }

@@ -80,7 +80,7 @@ namespace Org.XmlUnit.Constraints {
         }
 
         private string GrabSystemId(ISource s) {
-            return s.SystemId;
+            return s != null ? s.SystemId : null;
         }
 
         private string GrabProblems() {

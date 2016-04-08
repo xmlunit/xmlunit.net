@@ -72,5 +72,27 @@ namespace Org.XmlUnit.Constraints {
             Assert.Throws<ArgumentNullException>(() =>
             new SchemaValidConstraint(null));
         }
+
+        /// <summary>
+        /// Really only tests there is no NPE. See https://github.com/xmlunit/xmlunit/issues/81
+        /// </summary>
+        [Test]
+        public void CanBeCombinedWithFailingMatcher() {
+            Assert.That(() =>
+                        Assert.That(new StreamSource(TestResources.TESTS_DIR
+                                                     + "BookXsdGeneratedNoSchema.xml"),
+                                    Is.Null & new SchemaValidConstraint(
+                            new StreamSource(TestResources.TESTS_DIR + "Book.xsd"))),
+                        Throws.TypeOf<AssertionException>());
+        }
+
+        [Test]
+        public void CanBeCombinedWithPassingMatcher() {
+            Assert.That(new StreamSource(TestResources.TESTS_DIR
+                                         + "BookXsdGeneratedNoSchema.xml"),
+                        Is.Not.Null
+                        & new SchemaValidConstraint(new StreamSource(TestResources.TESTS_DIR
+                                                                     + "Book.xsd")));
+        }
     }
 }
