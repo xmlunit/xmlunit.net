@@ -1,6 +1,6 @@
 # Release Notes
 
-## XMLUnit.NET Java 2.1.1 - //
+## XMLUnit.NET Java 2.1.1 - /Released 2016-04-09/
 
 * `CompareConstraint` and `ValidationConstraint` for NUnit2 threw
   `NullReferenceException`s when combined with another failing
