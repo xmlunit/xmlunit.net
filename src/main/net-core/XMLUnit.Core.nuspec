@@ -16,5 +16,6 @@
       <frameworkAssembly assemblyName="System.Xml" />
       <frameworkAssembly assemblyName="System.Xml.Linq" />
     </frameworkAssemblies>
+    <tags>xmlunit xml unit-testing test xmldiff</tags>
   </metadata>
 </package>
