@@ -97,12 +97,14 @@
     <Compile Include="Diff\RecursiveXPathBuilder.cs" />
     <Compile Include="Diff\XPathContext.cs" />
     <Compile Include="Input\AbstractSource.cs" />
+    <Compile Include="Input\ByteArraySource.cs" />
     <Compile Include="Input\CommentLessSource.cs" />
     <Compile Include="Input\DOMSource.cs" />
     <Compile Include="Input\LinqSource.cs" />
     <Compile Include="Input\NormalizedSource.cs" />
     <Compile Include="Input\ReaderSource.cs" />
     <Compile Include="Input\StreamSource.cs" />
+    <Compile Include="Input\StringSource.cs" />
     <Compile Include="Input\WhitespaceNormalizedSource.cs" />
     <Compile Include="Input\WhitespaceStrippedSource.cs" />
     <Compile Include="ISource.cs" />

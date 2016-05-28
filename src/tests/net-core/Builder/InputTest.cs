@@ -17,6 +17,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using NUnit.Framework;
+using Org.XmlUnit.Xpath;
 
 namespace Org.XmlUnit.Builder {
 
@@ -154,6 +155,17 @@ namespace Org.XmlUnit.Builder {
         public void CanCreateInputFromNode() {
             Assert.That(Input.FromNode(new XmlDocument().CreateElement("foo")).Build(),
                         Is.Not.Null);
+        }
+
+        // see "https://github.com/xmlunit/xmlunit/issues/84"
+        [Test]
+        public void TestStringSourceCanBeUsedMoreThanOnce() {
+            ISource xml = Input.FromString("<a><b>bvalue</b><c>cvalue</c></a>").Build();
+
+            XPathEngine xpath = new XPathEngine();
+
+            Assert.That(xpath.Evaluate("//a/b", xml), Is.EqualTo("bvalue"));
+            Assert.That(xpath.Evaluate("//a/c", xml), Is.EqualTo("cvalue"));
         }
 
         private static void AllIsWellFor(ISource s) {

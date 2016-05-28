@@ -1,13 +1,19 @@
 # Release Notes
 
-## XMLUnit.NET Java 2.1.1 - /Released 2016-04-09/
+## XMLUnit.NET 2.x.y - /Not Released, yet/
+
+* `Input.FromByteArray` and `Input.FromString` now return `ISource`s
+  that can be used multiple times.
+  Issue similar to [xmlunit/#84](https://github.com/xmlunit/xmlunit/issues/84).
+
+## XMLUnit.NET 2.1.1 - /Released 2016-04-09/
 
 * `CompareConstraint` and `ValidationConstraint` for NUnit2 threw
   `NullReferenceException`s when combined with another failing
   `Constraint`.
   Issue similar to [xmlunit/#81](https://github.com/xmlunit/xmlunit/issues/81).
 
-## XMLUnit.NET Java 2.1.0 - /Released 2016-03-26/
+## XMLUnit.NET 2.1.0 - /Released 2016-03-26/
 
 * added `CompareConstraint.WithNamespaceContext`
   port of PR [#54](https://github.com/xmlunit/xmlunit/pull/54) by

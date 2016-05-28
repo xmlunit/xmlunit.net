@@ -107,14 +107,14 @@ namespace Org.XmlUnit.Builder {
         /// Build an ISource from a string.
         /// </summary>
         public static IBuilder FromString(string s) {
-            return FromReader(new StringReader(s));
+            return new SourceHoldingBuilder(new StringSource(s));
         }
 
         /// <summary>
         /// Build an ISource from an array of bytes.
         /// </summary>
         public static IBuilder FromByteArray(byte[] b) {
-            return FromStream(new MemoryStream(b));
+            return new SourceHoldingBuilder(new ByteArraySource(b));
         }
 
         /// <summary>
