@@ -1,6 +1,6 @@
 # Release Notes
 
-## XMLUnit.NET 2.x.y - /Not Released, yet/
+## XMLUnit.NET 2.2.0 - /Not Released, yet/
 
 * `Input.FromByteArray` and `Input.FromString` now return `ISource`s
   that can be used multiple times.
