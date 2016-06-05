@@ -1,5 +1,7 @@
 # Release Notes
 
+## XMLUnit.NET 2.2.1 - /Not Released, yet/
+
 ## XMLUnit.NET 2.2.0 - /Released 2016-06-04/
 
 * `Input.FromByteArray` and `Input.FromString` now return `ISource`s
