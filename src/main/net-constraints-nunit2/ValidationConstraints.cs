@@ -15,6 +15,7 @@
 using System;
 using System.Linq;
 using System.Text;
+using System.Xml.Schema;
 using NUnit.Framework.Constraints;
 using Org.XmlUnit.Validation;
 using InputBuilder = Org.XmlUnit.Builder.Input;
@@ -22,7 +23,7 @@ using InputBuilder = Org.XmlUnit.Builder.Input;
 namespace Org.XmlUnit.Constraints {
 
     /// <summary>
-    /// Constraint that validates a document against a given XML
+    /// Constraint that validates a document against a given W3C XML
     /// schema.
     /// </summary>
     public class SchemaValidConstraint : Constraint {
@@ -45,6 +46,22 @@ namespace Org.XmlUnit.Constraints {
                 .ToArray();
         }
 
+        /// <summary>
+        /// Creates the constraint validating against the given schema.
+        /// </summary>
+        /// <remarks>
+        ///   <para>
+        ///  since XMLUnit 2.3.0
+        ///   </para>
+        /// </remarks>
+        public SchemaValidConstraint(XmlSchema schema) : base(schema) {
+            if (schema == null) {
+                throw new ArgumentNullException("schema");
+            }
+            validator = Validator.ForLanguage(Languages.W3C_XML_SCHEMA_NS_URI);
+            validator.Schema = schema;
+        }
+
         /// <inheritdoc/>
         public override bool Matches(object o) {
             this.actual = InputBuilder.From(o).Build();
@@ -55,7 +72,11 @@ namespace Org.XmlUnit.Constraints {
         /// <inheritdoc/>
         public override void WriteDescriptionTo(MessageWriter writer)
         {
-            if (validator.SchemaSources.Count(s => !string.IsNullOrEmpty(s.SystemId)) > 0) {
+            if (validator.Schema != null) {
+                writer.Write("{0} validates against {1}",
+                             GrabSystemId(actual as ISource) ?? "instance",
+                             validator.Schema.SourceUri ?? " the given schema");
+            } else if (validator.SchemaSources.Count(s => !string.IsNullOrEmpty(s.SystemId)) > 0) {
                 writer.Write("{0} validates against {1}",
                              GrabSystemId(actual as ISource) ?? "instance",
                              GrabSystemIds());

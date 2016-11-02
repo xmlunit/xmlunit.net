@@ -12,6 +12,7 @@
   limitations under the License.
 */
 using System;
+using System.Xml.Schema;
 using NUnit.Framework;
 using Org.XmlUnit.Input;
 
@@ -24,6 +25,15 @@ namespace Org.XmlUnit.Constraints {
                                          + "BookXsdGeneratedNoSchema.xml"),
                         new SchemaValidConstraint(
                             new StreamSource(TestResources.TESTS_DIR + "Book.xsd")));
+        }
+
+        [Test]
+        public void ShouldSuccessfullyValidateInstanceWhenSchemaIsCreatedExternally() {
+            Assert.That(new StreamSource(TestResources.TESTS_DIR
+                                         + "BookXsdGeneratedNoSchema.xml"),
+                        new SchemaValidConstraint(
+                            XmlSchema.Read(new StreamSource(TestResources.TESTS_DIR + "Book.xsd").Reader,
+                                           ThrowOnError)));
         }
 
         [Test]
@@ -43,6 +53,16 @@ namespace Org.XmlUnit.Constraints {
                         new SchemaValidConstraint(new StreamSource(TestResources
                                                                    .TESTS_DIR +
                                                                    "Book.xsd"))));
+        }
+
+        [Test]
+        public void ShouldThrowOnBrokenInstanceWhenSchemaIsCreatedExternally() {
+            Assert.Throws<AssertionException>(() =>
+            Assert.That(new StreamSource(TestResources.TESTS_DIR
+                                         + "invalidBook.xml"),
+                        new SchemaValidConstraint(
+                            XmlSchema.Read(new StreamSource(TestResources.TESTS_DIR + "Book.xsd").Reader,
+                                           ThrowOnError))));
         }
 
         [Test][Ignore("Validator doesn't seem to like http URIs - at least in AppVeyor")]
@@ -70,7 +90,13 @@ namespace Org.XmlUnit.Constraints {
         [Test]
         public void ShouldThrowWhenSchemaSourcesIsNull() {
             Assert.Throws<ArgumentNullException>(() =>
-            new SchemaValidConstraint(null));
+                new SchemaValidConstraint((object[]) null));
+        }
+
+        [Test]
+        public void ShouldThrowWhenSchemaIsNull() {
+            Assert.Throws<ArgumentNullException>(() =>
+                new SchemaValidConstraint((XmlSchema) null));
         }
 
         /// <summary>
@@ -93,6 +119,10 @@ namespace Org.XmlUnit.Constraints {
                         Is.Not.Null
                         & new SchemaValidConstraint(new StreamSource(TestResources.TESTS_DIR
                                                                      + "Book.xsd")));
+        }
+
+        private static void ThrowOnError(object sender, ValidationEventArgs e) {
+            throw new XMLUnitException("Schema is invalid", e.Exception);
         }
     }
 }

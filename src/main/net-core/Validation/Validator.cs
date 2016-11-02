@@ -25,6 +25,7 @@ namespace Org.XmlUnit.Validation {
     /// </summary>
     public class Validator {
         private readonly ValidationType language;
+        private XmlSchema schema;
         private ISource[] sourceLocations;
 
         private Validator(ValidationType language) {
@@ -58,13 +59,31 @@ namespace Org.XmlUnit.Validation {
         }
 
         /// <summary>
+        /// Sets the schema to use in instance validation directly rather
+        /// than via SchemaSources.
+        /// </summary>
+        /// <remarks>
+        ///   <para>
+        ///  since XMLUnit 2.3.0
+        ///   </para>
+        /// </remarks>
+        public virtual XmlSchema Schema {
+            set {
+                schema = value;
+            }
+            get {
+                return schema;
+            }
+        }
+
+        /// <summary>
         /// Validates a schema.
         /// </summary>
         public virtual ValidationResult ValidateSchema() {
-            if (language == ValidationType.Schema && sourceLocations != null) {
+            if (language == ValidationType.Schema && SchemaSources != null) {
                 List<ValidationProblem> problems =
                     new List<ValidationProblem>();
-                foreach (ISource loc in sourceLocations) {
+                foreach (ISource loc in SchemaSources) {
                     XmlSchema.Read(loc.Reader, CollectProblems(problems));
                 }
                 return new ValidationResult(problems.Count == 0, problems);
@@ -81,14 +100,18 @@ namespace Org.XmlUnit.Validation {
             settings.ValidationFlags =
                 XmlSchemaValidationFlags.ProcessIdentityConstraints
                 | XmlSchemaValidationFlags.ReportValidationWarnings;
-            if (language == ValidationType.Schema && sourceLocations != null) {
-                foreach (ISource loc in sourceLocations) {
-                    try {
-                        XmlSchema s = XmlSchema.Read(loc.Reader, ThrowOnError);
-                        settings.Schemas.Add(s);
-                    } catch (IOException ex) {
-                        throw new XMLUnitException("Schema is not readable",
-                                                   ex);
+            if (language == ValidationType.Schema && (SchemaSources != null || Schema != null)) {
+                if (Schema != null) {
+                    settings.Schemas.Add(Schema);
+                } else {
+                    foreach (ISource loc in SchemaSources) {
+                        try {
+                            XmlSchema s = XmlSchema.Read(loc.Reader, ThrowOnError);
+                            settings.Schemas.Add(s);
+                        } catch (IOException ex) {
+                            throw new XMLUnitException("Schema is not readable",
+                                                       ex);
+                        }
                     }
                 }
             }

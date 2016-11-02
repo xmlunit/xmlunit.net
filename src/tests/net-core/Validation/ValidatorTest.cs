@@ -13,6 +13,7 @@
 */
 using System;
 using System.Collections.Generic;
+using System.Xml.Schema;
 using NUnit.Framework;
 using Org.XmlUnit.Input;
 
@@ -32,6 +33,22 @@ namespace Org.XmlUnit.Validation {
         public void ShouldSuccessfullyValidateInstance() {
             Validator v = Validator.ForLanguage(Languages.W3C_XML_SCHEMA_NS_URI);
             v.SchemaSource = new StreamSource(TestResources.TESTS_DIR + "Book.xsd");
+            ValidationResult r = v.ValidateInstance(new StreamSource(TestResources.TESTS_DIR + "BookXsdGeneratedNoSchema.xml"));
+            IEnumerator<ValidationProblem> problems = r.Problems.GetEnumerator();
+            bool haveErrors = problems.MoveNext();
+
+            Assert.IsTrue(r.Valid,
+                          "Expected validation to pass, first validation error"
+                          + " is "
+                          + (haveErrors ? problems.Current.Message : "unknown"));
+            Assert.IsFalse(haveErrors);
+        }
+
+        [Test]
+        public void ShouldSuccessfullyValidateInstanceWhenSchemaIsCreatedExternally() {
+            Validator v = Validator.ForLanguage(Languages.W3C_XML_SCHEMA_NS_URI);
+            v.Schema = XmlSchema.Read(new StreamSource(TestResources.TESTS_DIR + "Book.xsd").Reader,
+                                      ThrowOnError);
             ValidationResult r = v.ValidateInstance(new StreamSource(TestResources.TESTS_DIR + "BookXsdGeneratedNoSchema.xml"));
             IEnumerator<ValidationProblem> problems = r.Problems.GetEnumerator();
             bool haveErrors = problems.MoveNext();
@@ -77,6 +94,16 @@ namespace Org.XmlUnit.Validation {
         }
 
         [Test]
+        public void ShouldFailOnBrokenInstanceWhenSchemaIsCreatedExternally() {
+            Validator v = Validator.ForLanguage(Languages.W3C_XML_SCHEMA_NS_URI);
+            v.Schema = XmlSchema.Read(new StreamSource(TestResources.TESTS_DIR + "Book.xsd").Reader,
+                                      ThrowOnError);
+            ValidationResult r = v.ValidateInstance(new StreamSource(TestResources.TESTS_DIR + "invalidBook.xml"));
+            Assert.IsFalse(r.Valid);
+            Assert.IsTrue(r.Problems.GetEnumerator().MoveNext());
+        }
+
+        [Test]
         public void ShouldThrowWhenValidatingInstanceAndSchemaIsInvalid() {
             Validator v = Validator.ForLanguage(Languages.W3C_XML_SCHEMA_NS_URI);
             v.SchemaSource = new StreamSource(TestResources.TESTS_DIR + "broken.xsd");
@@ -98,6 +125,10 @@ namespace Org.XmlUnit.Validation {
             Assert.Throws<NotImplementedException>(() => {
             Validator v = Validator.ForLanguage(Languages.W3C_XML_SCHEMA_NS_URI);
             v.ValidateSchema();});
+        }
+
+        private static void ThrowOnError(object sender, ValidationEventArgs e) {
+            throw new XMLUnitException("Schema is invalid", e.Exception);
         }
     }
 }
