@@ -1,6 +1,6 @@
 # Release Notes
 
-## XMLUnit.NET 2.3.0 - /Not Released, yet/
+## XMLUnit.NET 2.3.0 - /Released 2016-11-12/
 
 * `Validator` and `SchemaValidConstraint` now accept using `XmlSchema`
   instances for the schema when validating instance documents.
