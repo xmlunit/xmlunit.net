@@ -1,6 +1,10 @@
 # Release Notes
 
-## XMLUnit.NET 2.3.1 - /Not Released, yet/
+## XMLUnit.NET 2.3.1 - /Released 2017-03-23/
+
+* provided xml doc files for the release version and inside the nuget
+  package.
+  [user-guide/#11](https://github.com/xmlunit/user-guide/issues/11)
 
 ## XMLUnit.NET 2.3.0 - /Released 2016-11-12/
 
