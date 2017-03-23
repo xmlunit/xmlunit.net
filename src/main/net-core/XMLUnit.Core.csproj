@@ -43,6 +43,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\..\..\build\bin\Release\xmlunit-core.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <RootNamespace>Org.XmlUnit</RootNamespace>
