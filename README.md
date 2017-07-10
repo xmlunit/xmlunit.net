@@ -39,8 +39,8 @@ The latest releases are available as
 [GitHub releases](https://github.com/xmlunit/xmlunit.net/releases) or
 via [nuget](https://www.nuget.org/packages/XmlUnit.Core/).  *Note:*
 Due to a glitch in the `nuspec` files the package ids for the alpha-02
-release are wrong, we'll be using XMLUnit.Core and XMLUnit.Constraints
-(with capital M and L) for future releases.
+release are wrong, we began using XMLUnit.Core and XMLUnit.Constraints
+(with capital M and L) with the subsequent releases.
 
 ## SNAPSHOT builds
 
