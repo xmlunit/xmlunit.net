@@ -28,7 +28,7 @@ Some goals for XMLUnit 2.x:
 ## Help Wanted!
 
 If you are looking for something to work on, we've compiled a
-[list](HELP_WANTED.md) of known issues.
+[list](https://github.com/xmlunit/xmlunit/HELP_WANTED.md) of known issues.
 
 Please see the [contributing guide](CONTRIBUTING.md) for details on
 how to contribute.
