@@ -23,6 +23,8 @@ namespace Org.XmlUnit.Diff {
         /// XPath and the shorten value of the effected control and
         /// test Node.
         /// </summary>
+        /// <param name="comparison">The Comparison to describe.</param>
+        /// <return>a short description of the comparison</return>
         /// <remarks>
         ///   <para>
         ///      This is used for Diff#ToString().
