@@ -1,6 +1,6 @@
 # Release Notes
 
-## XMLUnit.NET 2.3.2 - /Not Released, yet/
+## XMLUnit.NET 2.4.0 - /Not Released, yet/
 
 ## XMLUnit.NET 2.3.1 - /Released 2017-03-23/
 
