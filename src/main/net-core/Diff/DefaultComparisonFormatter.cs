@@ -23,7 +23,27 @@ namespace Org.XmlUnit.Diff {
     /// </summary>
     public class DefaultComparisonFormatter : IComparisonFormatter {
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Return a short String of the Comparison including the
+        /// XPath and the shorten value of the effected control and
+        /// test Node.
+        /// </summary>
+        /// <param name="comparison">The Comparison to describe.</param>
+        /// <return>a short description of the comparison</return>
+        /// <remarks>
+        ///   <para>
+        /// In general the String will look like "Expected X 'Y' but
+        /// was 'Z' - comparing A to B" where A and B are the result
+        /// of invoking GetShortString on the target and XPath of the
+        /// control and test details of the comparison. A is the
+        /// description of the comparison and B and C are the control
+        /// and test values (passed through GetValue) respectively.
+        ///   </para>
+        ///   <para>
+        /// For missing attributes the string has a slightly different
+        /// format.
+        ///   </para>
+        /// </remarks>
         public string GetDescription(Comparison difference) {
             ComparisonType type = difference.Type;
             string description = type.GetDescription();
@@ -47,12 +67,49 @@ namespace Org.XmlUnit.Diff {
                                  controlTarget, testTarget);
         }
 
-        private object GetValue(object value, ComparisonType type) {
+        /// <summary>
+        /// May alter the display of a comparison value for
+        /// GetShortString based on the comparison type.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// This implementation returns value unless it is a
+        /// comparison of node types in which case the numeric value
+        /// (one of the values of the XmlNodeType enum) is mapped to a
+        /// more useful string.
+        /// </para>
+        /// </remarks>
+        /// <param name="value">the value to display</param>
+        /// <param name="type">the comparison type</param>
+        /// <return>the display value</return>
+        /// since XMLUnit 2.4.0
+        protected virtual object GetValue(object value, ComparisonType type) {
             return type == ComparisonType.NODE_TYPE
                 ? NodeType((XmlNodeType) value) : value;
         }
 
-        private string GetShortString(XmlNode node, string xpath, ComparisonType type) {
+        /// <summary>
+        /// Return a string representation for GetShortString that
+        /// describes the "thing" that has been compared so users know
+        /// how to locate it.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// Examples are "&lt;bar ...&gt; at /foo[1]/bar[1]" for a
+        /// comparison of elements or "&lt;!-- Comment Text --&gt; at
+        /// /foo[2]/comment()[1]" for a comment.
+        /// </para>
+        /// <para>
+        /// This implementation dispatches to several AppendX methods
+        /// based on the comparison type or the type of the node.
+        /// </para>
+        /// </remarks>
+        /// <param name="node">the node to describe</param>
+        /// <param name="xpath">xpath of the node if applicable</param>
+        /// <param name="type">the comparison type</param>
+        /// <return>the formatted result</return>
+        /// since XMLUnit 2.4.0
+        protected virtual string GetShortString(XmlNode node, string xpath, ComparisonType type) {
             StringBuilder sb = new StringBuilder();
             if (type == ComparisonType.HAS_DOCTYPE_DECLARATION) {
                 XmlDocument doc = node as XmlDocument;
@@ -88,13 +145,31 @@ namespace Org.XmlUnit.Diff {
                     .Append('/').Append(node.Value)
                     .Append("-->");
             }
-            if (!string.IsNullOrEmpty(xpath)) {
-                sb.Append(" at ").Append(xpath);
-            }
+            AppendXPath(sb, xpath);
             return sb.ToString();
         }
 
-        private static bool AppendDocumentXmlDeclaration(StringBuilder sb, XmlDeclaration dec) {
+        /// <summary>
+        /// Appends the XPath information for GetShortString if present.
+        /// </summary>
+        /// <param name="sb">the builder to append to</param>
+        /// <param name="xpath">the xpath to append, if any</param>
+        /// since XMLUnit 2.4.0
+        protected virtual void AppendXPath(StringBuilder sb, string xpath) {
+            if (!string.IsNullOrEmpty(xpath)) {
+                sb.Append(" at ").Append(xpath);
+            }
+        }
+
+        /// <summary>
+        /// Appends the XML declaration for GetShortString or
+        /// AppendFullDocumentHeader if it contains non-default
+        /// values.
+        /// </summary>
+        /// <param name="sb">the builder to append to</param>
+        /// <return>true if the XML declaration has been appended</return>
+        /// since XMLUnit 2.4.0
+        protected virtual bool AppendDocumentXmlDeclaration(StringBuilder sb, XmlDeclaration dec) {
             string version = dec == null ? "1.0" : dec.Version;
             string encoding = dec == null ? string.Empty : dec.Encoding;
             string standalone = dec == null ? string.Empty : dec.Standalone;
@@ -119,15 +194,27 @@ namespace Org.XmlUnit.Diff {
         }
 
         /// <summary>
-        /// A short indication of the documents root element like "&lt;ElementName...&gt;".
+        /// Appends a short indication of the document's root element
+        /// like "&lt;ElementName...&gt;" for GetShortString.
         /// </summary>
-        private static void AppendDocumentElementIndication(StringBuilder sb, XmlDocument doc) {
+        /// <param name="sb">the builder to append to</param>
+        /// <param name="doc">the XML document node</param>
+        /// since XMLUnit 2.4.0
+        protected virtual void AppendDocumentElementIndication(StringBuilder sb, XmlDocument doc) {
             sb.Append("<")
                 .Append(doc.DocumentElement.Name)
                 .Append("...>");
         }
 
-        private static bool AppendDocumentType(StringBuilder sb, XmlDocumentType type) {
+        /// <summary>
+        /// Appends the XML DOCTYPE for GetShortString or
+        /// AppendFullDocumentHeader if present.
+        /// </summary>
+        /// <param name="sb">the builder to append to</param>
+        /// <param name="type">the document type</param>
+        /// <return>true if the DOCTPYE has been appended</return>
+        /// since XMLUnit 2.4.0
+        protected virtual bool AppendDocumentType(StringBuilder sb, XmlDocumentType type) {
             if (type == null) {
                 return false;
             }
@@ -147,7 +234,13 @@ namespace Org.XmlUnit.Diff {
             return true;
         }
 
-        private static void AppendProcessingInstruction(StringBuilder sb,
+        /// <summary>
+        /// Formats a processing instruction for GetShortString.
+        /// </summary>
+        /// <param name="sb">the builder to append to</param>
+        /// <param name="instr">the processing instruction</param>
+        /// since XMLUnit 2.4.0
+        protected virtual void AppendProcessingInstruction(StringBuilder sb,
                                                         XmlProcessingInstruction instr) {
             sb.Append("<?")
                 .Append(instr.Target)
@@ -155,13 +248,25 @@ namespace Org.XmlUnit.Diff {
                 .Append("?>");
         }
 
-        private static void AppendComment(StringBuilder sb, XmlComment aNode) {
+        /// <summary>
+        /// Formats a comment for GetShortString.
+        /// </summary>
+        /// <param name="sb">the builder to append to</param>
+        /// <param name="aNode">the comment</param>
+        /// since XMLUnit 2.4.0
+        protected virtual void AppendComment(StringBuilder sb, XmlComment aNode) {
             sb.Append("<!--")
                 .Append(aNode.Value)
                 .Append("-->");
         }
 
-        private static void AppendText(StringBuilder sb, XmlCharacterData aNode) {
+        /// <summary>
+        /// Formats a text or CDATA node for GetShortString.
+        /// </summary>
+        /// <param name="sb">the builder to append to</param>
+        /// <param name="aNode">the text or CDATA node</param>
+        /// since XMLUnit 2.4.0
+        protected virtual void AppendText(StringBuilder sb, XmlCharacterData aNode) {
             sb.Append("<")
                 .Append(aNode.ParentNode.Name)
                 .Append(" ...>");
@@ -179,20 +284,47 @@ namespace Org.XmlUnit.Diff {
                 .Append(">");
         }
 
-        private static void AppendElement(StringBuilder sb, XmlElement aNode) {
+        /// <summary>
+        /// Formats a placeholder for an element for GetShortString.
+        /// </summary>
+        /// <param name="sb">the builder to append to</param>
+        /// <param name="aNode">the element</param>
+        /// since XMLUnit 2.4.0
+        protected virtual void AppendElement(StringBuilder sb, XmlElement aNode) {
             sb.Append("<")
                 .Append(aNode.Name).Append("...")
                 .Append(">");
         }
 
-        private static void AppendAttribute(StringBuilder sb, XmlAttribute aNode) {
+        /// <summary>
+        /// Formats a placeholder for an attribute for GetShortString.
+        /// </summary>
+        /// <param name="sb">the builder to append to</param>
+        /// <param name="aNode">the attribute</param>
+        /// since XMLUnit 2.4.0
+        protected virtual void AppendAttribute(StringBuilder sb, XmlAttribute aNode) {
             sb.Append("<").Append(aNode.OwnerElement.Name);
             sb.Append(' ')
                 .Append(aNode.Name).Append("=\"")
                 .Append(aNode.Value).Append("\"...>");
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Return the xml node from Detail#Target as formatted String.
+        /// </summary>
+        /// <param name="details">The Comparison#ControlDetails or
+        /// Comparison#TestDetails.</param>
+        /// <param name="type">The implementation can return different
+        /// details depending on the ComparisonType.</param>
+        /// <param name="formatXml">set this to true if the Comparison
+        /// was generated with DiffBuilder#IgnoreWhitespace.</param>
+        /// <return>the full xml node</return>
+        /// <remarks>
+        ///   <para>
+        /// Delegates to GetFullFormattedXml unless the
+        /// Comparison.Detail's Target is null.
+        ///   </para>
+        /// </remarks>
         public string GetDetails(Comparison.Detail difference, ComparisonType type,
                                  bool formatXml) {
             if (difference.Target == null) {
@@ -201,7 +333,26 @@ namespace Org.XmlUnit.Diff {
             return GetFullFormattedXml(difference.Target, type, formatXml);
         }
 
-        private string GetFullFormattedXml(XmlNode node, ComparisonType type,
+        /// <summary>
+        /// Formats the node using a format suitable for the node type
+        /// and comparison.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// The implementation outputs the document prolog and start
+        /// element for Document and DocumentType nodes and may elect
+        /// to format the node's parent element rather than just the
+        /// node depending on the node and comparison type. It
+        /// delegates to AppendFullDocumentHeader or
+        /// GetFormattedNodeXml.
+        /// </para>
+        /// </remarks>
+        /// <param name="node">the node to format</param>
+        /// <param name="type">the comparison type</param>
+        /// <param name="formatXml">true if the Comparison was generated with IgnoreWhitespace - this affects the indentation of the generated output</param>
+        /// <return>the fomatted XML</return>
+        /// since XMLUnit 2.4.0
+        protected virtual string GetFullFormattedXml(XmlNode node, ComparisonType type,
                                            bool formatXml) {
             StringBuilder sb = new StringBuilder();
             XmlNode nodeToConvert;
@@ -235,7 +386,14 @@ namespace Org.XmlUnit.Diff {
             return sb.ToString().Trim();
         }
 
-        private void AppendFullDocumentHeader(StringBuilder sb, XmlDocument doc) {
+        /// <summary>
+        /// Appends the XML declaration and DOCTYPE if present as well
+        /// as the document's root element for GetFullFormattedXml.
+        /// </summary>
+        /// <param name="sb">the builder to append to</param>
+        /// <param name="doc">the document to format</param>
+        /// since XMLUnit 2.4.0
+        protected virtual void AppendFullDocumentHeader(StringBuilder sb, XmlDocument doc) {
             if (AppendDocumentXmlDeclaration(sb, doc.FirstChild as XmlDeclaration)) {
                 sb.Append("\n");
             }
@@ -262,7 +420,14 @@ namespace Org.XmlUnit.Diff {
             }
         }
 
-        private static string GetFormattedNodeXml(XmlNode nodeToConvert, bool formatXml) {
+        /// <summary>
+        /// Formats a node with the help of XmlWriter.
+        /// </summary>
+        /// <param name="nodeToConvert">the node to format</param>
+        /// <param name="formatXml">true if the Comparison was generated with IgnoreWhitespace - this affects the indentation of the generated output</param>
+        /// <return>the fomatted XML</return>
+        /// since XMLUnit 2.4.0
+        protected virtual string GetFormattedNodeXml(XmlNode nodeToConvert, bool formatXml) {
             try {
                 int numberOfBlanksToIndent = formatXml ? 2 : -1;
                 StringBuilder sb = new StringBuilder();
@@ -282,8 +447,9 @@ namespace Org.XmlUnit.Diff {
         /// <param name="numberOfBlanksToIndent">the number of spaces
         /// which is used for indent the XML-structure</param>
         /// <param name="sb">StringBuilder to wrap as writer</param>
-        private static XmlWriter CreateXmlWriter(StringBuilder sb,
-                                                 int numberOfBlanksToIndent) {
+        /// since XMLUnit 2.4.0
+        protected virtual XmlWriter CreateXmlWriter(StringBuilder sb,
+                                                    int numberOfBlanksToIndent) {
             XmlWriterSettings settings = new XmlWriterSettings();
             settings.OmitXmlDeclaration = true;
             settings.CloseOutput = true;
@@ -296,7 +462,14 @@ namespace Org.XmlUnit.Diff {
             return XmlWriter.Create(sb, settings);
         }
 
-        private static String NodeType(XmlNodeType type) {
+        /// <summary>
+        /// Provides a display text for the constant values of the
+        /// XmlNodeType enum.
+        /// </summary>
+        /// <param name="type">the node type</param>
+        /// <return>the display text</return>
+        /// since XMLUnit 2.4.0
+        protected virtual String NodeType(XmlNodeType type) {
             switch(type) {
                 case XmlNodeType.DocumentType:          return "Document Type";
                 case XmlNodeType.EntityReference:       return "Entity Reference";

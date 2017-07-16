@@ -2,6 +2,9 @@
 
 ## XMLUnit.NET 2.4.0 - /Not Released, yet/
 
+* made `DefaultComparisonFormatter` more subclass friendly.
+  Issue similar to [xmlunit/#93](https://github.com/xmlunit/xmlunit/issues/93).
+
 ## XMLUnit.NET 2.3.1 - /Released 2017-03-23/
 
 * provided xml doc files for the release version and inside the nuget
