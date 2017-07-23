@@ -1,5 +1,7 @@
 # Release Notes
 
+## XMLUnit.NET 2.4.1 - /Not Released, yet/
+
 ## XMLUnit.NET 2.4.0 - /Released 2017-07-23/
 
 * made `DefaultComparisonFormatter` more subclass friendly.
