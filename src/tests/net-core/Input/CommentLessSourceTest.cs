@@ -21,15 +21,15 @@ namespace Org.XmlUnit.Input {
     [TestFixture]
     public class CommentLessSourceTest {
 
-        [Test]
-        public void StripCommentsAtDifferentLevels() {
-            StreamSource s =
-                new StreamSource(new StringReader("<?xml version='1.0'?>"
-                                                  + "<!-- comment 1 -->"
-                                                  + "<foo>"
-                                                  + "<!-- comment 2 -->"
-                                                  + "</foo>"));
-            CommentLessSource cls = new CommentLessSource(s);
+        [TestCase(null)]
+        [TestCase("1.0")]
+        [TestCase("2.0")]
+        public void StripCommentsAtDifferentLevels(string xsltVersion) {
+            CommentLessSource cls = GetSource("<?xml version='1.0'?>"
+                                              + "<!-- comment 1 -->"
+                                              + "<foo>"
+                                              + "<!-- comment 2 -->"
+                                              + "</foo>", xsltVersion);
             XmlDocument d = Org.XmlUnit.Util.Convert.ToDocument(cls);
             Assert.AreEqual(2, d.ChildNodes.Count);
             Assert.IsTrue(d.ChildNodes[0] is XmlDeclaration);
@@ -41,6 +41,18 @@ namespace Org.XmlUnit.Input {
         public void CantWrapNullSource() {
             Assert.Throws<ArgumentNullException>(() =>
             new CommentLessSource(null));
+        }
+
+        [Test]
+        public void CantUseNullVersion() {
+            Assert.Throws<ArgumentNullException>(() =>
+            new CommentLessSource(new StreamSource(new StringReader("foo")), null));
+        }
+
+        private CommentLessSource GetSource(string s, string xsltVersion) {
+            StreamSource src = s == null ? null : new StreamSource(new StringReader(s));
+            return xsltVersion == null ? new CommentLessSource(src)
+                : new CommentLessSource(src, xsltVersion);
         }
     }
 }
