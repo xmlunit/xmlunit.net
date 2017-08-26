@@ -101,6 +101,21 @@ namespace Org.XmlUnit.Constraints {
         }
 
         /// <summary>
+        /// Ignore comments.
+        /// </summary>
+        /// <remarks>
+        ///   <para>
+        ///     since XMLUnit 2.5.0
+        ///   </para>
+        /// </remarks>
+        /// <param name="xsltVersion">use this version for the stylesheet</param>
+        public CompareConstraint IgnoreCommentsUsingXSLTVersion(string xsltVersion)
+        {
+            diffBuilder.IgnoreCommentsUsingXSLTVersion(xsltVersion);
+            return this;
+        }
+
+        /// <summary>
         /// Use the given <see cref="INodeMatcher"/> when comparing.
         /// </summary>
         /// <param name="nodeMatcher">INodeMatcher to use</param>

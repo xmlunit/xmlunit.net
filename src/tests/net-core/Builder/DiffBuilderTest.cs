@@ -167,6 +167,23 @@ namespace Org.XmlUnit.Builder {
             Assert.IsFalse(myDiff.HasDifferences(), "XML similar " + myDiff.ToString());
         }
 
+        [TestCase("1.0")]
+        [TestCase("2.0")]
+        public void TestDiff_withIgnoreCommentsUsingVersion_shouldSucceed(string xsltVersion) {
+            // prepare testData
+            string controlXml = "<a><b><!-- A comment -->Test Value</b></a>";
+            string testXml = "<a><b><!-- An other comment -->Test Value</b></a>";
+
+            // run test
+            var myDiff = DiffBuilder.Compare(Input.FromString(controlXml).Build())
+                .WithTest(Input.FromString(testXml).Build())
+                .IgnoreCommentsUsingXSLTVersion(xsltVersion)
+                .Build();
+
+            // validate result
+            Assert.IsFalse(myDiff.HasDifferences(), "XML similar " + myDiff.ToString());
+        }
+
         [Test]
         public void TestDiff_fromCombinedSourceAndstring_shouldSucceed() {
             // prepare testData

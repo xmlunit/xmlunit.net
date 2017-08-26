@@ -57,6 +57,13 @@ namespace Org.XmlUnit.Constraints {
                         CompareConstraint.IsIdenticalTo("<a></a>").IgnoreComments());
         }
 
+        [TestCase("1.0")]
+        [TestCase("2.0")]
+        public void TestIsIdenticalTo_withIgnoreCommentsVersion_shouldSucceed(string xsltVersion) {
+            Assert.That("<a><!-- Test --></a>",
+                        CompareConstraint.IsIdenticalTo("<a></a>").IgnoreCommentsUsingXSLTVersion(xsltVersion));
+        }
+
         [Test]
         public void TestIsIdenticalTo_withNormalizeWhitespace_shouldSucceed() {
             Assert.That("<a>\n  <b>\n  Test\n  Node\n  </b>\n</a>",

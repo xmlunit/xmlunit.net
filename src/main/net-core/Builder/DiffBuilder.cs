@@ -79,6 +79,8 @@ namespace Org.XmlUnit.Builder {
 
         private bool ignoreComments;
 
+        private string ignoreCommentVersion = null;
+
         /// <summary>
         ///   Create a DiffBuilder instance.
         /// </summary>
@@ -137,7 +139,22 @@ namespace Org.XmlUnit.Builder {
         /// test- and control-XML before comparing.
         /// </summary>
         public DiffBuilder IgnoreComments() {
+            return IgnoreCommentsUsingXSLTVersion(null);
+        }
+
+        /// <summary>
+        /// Will remove all comment-Tags "&lt;!-- Comment --&gt;" from
+        /// test- and control-XML before comparing.
+        /// </summary>
+        /// <remarks>
+        ///   <para>
+        ///     since XMLUnit 2.5.0
+        ///   </para>
+        /// </remarks>
+        /// <param name="xsltVersion">use this version for the stylesheet</param>
+        public DiffBuilder IgnoreCommentsUsingXSLTVersion(string xsltVersion) {
             ignoreComments = true;
+            ignoreCommentVersion = xsltVersion;
             return this;
         }
 
@@ -368,7 +385,9 @@ namespace Org.XmlUnit.Builder {
                 newSource = new WhitespaceNormalizedSource(newSource);
             }
             if (ignoreComments) {
-                newSource = new CommentLessSource(newSource);
+                newSource = ignoreCommentVersion == null
+                    ? new CommentLessSource(newSource)
+                    : new CommentLessSource(newSource, ignoreCommentVersion);
             }
             return newSource;
         }
