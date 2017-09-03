@@ -1,5 +1,7 @@
 # Release Notes
 
+## XMLUnit.NET 2.5.1 - /Not Released, yet/
+
 ## XMLUnit.NET 2.5.0 - /Released 2017-09-03/
 
 * `CommentLessSource`, `DiffBuilder#IgnoreComments` and
