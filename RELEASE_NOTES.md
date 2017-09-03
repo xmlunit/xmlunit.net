@@ -10,7 +10,7 @@
   have been added if you need a different version of XSLT (in
   particular if you need 1.0 which used to be the default up to
   XMLUnit 2.4.0).
-  Issue [xmlunit/#99](https://github.com/xmlunit/xmlunit/issues/99).
+  Issue similar to [xmlunit/#99](https://github.com/xmlunit/xmlunit/issues/99).
 
 ## XMLUnit.NET 2.4.0 - /Released 2017-07-23/
 
