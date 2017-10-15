@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMLUnit.NUnit2.Constraints"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMLUnit.Nunit2.Constraints.Test", "src\tests\net-constraints-nunit2\XMLUnit.NUnit2.Constraints.Test.csproj", "{F334C998-E18B-435B-9185-129798C537F2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMLUnit.Placeholders", "src\main\net-placeholders\XMLUnit.Placeholders.csproj", "{8DA0EE00-A4ED-48AF-BBC8-B1DBDFDF11AD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{F334C998-E18B-435B-9185-129798C537F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F334C998-E18B-435B-9185-129798C537F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F334C998-E18B-435B-9185-129798C537F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DA0EE00-A4ED-48AF-BBC8-B1DBDFDF11AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DA0EE00-A4ED-48AF-BBC8-B1DBDFDF11AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DA0EE00-A4ED-48AF-BBC8-B1DBDFDF11AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DA0EE00-A4ED-48AF-BBC8-B1DBDFDF11AD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

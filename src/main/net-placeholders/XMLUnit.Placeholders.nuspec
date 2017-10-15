@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>XMLUnit.Placeholders</id>
+    <version>$version$</version>
+    <title>XMLUnit Placeholders</title>
+    <authors>XMLUnit Contributors</authors>
+    <owners />
+    <projectUrl>http://www.xmlunit.org/</projectUrl>
+    <licenseUrl>https://github.com/xmlunit/xmlunit.net/blob/master/LICENSE</licenseUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>This package contains experimental support for
+    configuring parts of the test engine by using ${xmlunit.KEYWORD}
+    sequences inside the control document.</description>
+    <summary>Experimental Placeholders Support for XMLUnit.NET</summary>
+    <dependencies>
+      <dependency id="XMLUnit.Core" version="[$version$]" />
+    </dependencies>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System.Xml" />
+    </frameworkAssemblies>
+    <tags>xmlunit xml unit-testing test xmldiff</tags>
+  </metadata>
+</package>
