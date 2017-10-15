@@ -42,7 +42,7 @@ namespace Org.XmlUnit.Builder {
      * Assert.IsFalse(&quot;XML similar &quot; + myDiff, myDiff.HasDifferences());
      * </pre>
      */
-    public class DiffBuilder {
+    public class DiffBuilder : IDifferenceEngineConfigurer<DiffBuilder> {
 
         private static readonly ComparisonResult[] CHECK_FOR_SIMILAR = new ComparisonResult[] {
             ComparisonResult.DIFFERENT};
@@ -224,7 +224,7 @@ namespace Org.XmlUnit.Builder {
         }
 
         /// <summary>
-        ///   Registers a listener that is notified of each comparison.
+        ///   Registers listeners that are notified of each comparison.
         /// </summary>
         /* @see org.xmlunit.diff.DifferenceEngine#addComparisonListener(ComparisonListener) */
         public DiffBuilder WithComparisonListeners(params ComparisonListener[] comparisonListeners) {
@@ -233,7 +233,7 @@ namespace Org.XmlUnit.Builder {
         }
 
         /// <summary>
-        ///   Registers a listener that is notified of each comparison with
+        ///   Registers listeners that are notified of each comparison with
         ///   outcome other than ComparisonResult#EQUAL.
         /// </summary>
         /* @see org.xmlunit.diff.DifferenceEngine#addDifferenceListener(ComparisonListener) */

@@ -68,6 +68,7 @@
     <Compile Include="Builder\AbstractTransformationBuilder.cs" />
     <Compile Include="Builder\DiffBuilder.cs" />
     <Compile Include="Builder\Input.cs" />
+    <Compile Include="Builder\IDifferenceEngineConfigurer.cs" />
     <Compile Include="Builder\ITransformationBuilderBase.cs" />
     <Compile Include="Builder\Transform.cs" />
     <Compile Include="Diff\AbstractDifferenceEngine.cs" />

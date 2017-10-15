@@ -12,6 +12,7 @@
   limitations under the License.
 */
 
+using System;
 using System.IO;
 using System.Xml;
 using NUnit.Framework;
@@ -199,6 +200,13 @@ namespace Org.XmlUnit.Constraints {
             Assert.That(xml, Is.StringContaining("c")
                         & CompareConstraint.IsSimilarTo("<a><b/><c/></a>")
                         .WithNodeMatcher(new DefaultNodeMatcher(ElementSelectors.ByName)));
+        }
+
+        [Test]
+        public void CantSetComparisonController() {
+            Assert.That(() => CompareConstraint.IsSimilarTo("<foo/>")
+                        .WithComparisonController(null),
+                        Throws.TypeOf<NotImplementedException>());
         }
 
         private void ExpectThrows(string start, string detail, TestDelegate act) {

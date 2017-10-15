@@ -25,7 +25,7 @@ namespace Org.XmlUnit.Constraints {
     /// <summary>
     /// Constraint that compares two XML sources with each other.
     /// </summary>
-    public class CompareConstraint : Constraint {
+    public class CompareConstraint : Constraint, IDifferenceEngineConfigurer<CompareConstraint> {
 
         private readonly DiffBuilder diffBuilder;
         private ComparisonResult checkFor;
@@ -209,6 +209,20 @@ namespace Org.XmlUnit.Constraints {
         public CompareConstraint WithNamespaceContext(IDictionary<string, string> ctx) {
             diffBuilder.WithNamespaceContext(ctx);
             return this;
+        }
+
+        /// <summary>
+        /// Throws an exception as you the ComparisonController is
+        /// completely determined by the factory method used.
+        /// </summary>
+        /// <remarks>
+        ///   <para>
+        ///     since XMLUnit 2.5.1
+        ///   </para>
+        /// </remarks>
+        public CompareConstraint WithComparisonController(ComparisonController cc)
+        {
+            throw new NotImplementedException("Can't set ComparisonController with CompareConstraint");
         }
 
         /// <inheritdoc/>
