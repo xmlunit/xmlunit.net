@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMLUnit.Nunit2.Constraints.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMLUnit.Placeholders", "src\main\net-placeholders\XMLUnit.Placeholders.csproj", "{8DA0EE00-A4ED-48AF-BBC8-B1DBDFDF11AD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMLUnit.Placeholders.Tests", "src\tests\net-placeholders\XMLUnit.Placeholders.Tests.csproj", "{97290bd0-ccf0-48cf-95f2-b1a9f6c3ee9f}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{8DA0EE00-A4ED-48AF-BBC8-B1DBDFDF11AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8DA0EE00-A4ED-48AF-BBC8-B1DBDFDF11AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8DA0EE00-A4ED-48AF-BBC8-B1DBDFDF11AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97290bd0-ccf0-48cf-95f2-b1a9f6c3ee9f}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97290bd0-ccf0-48cf-95f2-b1a9f6c3ee9f}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97290bd0-ccf0-48cf-95f2-b1a9f6c3ee9f}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97290bd0-ccf0-48cf-95f2-b1a9f6c3ee9f}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

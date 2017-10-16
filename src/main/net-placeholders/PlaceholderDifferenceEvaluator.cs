@@ -12,8 +12,15 @@
   limitations under the License.
 */
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Xml;
+using System;
+
+using Org.XmlUnit;
 using Org.XmlUnit.Diff;
+using Org.XmlUnit.Util;
 
 namespace Org.XmlUnit.Placeholder {
     /// <summary>
@@ -48,6 +55,31 @@ namespace Org.XmlUnit.Placeholder {
       * </pre>
       */
     public class PlaceholderDifferenceEvaluator {
+        public static readonly string PLACEHOLDER_DEFAULT_OPENING_DELIMITER_REGEX = Regex.Escape("${");
+        public static readonly string PLACEHOLDER_DEFAULT_CLOSING_DELIMITER_REGEX = Regex.Escape("}");
+        private static readonly string PLACEHOLDER_PREFIX_REGEX = Regex.Escape("xmlunit.");
+        // IReadOnlyDictionary is .NET Framework 4.5
+        private static readonly IDictionary<string, IPlaceholderHandler> KNOWN_HANDLERS;
+
+        static PlaceholderDifferenceEvaluator() {
+            var m = new Dictionary<string, IPlaceholderHandler>();
+            foreach (var h in Load()) {
+                m[h.Keyword] = h;
+            }
+            KNOWN_HANDLERS = m;
+        }
+
+        private static IEnumerable<IPlaceholderHandler> Load() {
+            return AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(s => s.GetTypes())
+                .Where(t => !t.IsAbstract)
+                .Where(t => t.FindInterfaces((type, n) => type.FullName == (string) n,
+                                typeof(IPlaceholderHandler).FullName).Length > 0)
+                .Select(t => Activator.CreateInstance(t))
+                .Cast<IPlaceholderHandler>();
+        }
+
+        private readonly Regex placeholderRegex;
 
         /// <summary>
         /// Creates a PlaceholderDifferenceEvaluator with default
@@ -74,27 +106,167 @@ namespace Org.XmlUnit.Placeholder {
         /// if the parameter is null or blank</param>
         public PlaceholderDifferenceEvaluator(string placeholderOpeningDelimiterRegex,
                                               string placeholderClosingDelimiterRegex) {
-            /*
-        if (placeholderOpeningDelimiterRegex == null
-            || placeholderOpeningDelimiterRegex.trim().length() == 0) {
-            placeholderOpeningDelimiterRegex = PLACEHOLDER_DEFAULT_OPENING_DELIMITER_REGEX;
-        }
-        if (placeholderClosingDelimiterRegex == null
-            || placeholderClosingDelimiterRegex.trim().length() == 0) {
-            placeholderClosingDelimiterRegex = PLACEHOLDER_DEFAULT_CLOSING_DELIMITER_REGEX;
-        }
+            if (placeholderOpeningDelimiterRegex == null
+                || placeholderOpeningDelimiterRegex.Trim().Length == 0) {
+                placeholderOpeningDelimiterRegex = PLACEHOLDER_DEFAULT_OPENING_DELIMITER_REGEX;
+            }
+            if (placeholderClosingDelimiterRegex == null
+                || placeholderClosingDelimiterRegex.Trim().Length == 0) {
+                placeholderClosingDelimiterRegex = PLACEHOLDER_DEFAULT_CLOSING_DELIMITER_REGEX;
+            }
 
-        placeholderRegex = Pattern.compile("(\\s*" + placeholderOpeningDelimiterRegex
-            + "\\s*" + PLACEHOLDER_PREFIX_REGEX + "(.+)" + "\\s*"
-            + placeholderClosingDelimiterRegex + "\\s*)");
-            */
+            placeholderRegex = new Regex("(\\s*" + placeholderOpeningDelimiterRegex
+                + "\\s*" + PLACEHOLDER_PREFIX_REGEX + "(.+)" + "\\s*"
+                + placeholderClosingDelimiterRegex + "\\s*)");
         }
 
         /// <summary>
         ///   DifferenceEvaluator using the configured PlaceholderHandlers.
         /// </summary>
         public ComparisonResult Evaluate(Comparison comparison, ComparisonResult outcome) {
+            if (outcome == ComparisonResult.EQUAL) {
+                return outcome;
+            }
+
+            Comparison.Detail controlDetails = comparison.ControlDetails;
+            XmlNode controlTarget = controlDetails.Target;
+            Comparison.Detail testDetails = comparison.TestDetails;
+            XmlNode testTarget = testDetails.Target;
+
+            // comparing textual content of elements
+            if (comparison.Type == ComparisonType.TEXT_VALUE) {
+                return EvaluateConsideringPlaceholders((string) controlDetails.Value,
+                    (string) testDetails.Value, outcome);
+
+            // "test document has no text-like child node but control document has"
+            } else if (IsMissingTextNodeDifference(comparison)) {
+                return EvaluateMissingTextNodeConsideringPlaceholders(comparison, outcome);
+
+            // may be comparing TEXT to CDATA
+            } else if (IsTextCDATAMismatch(comparison)) {
+                return EvaluateConsideringPlaceholders(controlTarget.Value, testTarget.Value, outcome);
+
+            // comparing textual content of attributes
+            } else if (comparison.Type == ComparisonType.ATTR_VALUE) {
+                return EvaluateConsideringPlaceholders((string) controlDetails.Value,
+                    (string) testDetails.Value, outcome);
+
+            // "test document has no attribute but control document has"
+            } else if (IsMissingAttributeDifference(comparison)) {
+                return EvaluateMissingAttributeConsideringPlaceholders(comparison, outcome);
+            }
+
+            // default, don't apply any placeholders at all
+            return outcome;
+        }
+
+        private bool IsMissingTextNodeDifference(Comparison comparison) {
+            return ControlHasOneTextChildAndTestHasNone(comparison)
+                || CantFindControlTextChildInTest(comparison);
+    }
+
+        private bool ControlHasOneTextChildAndTestHasNone(Comparison comparison) {
+            Comparison.Detail controlDetails = comparison.ControlDetails;
+            XmlNode controlTarget = controlDetails.Target;
+            Comparison.Detail testDetails = comparison.TestDetails;
+            return comparison.Type == ComparisonType.CHILD_NODELIST_LENGTH &&
+                1 == (int) controlDetails.Value &&
+                0 == (int) testDetails.Value &&
+                IsTextLikeNode(controlTarget.FirstChild);
+        }
+
+        private bool CantFindControlTextChildInTest(Comparison comparison) {
+            XmlNode controlTarget = comparison.ControlDetails.Target;
+            return comparison.Type == ComparisonType.CHILD_LOOKUP
+                && controlTarget != null && IsTextLikeNode(controlTarget);
+    }
+
+        private ComparisonResult EvaluateMissingTextNodeConsideringPlaceholders(Comparison comparison, ComparisonResult outcome) {
+            XmlNode controlTarget = comparison.ControlDetails.Target;
+            string value;
+            if (ControlHasOneTextChildAndTestHasNone(comparison)) {
+                value = controlTarget.FirstChild.Value;
+            } else {
+                value = controlTarget.Value;
+            }
+            return EvaluateConsideringPlaceholders(value, null, outcome);
+        }
+
+        private bool IsTextCDATAMismatch(Comparison comparison) {
+            return comparison.Type == ComparisonType.NODE_TYPE
+                && IsTextLikeNode(comparison.ControlDetails.Target)
+                && IsTextLikeNode(comparison.TestDetails.Target);
+        }
+
+        private bool IsTextLikeNode(XmlNode node) {
+            var nodeType = node.NodeType;
+            return nodeType == XmlNodeType.Text || nodeType == XmlNodeType.CDATA;
+        }
+
+        private bool IsMissingAttributeDifference(Comparison comparison) {
+            return comparison.Type == ComparisonType.ELEMENT_NUM_ATTRIBUTES
+                || (comparison.Type == ComparisonType.ATTR_NAME_LOOKUP
+                    && comparison.ControlDetails.Target != null
+                    && comparison.ControlDetails.Value != null);
+        }
+
+        private ComparisonResult EvaluateMissingAttributeConsideringPlaceholders(Comparison comparison,
+            ComparisonResult outcome) {
+            if (comparison.Type == ComparisonType.ELEMENT_NUM_ATTRIBUTES) {
+                return EvaluateAttributeListLengthConsideringPlaceholders(comparison, outcome);
+            }
+            string controlAttrValue = Nodes.GetAttributes(comparison.ControlDetails.Target)
+                [(XmlQualifiedName) comparison.ControlDetails.Value];
+            return EvaluateConsideringPlaceholders(controlAttrValue, null, outcome);
+        }
+
+        private ComparisonResult EvaluateAttributeListLengthConsideringPlaceholders(Comparison comparison,
+            ComparisonResult outcome) {
+            var controlAttrs = Nodes.GetAttributes(comparison.ControlDetails.Target);
+            var testAttrs = Nodes.GetAttributes(comparison.TestDetails.Target);
+
+            int cAttrsMatched = 0;
+            foreach (var cAttr in controlAttrs) {
+                string testValue;
+                if (!testAttrs.TryGetValue(cAttr.Key, out testValue)) {
+                    ComparisonResult o = EvaluateConsideringPlaceholders(cAttr.Value, null, outcome);
+                    if (o != ComparisonResult.EQUAL) {
+                        return outcome;
+                    }
+                } else {
+                    cAttrsMatched++;
+                }
+            }
+            if (cAttrsMatched != testAttrs.Count) {
+                // there are unmatched test attributes
+                return outcome;
+            }
             return ComparisonResult.EQUAL;
+        }
+
+        private ComparisonResult EvaluateConsideringPlaceholders(string controlText, string testText,
+            ComparisonResult outcome) {
+            Match m = placeholderRegex.Match(controlText);
+            if (m.Success) {
+                string keyword = m.Groups[2].Captures[0].Value.Trim();
+                if (IsKnown(keyword)) {
+                    if (m.Groups[1].Captures[0].Value.Trim() != controlText.Trim()) {
+                        throw new XMLUnitException("The placeholder must exclusively occupy the text node.");
+                    }
+                    return Evaluate(keyword, testText);
+                }
+            }
+
+            // no placeholder at all or unknown keyword
+            return outcome;
+        }
+
+        private bool IsKnown(string keyword) {
+            return KNOWN_HANDLERS.ContainsKey(keyword);
+        }
+
+        private ComparisonResult Evaluate(string keyword, string testText) {
+            return KNOWN_HANDLERS[keyword].Evaluate(testText);
         }
     }
 }

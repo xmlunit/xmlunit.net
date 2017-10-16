@@ -2,6 +2,12 @@
 
 ## XMLUnit.NET 2.5.1 - /Not Released, yet/
 
+* add a new experimental module xmlunit-placeholders which aims to
+  use `${xmlunit.FOO}` expressions inside of the control document to
+  allow for a DSL-like approach of defining more complex tests.
+  This initial seed only supports `${xmlunit.ignore}` which can be
+  used to make XMLUnit ignore the element containing this text.
+
 ## XMLUnit.NET 2.5.0 - /Released 2017-09-03/
 
 * `CommentLessSource`, `DiffBuilder#IgnoreComments` and
