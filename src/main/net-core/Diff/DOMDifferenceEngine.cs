@@ -287,9 +287,9 @@ namespace Org.XmlUnit.Diff{
                                                 XPathContext testContext) {
             return Compare(new Comparison(ComparisonType.ELEMENT_TAG_NAME,
                                           control, GetXPath(controlContext),
-                                          control.Name, GetParentXPath(controlContext),
+                                          Nodes.GetQName(control).Name, GetParentXPath(controlContext),
                                           test, GetXPath(testContext),
-                                          test.Name, GetParentXPath(testContext)))
+                                          Nodes.GetQName(test).Name, GetParentXPath(testContext)))
                 .AndThen(() => CompareElementAttributes(control, controlContext,
                                                         test, testContext));
         }

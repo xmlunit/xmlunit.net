@@ -12,8 +12,10 @@
   limitations under the License.
 */
 using System;
+using System.Linq;
 using System.Xml;
 using NUnit.Framework;
+using Org.XmlUnit.Builder;
 using Org.XmlUnit.Input;
 using InputBuilder = Org.XmlUnit.Builder.Input;
 
@@ -1025,6 +1027,30 @@ namespace Org.XmlUnit.Diff {
             Assert.AreEqual(WrapAndStop(ComparisonResult.DIFFERENT),
                             d.CompareNodes(d1, new XPathContext(),
                                            d2, new XPathContext()));
+        }
+
+        // https://github.com/xmlunit/xmlunit.net/issues/22
+        [Test]
+        public void ElementsWithDifferentPrefixesAreSimilar() {
+            var diff = DiffBuilder.Compare("<Root xmlns:x='http://example.org'><x:Elem/></Root>")
+                .WithTest("<Root xmlns:y='http://example.org'><y:Elem/></Root>")
+                .Build();
+            Assert.AreEqual(1, diff.Differences.Count());
+            Assert.AreEqual(ComparisonResult.SIMILAR, diff.Differences.First().Result);
+            Assert.AreEqual(ComparisonType.NAMESPACE_PREFIX, diff.Differences.First().Comparison.Type);
+        }
+
+        [Test]
+        public void AttributesWithDifferentPrefixesAreSimilar() {
+            var diff = DiffBuilder.Compare("<Root xmlns:x='http://example.org' x:Attr='1'/>")
+                .WithTest("<Root xmlns:y='http://example.org' y:Attr='1'/>")
+                .Build();
+            foreach (var d in diff.Differences) {
+                Console.Error.WriteLine("=======> " + d);
+            }
+            Assert.AreEqual(1, diff.Differences.Count());
+            Assert.AreEqual(ComparisonResult.SIMILAR, diff.Differences.First().Result);
+            Assert.AreEqual(ComparisonType.NAMESPACE_PREFIX, diff.Differences.First().Comparison.Type);
         }
 
         private XmlDocument DocumentForString(string s) {

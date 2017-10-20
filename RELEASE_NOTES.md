@@ -8,6 +8,12 @@
   This initial seed only supports `${xmlunit.ignore}` which can be
   used to make XMLUnit ignore the element containing this text.
 
+## XMLUnit.NET 2.6.0 - /Not Released, yet/
+
+* elements that only differed in namespace prefix resulted in a false
+  `ELEMENT_TAG_NAME` difference when compared.
+  Issue [#22](https://github.com/xmlunit/xmlunit.net/issues/22)
+
 ## XMLUnit.NET 2.5.0 - /Released 2017-09-03/
 
 * `CommentLessSource`, `DiffBuilder#IgnoreComments` and
