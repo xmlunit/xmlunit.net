@@ -29,7 +29,7 @@ namespace Org.XmlUnit.Placeholder {
     /// method may be invoked by multiple threads in parallel.
     ///   </para>
     ///   <para>
-    /// since 2.5.1
+    /// since 2.6.0
     ///   </para>
     /// </remarks>
     public interface IPlaceholderHandler {

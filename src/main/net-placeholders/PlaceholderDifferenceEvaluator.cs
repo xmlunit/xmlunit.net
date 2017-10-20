@@ -43,7 +43,7 @@ namespace Org.XmlUnit.Placeholder {
     /// placeholderClosingDelimiterRegex) constructor.
     ///   </para>
     ///   <para>
-    /// since 2.5.1
+    /// since 2.6.0
     ///   </para>
     /// </remarks>
      /*

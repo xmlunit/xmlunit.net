@@ -26,7 +26,7 @@ namespace Org.XmlUnit.Placeholder {
     /// and any API may change between releases of XMLUnit.
     ///   </para>
     ///   <para>
-    /// since 2.5.1
+    /// since 2.6.0
     ///   </para>
     /// </remarks>
     public static class PlaceholderSupport {

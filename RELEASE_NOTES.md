@@ -1,6 +1,6 @@
 # Release Notes
 
-## XMLUnit.NET 2.5.1 - /Not Released, yet/
+## XMLUnit.NET 2.6.0 - /Not Released, yet/
 
 * add a new experimental module xmlunit-placeholders which aims to
   use `${xmlunit.FOO}` expressions inside of the control document to
