@@ -1045,9 +1045,6 @@ namespace Org.XmlUnit.Diff {
             var diff = DiffBuilder.Compare("<Root xmlns:x='http://example.org' x:Attr='1'/>")
                 .WithTest("<Root xmlns:y='http://example.org' y:Attr='1'/>")
                 .Build();
-            foreach (var d in diff.Differences) {
-                Console.Error.WriteLine("=======> " + d);
-            }
             Assert.AreEqual(1, diff.Differences.Count());
             Assert.AreEqual(ComparisonResult.SIMILAR, diff.Differences.First().Result);
             Assert.AreEqual(ComparisonType.NAMESPACE_PREFIX, diff.Differences.First().Comparison.Type);
