@@ -8,7 +8,7 @@
   This initial seed only supports `${xmlunit.ignore}` which can be
   used to make XMLUnit ignore the element containing this text.
 
-## XMLUnit.NET 2.6.0 - /Not Released, yet/
+## XMLUnit.NET 2.5.1 - /Released 2017-10-20/
 
 * elements that only differed in namespace prefix resulted in a false
   `ELEMENT_TAG_NAME` difference when compared.
