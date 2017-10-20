@@ -39,8 +39,8 @@ cd ../..
 
 mkdir -p build/srcdist-tmp/xmlunit-$1
 cp -r [A-Zstx]* build/srcdist-tmp/xmlunit-$1
-find build/srcdist-tmp/xmlunit-$1 -name \*~ | xargs -e rm
-find build/srcdist-tmp/xmlunit-$1 -name obj -o -name .git | xargs -e rm -r
+find build/srcdist-tmp/xmlunit-$1 -name \*~ | xargs -e rm -f
+find build/srcdist-tmp/xmlunit-$1 -name obj -o -name .git | xargs -e rm -rf
 cd build/srcdist-tmp
 zip -r xmlunit-$1-src.zip xmlunit-$1
 tar cf xmlunit-$1-src.tar xmlunit-$1
