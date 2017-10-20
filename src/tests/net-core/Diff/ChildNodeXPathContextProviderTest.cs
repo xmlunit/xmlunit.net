@@ -35,7 +35,7 @@ namespace Org.XmlUnit.Diff {
             elements.Add(doc.CreateElement("bar"));
             elements.Add(doc.CreateElement("foo"));
             ctx = new XPathContext();
-            ctx.SetChildren(elements.Select(ElementSelectors.TO_NODE_INFO));
+            ctx.SetChildren(elements.Select<XmlNode, XPathContext.INodeInfo>(ElementSelectors.TO_NODE_INFO));
         }
     
         [Test]

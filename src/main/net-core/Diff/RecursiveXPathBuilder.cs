@@ -61,7 +61,7 @@ namespace Org.XmlUnit.Diff {
             }
             XPathContext parentContext = GetXPathForNonAttribute(parent);
             IEnumerable<XmlNode> children = parent.ChildNodes.Cast<XmlNode>();
-            parentContext.SetChildren(children.Select(ElementSelectors.TO_NODE_INFO));
+            parentContext.SetChildren(children.Select<XmlNode, XPathContext.INodeInfo>(ElementSelectors.TO_NODE_INFO));
             ChildNodeXPathContextProvider cn = new ChildNodeXPathContextProvider(parentContext,
                                                                                  children);
             return cn.Map(n);
