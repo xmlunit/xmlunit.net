@@ -131,7 +131,7 @@ constraints targeting NUnit 2.x and 3.x respectively.
 
 XMLUnit.NET uses a git submodule for test resources it shares with
 XMLUnit for Java.  You can either clone this repository using `git
-clone --recursive` or run `git submodule update --init` after inside
+clone --recursive` or run `git submodule update --init` inside
 your fresh working copy after cloning normally.
 
 If you have checked out a working copy before we added the submodule,
@@ -141,15 +141,21 @@ you'll need to run `git submodule update --init` once.
 
 XMLUnit for .NET uses NuGet and `msbuild`/`xbuild` - or Visual Studio.
 
-When using Visual Studio the build should automatically refresh the NuGet packages, build the `core` and `constraints` assemblies as well as the unit test projects and run all NUnit tests.
+When using Visual Studio the build should automatically refresh the
+NuGet packages, build the `core` and `constraints` assemblies as well
+as the unit test projects and run all NUnit tests.
 
-When not using Visual Studio you need to [install nuget](http://docs.nuget.org/consume/installing-nuget) as well as `msbuild` or `xbuild`<sup>[1](#nuget-linux)</sup> and run
+When not using Visual Studio you need to [install
+nuget](https://docs.microsoft.com/en-us/nuget/guides/install-nuget) as
+well as `msbuild` or `xbuild`<sup>[1](#nuget-linux)</sup> and run
 
 ```sh
 $ nuget restore XMLUnit.NET.sln
 ```
 
-once to download the packages used by XMLUnit during the build (really only NUnit right now).  After that you can run `msbuild` or `xbuild` like
+once to download the packages used by XMLUnit during the build (really
+only NUnit right now).  After that you can run `msbuild` or `xbuild`
+like
 
 ```sh
 > msbuild /p:Configuration=Debug XMLUnit.NET.sln
@@ -158,10 +164,11 @@ once to download the packages used by XMLUnit during the build (really only NUni
 $ xbuild /p:Configuration=Debug XMLUnit.NET.sln
 ```
 
-which compiles `core` and `constraints`, builds the assemblies and executes the NUnit tests.
+which compiles `core` and `constraints`, builds the assemblies and
+executes the NUnit tests.
 
 <a name="nuget-linux">1</a>: In order to run `nuget` and `xbuild` on
-Linux (or any other platform supported by Mono) you'll need to install
+Linux (or any other platform supported by Mono) you may need to install
 Mono itself and the xbuild package (the deb packages are
 `mono-complete` and `mono-xbuild`).  You'll need to download `nuget`
 and finally, if you encounter "System.Net.WebException: Error getting
