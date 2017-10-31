@@ -5,7 +5,7 @@ XMLUnit.NET 2.x
 
 Builds:
   * Travis CI using Mono 4.0 on Linux: [![Build Status XMLUnit.NET 2.x](https://travis-ci.org/xmlunit/xmlunit.net.svg?branch=master)](https://travis-ci.org/xmlunit/xmlunit.net)
-  * Appveyor using .NET 3.5 on Windows: [![Build status](https://ci.appveyor.com/api/projects/status/am34dfbr4vbcarr3?svg=true)](https://ci.appveyor.com/project/bodewig/xmlunit-net)
+  * AppVeyor using .NET 3.5 on Windows: [![Build status](https://ci.appveyor.com/api/projects/status/am34dfbr4vbcarr3?svg=true)](https://ci.appveyor.com/project/bodewig/xmlunit-net)
 
 XMLUnit is a library that supports testing XML output in several ways.
 
@@ -45,7 +45,7 @@ release are wrong, we began using XMLUnit.Core and XMLUnit.Constraints
 ## SNAPSHOT builds
 
 NuGet packages are available from out CI builds at
-[AppVeyour](https://ci.appveyor.com/project/bodewig/xmlunit-net).
+[AppVeyor](https://ci.appveyor.com/project/bodewig/xmlunit-net).
 Follow the link to the Debug or Release Configuration and then the
 link to Artifacts.
 
