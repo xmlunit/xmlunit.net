@@ -136,5 +136,9 @@ namespace Org.XmlUnit.Constraints
                         & HasXPathConstraint.HasXPath("//a/b/@attr"));
         }
 
+        [Test]
+        public void QuotesCanBeMixed() {
+            Assert.That("<a>b'b</a>", HasXPathConstraint.HasXPath("//a[text()=\"b'b\"]"));
+        }
     }
 }
