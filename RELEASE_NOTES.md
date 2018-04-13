@@ -14,6 +14,10 @@
   3.x versions) pass but the assertion failes because the constraint
   itself was wrapped in a `Not` constraint.
 
+* the NUnit 3.x `EvaluateXPathConstraint` failed to resolve the nested
+  constraint, leading to erroneous messages if the assertion failed.
+  Issue [#25](https://github.com/xmlunit/xmlunit.net/issues/25)
+
 ## XMLUnit.NET 2.5.1 - /Released 2017-10-20/
 
 * elements that only differed in namespace prefix resulted in a false
