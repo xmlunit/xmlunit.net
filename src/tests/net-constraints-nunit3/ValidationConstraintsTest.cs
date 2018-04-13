@@ -121,6 +121,18 @@ namespace Org.XmlUnit.Constraints {
                                                                      + "Book.xsd")));
         }
 
+        [Test]
+        public void CreatesAUsefulMessageWhenFailingCombinedWithNot() {
+            Assert.That(() =>
+                        Assert.That(new StreamSource(TestResources.TESTS_DIR
+                                                     + "BookXsdGeneratedNoSchema.xml"),
+                                    !new SchemaValidConstraint(new StreamSource(TestResources.TESTS_DIR
+                                                                                + "Book.xsd"))),
+                        Throws.TypeOf<AssertionException>()
+                        .With.Property("Message").Contains("not")
+                        .With.Property("Message").Contains("validates"));
+        }
+
         private static void ThrowOnError(object sender, ValidationEventArgs e) {
             throw new XMLUnitException("Schema is invalid", e.Exception);
         }

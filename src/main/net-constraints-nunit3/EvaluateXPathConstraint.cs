@@ -109,6 +109,7 @@ namespace Org.XmlUnit.Constraints
         public override ConstraintResult ApplyTo<TActual>(TActual actual)
         {
             ConstraintResult nested = valueConstraint.ApplyTo(XPathEvaluate(actual));
+            Description = "XML with XPath " + xPath + " evaluated to " + nested.ActualValue;
             return new HasXPathConstraintResult(this, actual, nested);
         }
         

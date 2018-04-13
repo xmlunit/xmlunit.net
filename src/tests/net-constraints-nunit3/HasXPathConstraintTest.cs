@@ -140,5 +140,14 @@ namespace Org.XmlUnit.Constraints
         public void QuotesCanBeMixed() {
             Assert.That("<a>b'b</a>", HasXPathConstraint.HasXPath("//a[text()=\"b'b\"]"));
         }
+
+        [Test]
+        public void CreatesAUsefulMessageWhenFailingCombinedWithNot() {
+            string xml = "<a><b attr=\"abc\"></b></a>";
+            Assert.That(() =>
+                        Assert.That(xml, !HasXPathConstraint.HasXPath("//a/b/@attr")),
+                        Throws.TypeOf<AssertionException>()
+                        .With.Property("Message").Contains("not XML with XPath //a/b/@attr"));
+        }
     }
 }

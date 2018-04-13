@@ -228,6 +228,7 @@ namespace Org.XmlUnit.Constraints {
 
         /// <inheritdoc/>
         public override bool Matches(object o) {
+            actual = o;
             if (checkFor == ComparisonResult.EQUAL) {
                 diffBuilder.WithComparisonController(ComparisonControllers.StopWhenSimilar);
             } else if (checkFor == ComparisonResult.SIMILAR) {
@@ -242,7 +243,7 @@ namespace Org.XmlUnit.Constraints {
         public override void WriteDescriptionTo(MessageWriter writer)
         {
             string identicalOrSimilar = checkFor == ComparisonResult.EQUAL ? "identical" : "similar";
-            if (diffResult == null) {
+            if (diffResult == null || !diffResult.HasDifferences()) {
                 writer.Write("is {0} to the control document", identicalOrSimilar);
             } else {
                 writer.Write("{0} is {1} to {2}", diffResult.TestSource.SystemId,

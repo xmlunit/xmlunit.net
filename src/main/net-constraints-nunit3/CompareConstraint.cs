@@ -234,6 +234,11 @@ namespace Org.XmlUnit.Constraints {
             }
 
             Diff.Diff diffResult = diffBuilder.WithTest(actual).Build();
+
+            Description = "is "
+                + (checkFor == ComparisonResult.EQUAL ? "equal" : "similar")
+                + " to the control document";
+
             return new CompareConstraintResult(this, actual, diffResult);
         }
 

@@ -116,5 +116,22 @@ namespace Org.XmlUnit.Constraints {
                         & EvaluateXPathConstraint
                         .HasXPath("count(//fruits/fruit)", Is.EqualTo("3")));
         }
+
+        [Test]
+        public void CreatesAUsefulMessageWhenFailingCombinedWithNotOnTheOutside() {
+            string xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
+                "<fruits>" +
+                "<fruit name=\"apple\"/>" +
+                "<fruit name=\"orange\"/>" +
+                "<fruit name=\"banana\"/>" +
+                "</fruits>";
+            Assert.That(() =>
+                        Assert.That(xml, !EvaluateXPathConstraint.HasXPath("count(//fruits/fruit)",
+                                                                           Is.EqualTo("3"))),
+                        Throws.TypeOf<AssertionException>()
+                        .With.Property("Message").Contains("not XML with XPath count(//fruits/fruit) evaluated to ")
+                        .With.Property("Message").Contains("3"));
+        }
+
     }
 }

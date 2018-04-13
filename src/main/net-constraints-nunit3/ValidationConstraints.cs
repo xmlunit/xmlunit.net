@@ -65,7 +65,49 @@ namespace Org.XmlUnit.Constraints {
         /// <inheritdoc/>
         public override ConstraintResult ApplyTo<TActual>(TActual actual) {
             result = validator.ValidateInstance(actual as ISource);
+            Description = BuildDescription(actual);
             return new SchemaValidationConstraintResult(this, actual, result);
+        }
+
+        private string BuildDescription<TActual>(TActual actual) {
+            StringBuilder sb = new StringBuilder();
+            if (validator.Schema != null) {
+                sb.AppendFormat("{0} validates against {1}",
+                          GrabSystemId(actual as ISource) ?? "instance", validator.Schema.SourceUri ?? " the given schema");
+            } else if (validator.SchemaSources.Count(s => !string.IsNullOrEmpty(s.SystemId)) > 0) {
+                sb.AppendFormat("{0} validates against {1}",
+                          GrabSystemId(actual as ISource) ?? "instance", GrabSystemIds());
+            }
+            else {
+                sb.AppendFormat("{0} validates", GrabSystemId(actual as ISource) ?? "instance");
+            }
+            sb.Append("\"").Append(GrabProblems());
+            return sb.ToString();
+        }
+
+        private string GrabSystemIds() {
+            return validator.SchemaSources.Select<ISource, string>(GrabSystemId)
+                .Where(s => !string.IsNullOrEmpty(s))
+                .Aggregate(new StringBuilder(),
+                           (sb, systemId) => sb.AppendLine(systemId),
+                           sb => sb.Length > 0 ? sb.Remove(sb.Length - 1, 1).ToString()
+                           : sb.ToString());
+        }
+
+        private string GrabSystemId(ISource s) {
+            return s.SystemId;
+        }
+
+        private string GrabProblems() {
+            return result.Problems
+                .Aggregate(new StringBuilder(),
+                           (sb, p) => sb.AppendFormat("{0}, ", p),
+                           sb => {
+                               if (sb.Length > 0) {
+                                   sb.Remove(sb.Length - 2, 2);
+                               }
+                               return sb.ToString();
+                           });
         }
 
         /// <summary>
@@ -86,42 +128,9 @@ namespace Org.XmlUnit.Constraints {
 
             /// <inheritdoc/>
             public override void WriteMessageTo(MessageWriter writer) {
-                if (constraint.validator.Schema != null) {
-                    writer.Write("{0} validates against {1}",
-                                 GrabSystemId(ActualValue as ISource) ?? "instance",
-                                 constraint.validator.Schema.SourceUri ?? " the given schema");
-                } else if (constraint.validator.SchemaSources.Count(s => !string.IsNullOrEmpty(s.SystemId)) > 0) {
-                    writer.WriteLine("{0} does not validate against {1}",
-                        GrabSystemId(ActualValue as ISource) ?? "instance",
-                        GrabSystemIds());
-                }
-                else {
-                    writer.WriteLine("{0} does not validate",
-                        GrabSystemId(ActualValue as ISource) ?? "instance");
-                    writer.WriteLine();
-                }
-                writer.Write(GrabProblems());
+                writer.Write(constraint.Description);
             }
 
-            private string GrabSystemIds() {
-                return constraint.validator.SchemaSources.Select<ISource, string>(GrabSystemId)
-                    .Where(s => !string.IsNullOrEmpty(s))
-                    .Aggregate(new StringBuilder(),
-                               (sb, systemId) => sb.AppendLine(systemId),
-                               sb => sb.Length > 0 ? sb.Remove(sb.Length - 1, 1).ToString()
-                                                   : sb.ToString());
-            }
-
-            private string GrabSystemId(ISource s) {
-                return s.SystemId;
-            }
-
-            private string GrabProblems() {
-                return result.Problems
-                    .Aggregate(new StringBuilder(),
-                               (sb, p) => sb.AppendFormat("{0}, ", p),
-                               sb => sb.Remove(sb.Length - 2, 2).ToString());
-            }
         }
     }
 }

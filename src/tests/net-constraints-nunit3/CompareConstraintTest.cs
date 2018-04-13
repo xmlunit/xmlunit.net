@@ -16,6 +16,7 @@ using System;
 using System.IO;
 using System.Xml;
 using NUnit.Framework;
+using NUnit.Framework.Constraints;
 using Org.XmlUnit.Diff;
 using Org.XmlUnit.Input;
 
@@ -79,6 +80,12 @@ namespace Org.XmlUnit.Constraints {
                          () => Assert.That("<a>\n  <b>\n  Test\n  Node\n  </b>\n</a>",
                                            CompareConstraint.IsIdenticalTo("<a><b>TestNode</b></a>")
                                            .NormalizeWhitespace()));
+        }
+
+        [Test]
+        public void TestIsSimilarTo_withSwappedElements_shouldSucceed() {
+            Assert.That("<a><c/><b/></a>", CompareConstraint.IsSimilarTo("<a><b/><c/></a>")
+                        .WithNodeMatcher(new DefaultNodeMatcher(ElementSelectors.ByNameAndText)));
         }
 
         [Test]
@@ -207,6 +214,14 @@ namespace Org.XmlUnit.Constraints {
             Assert.That(() => CompareConstraint.IsSimilarTo("<foo/>")
                         .WithComparisonController(null),
                         Throws.TypeOf<NotImplementedException>());
+        }
+
+        [Test]
+        public void CreatesAUsefulMessageWhenFailingCombinedWithNot() {
+            ExpectThrows("not is similar to the control document", "<a><b></b><c/></a>",
+                         () =>
+                         Assert.That("<a><b></b><c/></a>",
+                                     !CompareConstraint.IsSimilarTo("<a><b></b><c/></a>")));
         }
 
         private void ExpectThrows(string start, string detail, TestDelegate act) {

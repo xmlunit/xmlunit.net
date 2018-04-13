@@ -83,6 +83,7 @@ namespace Org.XmlUnit.Constraints
         /// <inheritdoc/>
         public override ConstraintResult ApplyTo<TActual>(TActual actual)
         {
+            Description = "XML with XPath " + xPath;
             XPathEngine engine = new XPathEngine();
             if (prefix2Uri != null)
             {

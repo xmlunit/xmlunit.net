@@ -108,7 +108,12 @@ namespace Org.XmlUnit.Constraints {
             return result.Problems
                 .Aggregate(new StringBuilder(),
                            (sb, p) => sb.AppendFormat("{0}, ", p),
-                           sb => sb.Remove(sb.Length - 2, 2).ToString());
+                           sb => {
+                               if (sb.Length > 0) {
+                                   sb.Remove(sb.Length - 2, 2);
+                               }
+                               return sb.ToString();
+                           });
         }
 
         private string ProblemToString(ValidationProblem problem) {
