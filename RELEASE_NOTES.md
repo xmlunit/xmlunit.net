@@ -18,6 +18,19 @@
   constraint, leading to erroneous messages if the assertion failed.
   Issue [#25](https://github.com/xmlunit/xmlunit.net/issues/25)
 
+* the `XmlDocument` instances used internally in `Convert` and
+  `Transformation` now get their `XmlResolver` property set to `null`
+  by default - which happens to be the default value of .NET 4.5.2 and
+  later anyway. This is in accordance with the [OWASP recommendations
+  for XML eXternal Entity injection
+  preventions](https://www.owasp.org/index.php/XML_External_Entity_(XXE)_Prevention_Cheat_Sheet#.NET).
+
+  This may be a breaking change and you may need to provide an
+  explicit `XmlResolver` instance of your own if you need to load
+  external entities.
+
+  Issue [#27](https://github.com/xmlunit/xmlunit.net/issues/27).
+
 ## XMLUnit.NET 2.5.1 - /Released 2017-10-20/
 
 * elements that only differed in namespace prefix resulted in a false
