@@ -1,5 +1,7 @@
 language: csharp
 solution: XMLUnit.NET.sln
+script:
+  - xbuild XMLUnit.NET.sln
 notifications:
   email:
     - xmlunit-commits@lists.sourceforge.net
