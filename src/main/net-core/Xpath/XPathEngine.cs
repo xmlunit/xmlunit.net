@@ -32,9 +32,7 @@ namespace Org.XmlUnit.Xpath {
         /// </summary>
         public IEnumerable<XmlNode> SelectNodes(string xPath, ISource s) {
             try {
-                XmlDocument doc = new XmlDocument();
-                doc.Load(s.Reader);
-                return SelectNodes(xPath, doc);
+                return SelectNodes(xPath, Convert.ToDocument(s));
             } catch (XPathException ex) {
                 throw new XMLUnitException(ex);
             }

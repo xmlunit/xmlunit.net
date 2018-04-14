@@ -190,12 +190,27 @@ namespace Org.XmlUnit.Transform {
         /// transformation as a Document.
         /// </summary>
         public XmlDocument TransformToDocument() {
+            return TransformToDocument(null);
+        }
+
+        /// <summary>
+        /// Convenience method that returns the result of the
+        /// transformation as a Document.
+        /// </summary>
+        /// <param name="resolver">resolver to use when loading the document</param>
+        /// <remarks>
+        ///   <para>
+        ///     since XMLUnit 2.6.0
+        ///   </para>
+        /// </remarks>
+        public XmlDocument TransformToDocument(XmlResolver resolver) {
             using (MemoryStream ms = new MemoryStream()) {
                 TransformTo(ms);
                 ms.Flush();
                 ms.Seek(0, SeekOrigin.Begin);
 
                 XmlDocument doc = new XmlDocument();
+                doc.XmlResolver = resolver;
                 doc.Load(ms);
                 return doc;
             }

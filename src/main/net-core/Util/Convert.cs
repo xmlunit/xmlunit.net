@@ -34,6 +34,18 @@ namespace Org.XmlUnit.Util {
         /// Creates a DOM Document from an ISource.
         /// </summary>
         public static XmlDocument ToDocument(ISource s, bool prohibitDTD) {
+            return ToDocument(s, prohibitDTD, null);
+        }
+
+        /// <summary>
+        /// Creates a DOM Document from an ISource.
+        /// </summary>
+        /// <remarks>
+        ///   <para>
+        ///     since XMLUnit 2.6.0
+        ///   </para>
+        /// </remarks>
+        public static XmlDocument ToDocument(ISource s, bool prohibitDTD, XmlResolver resolver) {
             if (s == null) {
                 throw new ArgumentNullException("s");
             }
@@ -45,6 +57,7 @@ namespace Org.XmlUnit.Util {
                 }
             }
             XmlDocument d = new XmlDocument();
+            d.XmlResolver = resolver;
             XmlReaderSettings sett = new XmlReaderSettings();
             sett.ProhibitDtd = prohibitDTD;
             d.Load(XmlReader.Create(s.Reader, sett));
