@@ -253,5 +253,46 @@ namespace Org.XmlUnit.Util {
             Assert.AreEqual("foo bar", Nodes.Normalize("foo\nbar"));
             Assert.AreEqual("foo bar", Nodes.Normalize("foo  \r\n\t bar"));
         }
+
+        [Test]
+        public void StripECWWorks() {
+            XmlNode orig = HandleWsSetup();
+            XmlNode s = Nodes.StripElementContentWhitespace(orig);
+
+            Assert.IsTrue(s is XmlDocument);
+            XmlNodeList top = s.ChildNodes;
+            Assert.AreEqual(1, top.Count);
+            Assert.IsTrue(top[0] is XmlElement);
+            Assert.AreEqual("root", top[0].Name);
+            XmlNodeList rootsChildren = top[0].ChildNodes;
+            Assert.AreEqual(4, rootsChildren.Count);
+            Assert.IsTrue(rootsChildren[0] is XmlComment,
+                          "should be comment, is " + rootsChildren[0].GetType());
+            Assert.AreEqual(" trim\tme ",
+                            ((XmlComment) rootsChildren[0]).Data);
+            Assert.IsTrue(rootsChildren[1] is XmlElement,
+                          "should be element, is " + rootsChildren[1].GetType());
+            Assert.AreEqual("child", rootsChildren[1].Name);
+            Assert.IsTrue(rootsChildren[2] is XmlCDataSection,
+                          "should be cdata, is " + rootsChildren[2].GetType());
+            Assert.AreEqual(" trim me ",
+                            ((XmlCDataSection) rootsChildren[2]).Data);
+            Assert.IsTrue(rootsChildren[3] is XmlProcessingInstruction,
+                          "should be PI, is " + rootsChildren[3].GetType());
+            Assert.AreEqual("trim me ",
+                            ((XmlProcessingInstruction) rootsChildren[3]).Data);
+            XmlNode child = rootsChildren[1];
+            XmlNodeList grandChildren = child.ChildNodes;
+            Assert.AreEqual(1, grandChildren.Count);
+            Assert.IsTrue(grandChildren[0] is XmlText,
+                          "should be text, is " + grandChildren[0].GetType());
+            Assert.AreEqual("\n trim me \n", ((XmlText) grandChildren[0]).Data);
+            XmlNamedNodeMap attrs = child.Attributes;
+            Assert.AreEqual(2, attrs.Count);
+            XmlAttribute a = (XmlAttribute) attrs.GetNamedItem("attr");
+            Assert.AreEqual(" trim me ", a.Value);
+            XmlAttribute a2 = (XmlAttribute) attrs.GetNamedItem("attr2");
+            Assert.AreEqual("not me", a2.Value);
+        }
     }
 }

@@ -31,6 +31,14 @@
 
   Issue [#27](https://github.com/xmlunit/xmlunit.net/issues/27).
 
+* added a new `ISource` implementation
+  `ElementContentWhitespaceStrippedSource` which is similar to
+  `WhitespaceStrippedSource` but only affects text nodes that solely
+  consist of whitespace and doesn't affect any other text nodes. Also
+  added convenience `IgnoreElementContentWhitespace` methods to
+  `DiffBuilder` and `CompareConstraint`.
+  Issue similar to [xmlunit/#119](https://github.com/xmlunit/xmlunit/issues/119).
+
 ## XMLUnit.NET 2.5.1 - /Released 2017-10-20/
 
 * elements that only differed in namespace prefix resulted in a false

@@ -102,6 +102,7 @@
     <Compile Include="Input\ByteArraySource.cs" />
     <Compile Include="Input\CommentLessSource.cs" />
     <Compile Include="Input\DOMSource.cs" />
+    <Compile Include="Input\ElementContentWhitespaceStrippedSource.cs" />
     <Compile Include="Input\LinqSource.cs" />
     <Compile Include="Input\NormalizedSource.cs" />
     <Compile Include="Input\ReaderSource.cs" />

@@ -83,6 +83,19 @@ namespace Org.XmlUnit.Constraints {
         }
 
         /// <summary>
+        /// Ignore element content whitespace differences.
+        /// </summary>
+        /// <remarks>
+        ///   <para>
+        ///     since XMLUnit 2.6.0
+        ///   </para>
+        /// </remarks>
+        public CompareConstraint IgnoreElementContentWhitespace() {
+            diffBuilder.IgnoreElementContentWhitespace();
+            return this;
+        }
+
+        /// <summary>
         /// Normalize whitespace before comparing.
         /// </summary>
         public CompareConstraint NormalizeWhitespace() {

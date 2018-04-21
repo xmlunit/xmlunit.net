@@ -454,6 +454,38 @@ namespace Org.XmlUnit.Builder {
             Assert.AreEqual("foo (DIFFERENT)", myDiff.Differences.First().ToString());
         }
 
+        [Test]
+        [Ignore("Looks as if XmlDocument stripped ECW by itself")]
+        public void TestDiff_withoutIgnoreElementContentWhitespaces_shouldFail() {
+            // prepare testData
+            string controlXml = "<a><b>Test Value</b></a>";
+            string testXml = "<a>\n <b>Test Value</b>\n</a>";
+
+            // run test
+            var myDiff = DiffBuilder.Compare(Input.FromString(controlXml).Build())
+                .WithTest(Input.FromString(testXml).Build())
+                .Build();
+
+            // validate result
+            Assert.IsTrue(myDiff.HasDifferences(), myDiff.ToString());
+        }
+
+        [Test]
+        public void TestDiff_withIgnoreElementContentWhitespaces_shouldSucceed() {
+            // prepare testData
+            string controlXml = "<a><b>Test Value</b></a>";
+            string testXml = "<a>\n <b>Test Value</b>\n</a>";
+
+            // run test
+            var myDiff = DiffBuilder.Compare(Input.FromString(controlXml).Build())
+                .WithTest(Input.FromString(testXml).Build())
+                .IgnoreElementContentWhitespace()
+                .Build();
+
+            // validate result
+            Assert.IsFalse(myDiff.HasDifferences(), "XML similar " + myDiff.ToString());
+        }
+
         internal class DummyComparisonFormatter : IComparisonFormatter {
             public string GetDescription(Comparison difference) {
                 return "foo";

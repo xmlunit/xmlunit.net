@@ -92,6 +92,27 @@ namespace Org.XmlUnit.Util {
         }
 
         /// <summary>
+        /// Creates a new Node (of the same type as the original node)
+        /// that is similar to the orginal but doesn't contain any
+        /// text or CDATA nodes that only consist of whitespace.
+        /// </summary>
+        /// <remarks>
+        ///   <para>
+        /// This doesn't have any effect if applied to a text or CDATA
+        /// node itself.
+        ///   </para>
+        ///   <para>
+        /// since XMLUnit 2.6.0
+        ///   </para>
+        /// </remarks>
+        public static XmlNode StripElementContentWhitespace(XmlNode original) {
+            XmlNode cloned = original.CloneNode(true);
+            cloned.Normalize();
+            StripECW(cloned);
+            return cloned;
+        }
+
+        /// <summary>
         /// Trims textual content of this node, removes empty text and
         /// CDATA children, recurses into its child nodes.
         /// </summary>
@@ -154,6 +175,21 @@ namespace Org.XmlUnit.Util {
                 }
             }
             return changed ? sb.ToString() : s;
+        }
+
+        private static void StripECW(XmlNode n) {
+            LinkedList<XmlNode> toRemove = new LinkedList<XmlNode>();
+            foreach (XmlNode child in n.ChildNodes) {
+                StripECW(child);
+                if (!(n is XmlAttribute)
+                    && (child is XmlText || child is XmlCDataSection)
+                    && child.Value.Trim().Length == 0) {
+                    toRemove.AddLast(child);
+                }
+            }
+            foreach (XmlNode child in toRemove) {
+                n.RemoveChild(child);
+            }
         }
     }
 }

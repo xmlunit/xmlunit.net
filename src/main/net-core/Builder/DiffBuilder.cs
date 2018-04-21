@@ -77,6 +77,8 @@ namespace Org.XmlUnit.Builder {
 
         private bool normalizeWhitespace;
 
+        private bool ignoreECW;
+
         private bool ignoreComments;
 
         private string ignoreCommentVersion = null;
@@ -114,8 +116,30 @@ namespace Org.XmlUnit.Builder {
         /// <summary>
         ///   Ignore whitespace by removing all empty text nodes and trimming the non-empty ones.
         /// </summary>
+        /// <remarks>
+        ///   <para>
+        /// If you only want to remove text nodes consisting solely of
+        /// whitespace (AKA element content whitespace) but leave all
+        /// other text nodes alone you should use
+        /// ignoreElementContentWhitespace instead.
+        ///   </para>
+        /// </remarks>
         public DiffBuilder IgnoreWhitespace() {
             ignoreWhitespace = true;
+            return this;
+        }
+
+        /// <summary>
+        /// Ignore element content whitespace by removing all text
+        /// nodes solely consisting of whitespace.
+        /// </summary>
+        /// <remarks>
+        ///   <para>
+        /// since XMLUnit 2.6.0
+        ///   </para>
+        /// </remarks>
+        public DiffBuilder IgnoreElementContentWhitespace() {
+            ignoreECW = true;
             return this;
         }
 
@@ -388,6 +412,9 @@ namespace Org.XmlUnit.Builder {
                 newSource = ignoreCommentVersion == null
                     ? new CommentLessSource(newSource)
                     : new CommentLessSource(newSource, ignoreCommentVersion);
+            }
+            if (ignoreECW) {
+                newSource = new ElementContentWhitespaceStrippedSource(newSource);
             }
             return newSource;
         }

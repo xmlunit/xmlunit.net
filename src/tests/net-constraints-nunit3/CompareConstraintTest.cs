@@ -54,6 +54,12 @@ namespace Org.XmlUnit.Constraints {
         }
 
         [Test]
+        public void IsIdenticalTo_WithIgnoreElementContentWhitespaces_ShouldSucceed() {
+            Assert.That("<a>\n  <b/>\n</a>",
+                        CompareConstraint.IsIdenticalTo("<a><b/></a>").IgnoreElementContentWhitespace());
+        }
+
+        [Test]
         public void TestIsIdenticalTo_withIgnoreComments_shouldSucceed() {
             Assert.That("<a><!-- Test --></a>",
                         CompareConstraint.IsIdenticalTo("<a></a>").IgnoreComments());
