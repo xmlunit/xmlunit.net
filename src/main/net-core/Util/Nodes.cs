@@ -80,9 +80,11 @@ namespace Org.XmlUnit.Util {
         /// including attribute values or comments are normalized.
         /// </summary>
         /// <remarks>
+        ///   <para>
         /// "normalized" in this context means all whitespace
         /// characters are replaced by space characters and
         /// consecutive whitespace characaters are collapsed.
+        ///   </para>
         /// </remarks>
         public static XmlNode NormalizeWhitespace(XmlNode original) {
             XmlNode cloned = original.CloneNode(true);
