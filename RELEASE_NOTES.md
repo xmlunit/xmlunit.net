@@ -11,7 +11,7 @@
 * fixed the message when `CompareConstraint` or
   `ValidationConstraints` (both NUnit 2.x and 3.x) as well as
   `EvaluateXPathConstraint` or `HasXPathConstraint` (only the NUnit
-  3.x versions) pass but the assertion failes because the constraint
+  3.x versions) pass but the assertion fails because the constraint
   itself was wrapped in a `Not` constraint.
 
 * the NUnit 3.x `EvaluateXPathConstraint` failed to resolve the nested
