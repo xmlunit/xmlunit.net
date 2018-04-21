@@ -159,9 +159,14 @@ namespace Org.XmlUnit.Diff {
         /// declaration that are part of the XML prolog.
         /// </summary>
         /// <remarks>
-        /// <p>Here "ignore" means return {@code ComparisonResult.EQUAL}.</p>
-        /// </remarks>
-        /// <remarks>
+        ///   <para>
+        /// Here "ignore" means return ComparisonResult.EQUAL.
+        ///   </para>
+        ///   <para>
+        /// In general different doctype declarations will be ignored
+        /// because of NodeFilters.Default, so if you want to detect
+        /// these differences you need to pick a different NodeFilter.
+        ///   </para>
         ///   <para>
         /// since XMLUnit 2.1.0
         ///   </para>

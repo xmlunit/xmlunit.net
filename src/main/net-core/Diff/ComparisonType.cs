@@ -35,6 +35,14 @@ namespace Org.XmlUnit.Diff {
         /// <summary>
         /// Do both documents have a DOCTYPE (or neither of each)?
         /// </summary>
+        /// <remarks>
+        ///   <para>
+        /// This difference is most likely masked by a
+        /// CHILD_NODELIST_LENGTH difference as the number of children
+        /// of the document node is tested before the presence of the
+        /// document type declaration.
+        ///   </para>
+        /// </remarks>
         HAS_DOCTYPE_DECLARATION,
         /// <summary>
         /// If the documents both have DOCTYPEs, compare the names.

@@ -39,6 +39,22 @@
   `DiffBuilder` and `CompareConstraint`.
   Issue similar to [xmlunit/#119](https://github.com/xmlunit/xmlunit/issues/119).
 
+* the configured `NodeFilter` is now applied before comparing
+  `XmlDocumentType` nodes.
+
+  This change breaks backwards compatibility as the old behavior was
+  to ignore `XmlDocumentType` when counting the children of the
+  `XmlDocument` node but not when actually comparing the
+  `XmlDocumentType`. Prior to this change if one document had a document
+  type declaration but the other didn't, a `HAS_DOCTYPE_DECLARATION`
+  difference was detected, this will no longer be the case now. If you
+  want to detect this difference, you need to use a more lenient
+  `NodeFilter` than `NodeFilters.Default`
+  (i.e. `NodeFilters.AcceptAll`) but then you will see an additional
+  `CHILD_NODELIST_LENGTH` difference.
+
+  Issue [#26](https://github.com/xmlunit/xmlunit.net/issues/26).
+
 ## XMLUnit.NET 2.5.1 - /Released 2017-10-20/
 
 * elements that only differed in namespace prefix resulted in a false

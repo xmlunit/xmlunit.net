@@ -23,9 +23,27 @@ namespace Org.XmlUnit.Diff {
         /// <summary>
         /// Suppresses document-type and XML declaration nodes.
         /// </summary>
+        /// <remarks>
+        ///   <para>
+        /// This is the default used by AbstractDifferenceEngine and
+        /// thus DOMDifferenceEngine.
+        ///   </para>
+        /// </remarks>
         public static bool Default(XmlNode n) {
             return n.NodeType != XmlNodeType.DocumentType
                 && n.NodeType != XmlNodeType.XmlDeclaration;
+         }
+
+        /// <summary>
+        /// Suppresses document-type and XML declaration nodes.
+        /// </summary>
+        /// <remarks>
+        ///   <para>
+        ///     since XMLUnit 2.6.0
+        ///   </para>
+        /// </remarks>
+        public static bool AcceptAll(XmlNode n) {
+            return true;
          }
     }
 }

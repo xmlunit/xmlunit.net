@@ -362,6 +362,12 @@ namespace Org.XmlUnit.Diff {
             d.DifferenceListener += ex.ComparisonPerformed;
             d.DifferenceEvaluator = delegate(Comparison comparison,
                                              ComparisonResult outcome) {
+                if (comparison.Type == ComparisonType.CHILD_NODELIST_LENGTH) {
+                    Assert.AreEqual(ComparisonResult.DIFFERENT, outcome);
+                    // downgrade so we get to see the
+                    // HAS_DOCTYPE_DECLARATION difference
+                    return ComparisonResult.EQUAL;
+                }
                 if (comparison.Type == ComparisonType.HAS_DOCTYPE_DECLARATION) {
                     Assert.AreEqual(ComparisonResult.DIFFERENT, outcome);
                     return ComparisonResult.DIFFERENT;
@@ -370,6 +376,7 @@ namespace Org.XmlUnit.Diff {
                 return ComparisonResult.EQUAL;
             };
             d.ComparisonController = ComparisonControllers.StopWhenDifferent;
+            d.NodeFilter = NodeFilters.AcceptAll;
 
             XmlDocument d1, d2;
 
@@ -450,6 +457,30 @@ namespace Org.XmlUnit.Diff {
                             d.CompareNodes(d1, new XPathContext(),
                                            d2, new XPathContext()));
             Assert.AreEqual(1, ex.invoked);
+        }
+
+        [Test]
+        public void NodeFilterAppliesToDocTypes() {
+            DOMDifferenceEngine d = new DOMDifferenceEngine();
+            DiffExpecter ex =
+                new DiffExpecter(ComparisonType.HAS_DOCTYPE_DECLARATION);
+            d.DifferenceListener += ex.ComparisonPerformed;
+            d.ComparisonController = ComparisonControllers.StopWhenDifferent;
+
+            XmlDocument d1, d2;
+
+            d1 = Org.XmlUnit.Util.Convert
+                .ToDocument(InputBuilder.FromString("<Book/>").Build());
+            d2 = new XmlDocument();
+            d2.LoadXml("<!DOCTYPE Book PUBLIC "
+                       + "\"XMLUNIT/TEST/PUB\" "
+                       + "\"" + TestResources.BOOK_DTD
+                       + "\">"
+                       + "<Book/>");
+            Assert.AreEqual(Wrap(ComparisonResult.EQUAL),
+                            d.CompareNodes(d1, new XPathContext(),
+                                           d2, new XPathContext()));
+            Assert.AreEqual(0, ex.invoked);
         }
 
         [Test]

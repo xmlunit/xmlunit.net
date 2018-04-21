@@ -200,8 +200,8 @@ namespace Org.XmlUnit.Diff{
                                                  XPathContext controlContext,
                                                  XmlDocument test,
                                                  XPathContext testContext) {
-            XmlDocumentType controlDt = control.DocumentType;
-            XmlDocumentType testDt = test.DocumentType;
+            XmlDocumentType controlDt = FilterNode(control.DocumentType);
+            XmlDocumentType testDt = FilterNode(test.DocumentType);
 
             return Compare(new Comparison(ComparisonType.HAS_DOCTYPE_DECLARATION,
                                           control, GetXPath(controlContext),
@@ -215,6 +215,10 @@ namespace Org.XmlUnit.Diff{
                                                    controlContext,
                                                    test.FirstChild as XmlDeclaration,
                                                    testContext));
+        }
+
+        private T FilterNode<T>(T n) where T : XmlNode {
+            return n != null && NodeFilter(n) ? n : null;
         }
 
         /// <summary>
