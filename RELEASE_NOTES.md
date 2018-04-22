@@ -1,5 +1,7 @@
 # Release Notes
 
+## XMLUnit.NET 2.6.1 - /Not Released, yet/
+
 ## XMLUnit.NET 2.6.0 - /Released 2018-04-22/
 
 * add a new experimental module xmlunit-placeholders which aims to
