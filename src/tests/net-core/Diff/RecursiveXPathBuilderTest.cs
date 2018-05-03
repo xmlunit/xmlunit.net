@@ -71,19 +71,19 @@ namespace Org.XmlUnit.Diff {
 
         [Test]
         public void NamespaceButNoMap() {
-            XmlElement e = doc.CreateElement("foo", "http://www.xmlunit.org/test");
-            e.SetAttribute("foo", "http://www.xmlunit.org/test", "bar");
-            e.SetAttribute("baz", "http://www.xmlunit.org/test", "xyzzy");
+            XmlElement e = doc.CreateElement("foo", "https://www.xmlunit.org/test");
+            e.SetAttribute("foo", "https://www.xmlunit.org/test", "bar");
+            e.SetAttribute("baz", "https://www.xmlunit.org/test", "xyzzy");
             Assert.AreEqual("/foo[1]/@foo",
                             builder.Map(e.GetAttributeNode("foo")).XPath);
         }
 
         [Test]
         public void NamespaceWithMap() {
-            XmlElement e = doc.CreateElement("foo", "http://www.xmlunit.org/test");
-            e.SetAttribute("foo", "http://www.xmlunit.org/test", "bar");
-            e.SetAttribute("baz", "http://www.xmlunit.org/test", "xyzzy");
-            var p2u = new Dictionary<string, string> {{"x", "http://www.xmlunit.org/test"}};
+            XmlElement e = doc.CreateElement("foo", "https://www.xmlunit.org/test");
+            e.SetAttribute("foo", "https://www.xmlunit.org/test", "bar");
+            e.SetAttribute("baz", "https://www.xmlunit.org/test", "xyzzy");
+            var p2u = new Dictionary<string, string> {{"x", "https://www.xmlunit.org/test"}};
             builder.NamespaceContext = p2u;
             Assert.AreEqual("/x:foo[1]/@x:foo",
                             builder.Map(e.GetAttributeNode("foo")).XPath);

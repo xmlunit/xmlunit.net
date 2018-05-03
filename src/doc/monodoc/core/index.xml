@@ -1,5 +1,5 @@
 <Overview>
-  <Remarks>    <para><format type="text/html"><a href="http://www.xmlunit.org/">XMLUnit</a></format> helps testing code
+  <Remarks>    <para><format type="text/html"><a href="https://www.xmlunit.org/">XMLUnit</a></format> helps testing code
     that creates XML.</para>
 
     <para>XMLUnit.NET is separated into two assemblies:</para>
@@ -33,7 +33,7 @@
       more convenient to use in many cases.</para>
 
     <list type="bullet">
-      <item><term><format type="text/html"><a href="http://www.xmlunit.org/">XMLUnit's home page</a></format></term></item>
+      <item><term><format type="text/html"><a href="https://www.xmlunit.org/">XMLUnit's home page</a></format></term></item>
       <item><term><format type="text/html"><a href="https://github.com/xmlunit/xmlunit.net">Source Code</a></format></term></item>
       <item><term><format type="text/html"><a href="https://github.com/xmlunit/xmlunit.net/blob/master/CONTRIBUTING.md">Contributing Guide</a></format></term></item>
       <item><term><format type="text/html"><a href="https://github.com/xmlunit/xmlunit.net/issues">Reporting Issues</a></format></term></item>

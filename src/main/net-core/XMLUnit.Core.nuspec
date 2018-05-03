@@ -6,7 +6,7 @@
     <title>XMLUnit Core</title>
     <authors>XMLUnit Contributors</authors>
     <owners />
-    <projectUrl>http://www.xmlunit.org/</projectUrl>
+    <projectUrl>https://www.xmlunit.org/</projectUrl>
     <licenseUrl>https://github.com/xmlunit/xmlunit.net/blob/master/LICENSE</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>XMLUnit provides you with the tools to verify the XML you emit is the one you want to create.
