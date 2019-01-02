@@ -2,6 +2,9 @@
 
 ## XMLUnit.NET 2.6.1 - /Not Released, yet/
 
+* The nuspec files now use `license` rather than the deprecated
+  `licenseUrl`.
+
 ## XMLUnit.NET 2.6.0 - /Released 2018-04-22/
 
 * add a new experimental module xmlunit-placeholders which aims to

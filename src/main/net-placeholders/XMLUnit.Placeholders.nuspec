@@ -7,7 +7,7 @@
     <authors>XMLUnit Contributors</authors>
     <owners />
     <projectUrl>https://www.xmlunit.org/</projectUrl>
-    <licenseUrl>https://github.com/xmlunit/xmlunit.net/blob/master/LICENSE</licenseUrl>
+    <license type="expression">Apache-2.0</license>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>This package contains experimental support for
     configuring parts of the test engine by using ${xmlunit.KEYWORD}
