@@ -24,6 +24,10 @@ using NUnit.Framework;
 namespace Org.XmlUnit.Builder {
     [TestFixture]
     public class DiffBuilderTest {
+        public DiffBuilderTest()
+        {
+            Console.WriteLine();
+        }
 
         [Test]
         public void TestDiff_withoutIgnoreWhitespaces_shouldFail() {

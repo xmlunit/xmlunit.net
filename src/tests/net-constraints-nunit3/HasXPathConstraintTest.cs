@@ -124,7 +124,7 @@ namespace Org.XmlUnit.Constraints
         [Test]
         public void CanBeCombinedWithFailingMatcher() {
             Assert.That(() =>
-                        Assert.That("foo", Is.StringContaining("bar")
+                        Assert.That("foo", Does.Contain("bar")
                                     & HasXPathConstraint.HasXPath("//a/b/@attr")),
                         Throws.TypeOf<AssertionException>());
         }
@@ -132,7 +132,7 @@ namespace Org.XmlUnit.Constraints
         [Test]
         public void CanBeCombinedWithPassingMatcher() {
             string xml = "<a><b attr=\"abc\"></b></a>";
-            Assert.That(xml, Is.StringContaining("abc")
+            Assert.That(xml, Does.Contain("abc")
                         & HasXPathConstraint.HasXPath("//a/b/@attr"));
         }
 

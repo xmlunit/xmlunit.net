@@ -24,14 +24,15 @@ namespace Org.XmlUnit.Builder
         [Test]
         public void VerifyCurrentWorkingDirectory()
         {
-            Assert.That(Path.GetFullPath("."), Does.EndWith("Debug") | Does.EndWith("Release"));
+            Assert.That(TestContext.CurrentContext.TestDirectory, Does.Contain("Debug") | Does.Contain("Release"));
         }
 
         [Test]
         public void VerifyTestResourcesDirCanBeFound()
         {
-            Assert.IsTrue(Directory.Exists(TestResources.TESTS_DIR),
-                string.Format("Expected {0} (resolved to {1}) to exist", TestResources.TESTS_DIR, Path.GetFullPath(TestResources.TESTS_DIR)));
+            var fullPath = Path.GetFullPath(TestResources.TESTS_DIR);
+            Assert.IsTrue(Directory.Exists(fullPath),
+                string.Format("Expected {0} (resolved to {1}) to exist", TestResources.TESTS_DIR, fullPath));
         }
 
         [Test]
