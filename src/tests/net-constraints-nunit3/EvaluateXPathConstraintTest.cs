@@ -98,7 +98,7 @@ namespace Org.XmlUnit.Constraints {
         [Test]
         public void CanBeCombinedWithFailingMatcher() {
             Assert.That(() =>
-                        Assert.That("foo", Does.Contain("bar")
+                        Assert.That("foo", Is.StringContaining("bar")
                                     & EvaluateXPathConstraint
                                     .HasXPath("//a/b/@attr", Is.EqualTo("something"))),
                         Throws.TypeOf<AssertionException>());
@@ -112,7 +112,7 @@ namespace Org.XmlUnit.Constraints {
                 "<fruit name=\"orange\"/>" +
                 "<fruit name=\"banana\"/>" +
                 "</fruits>";
-            Assert.That(xml, Does.Contain("apple")
+            Assert.That(xml, Is.StringContaining("apple")
                         & EvaluateXPathConstraint
                         .HasXPath("count(//fruits/fruit)", Is.EqualTo("3")));
         }

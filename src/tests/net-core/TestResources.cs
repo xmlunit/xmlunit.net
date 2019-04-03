@@ -13,23 +13,24 @@
 */
 
 using System;
-using NUnit.Framework;
 
 namespace Org.XmlUnit {
 
     public sealed class TestResources {
-        public const string PREFIX = "/../../../../";
+        public static readonly string PREFIX = "../../../";
 
-        public static string TESTS_DIR => TestContext.CurrentContext.TestDirectory +  PREFIX + "test-resources/";
+        public static readonly string TESTS_DIR =
+            PREFIX + "test-resources/";
 
-        public static string ANIMAL_FILE => TESTS_DIR + "test1.xml";
-        public static string BLAME_FILE => TESTS_DIR + "test.blame.html";
+        public static readonly string ANIMAL_FILE = TESTS_DIR + "test1.xml";
+        public static readonly string BLAME_FILE =
+            TESTS_DIR + "test.blame.html";
 
-        public static string ANIMAL_XSL => TESTS_DIR + "animal.xsl";
-        public static string DOG_FILE => TESTS_DIR + "testAnimal.xml";
+        public static readonly string ANIMAL_XSL = TESTS_DIR + "animal.xsl";
+        public static readonly string DOG_FILE = TESTS_DIR + "testAnimal.xml";
 
-        public static string BOOK_DTD => TESTS_DIR + "Book.dtd";
-        public static string TEST_DTD => TESTS_DIR + "test.dtd";
+        public static readonly string BOOK_DTD = TESTS_DIR + "Book.dtd";
+        public static readonly string TEST_DTD = TESTS_DIR + "test.dtd";
 
         private TestResources() { }
     }

@@ -202,8 +202,7 @@ namespace Org.XmlUnit.Constraints {
         [Test]
         public void CanBeCombinedWithFailingMatcher() {
             Assert.That(() =>
-                        Assert.That("foo", 
-                            Does.Contain("bar")
+                        Assert.That("foo", Is.StringContaining("bar")
                                     & CompareConstraint.IsSimilarTo("")),
                         Throws.TypeOf<AssertionException>());
         }
@@ -211,7 +210,7 @@ namespace Org.XmlUnit.Constraints {
         [Test]
         public void CanBeCombinedWithPassingMatcher() {
             string xml = "<a><c/><b/></a>";
-            Assert.That(xml, Does.Contain("c")
+            Assert.That(xml, Is.StringContaining("c")
                         & CompareConstraint.IsSimilarTo("<a><b/><c/></a>")
                         .WithNodeMatcher(new DefaultNodeMatcher(ElementSelectors.ByName)));
         }
