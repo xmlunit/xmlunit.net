@@ -150,7 +150,7 @@ nuget](https://docs.microsoft.com/en-us/nuget/guides/install-nuget) as
 well as `msbuild` or `xbuild`<sup>[1](#nuget-linux)</sup> and run
 
 ```sh
-$ nuget restore XMLUnit.NET.sln
+$ nuget restore XMLUnit.NET.NetFramework.sln
 ```
 
 once to download the packages used by XMLUnit during the build (really
@@ -158,10 +158,10 @@ only NUnit right now).  After that you can run `msbuild` or `xbuild`
 like
 
 ```sh
-> msbuild /p:Configuration=Debug XMLUnit.NET.sln
+> msbuild /p:Configuration=Debug XMLUnit.NET.NetFramework.sln
 ```
 ```sh
-$ xbuild /p:Configuration=Debug XMLUnit.NET.sln
+$ xbuild /p:Configuration=Debug XMLUnit.NET.NetFramework.sln
 ```
 
 which compiles `core` and `constraints`, builds the assemblies and

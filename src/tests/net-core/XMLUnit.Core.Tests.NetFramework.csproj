@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  This file is licensed to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9BF85579-75BF-4D44-953A-46FAFCD814C0}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <NoStandardLibraries>false</NoStandardLibraries>
+    <AssemblyName>xmlunit-core.tests</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <BaseIntermediateOutputPath>obj.NetFramework</BaseIntermediateOutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\build.NetFramework\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\build.NetFramework\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>Org.XmlUnit</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\..\..\xmlunit.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="nunit.framework, Version=3.0.5813.39033, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\NUnit.3.0.1\lib\net20\nunit.framework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\shared\CommonAssemblyInfo.cs">
+      <Link>CommonAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="Builder\DiffBuilderTest.cs" />
+    <Compile Include="Builder\InputTest.cs" />
+    <Compile Include="Builder\TransformTest.cs" />
+    <Compile Include="VerifySetup.cs" />
+    <Compile Include="Diff\AbstractDifferenceEngineTest.cs" />
+    <Compile Include="Diff\ByNameAndTextRecSelectorTest.cs" />
+    <Compile Include="Diff\ChildNodeXPathContextProviderTest.cs" />
+    <Compile Include="Diff\ComparisonControllersTest.cs" />
+    <Compile Include="Diff\DefaultComparisonFormatterTest.cs" />
+    <Compile Include="Diff\DifferenceEvaluatorsTest.cs" />
+    <Compile Include="Diff\DifferenceTest.cs" />
+    <Compile Include="Diff\DOMDifferenceEngineTest.cs" />
+    <Compile Include="Diff\ElementSelectorsTest.cs" />
+    <Compile Include="Diff\MultiLevelByNameAndTextSelectorTest.cs" />
+    <Compile Include="Diff\RecursiveXPathBuilderTest.cs" />
+    <Compile Include="Diff\XPathContextTest.cs" />
+    <Compile Include="Input\CommentLessSourceTest.cs" />
+    <Compile Include="Input\NormalizedSourceTest.cs" />
+    <Compile Include="TestResources.cs" />
+    <Compile Include="Transform\TransformationTest.cs" />
+    <Compile Include="Util\ConvertTest.cs" />
+    <Compile Include="Util\LinqyTest.cs" />
+    <Compile Include="Util\NodesTest.cs" />
+    <Compile Include="Validation\ValidationProblemTest.cs" />
+    <Compile Include="Validation\ValidatorTest.cs" />
+    <Compile Include="Xpath\AbstractXPathEngineTest.cs" />
+    <Compile Include="Xpath\XPathEngineTest.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\main\net-core\XMLUnit.Core.NetFramework.csproj">
+      <Project>{97960a9c-7e2b-4548-90bd-31105c54e129}</Project>
+      <Name>XMLUnit.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSHARP.Targets" />
+  <ProjectExtensions>
+    <VisualStudio AllowExistingFolder="true" />
+  </ProjectExtensions>
+  <PropertyGroup Condition=" '$(OS)' != 'Unix' ">
+    <NunitCommand>"$(SolutionDir)packages\NUnit.Console.3.0.1\tools\nunit3-console.exe" "$(OutputPath)$(AssemblyName).dll" --config=$(Configuration) --work=..\..\..\build.NetFramework\test-results\ --result=Core.Tests.Results.xml --framework=net-3.5 --process=Single</NunitCommand>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(OS)' == 'Unix' ">
+    <NunitCommand>mono "$(SolutionDir)packages/NUnit.Console.3.0.1/tools/nunit3-console.exe" "$(OutputPath)$(AssemblyName).dll" --config=$(Configuration) --work=../../../build.NetFramework/test-results/ --result=Core.Tests.Results.xml --process=Single</NunitCommand>
+  </PropertyGroup>
+  <Target Name="RunUnitTest">
+    <MakeDir Directories="..\..\..\build.NetFramework\test-results" />
+    <Exec Command="$(NunitCommand)" WorkingDirectory="$(OutputPath)" />
+  </Target>
+  <Target Name="AfterBuild" DependsOnTargets="RunUnitTest">
+  </Target>
+</Project>

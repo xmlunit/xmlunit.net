@@ -13,3 +13,5 @@ obj
 /.nuget/NuGet.Config
 /.nuget/NuGet.exe
 /.nuget/NuGet.targets
+build.NetFramework
+obj.NetFramework
