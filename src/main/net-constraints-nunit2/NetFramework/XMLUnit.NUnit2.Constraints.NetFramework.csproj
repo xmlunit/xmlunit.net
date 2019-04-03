@@ -22,34 +22,33 @@
     <AssemblyName>xmlunit-nunit2-constraints</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\</SolutionDir>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
-    <BaseIntermediateOutputPath>obj.NetFramework</BaseIntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\build.NetFramework\bin\Debug</OutputPath>
+    <OutputPath>..\..\..\..\build\NetFramework\bin\Debug</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\..\build.NetFramework\bin\Debug\xmlunit-nunit2-constraints.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\..\build\NetFramework\bin\Debug\xmlunit-nunit2-constraints.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\build.NetFramework\bin\Release</OutputPath>
+    <OutputPath>..\..\..\..\build\NetFramework\bin\Release</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\..\build.NetFramework\bin\Release\xmlunit-nunit2-constraints.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\..\build\NetFramework\bin\Release\xmlunit-nunit2-constraints.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>..\..\..\xmlunit.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\..\..\..\xmlunit.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <RootNamespace>Org.XmlUnit.Constraints</RootNamespace>
@@ -57,7 +56,7 @@
   <ItemGroup>
     <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+      <HintPath>..\..\..\..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -65,20 +64,20 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\net-core\XMLUnit.Core.NetFramework.csproj">
+    <ProjectReference Include="..\..\net-core\NetFramework\XMLUnit.Core.NetFramework.csproj">
       <Project>{97960a9c-7e2b-4548-90bd-31105c54e129}</Project>
       <Name>XMLUnit.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\shared\CommonAssemblyInfo.cs">
-      <Link>CommonAssemblyInfo.cs</Link>
+    <Compile Include="..\..\..\shared\CommonAssemblyInfo.cs">
+      <Link>..\CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="CompareConstraint.cs" />
-    <Compile Include="EvaluateXPathConstraint.cs" />
-    <Compile Include="HasXPathConstraint.cs" />
-    <Compile Include="ValidationConstraints.cs" />
+    <Compile Include="..\AssemblyInfo.cs" />
+    <Compile Include="..\CompareConstraint.cs" />
+    <Compile Include="..\EvaluateXPathConstraint.cs" />
+    <Compile Include="..\HasXPathConstraint.cs" />
+    <Compile Include="..\ValidationConstraints.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

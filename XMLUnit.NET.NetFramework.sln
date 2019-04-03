@@ -15,21 +15,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		xmlunit.snk = xmlunit.snk
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMLUnit.Core", "src\main\net-core\XMLUnit.Core.NetFramework.csproj", "{97960A9C-7E2B-4548-90BD-31105C54E129}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMLUnit.Core", "src\main\net-core\NetFramework\XMLUnit.Core.NetFramework.csproj", "{97960A9C-7E2B-4548-90BD-31105C54E129}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMLUnit.Core.Tests", "src\tests\net-core\XMLUnit.Core.Tests.NetFramework.csproj", "{9BF85579-75BF-4D44-953A-46FAFCD814C0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMLUnit.Core.Tests", "src\tests\net-core\NetFramework\XMLUnit.Core.Tests.NetFramework.csproj", "{9BF85579-75BF-4D44-953A-46FAFCD814C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMLUnit.NUnit3.Constraints", "src\main\net-constraints-nunit3\XMLUnit.NUnit3.Constraints.NetFramework.csproj", "{77A34DDD-85E6-4E2F-91C5-5736FDA78481}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMLUnit.NUnit3.Constraints", "src\main\net-constraints-nunit3\NetFramework\XMLUnit.NUnit3.Constraints.NetFramework.csproj", "{77A34DDD-85E6-4E2F-91C5-5736FDA78481}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMLUnit.Constraints.Test", "src\tests\net-constraints-nunit3\XMLUnit.NUnit3.Constraints.Test.NetFramework.csproj", "{33760FFE-9F43-46BE-8F64-ED34AE6B798C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMLUnit.Constraints.Test", "src\tests\net-constraints-nunit3\NetFramework\XMLUnit.NUnit3.Constraints.Test.NetFramework.csproj", "{33760FFE-9F43-46BE-8F64-ED34AE6B798C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMLUnit.NUnit2.Constraints", "src\main\net-constraints-nunit2\XMLUnit.NUnit2.Constraints.NetFramework.csproj", "{A665F28A-6C81-43E3-A20D-9D0F5FFE44A3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMLUnit.NUnit2.Constraints", "src\main\net-constraints-nunit2\NetFramework\XMLUnit.NUnit2.Constraints.NetFramework.csproj", "{A665F28A-6C81-43E3-A20D-9D0F5FFE44A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMLUnit.Nunit2.Constraints.Test", "src\tests\net-constraints-nunit2\XMLUnit.NUnit2.Constraints.Test.NetFramework.csproj", "{F334C998-E18B-435B-9185-129798C537F2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMLUnit.Nunit2.Constraints.Test", "src\tests\net-constraints-nunit2\NetFramework\XMLUnit.NUnit2.Constraints.Test.NetFramework.csproj", "{F334C998-E18B-435B-9185-129798C537F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMLUnit.Placeholders", "src\main\net-placeholders\XMLUnit.Placeholders.NetFramework.csproj", "{8DA0EE00-A4ED-48AF-BBC8-B1DBDFDF11AD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMLUnit.Placeholders", "src\main\net-placeholders\NetFramework\XMLUnit.Placeholders.NetFramework.csproj", "{8DA0EE00-A4ED-48AF-BBC8-B1DBDFDF11AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMLUnit.Placeholders.Tests", "src\tests\net-placeholders\XMLUnit.Placeholders.Tests.NetFramework.csproj", "{97290bd0-ccf0-48cf-95f2-b1a9f6c3ee9f}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMLUnit.Placeholders.Tests", "src\tests\net-placeholders\NetFramework\XMLUnit.Placeholders.Tests.NetFramework.csproj", "{97290bd0-ccf0-48cf-95f2-b1a9f6c3ee9f}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

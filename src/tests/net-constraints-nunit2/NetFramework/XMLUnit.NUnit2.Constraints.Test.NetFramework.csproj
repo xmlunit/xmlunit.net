@@ -23,15 +23,14 @@
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\</SolutionDir>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
-    <BaseIntermediateOutputPath>obj.NetFramework</BaseIntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\build.NetFramework\bin\Debug\</OutputPath>
+    <OutputPath>..\..\..\..\build\NetFramework\bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -39,7 +38,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\build.NetFramework\bin\Release\</OutputPath>
+    <OutputPath>..\..\..\..\build\NetFramework\bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -51,12 +50,12 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>..\..\..\xmlunit.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\..\..\..\xmlunit.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+      <HintPath>..\..\..\..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -64,35 +63,35 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\main\net-constraints-nunit2\XMLUnit.NUnit2.Constraints.NetFramework.csproj">
+    <ProjectReference Include="..\..\..\main\net-constraints-nunit2\NetFramework\XMLUnit.NUnit2.Constraints.NetFramework.csproj">
       <Project>{a665f28a-6c81-43e3-a20d-9d0f5ffe44a3}</Project>
       <Name>XMLUnit.NUnit2.Constraints</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\main\net-core\XMLUnit.Core.NetFramework.csproj">
+    <ProjectReference Include="..\..\..\main\net-core\NetFramework\XMLUnit.Core.NetFramework.csproj">
       <Project>{97960a9c-7e2b-4548-90bd-31105c54e129}</Project>
       <Name>XMLUnit.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\shared\CommonAssemblyInfo.cs">
-      <Link>CommonAssemblyInfo.cs</Link>
+    <Compile Include="..\..\..\shared\CommonAssemblyInfo.cs">
+      <Link>..\CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="..\net-constraints-nunit3\CompareConstraintTest.cs">
-      <Link>CompareConstraintTest.cs</Link>
+    <Compile Include="..\..\net-constraints-nunit3\CompareConstraintTest.cs">
+      <Link>..\CompareConstraintTest.cs</Link>
     </Compile>
-    <Compile Include="..\net-constraints-nunit3\EvaluateXPathConstraintTest.cs">
-      <Link>EvaluateXPathConstraintTest.cs</Link>
+    <Compile Include="..\..\net-constraints-nunit3\EvaluateXPathConstraintTest.cs">
+      <Link>..\EvaluateXPathConstraintTest.cs</Link>
     </Compile>
-    <Compile Include="..\net-constraints-nunit3\HasXPathConstraintTest.cs">
-      <Link>HasXPathConstraintTest.cs</Link>
+    <Compile Include="..\..\net-constraints-nunit3\HasXPathConstraintTest.cs">
+      <Link>..\HasXPathConstraintTest.cs</Link>
     </Compile>
-    <Compile Include="..\net-constraints-nunit3\ValidationConstraintsTest.cs">
-      <Link>ValidationConstraintsTest.cs</Link>
+    <Compile Include="..\..\net-constraints-nunit3\ValidationConstraintsTest.cs">
+      <Link>..\ValidationConstraintsTest.cs</Link>
     </Compile>
-    <Compile Include="..\net-core\TestResources.cs">
-      <Link>TestResources.cs</Link>
+    <Compile Include="..\..\net-core\TestResources.cs">
+      <Link>..\TestResources.cs</Link>
     </Compile>
-    <Compile Include="TestCompareConstraintWrapper.cs" />
+    <Compile Include="..\TestCompareConstraintWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -105,13 +104,13 @@
     <VisualStudio AllowExistingFolder="true" />
   </ProjectExtensions>
   <PropertyGroup Condition=" '$(OS)' != 'Unix' ">
-    <NunitCommand>"$(SolutionDir)packages\NUnit.Console.3.0.1\tools\nunit3-console.exe" "$(OutputPath)$(AssemblyName).dll" --config=$(Configuration) --work=..\..\..\build.NetFramework\test-results\ --result=NUnit2.Constraints.Tests.Results.xml --framework=net-3.5 --process=Single</NunitCommand>
+    <NunitCommand>"$(SolutionDir)packages\NUnit.Console.3.0.1\tools\nunit3-console.exe" "$(OutputPath)$(AssemblyName).dll" --config=$(Configuration) --work=..\..\..\..\build\NetFramework\test-results\ --result=NUnit2.Constraints.Tests.Results.xml --framework=net-3.5 --process=Single</NunitCommand>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(OS)' == 'Unix' ">
-    <NunitCommand>mono "$(SolutionDir)packages/NUnit.Console.3.0.1/tools/nunit3-console.exe" "$(OutputPath)$(AssemblyName).dll" --config=$(Configuration) --work=../../../build.NetFramework/test-results --result=NUnit2.Constraints.Tests.Results.xml --process=Single</NunitCommand>
+    <NunitCommand>mono "$(SolutionDir)packages/NUnit.Console.3.0.1/tools/nunit3-console.exe" "$(OutputPath)$(AssemblyName).dll" --config=$(Configuration) --work=../../../../build/NetFramework/test-results --result=NUnit2.Constraints.Tests.Results.xml --process=Single</NunitCommand>
   </PropertyGroup>
   <Target Name="RunUnitTest">
-    <MakeDir Directories="..\..\..\build.NetFramework\test-results" />
+    <MakeDir Directories="..\..\..\..\build\NetFramework\test-results" />
     <Exec Command="$(NunitCommand)" WorkingDirectory="$(ProjectDir)" />
   </Target>
   <Target Name="AfterBuild" DependsOnTargets="RunUnitTest">
