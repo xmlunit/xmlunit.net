@@ -21,7 +21,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <AssemblyName>xmlunit-nunit3-placeholders.tests</AssemblyName>
+    <AssemblyName>xmlunit-placeholders.tests</AssemblyName>
     <AssemblyOriginatorKeyFile>..\..\..\xmlunit.snk</AssemblyOriginatorKeyFile>
     <IsPackable>false</IsPackable>
     <OutputPath>..\..\..\build\bin\$(Configuration)\</OutputPath>
