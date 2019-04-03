@@ -71,12 +71,20 @@ namespace Org.XmlUnit.Placeholder {
 
         private static IEnumerable<IPlaceholderHandler> Load() {
             return AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(s => s.GetTypes())
+                .SelectMany(s => GetLoadableTypes(s))
                 .Where(t => !t.IsAbstract)
                 .Where(t => t.FindInterfaces((type, n) => type.FullName == (string) n,
                                 typeof(IPlaceholderHandler).FullName).Length > 0)
                 .Select(t => Activator.CreateInstance(t))
                 .Cast<IPlaceholderHandler>();
+        }
+
+        private static IEnumerable<Type> GetLoadableTypes(Assembly assembly) {
+            try {
+                return assembly.GetTypes();
+            } catch (ReflectionTypeLoadException e) {
+                return e.Types.Where(t => t != null);
+            }
         }
 
         private readonly Regex placeholderRegex;
