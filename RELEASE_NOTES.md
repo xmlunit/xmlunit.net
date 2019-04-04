@@ -1,9 +1,16 @@
 # Release Notes
 
-## XMLUnit.NET 2.6.1 - /Not Released, yet/
+## XMLUnit.NET 2.7.0 - /Not Released, yet/
 
 * The nuspec files now use `license` rather than the deprecated
   `licenseUrl`.
+
+* The `core` and `placeholder` as well as the NUnit 3.x constraints
+  nuget packages now contain assemblies built for .NET Standard 2.0.
+
+  Issue [#21](https://github.com/xmlunit/xmlunit.net/issues/21) based
+  on Pull Request [28](https://github.com/xmlunit/xmlunit.net/pull/28)
+  by [shatl](https://github.com/shatl).
 
 ## XMLUnit.NET 2.6.0 - /Released 2018-04-22/
 
