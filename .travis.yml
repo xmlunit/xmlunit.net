@@ -1,5 +1,5 @@
 language: csharp
-solution: XMLUnit.NET.sln
+solution: XMLUnit.NET.NetFramework.sln
 matrix:
   include:
     - dotnet: latest
