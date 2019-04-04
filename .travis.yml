@@ -1,7 +1,16 @@
 language: csharp
 solution: XMLUnit.NET.sln
-script:
-  - xbuild XMLUnit.NET.sln
+matrix:
+  include:
+    - dotnet: latest
+      mono: none
+      script:
+        - dotnet restore XMLUnit.NET.sln
+        - dotnet build XMLUnit.NET.sln -c Debug
+        - dotnet test XMLUnit.NET.sln
+    - mono: latest
+      script:
+        - xbuild XMLUnit.NET.NetFramework.sln
 notifications:
   email:
     - xmlunit-commits@lists.sourceforge.net
