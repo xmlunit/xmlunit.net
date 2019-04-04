@@ -5,7 +5,7 @@ XMLUnit.NET 2.x
 
 Builds:
   * Travis CI using Mono 4.0 on Linux: [![Build Status XMLUnit.NET 2.x](https://travis-ci.org/xmlunit/xmlunit.net.svg?branch=master)](https://travis-ci.org/xmlunit/xmlunit.net)
-  * AppVeyor using .NET 3.5 on Windows: [![Build status](https://ci.appveyor.com/api/projects/status/am34dfbr4vbcarr3?svg=true)](https://ci.appveyor.com/project/bodewig/xmlunit-net)
+  * AppVeyor using .NET 3.5 and .NET Core 2.0 on Windows: [![Build status](https://ci.appveyor.com/api/projects/status/am34dfbr4vbcarr3?svg=true)](https://ci.appveyor.com/project/bodewig/xmlunit-net)
 
 XMLUnit is a library that supports testing XML output in several ways.
 
@@ -139,7 +139,17 @@ you'll need to run `git submodule update --init` once.
 
 ## Building
 
-XMLUnit for .NET uses NuGet and `msbuild`/`xbuild` - or Visual Studio.
+Currently there are two different build setups for .NET Framework 3.5
+and .NET Standard 2.0. Bith build from the same sources and run the
+same tests but use separate solution and project files. The
+constraints for NUnit 2.x are ony built as part of the .NET Framework
+/ Mono build.
+
+### .NET Framework / Mono 3.5
+
+XMLUnit for .NET uses NuGet and `msbuild`/`xbuild` - or Visual Studio
+2015. The correspondig solution and project files are suffixed with
+`.NetFramework`.
 
 When using Visual Studio the build should automatically refresh the
 NuGet packages, build the `core` and `constraints` assemblies as well
@@ -180,3 +190,32 @@ $ mozroots --import --sync
 
 to install the same certificates into your Mono truststore that are
 trusted by Firefox' default installation.
+
+### .NET Standard 2.0
+
+XMLUnit for .NET uses the `dotnet` CLI - or Visual Studio
+2017. In order to run the tests, .NET Core 2.0 ist requested.
+
+When using Visual Studio the build should automatically refresh the
+NuGet packages, build the `core` and `constraints` assemblies as well
+as the unit test projects and run all NUnit tests.
+
+When not using Visual Studio you need to run
+
+```sh
+$ dotnet restore XMLUnit.NET.sln
+```
+
+once to download the packages used by XMLUnit during the build (really
+only NUnit right now).  After that you can run `dotnet` like
+
+```sh
+> dotnet build XMLUnit.NET.sln -c Debug
+```
+
+which compiles `core` and `constraints` and builds the assemblies. In
+order to run the tests use
+
+```sh
+> dotnet test XMLUnit.NET.sln
+```
