@@ -29,8 +29,9 @@ for:
     build:
       project: XMLUnit.NET.sln
     test_script:
-      - dotnet test XMLUnit.NET.sln
-
+      - dotnet test src/tests/net-core/XMLUnit.Core.Tests.csproj
+      - dotnet test src/tests/net-constraints-nunit3/XMLUnit.NUnit3.Constraints.Test.csproj
+      - dotnet test src/tests/net-placeholders/XMLUnit.Placeholders.Tests.csproj
 
 install:
   - cmd: git submodule update --init
