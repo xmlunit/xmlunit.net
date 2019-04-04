@@ -1,14 +1,36 @@
 version: 2.6.1.{build}
 
-os: Visual Studio 2017
+image:
+  - Visual Studio 2015
+  - Visual Studio 2017
 
 skip_tags: true
 
-before_build:
-  - dotnet restore XMLUnit.NET.sln
+for:
+  - matrix:
+      only:
+        - image: Visual Studio 2015
+    before_build:
+      - appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/v4.9.2/nuget.exe
+      - appveyor DownloadFile https://raw.githubusercontent.com/appveyor/ci/master/scripts/nuget-restore.cmd
+      - nuget-restore XMLUnit.NET.NetFramework.sln
+    cache:
+      - packages -> **\packages.config
+    # tests are already run during build phase
+    test: off
+    build:
+      project: XMLUnit.NET.NetFramework.sln
 
-cache:
-  - packages -> **\packages.config
+  - matrix:
+      only:
+        - image: Visual Studio 2017
+    before_build:
+      - dotnet restore XMLUnit.NET.sln
+    build:
+      project: XMLUnit.NET.sln
+    test_script:
+      - dotnet test XMLUnit.NET.sln
+
 
 install:
   - cmd: git submodule update --init
@@ -27,14 +49,10 @@ notifications:
     on_build_status_changed: true
     on_build_failure: true
 
-# tests are already run during build phase
-test: off
-
 nuget:
   project_feed: true
   disable_publish_on_pr: true
 
 build:
-  project: XMLUnit.NET.sln
   publish_nuget: true
   publish_nuget_symbols: true
