@@ -4,7 +4,7 @@
 MY_DIR=`dirname $0`
 MY_DIR=`cd "$MY_DIR" > /dev/null; pwd`
 
-BUILD="$MY_DIR/../../../build"
+BUILD="$MY_DIR/../../../build/NetFramework"
 DEBUG_DIR="$BUILD/bin/Debug"
 OUT_DIR="$BUILD/doc"
 HTML_DIR="$BUILD/html"
