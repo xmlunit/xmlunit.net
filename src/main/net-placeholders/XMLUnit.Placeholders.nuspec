@@ -21,4 +21,12 @@
     </frameworkAssemblies>
     <tags>xmlunit xml unit-testing test xmldiff</tags>
   </metadata>
+  <files>
+    <file src="..\..\..\build/NetFramework/bin/Release/xmlunit-placeholders.dll" target="lib\net35"/>
+    <file src="..\..\..\build/NetFramework/bin/Release/xmlunit-placeholders.pdb" target="lib\net35"/>
+    <file src="..\..\..\build/NetFramework/bin/Release/xmlunit-placeholders.xml" target="lib\net35"/>
+    <file src="..\..\..\build/bin/Release/netstandard2.0/xmlunit-placeholders.dll" target="lib\netstandard2.0"/>
+    <file src="..\..\..\build/bin/Release/netstandard2.0/xmlunit-placeholders.pdb" target="lib\netstandard2.0"/>
+    <file src="..\..\..\build/bin/Release/netstandard2.0/xmlunit-placeholders.xml" target="lib\netstandard2.0"/>
+  </files>
 </package>

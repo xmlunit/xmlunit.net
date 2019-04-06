@@ -23,4 +23,9 @@
     </frameworkAssemblies>
     <tags>xmlunit xml unit-testing test xmldiff nunit nunit2</tags>
   </metadata>
+  <files>
+    <file src="..\..\..\build/NetFramework/bin/Release/xmlunit-nunit2-constraints.dll" target="lib\net35"/>
+    <file src="..\..\..\build/NetFramework/bin/Release/xmlunit-nunit2-constraints.pdb" target="lib\net35"/>
+    <file src="..\..\..\build/NetFramework/bin/Release/xmlunit-nunit2-constraints.xml" target="lib\net35"/>
+  </files>
 </package>

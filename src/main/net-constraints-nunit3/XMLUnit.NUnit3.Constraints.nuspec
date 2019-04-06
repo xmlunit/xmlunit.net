@@ -23,4 +23,12 @@
     </frameworkAssemblies>
     <tags>xmlunit xml unit-testing test xmldiff nunit nunit3</tags>
   </metadata>
+  <files>
+    <file src="..\..\..\build/NetFramework/bin/Release/xmlunit-nunit3-constraints.dll" target="lib\net35"/>
+    <file src="..\..\..\build/NetFramework/bin/Release/xmlunit-nunit3-constraints.pdb" target="lib\net35"/>
+    <file src="..\..\..\build/NetFramework/bin/Release/xmlunit-nunit3-constraints.xml" target="lib\net35"/>
+    <file src="..\..\..\build/bin/Release/netstandard2.0/xmlunit-nunit3-constraints.dll" target="lib\netstandard2.0"/>
+    <file src="..\..\..\build/bin/Release/netstandard2.0/xmlunit-nunit3-constraints.pdb" target="lib\netstandard2.0"/>
+    <file src="..\..\..\build/bin/Release/netstandard2.0/xmlunit-nunit3-constraints.xml" target="lib\netstandard2.0"/>
+  </files>
 </package>
