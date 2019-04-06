@@ -140,7 +140,7 @@ you'll need to run `git submodule update --init` once.
 ## Building
 
 Currently there are two different build setups for .NET Framework 3.5
-and .NET Standard 2.0. Bith build from the same sources and run the
+and .NET Standard 2.0. Both build from the same sources and run the
 same tests but use separate solution and project files. The
 constraints for NUnit 2.x are ony built as part of the .NET Framework
 / Mono build.
@@ -148,7 +148,7 @@ constraints for NUnit 2.x are ony built as part of the .NET Framework
 ### .NET Framework / Mono 3.5
 
 XMLUnit for .NET uses NuGet and `msbuild`/`xbuild` - or Visual Studio
-2015. The correspondig solution and project files are suffixed with
+2013. The correspondig solution and project files are suffixed with
 `.NetFramework`.
 
 When using Visual Studio the build should automatically refresh the
@@ -194,7 +194,7 @@ trusted by Firefox' default installation.
 ### .NET Standard 2.0
 
 XMLUnit for .NET uses the `dotnet` CLI - or Visual Studio
-2017. In order to run the tests, .NET Core 2.0 ist requested.
+2017. In order to run the tests, .NET Core 2.0 is required.
 
 When using Visual Studio the build should automatically refresh the
 NuGet packages, build the `core` and `constraints` assemblies as well
@@ -213,9 +213,11 @@ only NUnit right now).  After that you can run `dotnet` like
 > dotnet build XMLUnit.NET.sln -c Debug
 ```
 
-which compiles `core` and `constraints` and builds the assemblies. In
-order to run the tests use
+which compiles `core`, `constraints` and `placeholder` and builds the
+assemblies. In order to run the tests use
 
 ```sh
-> dotnet test XMLUnit.NET.sln
+> dotnet test src/tests/net-core/XMLUnit.Core.Tests.csproj
+> dotnet test src/tests/net-constraints-nunit3/XMLUnit.NUnit3.Constraints.Test.csproj
+> dotnet test src/tests/net-placeholders/XMLUnit.Placeholders.Tests.csproj
 ```

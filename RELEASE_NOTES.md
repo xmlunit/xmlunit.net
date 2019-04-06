@@ -3,9 +3,9 @@
 ## XMLUnit.NET 2.7.0-beta1 - /Not Released, yet/
 
 This is the first release supporting .NET Standard 2.0. If you still
-want/need the assemblies targeting .NET Framework 3.5 they are part of
-the nuget packages as well and you shouldn't see any differences when
-compared to XMLUnit.NET 2.6.0.
+want/need the assemblies targeting .NET Framework 3.5 they are still
+part of the nuget packages as well and you shouldn't see any
+differences when compared to XMLUnit.NET 2.6.0.
 
 The NUnit 2.x constraints still only support the .NET Framework as
 NUnit 2.x itself doesn't support .NET Standard either.
@@ -13,14 +13,14 @@ NUnit 2.x itself doesn't support .NET Standard either.
 * The nuspec files now use `license` rather than the deprecated
   `licenseUrl`.
 
-* The `core` and `placeholder` as well as the NUnit 3.x constraints
+* The `core` and `placeholders` as well as the NUnit 3.x constraints
   nuget packages now contain assemblies built for .NET Standard 2.0.
 
   Issue [#21](https://github.com/xmlunit/xmlunit.net/issues/21) based
   on Pull Request [28](https://github.com/xmlunit/xmlunit.net/pull/28)
   by [shatl](https://github.com/shatl).
 
-  As part of this the depenency of the NUnit 3.x constraints on NUnit
+  As part of this the dependency of the NUnit 3.x constraints on NUnit
   has been bumped to 3.6.1 which was the first version supporting .NET
   Standard 2.0.
 
