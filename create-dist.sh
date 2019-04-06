@@ -24,11 +24,13 @@ fi
 mkdir -p build/bindist-tmp/xmlunit-$1
 cp README.md LICENSE RELEASE_NOTES.md build/bindist-tmp/xmlunit-$1
 for d in Debug Release; do
-    mkdir build/bindist-tmp/xmlunit-$1/$d
-    cp build/bin/$d/xmlunit-* build/bindist-tmp/xmlunit-$1/$d
+    mkdir -p build/bindist-tmp/xmlunit-$1/NetFramework/$d
+    mkdir -p build/bindist-tmp/xmlunit-$1/netstandard2.0/$d
+    cp build/NetFramework/bin/$d/xmlunit-* build/bindist-tmp/xmlunit-$1/NetFramework/$d
+    cp build/bin/$d/netstandard2.0/xmlunit-* build/bindist-tmp/xmlunit-$1/netstandard2.0/$d
 done
 mkdir build/bindist-tmp/xmlunit-$1/apidocs
-cp -r build/html/* build/bindist-tmp/xmlunit-$1/apidocs
+cp -r build/NetFramework/html/* build/bindist-tmp/xmlunit-$1/apidocs
 cd build/bindist-tmp
 zip -r xmlunit-$1-bin.zip xmlunit-$1
 tar cf xmlunit-$1-bin.tar xmlunit-$1
