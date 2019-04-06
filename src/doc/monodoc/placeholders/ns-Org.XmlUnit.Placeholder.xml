@@ -1,0 +1,8 @@
+<Namespace Name="Org.XmlUnit.Placeholder">
+  <Docs>
+    <summary>Keyword based Configuration Experiment.</summary>
+    <remarks>Experimental support for configuring parts of the test
+    engine by using ${xmlunit.KEYWORD} sequences inside the control
+    document.</remarks>
+  </Docs>
+</Namespace>
