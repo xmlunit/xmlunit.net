@@ -23,6 +23,7 @@
   <PropertyGroup>
     <AssemblyName>xmlunit-nunit3-constraints</AssemblyName>
     <AssemblyOriginatorKeyFile>..\..\..\xmlunit.snk</AssemblyOriginatorKeyFile>
+    <DocumentationFile>..\..\..\build\bin\$(Configuration)\$(AssemblyName).xml</DocumentationFile>
     <OutputPath>..\..\..\build\bin\$(Configuration)\</OutputPath>
     <RootNamespace>Org.XmlUnit.Constraints</RootNamespace>
     <SignAssembly>true</SignAssembly>
