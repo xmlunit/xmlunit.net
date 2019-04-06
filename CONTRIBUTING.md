@@ -15,12 +15,19 @@ wasting your time on something that isn't considered to be in
 XMLUnit's scope.
 
 If you are looking for something to work on, we've compiled a
-[list](https://github.com/xmlunit/xmlunit/blob/master/HELP_WANTED.md) of things
-that should be done before XMLUnit 2.0 can be released.
+[list](https://github.com/xmlunit/xmlunit/blob/master/HELP_WANTED.md)
+of things that we know people have been asking for.
 
-XMLUnit's users guide is developed (or rather will be developed)
-inside [a github Wiki](https://github.com/xmlunit/user-guide/wiki) -
-a lot of help is needed here, before we can cut a new release.
+XMLUnit's users guide is developed inside [a github
+Wiki](https://github.com/xmlunit/user-guide/wiki).
+
+### test-resources
+
+Because XmlUnit is developed for Java and .NET, both Projects shares the same test-resources.
+The test-resources folder is integrated as git submodule.
+This means you need to run 'git submodule update --init' once inside your
+working copies after merging github's master branches of xmlunit or
+xmlunit.net.
 
 ### Preparing a Pull Request
 
@@ -36,11 +43,11 @@ a lot of help is needed here, before we can cut a new release.
 + Make sure your commit messages are in the proper format. Your commit
   message should contain the key of the issue if you created one.
 + Make sure you have added the necessary tests for your changes.
-+ Run all the tests with `msbuild XMLUnit.NET.sln` or `xbuild
-  XMLUnit.NET.sln` to assure nothing else was accidentally broken.
++ Run all the tests with `msbuild XMLUnit.NET.NetFramework.sln` or
+  `xbuild XMLUnit.NET.NetFramework.sln` or `dotnet test` for the test
+  projects to assure nothing else was accidentally broken.
 
 Contributing to XMLUnit for .NET 0.x
 ------------------------------------
 
-We don't expect to work on the old XMLUnit for .NET anymore, please
-help us getting version 2.x on the road as soon as possible.
+We don't expect to work on the old XMLUnit for .NET anymore.
