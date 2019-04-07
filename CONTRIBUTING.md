@@ -1,8 +1,8 @@
-Contributing to XMLUnit
-=======================
+Contributing to XMLUnit.NET
+===========================
 
-Contributing to XMLUnit 2.x
----------------------------
+Contributing to XMLUnit.NET 2.x
+-------------------------------
 
 If you think you've found a bug or are missing a feature, please
 [open an issue](https://github.com/xmlunit/xmlunit.net/issues), we'll
@@ -23,7 +23,7 @@ Wiki](https://github.com/xmlunit/user-guide/wiki).
 
 ### test-resources
 
-Because XmlUnit is developed for Java and .NET, both Projects shares the same test-resources.
+Because XMLUnit is developed for Java and .NET, both Projects shares the same test-resources.
 The test-resources folder is integrated as git submodule.
 This means you need to run 'git submodule update --init' once inside your
 working copies after merging github's master branches of xmlunit or
