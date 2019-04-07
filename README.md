@@ -120,7 +120,8 @@ Assert.That(CreateDocument(),
 ## Requirements
 
 XMLUnit requires .NET 3.5 (it is known to work and actually is
-developed on Mono 4).
+developed on Mono 4) or .NET Standard 2.0 (tested with .NET Core 2.1
+and 2.2).
 
 The `core` library provides all functionality needed to test XML
 output and hasn't got any dependencies.  It uses NUnit 3.x for its own
