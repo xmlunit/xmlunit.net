@@ -1,5 +1,7 @@
 # Release Notes
 
+## XMLUnit.NET 2.7.0-beta-02 - /Not Released, yet/
+
 ## XMLUnit.NET 2.7.0-beta-01 - /Released 2019-04-10/
 
 This is the first release supporting .NET Standard 2.0. If you still
