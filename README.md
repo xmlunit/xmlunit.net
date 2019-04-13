@@ -199,7 +199,7 @@ XMLUnit for .NET uses the `dotnet` CLI - or Visual Studio
 
 When using Visual Studio the build should automatically refresh the
 NuGet packages, build the `core` and `constraints` assemblies as well
-as the unit test projects and run all NUnit tests.
+as the unit test projects.
 
 When not using Visual Studio you need to run
 
