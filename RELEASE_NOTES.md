@@ -1,5 +1,7 @@
 # Release Notes
 
+## XMLUnit.NET 2.7.1 - /Not Released, yet/
+
 ## XMLUnit.NET 2.7.0 - /Released 2019-04-13/
 
 This release is identical to 2.7.0-beta-01 with only the version
