@@ -731,6 +731,57 @@ namespace Org.XmlUnit.Diff {
             Assert.AreEqual(0, ex.invoked);
         }
 
+        [Test]
+        // see https://sourceforge.net/p/xmlunit/discussion/73273/thread/92c980ec5b/
+        public void SourceforgeForumThread92c980ec5b() {
+            XmlElement gp1 = doc.CreateElement("grandparent");
+            XmlElement p1_0 = doc.CreateElement("parent");
+            p1_0.SetAttribute("id", "0");
+            gp1.AppendChild(p1_0);
+            XmlElement p1_1 = doc.CreateElement("parent");
+            p1_1.SetAttribute("id", "1");
+            gp1.AppendChild(p1_1);
+            XmlElement c1_1 = doc.CreateElement("child");
+            c1_1.SetAttribute("id", "1");
+            p1_1.AppendChild(c1_1);
+
+            XmlElement gp2 = doc.CreateElement("grandparent");
+            XmlElement p2_1 = doc.CreateElement("parent");
+            p2_1.SetAttribute("id", "1");
+            gp2.AppendChild(p2_1);
+            XmlElement c2_1 = doc.CreateElement("child");
+            c2_1.SetAttribute("id", "1");
+            p2_1.AppendChild(c2_1);
+            XmlElement c2_2 = doc.CreateElement("child");
+            c2_2.SetAttribute("id", "2");
+            p2_1.AppendChild(c2_2);
+
+            DOMDifferenceEngine d = new DOMDifferenceEngine();
+            DiffExpecter ex = new DiffExpecter(ComparisonType.CHILD_LOOKUP,
+                                               null, "/grandparent[1]/parent[1]/child[2]")
+                .WithParentXPath("/grandparent[1]/parent[2]", "/grandparent[1]/parent[1]");
+            d.DifferenceListener += ex.ComparisonPerformed;
+            DifferenceEvaluator ev = delegate(Comparison comparison,
+                                              ComparisonResult outcome) {
+                if (comparison.Type == ComparisonType.CHILD_NODELIST_LENGTH
+                    || comparison.Type == ComparisonType.CHILD_NODELIST_SEQUENCE) {
+                    return ComparisonResult.EQUAL;
+                }
+                if (comparison.Type == ComparisonType.CHILD_LOOKUP
+                    && comparison.TestDetails.Target == null) {
+                    return ComparisonResult.EQUAL;
+                }
+                return outcome;
+            };
+            d.ComparisonController = ComparisonControllers.StopWhenDifferent;
+            d.DifferenceEvaluator = ev;
+            d.NodeMatcher = new DefaultNodeMatcher(ElementSelectors.ByNameAndAllAttributes);
+            Assert.AreEqual(WrapAndStop(ComparisonResult.DIFFERENT),
+                            d.CompareNodes(gp1, new XPathContext(gp1),
+                                           gp2, new XPathContext(gp2)));
+            Assert.AreEqual(1, ex.invoked);
+        }
+
         [Test] 
         public void TextAndCDataMatchRecursively() {
             XmlElement e1 = doc.CreateElement("foo");
