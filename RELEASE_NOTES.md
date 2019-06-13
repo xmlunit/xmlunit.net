@@ -24,8 +24,8 @@ NUnit 2.x itself doesn't support .NET Standard either.
   nuget packages now contain assemblies built for .NET Standard 2.0.
 
   Issue [#21](https://github.com/xmlunit/xmlunit.net/issues/21) based
-  on Pull Request [28](https://github.com/xmlunit/xmlunit.net/pull/28)
-  by [shatl](https://github.com/shatl).
+  on Pull Request [#28](https://github.com/xmlunit/xmlunit.net/pull/28)
+  by [@shatl](https://github.com/shatl).
 
   As part of this the dependency of the NUnit 3.x constraints on NUnit
   has been bumped to 3.6.1 which was the first version supporting .NET
