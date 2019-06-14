@@ -308,5 +308,44 @@ namespace Org.XmlUnit.Placeholder {
             Assert.Throws<XMLUnitException>(() => diffBuilder.Build(), "The placeholder must exclusively occupy the text node.");
         }
 
+        [Test]
+        public void HasIsNumberPlaceholder_Attribute_NotNumber() {
+            string control = "<elem1 attr='${xmlunit.isNumber}'/>";
+            string test = "<elem1 attr='abc'/>";
+            var diff = DiffBuilder.Compare(control).WithTest(test)
+                .WithDifferenceEvaluator(new PlaceholderDifferenceEvaluator().Evaluate).Build();
+
+            Assert.IsTrue(diff.HasDifferences());
+        }
+
+        [Test]
+        public void HasIsNumberPlaceholder_Attribute_IsNumber() {
+            string control = "<elem1 attr='${xmlunit.isNumber}'/>";
+            string test = "<elem1 attr='123'/>";
+            var diff = DiffBuilder.Compare(control).WithTest(test)
+                .WithDifferenceEvaluator(new PlaceholderDifferenceEvaluator().Evaluate).Build();
+
+            Assert.IsFalse(diff.HasDifferences());
+        }
+
+        [Test]
+        public void HasIsNumberPlaceholder_Element_NotNumber() {
+            string control = "<elem1>${xmlunit.isNumber}</elem1>";
+            string test = "<elem1>abc</elem1>";
+            var diff = DiffBuilder.Compare(control).WithTest(test)
+                .WithDifferenceEvaluator(new PlaceholderDifferenceEvaluator().Evaluate).Build();
+
+            Assert.IsTrue(diff.HasDifferences());
+        }
+
+        [Test]
+        public void HasIsNumberPlaceholder_Element_IsNumber() {
+            string control = "<elem1>${xmlunit.isNumber}</elem1>";
+            string test = "<elem1>123</elem1>";
+            var diff = DiffBuilder.Compare(control).WithTest(test)
+                .WithDifferenceEvaluator(new PlaceholderDifferenceEvaluator().Evaluate).Build();
+
+            Assert.IsFalse(diff.HasDifferences());
+        }
     }
 }
