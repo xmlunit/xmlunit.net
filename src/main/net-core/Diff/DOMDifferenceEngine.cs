@@ -63,10 +63,14 @@ namespace Org.XmlUnit.Diff{
                                               XPathContext controlContext,
                                               XmlNode test,
                                               XPathContext testContext) {
+            IEnumerable<XmlNode> allControlChildren =
+                control.ChildNodes.Cast<XmlNode>();
             IEnumerable<XmlNode> controlChildren =
-                control.ChildNodes.Cast<XmlNode>().Where(n => NodeFilter(n));
+                allControlChildren.Where(n => NodeFilter(n));
+            IEnumerable<XmlNode> allTestChildren =
+                test.ChildNodes.Cast<XmlNode>();
             IEnumerable<XmlNode> testChildren =
-                test.ChildNodes.Cast<XmlNode>().Where(n => NodeFilter(n));
+                allTestChildren.Where(n => NodeFilter(n));
 
             return Compare(new Comparison(ComparisonType.NODE_TYPE,
                                           control, GetXPath(controlContext),
@@ -94,8 +98,10 @@ namespace Org.XmlUnit.Diff{
                 // and finally recurse into children
                 .AndIfTrueThen(control.NodeType != XmlNodeType.Attribute,
                                CompareChildren(controlContext,
+                                               allControlChildren,
                                                controlChildren,
                                                testContext,
+                                               allTestChildren,
                                                testChildren));
         }
 
@@ -163,19 +169,21 @@ namespace Org.XmlUnit.Diff{
         }
 
         private Func<ComparisonState> CompareChildren(XPathContext controlContext,
+                                                      IEnumerable<XmlNode> allControlChildren,
                                                       IEnumerable<XmlNode> controlChildren,
                                                       XPathContext testContext,
+                                                      IEnumerable<XmlNode> allTestChildren,
                                                       IEnumerable<XmlNode> testChildren) {
 
             return () => {
                 controlContext
-                    .SetChildren(controlChildren.Select<XmlNode, XPathContext.INodeInfo>
+                    .SetChildren(allControlChildren.Select<XmlNode, XPathContext.INodeInfo>
                                  (ElementSelectors.TO_NODE_INFO));
                 testContext
-                    .SetChildren(testChildren.Select<XmlNode, XPathContext.INodeInfo>
+                    .SetChildren(allTestChildren.Select<XmlNode, XPathContext.INodeInfo>
                                  (ElementSelectors.TO_NODE_INFO));
-                return CompareNodeLists(controlChildren, controlContext,
-                                        testChildren, testContext);
+                return CompareNodeLists(allControlChildren, controlChildren, controlContext,
+                                        allTestChildren, testChildren, testContext);
             };
         }
 
@@ -449,8 +457,10 @@ namespace Org.XmlUnit.Diff{
         /// Also performs CHILD_LOOKUP comparisons for each node that
         /// couldn't be matched to one of the "other" list.
         /// </remarks>
-        private ComparisonState CompareNodeLists(IEnumerable<XmlNode> controlSeq,
+        private ComparisonState CompareNodeLists(IEnumerable<XmlNode> allControlChildren,
+                                                 IEnumerable<XmlNode> controlSeq,
                                                  XPathContext controlContext,
+                                                 IEnumerable<XmlNode> allTestChildren,
                                                  IEnumerable<XmlNode> testSeq,
                                                  XPathContext testContext) {
 
@@ -458,6 +468,8 @@ namespace Org.XmlUnit.Diff{
 
             IEnumerable<KeyValuePair<XmlNode, XmlNode>> matches =
                 NodeMatcher.Match(controlSeq, testSeq);
+            IList<XmlNode> controlListForXpath = new List<XmlNode>(allControlChildren);
+            IList<XmlNode> testListForXpath = new List<XmlNode>(allTestChildren);
             IList<XmlNode> controlList = new List<XmlNode>(controlSeq);
             IList<XmlNode> testList = new List<XmlNode>(testSeq);
             ICollection<XmlNode> seen = new HashSet<XmlNode>();
@@ -466,10 +478,12 @@ namespace Org.XmlUnit.Diff{
                 seen.Add(control);
                 XmlNode test = pair.Value;
                 seen.Add(test);
+                int controlIndexForXpath = controlListForXpath.IndexOf(control);
+                int testIndexForXpath = testListForXpath.IndexOf(test);
                 int controlIndex = controlList.IndexOf(control);
                 int testIndex = testList.IndexOf(test);
-                controlContext.NavigateToChild(controlIndex);
-                testContext.NavigateToChild(testIndex);
+                controlContext.NavigateToChild(controlIndexForXpath);
+                testContext.NavigateToChild(testIndexForXpath);
                 try {
                     chain =
                         chain.AndThen(new Comparison(ComparisonType.CHILD_NODELIST_SEQUENCE,

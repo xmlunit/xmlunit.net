@@ -776,6 +776,9 @@ namespace Org.XmlUnit.Diff {
             d.ComparisonController = ComparisonControllers.StopWhenDifferent;
             d.DifferenceEvaluator = ev;
             d.NodeMatcher = new DefaultNodeMatcher(ElementSelectors.ByNameAndAllAttributes);
+            d.NodeFilter = n =>
+                n.NodeType != XmlNodeType.DocumentType &&
+                    !("parent" == n.Name && "0" == n.Attributes["id"].Value);
             Assert.AreEqual(WrapAndStop(ComparisonResult.DIFFERENT),
                             d.CompareNodes(gp1, new XPathContext(gp1),
                                            gp2, new XPathContext(gp2)));

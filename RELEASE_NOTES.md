@@ -7,6 +7,10 @@
   [xmlunit/#154](https://github.com/xmlunit/xmlunit/pull/154) by
   [@NathanAtClarity](https://github.com/NathanAtClarity).
 
+* the XPath values of a comparison should not be affected by any
+  `NodeFilter` being in effect.
+  Issue similar to [xmlunit/#156](https://github.com/xmlunit/xmlunit/issues/156)
+
 ## XMLUnit.NET 2.7.0 - /Released 2019-04-13/
 
 This release is identical to 2.7.0-beta-01 with only the version
