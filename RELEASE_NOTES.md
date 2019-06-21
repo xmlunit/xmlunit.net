@@ -1,5 +1,7 @@
 # Release Notes
 
+## XMLUnit.NET 2.7.1 - /not released, yet/
+
 ## XMLUnit.NET 2.7.1 - /Released 2019-06-21/
 
 * add a new `${xmlunit.isNumber}` placeholder
