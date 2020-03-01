@@ -1135,6 +1135,42 @@ namespace Org.XmlUnit.Diff {
             Assert.AreEqual(ComparisonType.NAMESPACE_PREFIX, diff.Differences.First().Comparison.Type);
         }
 
+        [Test]
+        public void XPathKnowsAboutNodeFiltersForUnmatchedControlNodes() {
+            var diff = DiffBuilder.Compare("<Document><Section><Binding /><Binding /><Finding /><Finding /><Finding /><Finding /><Finding /><Finding /><Finding /></Section></Document>")
+                .WithTest("<Document><Section><Binding /><Binding /><Finding /><Finding /><Finding /><Finding /><Finding /><Finding /></Section></Document>")
+                .IgnoreWhitespace()
+                .WithNodeFilter(node =>  "Document,Section,Finding".Split(',').Contains(node.Name))
+                .WithNodeMatcher(new DefaultNodeMatcher(ElementSelectors.ByNameAndText))
+                .Build();
+            Assert.AreEqual(2, diff.Differences.Count());
+            Assert.AreEqual(ComparisonType.CHILD_NODELIST_LENGTH, diff.Differences.First().Comparison.Type);
+            Assert.AreEqual("/Document[1]/Section[1]", diff.Differences.First().Comparison.ControlDetails.XPath);
+            Assert.AreEqual("/Document[1]/Section[1]", diff.Differences.First().Comparison.TestDetails.XPath);
+            Assert.AreEqual(ComparisonType.CHILD_LOOKUP, diff.Differences.Last().Comparison.Type);
+            Assert.AreEqual("/Document[1]/Section[1]/Finding[7]", diff.Differences.Last().Comparison.ControlDetails.XPath);
+            Assert.IsNull(diff.Differences.Last().Comparison.TestDetails.XPath);
+            Assert.AreEqual("/Document[1]/Section[1]", diff.Differences.Last().Comparison.TestDetails.ParentXPath);
+        }
+
+        [Test]
+        public void XPathKnowsAboutNodeFiltersForUnmatchedTestNodes() {
+            var diff = DiffBuilder.Compare("<Document><Section><Binding /><Binding /><Finding /><Finding /><Finding /><Finding /><Finding /><Finding /></Section></Document>")
+                .WithTest("<Document><Section><Binding /><Binding /><Finding /><Finding /><Finding /><Finding /><Finding /><Finding /><Finding /></Section></Document>")
+                .IgnoreWhitespace()
+                .WithNodeFilter(node =>  "Document,Section,Finding".Split(',').Contains(node.Name))
+                .WithNodeMatcher(new DefaultNodeMatcher(ElementSelectors.ByNameAndText))
+                .Build();
+            Assert.AreEqual(2, diff.Differences.Count());
+            Assert.AreEqual(ComparisonType.CHILD_NODELIST_LENGTH, diff.Differences.First().Comparison.Type);
+            Assert.AreEqual("/Document[1]/Section[1]", diff.Differences.First().Comparison.ControlDetails.XPath);
+            Assert.AreEqual("/Document[1]/Section[1]", diff.Differences.First().Comparison.TestDetails.XPath);
+            Assert.AreEqual(ComparisonType.CHILD_LOOKUP, diff.Differences.Last().Comparison.Type);
+            Assert.AreEqual("/Document[1]/Section[1]/Finding[7]", diff.Differences.Last().Comparison.TestDetails.XPath);
+            Assert.IsNull(diff.Differences.Last().Comparison.ControlDetails.XPath);
+            Assert.AreEqual("/Document[1]/Section[1]", diff.Differences.Last().Comparison.ControlDetails.ParentXPath);
+        }
+
         private XmlDocument DocumentForString(string s) {
             return Org.XmlUnit.Util.Convert.ToDocument(InputBuilder.FromString(s).Build());
         }
