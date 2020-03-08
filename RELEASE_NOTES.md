@@ -1,5 +1,7 @@
 # Release Notes
 
+## XMLUnit.NET 2.7.3 - /nor released, yet/
+
 ## XMLUnit.NET 2.7.2 - /Released 2020-03-08/
 
 * the XPath values for comparisons resulting in `CHILD_LOOKUP`
