@@ -1,6 +1,6 @@
 # Release Notes
 
-## XMLUnit.NET 2.7.2 - /not released, yet/
+## XMLUnit.NET 2.7.2 - /Released 2020-03-08/
 
 * the XPath values for comparisons resulting in `CHILD_LOOKUP`
   differences could be wrong when `NodeFilter`s were present.
