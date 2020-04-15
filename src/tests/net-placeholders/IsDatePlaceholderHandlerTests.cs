@@ -31,6 +31,8 @@ namespace Org.XmlUnit.Placeholder
         [Test]
         [TestCase("19/06/2020", "en-GB", TestName = "ShouldEvaluateUKDate", ExpectedResult = ComparisonResult.EQUAL)]
         [TestCase("06/19/2020", "en-US", TestName = "ShouldEvaluateUSDate", ExpectedResult = ComparisonResult.EQUAL)]
+        [TestCase("19/06/2020", "fr-FR", TestName = "ShouldEvaluateFRDate", ExpectedResult = ComparisonResult.EQUAL)]
+        [TestCase("19/06/2020", "es-ES", TestName = "ShouldEvaluateESDate", ExpectedResult = ComparisonResult.EQUAL)]
         public ComparisonResult EvaluateOtherCulturesTest(string testText, string cultureCode)
         {
             CultureInfo.CurrentCulture = new CultureInfo(cultureCode);
