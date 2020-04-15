@@ -20,6 +20,7 @@ namespace Org.XmlUnit.Placeholder
         [TestCase("01/01/2020 15:00", TestName = "ShouldEvaluateDateWithTime", ExpectedResult = ComparisonResult.EQUAL)]
         [TestCase(null, TestName = "ShouldNotEvaluateNull", ExpectedResult = ComparisonResult.DIFFERENT)]
         [TestCase("", TestName = "ShouldNotEvaluateEmpty", ExpectedResult = ComparisonResult.DIFFERENT)]
+        [TestCase("This is a test date 01/01/2020", TestName = "ShouldNotEvaluateStringContainingDate", ExpectedResult = ComparisonResult.DIFFERENT)]
         public ComparisonResult EvaluateTest(string testText)
         {
             return placeholderHandler.Evaluate(testText);
