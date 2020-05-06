@@ -22,7 +22,7 @@ using System.Text.RegularExpressions;
 namespace Org.XmlUnit.Placeholder
 {
     /// <summary>
-    /// Handler for the "isDate" handler placeholder keyword
+    /// Handler for the "isDateTime" handler placeholder keyword
     /// </summary>
     public class IsDateTimePlaceholderHandler : IPlaceholderHandler
     {
