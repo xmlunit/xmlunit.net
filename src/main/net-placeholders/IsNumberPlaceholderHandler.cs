@@ -33,7 +33,7 @@ namespace Org.XmlUnit.Placeholder {
         /// <inheritdoc/>
         public string Keyword { get { return PLACEHOLDER_NAME; } }
         /// <inheritdoc/>
-        public ComparisonResult Evaluate(string testText) {
+        public ComparisonResult Evaluate(string testText, params string[] args) {
             return testText != null && NUMBER_PATTERN_REGEX.Match(testText).Success
                 ? ComparisonResult.EQUAL : ComparisonResult.DIFFERENT;
         }

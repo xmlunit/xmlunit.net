@@ -29,7 +29,7 @@ namespace Org.XmlUnit.Placeholder {
     /// method may be invoked by multiple threads in parallel.
     ///   </para>
     ///   <para>
-    /// since 2.6.0
+    /// since 2.8.0
     ///   </para>
     /// </remarks>
     public interface IPlaceholderHandler {
@@ -42,6 +42,6 @@ namespace Org.XmlUnit.Placeholder {
         /// Evaluate the test value when control contained the
         /// placeholder handled by this class.
         /// </summary>
-        ComparisonResult Evaluate(string testText);
+        ComparisonResult Evaluate(string testText, params string[] args);
     }
 }

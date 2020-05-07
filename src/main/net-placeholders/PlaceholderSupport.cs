@@ -58,8 +58,54 @@ namespace Org.XmlUnit.Placeholder {
         public static D WithPlaceholderSupportUsingDelimiters<D>(this D configurer, string placeholderOpeningDelimiterRegex,
             string placeholderClosingDelimiterRegex)
             where D : IDifferenceEngineConfigurer<D> {
+            return WithPlaceholderSupportUsingDelimiters(configurer, placeholderOpeningDelimiterRegex,
+                placeholderClosingDelimiterRegex, null, null, null);
+        }
+
+        /// <summary>
+        /// Adds placeholder support to an IDifferenceEngineConfigurer.
+        /// </summary>
+        /// <param name="configurer">configurer the configurer to add support to</param>
+        /// <param name="placeholderOpeningDelimiterRegex">regular
+        /// expression for the opening delimiter of placeholder,
+        /// defaults to
+        /// PlaceholderDifferenceEvaluator#PLACEHOLDER_DEFAULT_OPENING_DELIMITER_REGEX
+        /// if the parameter is null or blank</param>
+        /// <param name="placeholderClosingDelimiterRegex">regular
+        /// expression for the closing delimiter of placeholder,
+        /// defaults to
+        /// PlaceholderDifferenceEvaluator#PLACEHOLDER_DEFAULT_CLOSING_DELIMITER_REGEX
+        /// if the parameter is null or blank</param>
+        /// <param name="placeholderArgsOpeningDelimiterRegex">regular
+        /// expression for the opening delimiter of the placeholder's
+        /// argument list, defaults to
+        /// PlaceholderDifferenceEvaluator#PLACEHOLDER_DEFAULT_ARGS_OPENING_DELIMITER_REGEX
+        /// if the parameter is null or blank</param>
+        /// <param name="placeholderArgsClosingDelimiterRegex">regular
+        /// expression for the closing delimiter of the placeholder's
+        /// argument list, defaults to
+        /// PlaceholderDifferenceEvaluator#PLACEHOLDER_DEFAULT_ARGS_CLOSING_DELIMITER_REGEX
+        /// if the parameter is null or blank</param>
+        /// <param name="placeholderArgsSeparatorRegex">regular
+        /// expression for the delimiter between arguments inside of
+        /// the placeholder's argument list, defaults to
+        /// PlaceholderDifferenceEvaluator#PLACEHOLDER_DEFAULT_ARGS_SEPARATOR_REGEX
+        /// if the parameter is null or blank</param>
+        /// <remarks>
+        ///   <para>
+        /// since 2.8.0
+        ///   </para>
+        /// </remarks>
+        /// <return>the configurer with placeholder support added in.</return>
+        public static D WithPlaceholderSupportUsingDelimiters<D>(this D configurer, string placeholderOpeningDelimiterRegex,
+            string placeholderClosingDelimiterRegex,
+            string placeholderArgsOpeningDelimiterRegex,
+            string placeholderArgsClosingDelimiterRegex,
+            string placeholderArgsSeparatorRegex)
+            where D : IDifferenceEngineConfigurer<D> {
             return configurer.WithDifferenceEvaluator(new PlaceholderDifferenceEvaluator(placeholderOpeningDelimiterRegex,
-                placeholderClosingDelimiterRegex).Evaluate);
+                placeholderClosingDelimiterRegex, placeholderArgsOpeningDelimiterRegex,
+                placeholderArgsClosingDelimiterRegex, placeholderArgsSeparatorRegex).Evaluate);
         }
 
         /// <summary>
@@ -99,9 +145,60 @@ namespace Org.XmlUnit.Placeholder {
             string placeholderOpeningDelimiterRegex, string placeholderClosingDelimiterRegex,
             DifferenceEvaluator evaluator)
             where D : IDifferenceEngineConfigurer<D> {
+            return WithPlaceholderSupportUsingDelimitersChainedAfter(configurer, placeholderOpeningDelimiterRegex,
+                placeholderClosingDelimiterRegex, null, null, null, evaluator);
+        }
+
+        /// <summary>
+        /// Adds placeholder support to an IDifferenceEngineConfigurer
+        /// considering an additional DifferenceEvaluator.
+        /// </summary>
+        /// <param name="configurer">configurer the configurer to add support to</param>
+        /// <param name="placeholderOpeningDelimiterRegex">regular
+        /// expression for the opening delimiter of placeholder,
+        /// defaults to
+        /// PlaceholderDifferenceEvaluator#PLACEHOLDER_DEFAULT_OPENING_DELIMITER_REGEX
+        /// if the parameter is null or blank</param>
+        /// <param name="placeholderClosingDelimiterRegex">regular
+        /// expression for the closing delimiter of placeholder,
+        /// defaults to
+        /// PlaceholderDifferenceEvaluator#PLACEHOLDER_DEFAULT_CLOSING_DELIMITER_REGEX
+        /// if the parameter is null or blank</param>
+        /// <param name="evaluator">the additional evaluator -
+        /// placeholder support is chained after the given
+        /// evaluator.</param>
+        /// <param name="placeholderArgsOpeningDelimiterRegex">regular
+        /// expression for the opening delimiter of the placeholder's
+        /// argument list, defaults to
+        /// PlaceholderDifferenceEvaluator#PLACEHOLDER_DEFAULT_ARGS_OPENING_DELIMITER_REGEX
+        /// if the parameter is null or blank</param>
+        /// <param name="placeholderArgsClosingDelimiterRegex">regular
+        /// expression for the closing delimiter of the placeholder's
+        /// argument list, defaults to
+        /// PlaceholderDifferenceEvaluator#PLACEHOLDER_DEFAULT_ARGS_CLOSING_DELIMITER_REGEX
+        /// if the parameter is null or blank</param>
+        /// <param name="placeholderArgsSeparatorRegex">regular
+        /// expression for the delimiter between arguments inside of
+        /// the placeholder's argument list, defaults to
+        /// PlaceholderDifferenceEvaluator#PLACEHOLDER_DEFAULT_ARGS_SEPARATOR_REGEX
+        /// if the parameter is null or blank</param>
+        /// <remarks>
+        ///   <para>
+        /// since 2.8.0
+        ///   </para>
+        /// </remarks>
+        /// <return>the configurer with placeholder support added in.</return>
+        public static D WithPlaceholderSupportUsingDelimitersChainedAfter<D>(this D configurer,
+            string placeholderOpeningDelimiterRegex, string placeholderClosingDelimiterRegex,
+            string placeholderArgsOpeningDelimiterRegex,
+            string placeholderArgsClosingDelimiterRegex,
+            string placeholderArgsSeparatorRegex,
+            DifferenceEvaluator evaluator)
+            where D : IDifferenceEngineConfigurer<D> {
             return configurer.WithDifferenceEvaluator(DifferenceEvaluators.Chain(
                 evaluator, new PlaceholderDifferenceEvaluator(placeholderOpeningDelimiterRegex,
-                placeholderClosingDelimiterRegex).Evaluate));
+                placeholderClosingDelimiterRegex, placeholderArgsOpeningDelimiterRegex,
+                placeholderArgsClosingDelimiterRegex, placeholderArgsSeparatorRegex).Evaluate));
         }
     }
 }

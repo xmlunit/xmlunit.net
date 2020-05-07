@@ -32,7 +32,7 @@ namespace Org.XmlUnit.Placeholder {
         /// <inheritdoc/>
         public string Keyword { get { return PLACEHOLDER_NAME_IGNORE; } }
         /// <inheritdoc/>
-        public ComparisonResult Evaluate(string testText) {
+        public ComparisonResult Evaluate(string testText, params string[] args) {
             return ComparisonResult.EQUAL;
         }
     }

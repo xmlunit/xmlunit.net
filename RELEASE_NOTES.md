@@ -1,6 +1,13 @@
 # Release Notes
 
-## XMLUnit.NET 2.7.3 - /nor released, yet/
+## XMLUnit.NET 2.8.0 - /nor released, yet/
+
+This version contains a backwards incompatible change to the
+`IPlaceholderHandler` interface that is part of the experimental
+placeholders module: The `Evaluate` method now receives a variable
+number of string arguments in addition to the textual content of the
+element/attribute. This allows placeholders like
+`${xmlunit.matchesRegex(some\s*regex)}`.
 
 * add a new `${xmlunit.isDateTime}` placeholder
   [#31](https://github.com/xmlunit/xmlunit.net/pull/31) and

@@ -57,9 +57,31 @@ namespace Org.XmlUnit.Placeholder {
     public class PlaceholderDifferenceEvaluator {
         public static readonly string PLACEHOLDER_DEFAULT_OPENING_DELIMITER_REGEX = Regex.Escape("${");
         public static readonly string PLACEHOLDER_DEFAULT_CLOSING_DELIMITER_REGEX = Regex.Escape("}");
+        /// <remarks>
+        ///   <para>
+        /// since 2.8.0
+        ///   </para>
+        /// </remarks>
+        public static readonly string PLACEHOLDER_DEFAULT_ARGS_OPENING_DELIMITER_REGEX = Regex.Escape("(");
+
+        /// <remarks>
+        ///   <para>
+        /// since 2.8.0
+        ///   </para>
+        /// </remarks>
+        public static readonly string PLACEHOLDER_DEFAULT_ARGS_CLOSING_DELIMITER_REGEX = Regex.Escape(")");
+
+        /// <remarks>
+        ///   <para>
+        /// since 2.8.0
+        ///   </para>
+        /// </remarks>
+        public static readonly string PLACEHOLDER_DEFAULT_ARGS_SEPARATOR_REGEX = Regex.Escape(",");
+
         private static readonly string PLACEHOLDER_PREFIX_REGEX = Regex.Escape("xmlunit.");
         // IReadOnlyDictionary is .NET Framework 4.5
         private static readonly IDictionary<string, IPlaceholderHandler> KNOWN_HANDLERS;
+        private static readonly string[] NO_ARGS = new string[0];
 
         static PlaceholderDifferenceEvaluator() {
             var m = new Dictionary<string, IPlaceholderHandler>();
@@ -88,6 +110,8 @@ namespace Org.XmlUnit.Placeholder {
         }
 
         private readonly Regex placeholderRegex;
+        private readonly Regex argsRegex;
+        private readonly Regex argsSplitter;
 
         /// <summary>
         /// Creates a PlaceholderDifferenceEvaluator with default
@@ -113,7 +137,50 @@ namespace Org.XmlUnit.Placeholder {
         /// PlaceholderDifferenceEvaluator#PLACEHOLDER_DEFAULT_CLOSING_DELIMITER_REGEX
         /// if the parameter is null or blank</param>
         public PlaceholderDifferenceEvaluator(string placeholderOpeningDelimiterRegex,
-                                              string placeholderClosingDelimiterRegex) {
+                                              string placeholderClosingDelimiterRegex)
+            : this(placeholderOpeningDelimiterRegex, placeholderClosingDelimiterRegex, null, null, null) {
+        }
+
+        /// <summary>
+        /// Creates a PlaceholderDifferenceEvaluator with default
+        /// delimiters PLACEHOLDER_DEFAULT_OPENING_DELIMITER_REGEX and
+        /// PLACEHOLDER_DEFAULT_CLOSING_DELIMITER_REGEX.
+        /// </summary>
+        /// <param name="placeholderOpeningDelimiterRegex">regular
+        /// expression for the opening delimiter of placeholder,
+        /// defaults to
+        /// PlaceholderDifferenceEvaluator#PLACEHOLDER_DEFAULT_OPENING_DELIMITER_REGEX
+        /// if the parameter is null or blank</param>
+        /// <param name="placeholderClosingDelimiterRegex">regular
+        /// expression for the closing delimiter of placeholder,
+        /// defaults to
+        /// PlaceholderDifferenceEvaluator#PLACEHOLDER_DEFAULT_CLOSING_DELIMITER_REGEX
+        /// if the parameter is null or blank</param>
+        /// <param name="placeholderArgsOpeningDelimiterRegex">regular
+        /// expression for the opening delimiter of the placeholder's
+        /// argument list, defaults to
+        /// PlaceholderDifferenceEvaluator#PLACEHOLDER_DEFAULT_ARGS_OPENING_DELIMITER_REGEX
+        /// if the parameter is null or blank</param>
+        /// <param name="placeholderArgsClosingDelimiterRegex">regular
+        /// expression for the closing delimiter of the placeholder's
+        /// argument list, defaults to
+        /// PlaceholderDifferenceEvaluator#PLACEHOLDER_DEFAULT_ARGS_CLOSING_DELIMITER_REGEX
+        /// if the parameter is null or blank</param>
+        /// <param name="placeholderArgsSeparatorRegex">regular
+        /// expression for the delimiter between arguments inside of
+        /// the placeholder's argument list, defaults to
+        /// PlaceholderDifferenceEvaluator#PLACEHOLDER_DEFAULT_ARGS_SEPARATOR_REGEX
+        /// if the parameter is null or blank</param>
+        /// <remarks>
+        ///   <para>
+        /// since 2.8.0
+        ///   </para>
+        /// </remarks>
+        public PlaceholderDifferenceEvaluator(string placeholderOpeningDelimiterRegex,
+                                              string placeholderClosingDelimiterRegex,
+                                              string placeholderArgsOpeningDelimiterRegex,
+                                              string placeholderArgsClosingDelimiterRegex,
+                                              string placeholderArgsSeparatorRegex) {
             if (placeholderOpeningDelimiterRegex == null
                 || placeholderOpeningDelimiterRegex.Trim().Length == 0) {
                 placeholderOpeningDelimiterRegex = PLACEHOLDER_DEFAULT_OPENING_DELIMITER_REGEX;
@@ -122,10 +189,26 @@ namespace Org.XmlUnit.Placeholder {
                 || placeholderClosingDelimiterRegex.Trim().Length == 0) {
                 placeholderClosingDelimiterRegex = PLACEHOLDER_DEFAULT_CLOSING_DELIMITER_REGEX;
             }
+            if (placeholderArgsOpeningDelimiterRegex == null
+                || placeholderArgsOpeningDelimiterRegex.Trim().Length == 0) {
+                placeholderArgsOpeningDelimiterRegex = PLACEHOLDER_DEFAULT_ARGS_OPENING_DELIMITER_REGEX;
+            }
+            if (placeholderArgsClosingDelimiterRegex == null
+                || placeholderArgsClosingDelimiterRegex.Trim().Length == 0) {
+                placeholderArgsClosingDelimiterRegex = PLACEHOLDER_DEFAULT_ARGS_CLOSING_DELIMITER_REGEX;
+            }
+            if (placeholderArgsSeparatorRegex == null
+                || placeholderArgsSeparatorRegex.Trim().Length == 0) {
+                placeholderArgsSeparatorRegex = PLACEHOLDER_DEFAULT_ARGS_SEPARATOR_REGEX;
+            }
 
             placeholderRegex = new Regex("(\\s*" + placeholderOpeningDelimiterRegex
                 + "\\s*" + PLACEHOLDER_PREFIX_REGEX + "(.+)" + "\\s*"
                 + placeholderClosingDelimiterRegex + "\\s*)");
+            argsRegex = new Regex("((.*)\\s*" + placeholderArgsOpeningDelimiterRegex
+                + "(.+)"
+                + "\\s*" + placeholderArgsClosingDelimiterRegex + "\\s*)");
+            argsSplitter = new Regex(placeholderArgsSeparatorRegex);
         }
 
         /// <summary>
@@ -171,7 +254,7 @@ namespace Org.XmlUnit.Placeholder {
         private bool IsMissingTextNodeDifference(Comparison comparison) {
             return ControlHasOneTextChildAndTestHasNone(comparison)
                 || CantFindControlTextChildInTest(comparison);
-    }
+        }
 
         private bool ControlHasOneTextChildAndTestHasNone(Comparison comparison) {
             Comparison.Detail controlDetails = comparison.ControlDetails;
@@ -254,14 +337,24 @@ namespace Org.XmlUnit.Placeholder {
 
         private ComparisonResult EvaluateConsideringPlaceholders(string controlText, string testText,
             ComparisonResult outcome) {
-            Match m = placeholderRegex.Match(controlText);
-            if (m.Success) {
-                string keyword = m.Groups[2].Captures[0].Value.Trim();
+            Match placeholderMatch = placeholderRegex.Match(controlText);
+            if (placeholderMatch.Success) {
+                string content = placeholderMatch.Groups[2].Captures[0].Value.Trim();
+                Match argsMatch = argsRegex.Match(content);
+                string keyword;
+                string[] args;
+                if (argsMatch.Success) {
+                    keyword = argsMatch.Groups[2].Captures[0].Value.Trim();
+                    args = argsSplitter.Split(argsMatch.Groups[3].Captures[0].Value);
+                } else {
+                    keyword = content;
+                    args = NO_ARGS;
+                }
                 if (IsKnown(keyword)) {
-                    if (m.Groups[1].Captures[0].Value.Trim() != controlText.Trim()) {
+                    if (placeholderMatch.Groups[1].Captures[0].Value.Trim() != controlText.Trim()) {
                         throw new XMLUnitException("The placeholder must exclusively occupy the text node.");
                     }
-                    return Evaluate(keyword, testText);
+                    return Evaluate(keyword, testText, args);
                 }
             }
 
@@ -273,8 +366,8 @@ namespace Org.XmlUnit.Placeholder {
             return KNOWN_HANDLERS.ContainsKey(keyword);
         }
 
-        private ComparisonResult Evaluate(string keyword, string testText) {
-            return KNOWN_HANDLERS[keyword].Evaluate(testText);
+        private ComparisonResult Evaluate(string keyword, string testText, string[] args) {
+            return KNOWN_HANDLERS[keyword].Evaluate(testText, args);
         }
     }
 }

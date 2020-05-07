@@ -32,7 +32,7 @@ namespace Org.XmlUnit.Placeholder
         public string Keyword { get { return _keyword; } }
 
         /// <inheritdoc/>
-        public ComparisonResult Evaluate(string testText)
+        public ComparisonResult Evaluate(string testText, params string[] args)
         {
             DateTime _;
             var result = DateTime.TryParse(testText, out _);
