@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
+using System.Threading;
 
 namespace Org.XmlUnit.Placeholder
 {
@@ -49,7 +50,7 @@ namespace Org.XmlUnit.Placeholder
         [TestCase("19/06/2020", "es-ES", TestName = "ShouldEvaluateESDate", ExpectedResult = ComparisonResult.EQUAL)]
         public ComparisonResult EvaluateOtherCulturesTest(string testText, string cultureCode)
         {
-            CultureInfo.CurrentCulture = new CultureInfo(cultureCode);
+            Thread.CurrentThread.CurrentCulture = new CultureInfo(cultureCode);
             return placeholderHandler.Evaluate(testText);
         }
 

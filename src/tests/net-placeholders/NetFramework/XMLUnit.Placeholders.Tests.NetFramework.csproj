@@ -65,6 +65,7 @@
     <Compile Include="..\..\..\shared\CommonAssemblyInfo.cs">
       <Link>..\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="..\IsDateTimePlaceholderHandlerTests.cs" />
     <Compile Include="..\IsNumberPlaceholderHandlerTest.cs" />
     <Compile Include="..\PlaceholderDifferenceEvaluatorTest.cs" />
     <Compile Include="..\PlaceholderSupportTest.cs" />
