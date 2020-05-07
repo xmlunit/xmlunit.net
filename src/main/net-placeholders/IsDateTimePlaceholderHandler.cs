@@ -22,11 +22,11 @@ using System.Text.RegularExpressions;
 namespace Org.XmlUnit.Placeholder
 {
     /// <summary>
-    /// Handler for the "isDate" handler placeholder keyword
+    /// Handler for the "isDateTime" handler placeholder keyword
     /// </summary>
-    public class IsDatePlaceholderHandler : IPlaceholderHandler
+    public class IsDateTimePlaceholderHandler : IPlaceholderHandler
     {
-        private const string _keyword = "isDate";
+        private const string _keyword = "isDateTime";
 
         /// <inheritdoc/>
         public string Keyword => _keyword;

@@ -23,9 +23,9 @@ using System.Text;
 namespace Org.XmlUnit.Placeholder
 {
     [TestFixture()]
-    public class IsDatePlaceholderHandlerTests
+    public class IsDateTimePlaceholderHandlerTests
     {
-        private IPlaceholderHandler placeholderHandler = new IsDatePlaceholderHandler();
+        private IPlaceholderHandler placeholderHandler = new IsDateTimePlaceholderHandler();
 
         [Test]
         [TestCase("01-01-2020", TestName = "ShouldEvaluateDateWithDashes", ExpectedResult = ComparisonResult.EQUAL)]
@@ -56,7 +56,7 @@ namespace Org.XmlUnit.Placeholder
         [Test]
         public void ShouldGetKeyword()
         {
-            string expected = "isDate";
+            string expected = "isDateTime";
             string keyword = placeholderHandler.Keyword;
 
             Assert.AreEqual(expected, keyword);
