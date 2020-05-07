@@ -14,6 +14,10 @@ element/attribute. This allows placeholders like
   [#32](https://github.com/xmlunit/xmlunit.net/pull/32) by
   [MilkyWare](https://github.com/MilkyWare)
 
+* added a new `${xmlunit.matchesRegex(regex)}` placeholder
+  based on Java PR [xmlunit/#178](https://github.com/xmlunit/xmlunit/issues/178) by
+  [@Jazzyekim](https://github.com/Jazzyekim).
+
 ## XMLUnit.NET 2.7.2 - /Released 2020-03-08/
 
 * the XPath values for comparisons resulting in `CHILD_LOOKUP`

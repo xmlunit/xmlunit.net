@@ -67,6 +67,7 @@
     </Compile>
     <Compile Include="..\IsDateTimePlaceholderHandlerTests.cs" />
     <Compile Include="..\IsNumberPlaceholderHandlerTest.cs" />
+    <Compile Include="..\MatchesRegexPlaceholderHandlerTest.cs" />
     <Compile Include="..\PlaceholderDifferenceEvaluatorTest.cs" />
     <Compile Include="..\PlaceholderSupportTest.cs" />
   </ItemGroup>

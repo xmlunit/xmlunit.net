@@ -24,6 +24,11 @@ namespace Org.XmlUnit.Placeholder
     /// <summary>
     /// Handler for the "isDateTime" handler placeholder keyword
     /// </summary>
+    /// <remarks>
+    ///   <para>
+    /// since 2.8.0
+    ///   </para>
+    /// </remarks>
     public class IsDateTimePlaceholderHandler : IPlaceholderHandler
     {
         private const string _keyword = "isDateTime";

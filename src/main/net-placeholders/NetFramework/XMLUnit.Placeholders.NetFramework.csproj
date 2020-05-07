@@ -74,6 +74,7 @@
     <Compile Include="..\IgnorePlaceholderHandler.cs" />
     <Compile Include="..\IsDateTimePlaceholderHandler.cs" />
     <Compile Include="..\IsNumberPlaceholderHandler.cs" />
+    <Compile Include="..\MatchesRegexPlaceholderHandler.cs" />
     <Compile Include="..\PlaceholderDifferenceEvaluator.cs" />
     <Compile Include="..\PlaceholderSupport.cs" />
   </ItemGroup>
