@@ -29,7 +29,7 @@ namespace Org.XmlUnit.Placeholder
         private const string _keyword = "isDateTime";
 
         /// <inheritdoc/>
-        public string Keyword => _keyword;
+        public string Keyword { get { return _keyword; } }
 
         /// <inheritdoc/>
         public ComparisonResult Evaluate(string testText)
