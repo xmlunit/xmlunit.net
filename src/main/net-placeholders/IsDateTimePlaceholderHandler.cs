@@ -34,6 +34,7 @@ namespace Org.XmlUnit.Placeholder
         /// <inheritdoc/>
         public ComparisonResult Evaluate(string testText)
         {
+            DateTime _;
             var result = DateTime.TryParse(testText, out _);
             return result
                 ? ComparisonResult.EQUAL
