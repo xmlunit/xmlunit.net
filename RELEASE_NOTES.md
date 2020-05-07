@@ -2,8 +2,9 @@
 
 ## XMLUnit.NET 2.7.3 - /nor released, yet/
 
-* add a new `${xmlunit.isDate}` placeholder
-  [#31](https://github.com/xmlunit/xmlunit.net/pull/31) by
+* add a new `${xmlunit.isDateTime}` placeholder
+  [#31](https://github.com/xmlunit/xmlunit.net/pull/31) and
+  [#32](https://github.com/xmlunit/xmlunit.net/pull/32) by
   [MilkyWare](https://github.com/MilkyWare)
 
 ## XMLUnit.NET 2.7.2 - /Released 2020-03-08/
