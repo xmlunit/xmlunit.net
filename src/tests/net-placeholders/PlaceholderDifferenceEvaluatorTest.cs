@@ -349,6 +349,45 @@ namespace Org.XmlUnit.Placeholder {
         }
 
         [Test]
+        public void HasMatchesRegexPlaceholder_Attribute_Matches() {
+            string control = "<elem1 attr='${xmlunit.matchesRegex(^\\d+$)}'>qwert</elem1>";
+            string test = "<elem1 attr='023'>qwert</elem1>";
+            var diff = DiffBuilder.Compare(control).WithTest(test)
+                .WithDifferenceEvaluator(new PlaceholderDifferenceEvaluator().Evaluate).Build();
+
+            Assert.IsFalse(diff.HasDifferences());
+        }
+
+        [Test]
+        public void HasMatchesRegexPlaceholder_Attribute_NotMatches() {
+            string control = "<elem1 attr='${xmlunit.matchesRegex(^\\d+$)}'>qwert</elem1>";
+            string test = "<elem1 attr='023asd'>qwert</elem1>";
+            var diff = DiffBuilder.Compare(control).WithTest(test)
+                .WithDifferenceEvaluator(new PlaceholderDifferenceEvaluator().Evaluate).Build();
+
+            Assert.IsTrue(diff.HasDifferences());
+        }
+
+        [Test]
+        public void HasMatchesRegexPlaceholder_Element_Matches() {
+            string control = "<elem1>${xmlunit.matchesRegex(^\\d+$)}</elem1>";
+            string test = "<elem1>023</elem1>";
+            var diff = DiffBuilder.Compare(control).WithTest(test)
+                .WithDifferenceEvaluator(new PlaceholderDifferenceEvaluator().Evaluate).Build();
+            Assert.IsFalse(diff.HasDifferences());
+        }
+
+        [Test]
+        public void HasMatchesRegexPlaceholder_Element_NotMatches() {
+            string control = "<elem1>${xmlunit.matchesRegex(^\\d+$)}</elem1>";
+            string test = "<elem1>23abc</elem1>";
+            var diff = DiffBuilder.Compare(control).WithTest(test)
+                .WithDifferenceEvaluator(new PlaceholderDifferenceEvaluator().Evaluate).Build();
+
+            Assert.IsTrue(diff.HasDifferences());
+        }
+
+        [Test]
         public void HasIsDateTimePlaceholder_Attribute_NotDateTime() {
             string control = "<elem1 attr='${xmlunit.isDateTime}'/>";
             string test = "<elem1 attr='abc'/>";
