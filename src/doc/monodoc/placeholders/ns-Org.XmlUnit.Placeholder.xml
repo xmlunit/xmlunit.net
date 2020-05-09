@@ -16,9 +16,9 @@
       trigger special handling based on the keyword.</para>
 
       <para>The "special handling" is controlled by an instance of
-      <see cref="IPlaceholderHandler"/> per keyword. The class <see
-      cref="PlaceholderDifferenceEvaluator"/> loads all
-      implementations from the current assembly via reflection.</para>
+      <c>IPlaceholderHandler</c> per keyword. The class
+      <c>PlaceholderDifferenceEvaluator</c> loads all implementations
+      from the current assembly via reflection.</para>
 
       <para>The placeholder sequence can take any number of string
       values as arguments in the form
@@ -31,44 +31,46 @@
 
       <para>Keywords currently supported by built-in handlers
       are:</para>
-      <list type="bullet">
+      <list type="table">
 
-        <item><c>${xmlunit.ignore}</c> which makes XMLUnit ignore the
-        nested text or attribute completely. This is handled by <see
-        cref="IgnorePlaceholderHandler"/>.</item>
+        <item><term><c>${xmlunit.ignore}</c></term> <description>which
+        makes XMLUnit ignore the nested text or attribute
+        completely. This is handled by
+        <c>IgnorePlaceholderHandler</c>.</description></item>
 
-        <item><c>${xmlunit.isNumber}</c> makes the comparison pass if
-        the textual content of the element or attributes looks like a
-        number. This is handled by <see
-        cref="IsNumberPlaceholderHandler"/>.</item>
+        <item><term><c>${xmlunit.isNumber}</c></term> <description>
+        makes the comparison pass if the textual content of the
+        element or attributes looks like a number. This is handled by
+        <c>IsNumberPlaceholderHandler</c>.</description></item>
 
-        <item><c>${xmlunit.matchesRegex}</c> makes the comparison pass
-        if the textual content of the element or attribute matches the
-        regular expression specified as the first (and only) argument.
-        If there is no argument at all, the comparison will fail. This
-        is handled by <see
-        cref="MatchesRegexPlaceholderHandler"/>.</item>
+        <item><term><c>${xmlunit.matchesRegex}</c></term>
+        <description> makes the comparison pass if the textual content
+        of the element or attribute matches the regular expression
+        specified as the first (and only) argument.  If there is no
+        argument at all, the comparison will fail. This is handled by
+        <c>MatchesRegexPlaceholderHandler</c>.</description></item>
 
-        <item><c>${xmlunit.isDateTime}</c> makes the comparison pass
-        if the textual content of the element or attributes looks like
-        a date or datetime in the current locale or parsed by ISO
-        rules. An optional argument can be used to specify a pattern
-        unserstood by <see cref="DateTime.ParseExact"/> to use when
-        trying to parse the test. This is handled by <see
-        cref="IsDateTimePlaceholderHandler"/>.</item>
+        <item><term><c>${xmlunit.isDateTime}</c></term> <description>
+        makes the comparison pass if the textual content of the
+        element or attributes looks like a date or datetime in the
+        current locale or parsed by ISO rules. An optional argument
+        can be used to specify a pattern unserstood by
+        <c>DateTime.ParseExact</c> to use when trying to parse the
+        test. This is handled by
+        <c>IsDateTimePlaceholderHandler</c>.</description></item>
 
-      </list
+      </list>
 
       <para>The default delimiters of <c>${</c> and <c>}</c> can be
       overwritten using custom regular expressions.</para>
 
       <para>The easiest way to activate the placeholder feature is to
-      use one of the methods in <see cref="PlaceholderSupport"/> to
-      add it to a <see cref="org.xmlunit.builder.DiffBuilder"/> or
+      use one of the methods in <c>PlaceholderSupport</c> to add it to
+      a <c>org.xmlunit.builder.DiffBuilder</c> or
       <c>org.xmlunit.matchers.CompareMatcher</c> instance. The
-      alternative approach is to create an instance of <see
-      cref="PlaceholderDifferenceEvaluator"/> as a <see
-      cref="org.xmlunit.diff.DifferenceEvaluator"/> and add it to the
+      alternative approach is to create an instance of
+      <c>PlaceholderDifferenceEvaluator</c> as a
+      <c>org.xmlunit.diff.DifferenceEvaluator</c> and add it to the
       builder yourself.</para>
 
     </remarks>
