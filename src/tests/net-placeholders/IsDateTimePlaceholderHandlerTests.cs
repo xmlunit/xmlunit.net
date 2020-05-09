@@ -62,5 +62,14 @@ namespace Org.XmlUnit.Placeholder
 
             Assert.AreEqual(expected, keyword);
         }
+
+        [Test]
+        public void ShouldParseExplicitPattern() {
+            Assert.AreEqual(ComparisonResult.EQUAL,
+                            placeholderHandler.Evaluate("31 01 2020 12:34", "dd MM yyyy HH:mm"));
+            Assert.AreEqual(ComparisonResult.DIFFERENT,
+                            placeholderHandler.Evaluate("abc", "dd MM yyyy HH:mm"));
+        }
+
     }
 }

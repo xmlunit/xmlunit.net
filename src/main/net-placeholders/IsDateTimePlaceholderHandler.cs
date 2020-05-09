@@ -39,11 +39,25 @@ namespace Org.XmlUnit.Placeholder
         /// <inheritdoc/>
         public ComparisonResult Evaluate(string testText, params string[] args)
         {
+            if (args != null && args.Length == 1) {
+                return CanParse(args[0], testText)
+                    ? ComparisonResult.EQUAL
+                    : ComparisonResult.DIFFERENT;
+            }
             DateTime _;
             var result = DateTime.TryParse(testText, out _);
             return result
                 ? ComparisonResult.EQUAL
                 : ComparisonResult.DIFFERENT;
+        }
+
+        private bool CanParse(string pattern, string testText) {
+            try {
+                var _ = DateTime.ParseExact(testText, pattern, CultureInfo.InvariantCulture);
+                return true;
+            } catch (FormatException) {
+                return false;
+            }
         }
     }
 }

@@ -408,6 +408,16 @@ namespace Org.XmlUnit.Placeholder {
         }
 
         [Test]
+        public void IsDateTimePlaceholder_Attribute_IsDateTime_CustomFormat() {
+            string control = "<elem1 attr='${xmlunit.isDateTime(dd.MM.yyyy)}'/>";
+            string test = "<elem1 attr='05.09.2020'/>";
+            var diff = DiffBuilder.Compare(control).WithTest(test)
+                .WithDifferenceEvaluator(new PlaceholderDifferenceEvaluator().Evaluate).Build();
+
+            Assert.IsFalse(diff.HasDifferences());
+        }
+
+        [Test]
         public void HasIsDateTimePlaceholder_Element_NotDateTime() {
             string control = "<elem1>${xmlunit.isDateTime}</elem1>";
             string test = "<elem1>abc</elem1>";
@@ -421,6 +431,16 @@ namespace Org.XmlUnit.Placeholder {
         public void HasIsDateTimePlaceholder_Element_IsDateTime() {
             string control = "<elem1>${xmlunit.isDateTime}</elem1>";
             string test = "<elem1>2020-01-01 15:00:00Z</elem1>";
+            var diff = DiffBuilder.Compare(control).WithTest(test)
+                .WithDifferenceEvaluator(new PlaceholderDifferenceEvaluator().Evaluate).Build();
+
+            Assert.IsFalse(diff.HasDifferences());
+        }
+
+        [Test]
+        public void IsDateTimePlaceholder_Element_IsDateTime_CustomFormat() {
+            string control = "<elem1>${xmlunit.isDateTime(dd.MM.yyyy)}</elem1>";
+            string test = "<elem1>09.05.2020</elem1>";
             var diff = DiffBuilder.Compare(control).WithTest(test)
                 .WithDifferenceEvaluator(new PlaceholderDifferenceEvaluator().Evaluate).Build();
 

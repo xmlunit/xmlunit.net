@@ -1,8 +1,78 @@
 <Namespace Name="Org.XmlUnit.Placeholder">
   <Docs>
     <summary>Keyword based Configuration Experiment.</summary>
-    <remarks>Experimental support for configuring parts of the test
-    engine by using ${xmlunit.KEYWORD} sequences inside the control
-    document.</remarks>
+    <remarks>
+      <para>Experimental support for configuring parts of the test
+      engine by using <c>${xmlunit.KEYWORD}</c> sequences inside the
+      control document.</para>
+
+      <para>This namepace and the whole package are considered
+      experimental and any API may change between releases of
+      XMLUnit.</para>
+
+      <para>The placeholder feature allows a placeholder sequence of
+      <c>${xmlunit.KEYWORD(args...)}</c> to be used as nested text in
+      elements or as attribute values of the control document and
+      trigger special handling based on the keyword.</para>
+
+      <para>The "special handling" is controlled by an instance of
+      <see cref="IPlaceholderHandler"/> per keyword. The class <see
+      cref="PlaceholderDifferenceEvaluator"/> loads all
+      implementations from the current assembly via reflection.</para>
+
+      <para>The placeholder sequence can take any number of string
+      values as arguments in the form
+      <c>${xmlunit.KEYWORD(args1,arg2)}</c> - if no arguments are used
+      the parentheses can be omitted completely. Arguments are not
+      quoted, whitespace inside of the argument list is
+      significant. All separators (by default <c>${</c>, <c>}</c>,
+      <c>(</c>, <c>)</c>, and <c>,</c>) can be configured
+      explicitly.</para>
+
+      <para>Keywords currently supported by built-in handlers
+      are:</para>
+      <list type="bullet">
+
+        <item><c>${xmlunit.ignore}</c> which makes XMLUnit ignore the
+        nested text or attribute completely. This is handled by <see
+        cref="IgnorePlaceholderHandler"/>.</item>
+
+        <item><c>${xmlunit.isNumber}</c> makes the comparison pass if
+        the textual content of the element or attributes looks like a
+        number. This is handled by <see
+        cref="IsNumberPlaceholderHandler"/>.</item>
+
+        <item><c>${xmlunit.matchesRegex}</c> makes the comparison pass
+        if the textual content of the element or attribute matches the
+        regular expression specified as the first (and only) argument.
+        If there is no argument at all, the comparison will fail. This
+        is handled by <see
+        cref="MatchesRegexPlaceholderHandler"/>.</item>
+
+        <item><c>${xmlunit.isDateTime}</c> makes the comparison pass
+        if the textual content of the element or attributes looks like
+        a date or datetime in the current locale or parsed by ISO
+        rules. An optional argument can be used to specify a pattern
+        unserstood by <see cref="DateTime.ParseExact"/> to use when
+        trying to parse the test. This is handled by <see
+        cref="IsDateTimePlaceholderHandler"/>.</item>
+
+      </list
+
+      <para>The default delimiters of <c>${</c> and <c>}</c> can be
+      overwritten using custom regular expressions.</para>
+
+      <para>The easiest way to activate the placeholder feature is to
+      use one of the methods in <see cref="PlaceholderSupport"/> to
+      add it to a <see cref="org.xmlunit.builder.DiffBuilder"/> or
+      <c>org.xmlunit.matchers.CompareMatcher</c> instance. The
+      alternative approach is to create an instance of <see
+      cref="PlaceholderDifferenceEvaluator"/> as a <see
+      cref="org.xmlunit.diff.DifferenceEvaluator"/> and add it to the
+      builder yourself.</para>
+
+    </remarks>
+
+
   </Docs>
 </Namespace>
