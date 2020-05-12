@@ -1,6 +1,6 @@
 # Release Notes
 
-## XMLUnit.NET 2.8.0 - /nor released, yet/
+## XMLUnit.NET 2.8.0 - /Released 2020-05-12/
 
 This version contains a backwards incompatible change to the
 `IPlaceholderHandler` interface that is part of the experimental
