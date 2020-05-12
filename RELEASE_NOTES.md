@@ -1,5 +1,7 @@
 # Release Notes
 
+## XMLUnit.NET 2.8.1 - /not released, yet/
+
 ## XMLUnit.NET 2.8.0 - /Released 2020-05-12/
 
 This version contains a backwards incompatible change to the
