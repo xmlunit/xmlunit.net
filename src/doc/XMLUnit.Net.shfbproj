@@ -82,14 +82,14 @@
     &amp;lt%3bul&amp;gt%3b
       &amp;lt%3bli&amp;gt%3b&amp;lt%3ba href=&amp;quot%3bhttps://www.xmlunit.org/&amp;quot%3b&amp;gt%3bXMLUnit&amp;#39%3bs home page&amp;lt%3b/a&amp;gt%3b&amp;lt%3b/li&amp;gt%3b
       &amp;lt%3bli&amp;gt%3b&amp;lt%3ba href=&amp;quot%3bhttps://github.com/xmlunit/xmlunit.net&amp;quot%3b&amp;gt%3bSource Code&amp;lt%3b/a&amp;gt%3b&amp;lt%3b/li&amp;gt%3b
-      &amp;lt%3bli&amp;gt%3b&amp;lt%3ba href=&amp;quot%3bhttps://github.com/xmlunit/xmlunit.net/blob/master/CONTRIBUTING.md&amp;quot%3b&amp;gt%3bContributing Guide&amp;lt%3b/a&amp;gt%3b&amp;lt%3b/li&amp;gt%3b
+      &amp;lt%3bli&amp;gt%3b&amp;lt%3ba href=&amp;quot%3bhttps://github.com/xmlunit/xmlunit.net/blob/main/CONTRIBUTING.md&amp;quot%3b&amp;gt%3bContributing Guide&amp;lt%3b/a&amp;gt%3b&amp;lt%3b/li&amp;gt%3b
       &amp;lt%3bli&amp;gt%3b&amp;lt%3ba href=&amp;quot%3bhttps://github.com/xmlunit/xmlunit.net/issues&amp;quot%3b&amp;gt%3bReporting Issues&amp;lt%3b/a&amp;gt%3b&amp;lt%3b/li&amp;gt%3b
       &amp;lt%3bli&amp;gt%3b&amp;lt%3ba href=&amp;quot%3bhttps://github.com/xmlunit/user-guide/wiki&amp;quot%3b&amp;gt%3bUser Guide&amp;lt%3b/a&amp;gt%3b&amp;lt%3b/li&amp;gt%3b
       &amp;lt%3bli&amp;gt%3b&amp;lt%3ba href=&amp;quot%3bhttps://github.com/xmlunit/xmlunit/wiki&amp;quot%3b&amp;gt%3bDeveloper Wiki&amp;lt%3b/a&amp;gt%3b&amp;lt%3b/li&amp;gt%3b
     &amp;lt%3b/ul&amp;gt%3b
 
     &amp;lt%3bp&amp;gt%3bXMLUnit.NET is licensed
-      under &amp;lt%3ba href=&amp;quot%3bhttps://github.com/xmlunit/xmlunit.net/blob/master/LICENSE&amp;quot%3b&amp;gt%3bthe
+      under &amp;lt%3ba href=&amp;quot%3bhttps://github.com/xmlunit/xmlunit.net/blob/main/LICENSE&amp;quot%3b&amp;gt%3bthe
       Apache License, Version 2.0&amp;lt%3b/a&amp;gt%3b.&amp;lt%3b/p&amp;gt%3b
 </ProjectSummary>
   </PropertyGroup>

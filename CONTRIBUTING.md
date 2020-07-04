@@ -15,7 +15,7 @@ wasting your time on something that isn't considered to be in
 XMLUnit's scope.
 
 If you are looking for something to work on, we've compiled a
-[list](https://github.com/xmlunit/xmlunit/blob/master/HELP_WANTED.md)
+[list](https://github.com/xmlunit/xmlunit/blob/main/HELP_WANTED.md)
 of things that we know people have been asking for.
 
 XMLUnit's users guide is developed inside [a github
@@ -26,13 +26,13 @@ Wiki](https://github.com/xmlunit/user-guide/wiki).
 Because XMLUnit is developed for Java and .NET, both Projects shares the same test-resources.
 The test-resources folder is integrated as git submodule.
 This means you need to run 'git submodule update --init' once inside your
-working copies after merging github's master branches of xmlunit or
+working copies after merging github's main branches of xmlunit or
 xmlunit.net.
 
 ### Preparing a Pull Request
 
 + Create a topic branch from where you want to base your work (this is
-  usually the master branch).
+  usually the main branch).
 + Make commits of logical units.
 + Respect the original code style:
   + Only use spaces for indentation.
