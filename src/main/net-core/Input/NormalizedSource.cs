@@ -36,6 +36,7 @@ namespace Org.XmlUnit.Input {
     ///   </para>
     /// </remarks>
     public class NormalizedSource : ISource {
+        private bool disposed;
         private string systemId;
         private readonly XmlReader reader;
         private readonly XmlNode node;
@@ -106,6 +107,17 @@ namespace Org.XmlUnit.Input {
         {
             return string.Format("{0} with systemId {1}", GetType().Name,
                                  SystemId);
+        }
+
+        public void Dispose() {
+            Dispose(false);
+        }
+
+        protected virtual void Dispose(bool disposing) {
+            if (!disposed) {
+                reader.Close();
+                disposed = true;
+            }
         }
     }
 }

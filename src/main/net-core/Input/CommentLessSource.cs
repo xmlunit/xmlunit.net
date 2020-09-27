@@ -31,6 +31,7 @@ namespace Org.XmlUnit.Input {
     ///   </para>
     /// </remarks>
     public sealed class CommentLessSource : ISource {
+        private bool disposed;
         private readonly XmlReader reader;
         private string systemId;
 
@@ -97,6 +98,13 @@ namespace Org.XmlUnit.Input {
             }
             set {
                 systemId = value;
+            }
+        }
+
+        public void Dispose() {
+            if (!disposed) {
+                reader.Close();
+                disposed = true;
             }
         }
 

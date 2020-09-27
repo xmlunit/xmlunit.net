@@ -60,5 +60,7 @@ namespace Org.XmlUnit.Input
             return string.Format("StringSource with content{0} and systemId {1}", content,
                                  SystemId);
         }
+
+        public void Dispose() { }
     }
 }

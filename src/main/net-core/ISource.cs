@@ -18,7 +18,7 @@ namespace Org.XmlUnit {
     /// Representation of the various ways to provide pieces of XML to
     /// XMLUnit.
     /// </summary>
-    public interface ISource {
+    public interface ISource : System.IDisposable {
         /// <summary>
         /// Provides the content.
         /// </summary>

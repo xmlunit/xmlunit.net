@@ -1,6 +1,13 @@
 # Release Notes
 
-## XMLUnit.NET 2.8.1 - /not released, yet/
+## XMLUnit.NET 2.9.0 - /not released, yet/
+
+* `ISource` now extends `IDisposable` to allow releasing unmanaged
+  resources used when building sources from files or URIs.
+
+  This change is backwards incompatible if you are providing `ISource`
+  implementations of your own.
+  [#33](https://github.com/xmlunit/xmlunit.net/pull/33).
 
 ## XMLUnit.NET 2.8.0 - /Released 2020-05-12/
 

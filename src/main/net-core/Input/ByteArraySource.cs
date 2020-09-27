@@ -59,5 +59,7 @@ namespace Org.XmlUnit.Input
         {
             return string.Format("ByteArraySource with systemId {0}", SystemId);
         }
+
+        public void Dispose() { }
     }
 }
