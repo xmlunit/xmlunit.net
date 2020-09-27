@@ -9,6 +9,11 @@
   implementations of your own.
   [#33](https://github.com/xmlunit/xmlunit.net/pull/33).
 
+* `DefaultNodeMatcher` with multiple `ElementSelector`s could fail to
+  find the best matches as the order of `ElementSelector`s should
+  select them.
+  Issue similar to [xmlunit/#197](https://github.com/xmlunit/xmlunit/issues/197)
+
 ## XMLUnit.NET 2.8.0 - /Released 2020-05-12/
 
 This version contains a backwards incompatible change to the

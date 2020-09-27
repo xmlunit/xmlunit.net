@@ -74,6 +74,7 @@
     <Compile Include="..\Diff\ByNameAndTextRecSelectorTest.cs" />
     <Compile Include="..\Diff\ChildNodeXPathContextProviderTest.cs" />
     <Compile Include="..\Diff\ComparisonControllersTest.cs" />
+    <Compile Include="..\Diff\DefaultNodeMatcherTest.cs" />
     <Compile Include="..\Diff\DefaultComparisonFormatterTest.cs" />
     <Compile Include="..\Diff\DifferenceEvaluatorsTest.cs" />
     <Compile Include="..\Diff\DifferenceTest.cs" />

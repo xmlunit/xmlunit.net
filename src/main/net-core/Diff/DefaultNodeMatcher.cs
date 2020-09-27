@@ -99,16 +99,25 @@ namespace Org.XmlUnit.Diff {
                 unmatchedTestIndexes.Add(i);
             }
             int controlSize = controlList.Count;
-            MatchInfo lastMatch = new MatchInfo(null, -1);
+            ICollection<int> unmatchedControlIndexes = new HashSet<int>();
             for (int i = 0; i < controlSize; i++) {
-                XmlNode control = controlList[i];
-                MatchInfo testMatch = FindMatchingNode(control, testList,
-                                                       lastMatch.Index,
-                                                       unmatchedTestIndexes);
-                if (testMatch != null) {
-                    unmatchedTestIndexes.Remove(testMatch.Index);
-                    matches.AddLast(new KeyValuePair<XmlNode,
-                                    XmlNode>(control, testMatch.Node));
+                unmatchedControlIndexes.Add(i);
+            }
+            foreach (ElementSelector e in elementSelectors) {
+                MatchInfo lastMatch = new MatchInfo(null, -1);
+                for (int i = 0; i < controlSize; i++) {
+                    if (!unmatchedControlIndexes.Contains(i)) {
+                        continue;
+                    }
+                    XmlNode control = controlList[i];
+                    MatchInfo testMatch = FindMatchingNode(control, testList,
+                        lastMatch.Index, unmatchedTestIndexes, e);
+                    if (testMatch != null) {
+                        unmatchedControlIndexes.Remove(i);
+                        unmatchedTestIndexes.Remove(testMatch.Index);
+                        matches.AddLast(new KeyValuePair<XmlNode,
+                                        XmlNode>(control, testMatch.Node));
+                    }
                 }
             }
             return matches;
@@ -117,26 +126,14 @@ namespace Org.XmlUnit.Diff {
         private MatchInfo FindMatchingNode(XmlNode searchFor,
                                            IList<XmlNode> searchIn,
                                            int indexOfLastMatch,
-                                           ICollection<int> availableIndexes) {
+                                           ICollection<int> availableIndexes,
+                                           ElementSelector e) {
             MatchInfo m = SearchIn(searchFor, searchIn,
                                    availableIndexes,
-                                   indexOfLastMatch + 1, searchIn.Count);
+                                   indexOfLastMatch + 1, searchIn.Count, e);
             return m ?? SearchIn(searchFor, searchIn,
                                  availableIndexes,
-                                 0, indexOfLastMatch);
-        }
-
-        private MatchInfo SearchIn(XmlNode searchFor,
-                                   IList<XmlNode> searchIn,
-                                   ICollection<int> availableIndexes,
-                                   int fromInclusive, int toExclusive) {
-            foreach (ElementSelector e in elementSelectors) {
-                MatchInfo m = SearchIn(searchFor, searchIn, availableIndexes, fromInclusive, toExclusive, e);
-                if (m != null) {
-                    return m;
-                }
-            }
-            return null;
+                                 0, indexOfLastMatch, e);
         }
 
         private MatchInfo SearchIn(XmlNode searchFor,
