@@ -2,14 +2,19 @@
   <Remarks>    <para><format type="text/html"><a href="https://www.xmlunit.org/">XMLUnit</a></format> helps testing code
     that creates XML.</para>
 
-    <para>XMLUnit.NET is separated into two assemblies:</para>
+    <para>XMLUnit.NET is separated into several assemblies:</para>
     <list type="bullet">
-      <item><term><c>xmlunit-core</c> contains all algorithms and
+      <item><term><c>XMLUnit.Core</c> contains all algorithms and
         classes needed to validate XML, perform XPath queries or
         compare two pieces of XML.</term></item>
-      <item><term><c>xmlunit-constraints</c>
-        contains <format type="text/html"><a href="http://nunit.org/">NUnit</a></format>
-        constraints on top of <c>xmlunit-core</c>.</term></item>
+      <item><term><c>XMLUnit.NUnit2.Constraints</c>
+        contains <format type="text/html"><a
+        href="http://nunit.org/">NUnit 2.x</a></format>
+        constraints on top of <c>XMLUnit.Core</c>.</term></item>
+      <item><term><c>XMLUnit.NUnit3.Constraints</c>
+        contains <format type="text/html"><a
+        href="http://nunit.org/">NUnit 3.x</a></format>
+        constraints on top of <c>XMLUnit.Core</c>.</term></item>
     </list>
 
     <para>While XMLUnit is focussed on testing, parts of it may be useful
@@ -31,6 +36,14 @@
 
     <para>The Builder namespace contains fluent builders that may provide an API that is
       more convenient to use in many cases.</para>
+
+    <para>XMLUnit.NET 2.6.0 adds a new experimental component
+      <term><c>XMLUnit.Placeholders</c></term> that aims to provide a
+      small DSL for configuring the test engine via the control XML
+      document rather than code. The initial code base only supports a
+      placeholder of <term><c>${xmlunit.ignore}</c></term> to be used in
+      order to make XMLUnit ignore the element containing this
+      sequence.</para>
 
     <list type="bullet">
       <item><term><format type="text/html"><a href="https://www.xmlunit.org/">XMLUnit's home page</a></format></term></item>
