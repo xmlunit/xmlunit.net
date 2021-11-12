@@ -14,6 +14,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace Org.XmlUnit.Diff {
 
@@ -105,6 +106,36 @@ namespace Org.XmlUnit.Diff {
                 return "[identical]";
             }
             return differences.First().Comparison.ToString(formatter);
+        }
+
+        /// <summary>
+        /// Returns a string representation of this diff using
+        /// internal IComparisonFormatter or DefaultComparisonFormatter
+        /// if formatter wasn't set.
+        /// </summary>
+        /// <remarks>
+        /// Each comparison result separated by the end of the line.
+        /// </remarks>
+        /// <returns>a string representation of this diff</returns>
+        public string FullDescription() {
+            return FullDescription(formatter);
+        }
+
+        /// <summary>
+        /// Returns a string representation of this diff using the
+        /// given IComparisonFormatter}
+        /// </summary>
+        /// <param name="formatter">the formatter to use</param>
+        /// <returns>a string representation of this diff</returns>
+        public string FullDescription(IComparisonFormatter formatter) {
+            if (!HasDifferences()) {
+                return "[identical]";
+            }
+            StringBuilder result = new StringBuilder();
+            foreach (Difference d in Differences) {
+                result.AppendLine(d.Comparison.ToString(formatter));
+            }
+            return result.ToString().TrimEnd();
         }
     }
 }

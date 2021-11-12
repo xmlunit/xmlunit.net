@@ -2,6 +2,12 @@
 
 ## XMLUnit.NET 2.9.1 - /not released, yet/
 
+* added a new `FullDescription` method to `Diff` that provides a
+  string-representation of all differences - not just the first one
+  like `ToString` does.
+  Based on Java PR [xmlunit/#235](https://github.com/xmlunit/xmlunit/issues/235) by
+  [@Boiarshinov](https://github.com/Boiarshinov)
+
 ## XMLUnit.NET 2.9.0 - /Released 2020-10-30/
 
 * `ISource` now extends `IDisposable` to allow releasing unmanaged
