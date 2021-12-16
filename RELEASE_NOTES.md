@@ -1,6 +1,6 @@
 # Release Notes
 
-## XMLUnit.NET 2.9.1 - /not released, yet/
+## XMLUnit.NET 2.9.1 - /Released 2021-12-16/
 
 * improved comparison performance for documents with many siblings
   based on a suggestion by [@gerpres](https://github.com/gerpres) made
