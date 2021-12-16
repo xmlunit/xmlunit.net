@@ -468,13 +468,11 @@ namespace Org.XmlUnit.Diff{
 
             IEnumerable<KeyValuePair<XmlNode, XmlNode>> matches =
                 NodeMatcher.Match(controlSeq, testSeq);
-            IList<XmlNode> controlListForXpath = new List<XmlNode>(allControlChildren);
-            IList<XmlNode> testListForXpath = new List<XmlNode>(allTestChildren);
             IList<XmlNode> controlList = new List<XmlNode>(controlSeq);
             IList<XmlNode> testList = new List<XmlNode>(testSeq);
 
-            IDictionary<XmlNode, int> controlListForXpathIndex = Index(controlListForXpath);
-            IDictionary<XmlNode, int> testListForXpathIndex = Index(testListForXpath);
+            IDictionary<XmlNode, int> controlListForXpathIndex = Index(allControlChildren);
+            IDictionary<XmlNode, int> testListForXpathIndex = Index(allTestChildren);
             IDictionary<XmlNode, int> controlListIndex = Index(controlList);
             IDictionary<XmlNode, int> testListIndex = Index(testList);
 
@@ -743,7 +741,7 @@ namespace Org.XmlUnit.Diff{
             return null;
         }
 
-        private static IDictionary<XmlNode, int> Index(IList<XmlNode> nodes) {
+        private static IDictionary<XmlNode, int> Index(IEnumerable<XmlNode> nodes) {
             IDictionary<XmlNode, int> indices = new Dictionary<XmlNode, int>();
             int idx = 0;
             foreach (XmlNode n in nodes) {
