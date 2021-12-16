@@ -2,6 +2,10 @@
 
 ## XMLUnit.NET 2.9.1 - /not released, yet/
 
+* improved comparison performance for documents with many siblings
+  based on a suggestion by [@gerpres](https://github.com/gerpres) made
+  in Java Issue [xmlunit/#236](https://github.com/xmlunit/xmlunit/issues/236)
+
 * added a new `FullDescription` method to `Diff` that provides a
   string-representation of all differences - not just the first one
   like `ToString` does.

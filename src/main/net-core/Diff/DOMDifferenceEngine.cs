@@ -472,16 +472,22 @@ namespace Org.XmlUnit.Diff{
             IList<XmlNode> testListForXpath = new List<XmlNode>(allTestChildren);
             IList<XmlNode> controlList = new List<XmlNode>(controlSeq);
             IList<XmlNode> testList = new List<XmlNode>(testSeq);
+
+            IDictionary<XmlNode, int> controlListForXpathIndex = Index(controlListForXpath);
+            IDictionary<XmlNode, int> testListForXpathIndex = Index(testListForXpath);
+            IDictionary<XmlNode, int> controlListIndex = Index(controlList);
+            IDictionary<XmlNode, int> testListIndex = Index(testList);
+
             ICollection<XmlNode> seen = new HashSet<XmlNode>();
             foreach (KeyValuePair<XmlNode, XmlNode> pair in matches) {
                 XmlNode control = pair.Key;
                 seen.Add(control);
                 XmlNode test = pair.Value;
                 seen.Add(test);
-                int controlIndexForXpath = controlListForXpath.IndexOf(control);
-                int testIndexForXpath = testListForXpath.IndexOf(test);
-                int controlIndex = controlList.IndexOf(control);
-                int testIndex = testList.IndexOf(test);
+                int controlIndexForXpath = controlListForXpathIndex[control];
+                int testIndexForXpath = testListForXpathIndex[test];
+                int controlIndex = controlListIndex[control];
+                int testIndex = testListIndex[test];
                 controlContext.NavigateToChild(controlIndexForXpath);
                 testContext.NavigateToChild(testIndexForXpath);
                 try {
@@ -500,13 +506,13 @@ namespace Org.XmlUnit.Diff{
             }
 
             return chain
-                .AndThen(UnmatchedControlNodes(controlListForXpath, controlList, controlContext,
+                .AndThen(UnmatchedControlNodes(controlListForXpathIndex, controlList, controlContext,
                     seen, testContext))
-                .AndThen(UnmatchedTestNodes(testListForXpath, testList, testContext, seen,
-                    controlContext));
+                .AndThen(UnmatchedTestNodes(testListForXpathIndex, testList, testContext,
+                    seen, controlContext));
         }
 
-        private Func<ComparisonState> UnmatchedControlNodes(IList<XmlNode> controlListForXpath,
+        private Func<ComparisonState> UnmatchedControlNodes(IDictionary<XmlNode, int> controlListForXpathIndex,
                                                             IList<XmlNode> controlList,
                                                             XPathContext controlContext,
                                                             ICollection<XmlNode> seen,
@@ -517,7 +523,7 @@ namespace Org.XmlUnit.Diff{
                 for (int i = 0; i < controlSize; i++) {
                     if (!seen.Contains(controlList[i])) {
                         controlContext
-                            .NavigateToChild(controlListForXpath.IndexOf(controlList[i]));
+                            .NavigateToChild(controlListForXpathIndex[controlList[i]]);
                         try {
                             chain = chain
                                 .AndThen(new Comparison(ComparisonType.CHILD_LOOKUP,
@@ -536,7 +542,7 @@ namespace Org.XmlUnit.Diff{
             };
         }
 
-        private Func<ComparisonState> UnmatchedTestNodes(IList<XmlNode> testListForXpath,
+        private Func<ComparisonState> UnmatchedTestNodes(IDictionary<XmlNode, int>  testListForXpathIndex,
                                                          IList<XmlNode> testList,
                                                          XPathContext testContext,
                                                          ICollection<XmlNode> seen,
@@ -546,7 +552,7 @@ namespace Org.XmlUnit.Diff{
                 int testSize = testList.Count;
                 for (int i = 0; i < testSize; i++) {
                     if (!seen.Contains(testList[i])) {
-                        testContext.NavigateToChild(testListForXpath.IndexOf(testList[i]));
+                        testContext.NavigateToChild(testListForXpathIndex[testList[i]]);
                         try {
                             chain = chain
                                 .AndThen(new Comparison(ComparisonType.CHILD_LOOKUP,
@@ -737,5 +743,13 @@ namespace Org.XmlUnit.Diff{
             return null;
         }
 
+        private static IDictionary<XmlNode, int> Index(IList<XmlNode> nodes) {
+            IDictionary<XmlNode, int> indices = new Dictionary<XmlNode, int>();
+            int idx = 0;
+            foreach (XmlNode n in nodes) {
+                indices[n] = idx++;
+            }
+            return indices;
+        }
     }
 }
