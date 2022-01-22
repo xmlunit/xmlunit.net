@@ -12,6 +12,8 @@
   limitations under the License.
 */
 
+using System;
+using System.Linq;
 using System.Xml;
 
 namespace Org.XmlUnit.Diff {
@@ -45,5 +47,38 @@ namespace Org.XmlUnit.Diff {
         public static bool AcceptAll(XmlNode n) {
             return true;
          }
+
+        /// <summary>
+        ///   Accepts nodes that are accepted by all given filters.
+        /// </summary>
+        /// <remarks>
+        ///   <para>
+        ///     This short-circuits the given list of predicates and
+        ///     returns false as soon as the first predicate does.
+        ///   </para>
+        ///   <para>
+        ///     since XMLUnit 2.9.2
+        ///   </para>
+        /// </remarks>
+        public static Predicate<XmlNode> SatifiesAll(params Predicate<XmlNode>[] predicates) {
+            return node => predicates.All(p => p(node));
+        }
+
+        /// <summary>
+        ///   Accepts nodes that are accepted by at least on of the given filters.
+        /// </summary>
+        /// <remarks>
+        ///   <para>
+        ///     This short-circuits the given list of predicates and
+        ///     returns true as soon as the first predicate does.
+        ///   </para>
+        ///   <para>
+        ///     since XMLUnit 2.9.2
+        ///   </para>
+        /// </remarks>
+        public static Predicate<XmlNode> SatifiesAny(params Predicate<XmlNode>[] predicates) {
+            return node => predicates.Any(p => p(node));
+        }
+
     }
 }

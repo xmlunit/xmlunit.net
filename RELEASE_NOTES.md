@@ -2,6 +2,11 @@
 
 ## XMLUnit.NET 2.9.2 - /not released, yet/
 
+* added `NodeFilters#SatisfiesAll` and `SatifiesAny` methods to make
+  it easier to combine multiple node filters.
+    added to simplify the use case of
+  [xmlunit/#249](https://github.com/xmlunit/xmlunit/issues/249)
+
 ## XMLUnit.NET 2.9.1 - /Released 2021-12-16/
 
 * improved comparison performance for documents with many siblings

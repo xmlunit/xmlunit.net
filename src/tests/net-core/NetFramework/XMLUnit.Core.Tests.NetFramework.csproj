@@ -81,6 +81,7 @@
     <Compile Include="..\Diff\DOMDifferenceEngineTest.cs" />
     <Compile Include="..\Diff\ElementSelectorsTest.cs" />
     <Compile Include="..\Diff\MultiLevelByNameAndTextSelectorTest.cs" />
+    <Compile Include="..\Diff\NodeFiltersTest.cs" />
     <Compile Include="..\Diff\RecursiveXPathBuilderTest.cs" />
     <Compile Include="..\Diff\XPathContextTest.cs" />
     <Compile Include="..\Input\CommentLessSourceTest.cs" />
