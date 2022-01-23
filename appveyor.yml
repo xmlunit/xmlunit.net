@@ -45,10 +45,10 @@ matrix:
 
 notifications:
   - provider: Email
-    to:
-      - xmlunit-commits@lists.sourceforge.net
     on_build_status_changed: true
     on_build_failure: true
+    to:
+      - xmlunit-commits@lists.sourceforge.net
 
 nuget:
   project_feed: true
