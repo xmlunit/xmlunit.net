@@ -13,6 +13,7 @@ matrix:
     - mono: latest
       script:
         - xbuild XMLUnit.NET.NetFramework.sln
+
 notifications:
   email:
     - xmlunit-commits@lists.sourceforge.net
