@@ -4,8 +4,8 @@ XMLUnit.NET 2.x
 [![nuget](https://img.shields.io/nuget/v/XMLUnit.Core.svg)](https://www.nuget.org/packages/XMLUnit.Core/)
 
 Builds:
-  * Travis CI using Mono 4.0 and .NET Core 2.1 on Linux: [![Build Status XMLUnit.NET 2.x](https://travis-ci.com/xmlunit/xmlunit.net.svg?branch=main)](https://travis-ci.com/xmlunit/xmlunit.net)
-  * AppVeyor using .NET 3.5 and .NET Core 2.0 on Windows: [![Build status](https://ci.appveyor.com/api/projects/status/am34dfbr4vbcarr3?svg=true)](https://ci.appveyor.com/project/bodewig/xmlunit-net)
+  * AppVeyor using .NET 3.5 and .NET Core 2.0 and 7.0 on Windows,
+    .NET Core 7.0 on Linux: [![Build status](https://ci.appveyor.com/api/projects/status/am34dfbr4vbcarr3?svg=true)](https://ci.appveyor.com/project/bodewig/xmlunit-net)
 
 XMLUnit is a library that supports testing XML output in several ways.
 
