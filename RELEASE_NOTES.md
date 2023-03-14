@@ -7,6 +7,11 @@
     added to simplify the use case of
   [xmlunit/#249](https://github.com/xmlunit/xmlunit/issues/249)
 
+* when documents contained element content whitespace represented by
+  `System.Xml.XmlWhitespace` the types and methods that are supposed
+  to strip or normalize whitespace would fail.
+  Issue [#38](https://github.com/xmlunit/xmlunit.net/issues/38)
+
 ## XMLUnit.NET 2.9.1 - /Released 2021-12-16/
 
 * improved comparison performance for documents with many siblings
