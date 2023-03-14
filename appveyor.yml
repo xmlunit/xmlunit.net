@@ -46,7 +46,7 @@ for:
       - packages -> **/packages.config
     before_build:
       - sudo apt update
-      - sudo apt upgrade
+      - sudo apt upgrade --yes
       - nuget restore -DisableParallelProcessing -verbosity detailed XMLUnit.NET.NetFramework.sln
     build_script:
       - xbuild XMLUnit.NET.NetFramework.sln
