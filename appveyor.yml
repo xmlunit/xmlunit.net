@@ -4,6 +4,7 @@ image:
   - Visual Studio 2013
   - Visual Studio 2017
   - Visual Studio 2022
+  - Ubuntu
   - Ubuntu2004
 
 skip_tags: true
@@ -40,7 +41,7 @@ for:
 
   - matrix:
       only:
-        - image: Ubuntu2004
+        - image: Ubuntu
     build_script:
       - xbuild XMLUnit.NET.NetFramework.sln
 
