@@ -39,6 +39,7 @@ for:
 
 install:
   - cmd: git submodule update --init
+  - sh: git submodule update --init
 
 configuration:
   - Debug
