@@ -45,6 +45,8 @@ for:
     cache:
       - packages -> **/packages.config
     before_build:
+      - sudo apt update
+      - sudo apt upgrade
       - nuget restore -DisableParallelProcessing -verbosity detailed XMLUnit.NET.NetFramework.sln
     build_script:
       - xbuild XMLUnit.NET.NetFramework.sln
