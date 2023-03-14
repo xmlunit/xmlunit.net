@@ -38,6 +38,12 @@ for:
       - dotnet test src/tests/net-constraints-nunit3/XMLUnit.NUnit3.Constraints.Test.csproj
       - dotnet test src/tests/net-placeholders/XMLUnit.Placeholders.Tests.csproj
 
+  - matrix:
+      only:
+        - image: Ubuntu2004
+    build_script:
+      - xbuild XMLUnit.NET.NetFramework.sln
+
 install:
   - cmd: git submodule update --init
   - sh: git submodule update --init
