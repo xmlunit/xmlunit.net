@@ -42,6 +42,8 @@ for:
   - matrix:
       only:
         - image: Ubuntu
+    before_build:
+      - nuget restore XMLUnit.NET.NetFramework.sln
     build_script:
       - xbuild XMLUnit.NET.NetFramework.sln
 
