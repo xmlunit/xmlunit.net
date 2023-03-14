@@ -42,8 +42,10 @@ for:
   - matrix:
       only:
         - image: Ubuntu2004
+    cache:
+      - packages -> **/packages.config
     before_build:
-      - nuget restore XMLUnit.NET.NetFramework.sln
+      - appveyor-retry nuget restore -DisableParallelProcessing -verbosity detailed XMLUnit.NET.NetFramework.sln
     build_script:
       - xbuild XMLUnit.NET.NetFramework.sln
 
