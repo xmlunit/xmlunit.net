@@ -5,7 +5,6 @@ image:
   - Visual Studio 2013
   - Visual Studio 2017
   - Visual Studio 2022
-  - Ubuntu
 
 skip_tags: true
 
@@ -28,7 +27,7 @@ for:
       only:
         - image: Visual Studio 2017
         - image: Visual Studio 2022
-        - image: Ubuntu
+        - image: Ubuntu2004
     before_build:
       - dotnet restore XMLUnit.NET.sln
       - dotnet --version
@@ -38,18 +37,6 @@ for:
       - dotnet test src/tests/net-core/XMLUnit.Core.Tests.csproj
       - dotnet test src/tests/net-constraints-nunit3/XMLUnit.NUnit3.Constraints.Test.csproj
       - dotnet test src/tests/net-placeholders/XMLUnit.Placeholders.Tests.csproj
-
-  - matrix:
-      only:
-        - image: Ubuntu2004
-    cache:
-      - packages -> **/packages.config
-    before_build:
-      - sudo apt update
-      - sudo apt upgrade --yes
-      - nuget restore -DisableParallelProcessing -verbosity detailed XMLUnit.NET.NetFramework.sln
-    build_script:
-      - xbuild XMLUnit.NET.NetFramework.sln
 
 install:
   - cmd: git submodule update --init
