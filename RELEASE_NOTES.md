@@ -1,5 +1,7 @@
 # Release Notes
 
+## XMLUnit.NET 2.9.3 - /not released, yet/
+
 ## XMLUnit.NET 2.9.2 - /Released 2023-03-16/
 
 * added `NodeFilters#SatisfiesAll` and `SatifiesAny` methods to make
