@@ -6,9 +6,11 @@
   be compared.
   Inspired by Issue [#xmlunit/259](https://github.com/xmlunit/xmlunit/issues/259)
 
-* `Nodes.StripElementContentWhitespace` had the same problem of not
-  knowning about `XmlWhitespace` that caused
-  Issue [#38](https://github.com/xmlunit/xmlunit.net/issues/38)
+* `Nodes.GetMergedNestedText` and
+  `Nodes.StripElementContentWhitespace` had the same problem of not
+  knowning about `XmlWhitespace` that caused Issue
+  [#38](https://github.com/xmlunit/xmlunit.net/issues/38). And neither
+  of the methods could deal with `XmlSignificantWhitespace` at all.
 
 ## XMLUnit.NET 2.9.2 - /Released 2023-03-16/
 

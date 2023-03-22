@@ -40,7 +40,7 @@ namespace Org.XmlUnit.Util {
         public static string GetMergedNestedText(XmlNode n) {
             return n.ChildNodes
                 .Cast<XmlNode>()
-                .Where(child => child is XmlText || child is XmlCDataSection)
+                .Where(child => IsTextualContentNode(child))
                 .Select(child => child.Value)
                 .Where(s => s != null)
                 .Aggregate(new StringBuilder(), (sb, s) => sb.Append(s))
@@ -147,7 +147,7 @@ namespace Org.XmlUnit.Util {
             foreach (XmlNode child in n.ChildNodes) {
                 HandleWsRec(child, normalize);
                 if (!(n is XmlAttribute)
-                    && (child is XmlText || child is XmlCDataSection || child is XmlWhitespace)
+                    && IsTextualContentNode(child)
                     && child.Value.Length == 0) {
                     toRemove.AddLast(child);
                 }
@@ -199,7 +199,7 @@ namespace Org.XmlUnit.Util {
             foreach (XmlNode child in n.ChildNodes) {
                 StripECW(child);
                 if (!(n is XmlAttribute)
-                    && (child is XmlText || child is XmlCDataSection || child is XmlWhitespace)
+                    && IsTextualContentNode(child)
                     && child.Value.Trim().Length == 0) {
                     toRemove.AddLast(child);
                 }
@@ -207,6 +207,11 @@ namespace Org.XmlUnit.Util {
             foreach (XmlNode child in toRemove) {
                 n.RemoveChild(child);
             }
+        }
+
+        private static bool IsTextualContentNode(XmlNode n) {
+            return n is XmlText || n is XmlCDataSection || n is XmlWhitespace
+                || n is XmlSignificantWhitespace;
         }
     }
 }
