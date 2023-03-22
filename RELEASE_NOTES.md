@@ -2,6 +2,10 @@
 
 ## XMLUnit.NET 2.9.3 - /not released, yet/
 
+* `Nodes.StripElementContentWhitespace` had the same problem of not
+  knowning about `XmlWhitespace` that caused
+  Issue [#38](https://github.com/xmlunit/xmlunit.net/issues/38)
+
 ## XMLUnit.NET 2.9.2 - /Released 2023-03-16/
 
 * added `NodeFilters#SatisfiesAll` and `SatifiesAny` methods to make

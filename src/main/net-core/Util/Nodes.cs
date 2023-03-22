@@ -184,7 +184,7 @@ namespace Org.XmlUnit.Util {
             foreach (XmlNode child in n.ChildNodes) {
                 StripECW(child);
                 if (!(n is XmlAttribute)
-                    && (child is XmlText || child is XmlCDataSection)
+                    && (child is XmlText || child is XmlCDataSection || child is XmlWhitespace)
                     && child.Value.Trim().Length == 0) {
                     toRemove.AddLast(child);
                 }
