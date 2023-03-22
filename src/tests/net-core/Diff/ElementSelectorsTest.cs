@@ -117,6 +117,30 @@ namespace Org.XmlUnit.Diff {
                                                                    differentNS));
         }
 
+        [Test] public void ByNameAndAllAttributesWithFilter() {
+            XmlElement control = doc.CreateElement(FOO);
+            control.SetAttribute(BAR, BAR);
+            XmlElement equal = doc.CreateElement(FOO);
+            equal.SetAttribute(BAR, BAR);
+            equal.SetAttribute("x", "y");
+            XmlElement noAttributes = doc.CreateElement(FOO);
+            XmlElement differentValue = doc.CreateElement(FOO);
+            differentValue.SetAttribute(BAR, FOO);
+            XmlElement differentName = doc.CreateElement(FOO);
+            differentName.SetAttribute(FOO, FOO);
+            XmlElement differentNS = doc.CreateElement(FOO);
+            differentNS.SetAttribute(BAR, SOME_URI, BAR);
+            Predicate<XmlAttribute> filter = a => BAR == a.Name;
+            ElementSelector es = ElementSelectors.ByNameAndAllAttributes(filter);
+
+            Assert.IsTrue(es(control, equal));
+            Assert.IsFalse(es(control, noAttributes));
+            Assert.IsFalse(es(noAttributes, control));
+            Assert.IsFalse(es(control, differentValue));
+            Assert.IsFalse(es(control, differentName));
+            Assert.IsFalse(es(control, differentNS));
+        }
+
         [Test] public void ByNameAndAttributes_NamePart() {
             PureElementNameComparisons(ElementSelectors
                                        .ByNameAndAttributes(new string[] {}));

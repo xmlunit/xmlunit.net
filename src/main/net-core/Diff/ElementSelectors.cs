@@ -152,19 +152,31 @@ namespace Org.XmlUnit.Diff {
         /// Elements with the same local name (and namespace URI - if any)
         /// and attribute values for all attributes can be compared.
         /// </summary>
+        /// <remarks>
+        ///   <para>
+        /// This ElementSelector doesn't know anything about a
+        /// potentially configured attribute filter so may also
+        /// compare attributes that are excluded from comparison by
+        /// the filter. Use the ByNameAndAllAttributes(Predicate)
+        /// passing in your attribute filter if this causes problems.
+        ///   </para>
+        /// </remarks>
         public static bool ByNameAndAllAttributes(XmlElement controlElement,
                                                   XmlElement testElement) {
-            if (!ByName(controlElement, testElement)) {
-                return false;
-            }
-            IDictionary<XmlQualifiedName, string> cAttrs =
-                Nodes.GetAttributes(controlElement);
-            IDictionary<XmlQualifiedName, string> tAttrs =
-                Nodes.GetAttributes(testElement);
-            if (cAttrs.Count != tAttrs.Count) {
-                return false;
-            }
-            return MapsEqualForKeys(cAttrs, tAttrs, cAttrs.Keys);
+            return ByNameAndAllAttributes(ignored => true, controlElement, testElement);
+        }
+
+        /// <summary>
+        /// Elements with the same local name (and namespace URI - if any)
+        /// and attribute values for all attributes can be compared.
+        /// </summary>
+        /// <remarks>
+        ///   <para>
+        /// since XMLUnit 2.9.3
+        ///   </para>
+        /// </remarks>
+        public static ElementSelector ByNameAndAllAttributes(Predicate<XmlAttribute> attributeFiler) {
+            return (control, test) => ByNameAndAllAttributes(attributeFiler, control, test);
         }
 
         /// <summary>
@@ -418,6 +430,22 @@ namespace Org.XmlUnit.Diff {
                 return control.TryGetValue(q, out c) != test.TryGetValue(q, out t)
                     || !object.Equals(c, t);
             });
+        }
+
+        private static bool ByNameAndAllAttributes(Predicate<XmlAttribute> attributeFiler,
+                                                   XmlElement controlElement,
+                                                   XmlElement testElement) {
+            if (!ByName(controlElement, testElement)) {
+                return false;
+            }
+            IDictionary<XmlQualifiedName, string> cAttrs =
+                Nodes.GetAttributes(controlElement, attributeFiler);
+            IDictionary<XmlQualifiedName, string> tAttrs =
+                Nodes.GetAttributes(testElement, attributeFiler);
+            if (cAttrs.Count != tAttrs.Count) {
+                return false;
+            }
+            return MapsEqualForKeys(cAttrs, tAttrs, cAttrs.Keys);
         }
 
     }

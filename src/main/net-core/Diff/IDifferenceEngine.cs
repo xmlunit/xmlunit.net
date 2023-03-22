@@ -82,6 +82,12 @@ namespace Org.XmlUnit.Diff {
         /// If you want to suppress comparison of them you'll need to
         /// implement <see cref="DifferenceEvaluator"/>
         ///   </para>
+        ///   <para>
+        /// Note that NodeMatcher will not by aware of the configured
+        /// attribute filter and if its decision is based on
+        /// attributes it will in general also consider attributes the
+        /// filter would suppress.
+        ///   </para>
         /// </remarks>
         Predicate<XmlAttribute> AttributeFilter { set; }
 

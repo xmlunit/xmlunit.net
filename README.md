@@ -222,3 +222,9 @@ assemblies. In order to run the tests use
 > dotnet test src/tests/net-constraints-nunit3/XMLUnit.NUnit3.Constraints.Test.csproj
 > dotnet test src/tests/net-placeholders/XMLUnit.Placeholders.Tests.csproj
 ```
+
+You may need to specify
+[`--roll-forward`](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet#rollforward)
+of
+[`DOTNET_ROLL_FORWARD`](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-environment-variables#dotnet_roll_forward)
+to run the tests when using recent versions of .NET.

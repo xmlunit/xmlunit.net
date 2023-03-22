@@ -2,6 +2,10 @@
 
 ## XMLUnit.NET 2.9.3 - /not released, yet/
 
+* add a new `ElementSelectors.ByNameAndAllAttributes` variant that filters attributes before deciding whether elements can
+  be compared.
+  Inspired by Issue [#xmlunit/259](https://github.com/xmlunit/xmlunit/issues/259)
+
 * `Nodes.StripElementContentWhitespace` had the same problem of not
   knowning about `XmlWhitespace` that caused
   Issue [#38](https://github.com/xmlunit/xmlunit.net/issues/38)

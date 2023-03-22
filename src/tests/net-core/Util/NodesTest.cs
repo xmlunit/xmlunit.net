@@ -123,6 +123,15 @@ namespace Org.XmlUnit.Util {
             Assert.AreEqual(BAR, m[new XmlQualifiedName(FOO, SOME_URI)]);
         }
 
+        [Test] public void AttributeMapWithFilter() {
+            XmlElement e = doc.CreateElement(FOO);
+            e.SetAttribute(FOO, BAR);
+            e.SetAttribute("x", "y");
+            IDictionary<XmlQualifiedName, string> m = Nodes.GetAttributes(e, a => FOO == a.Name);
+            Assert.AreEqual(1, m.Count);
+            Assert.AreEqual(BAR, m[new XmlQualifiedName(FOO)]);
+        }
+
         private XmlDocument HandleWsSetup() {
             return Convert.ToDocument(InputBuilder.FromString(
                 "<root>\n"

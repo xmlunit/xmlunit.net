@@ -12,6 +12,7 @@
   limitations under the License.
 */
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -51,9 +52,23 @@ namespace Org.XmlUnit.Util {
         /// </summary>
         public static IDictionary<XmlQualifiedName, string>
             GetAttributes(XmlNode n) {
+            return GetAttributes(n, ignored => true);
+        }
+
+        /// <summary>
+        /// Obtains an element's attributes as dictionary.
+        /// </summary>
+        /// <remarks>
+        ///  <para>
+        /// since XMLUnit 2.9.3
+        ///  </para>
+        /// </remarks>
+        public static IDictionary<XmlQualifiedName, string>
+            GetAttributes(XmlNode n, Predicate<XmlAttribute> attributeFilter) {
             XmlAttributeCollection coll = n.Attributes;
             if (coll != null) {
                 return coll.Cast<XmlAttribute>()
+                    .Where(a => attributeFilter(a))
                     .ToDictionary<XmlAttribute, XmlQualifiedName, string>(GetQName,
                                                                           a => a.Value);
             }
