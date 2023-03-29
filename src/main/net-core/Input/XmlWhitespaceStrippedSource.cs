@@ -29,6 +29,9 @@ namespace Org.XmlUnit.Input {
     /// other text nodes alone you should use
     /// ElementContentWhitespaceStrippedSource instead.
     ///   </para>
+    ///   <para>
+    /// since XMLUnit 2.10.0
+    ///   </para>
     /// </remarks>
     public class XmlWhitespaceStrippedSource : DOMSource {
         /// <summary>

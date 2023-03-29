@@ -60,7 +60,7 @@ namespace Org.XmlUnit.Util {
         /// </summary>
         /// <remarks>
         ///  <para>
-        /// since XMLUnit 2.9.3
+        /// since XMLUnit 2.10.0
         ///  </para>
         /// </remarks>
         public static IDictionary<XmlQualifiedName, string>
@@ -96,6 +96,9 @@ namespace Org.XmlUnit.Util {
         /// characters XML considers whitespace according to
         /// <see href="https://www.w3.org/TR/xml11/#NT-S"/>.
         /// </summary>
+        ///   <para>
+        /// since XMLUnit 2.10.0
+        ///   </para>
         public static XmlNode StripXmlWhitespace(XmlNode original) {
             XmlNode cloned = original.CloneNode(true);
             cloned.Normalize();
@@ -173,8 +176,6 @@ namespace Org.XmlUnit.Util {
         /// Trims textual content of this node, removes empty text and
         /// CDATA children, recurses into its child nodes.
         /// </summary>
-        /// <parameter name="normalize">whether to normalize
-        /// whitespace as well</parameter>
         private static void HandleWsRec(XmlNode n, Func<XmlNode, String> handleWs) {
             if (n is XmlCharacterData || n is XmlProcessingInstruction) {
                 n.Value = handleWs(n);

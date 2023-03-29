@@ -1,6 +1,6 @@
 # Release Notes
 
-## XMLUnit.NET 2.9.3 - /not released, yet/
+## XMLUnit.NET 2.10.0 - /not released, yet/
 
 * add a new `ElementSelectors.ByNameAndAllAttributes` variant that filters attributes before deciding whether elements can
   be compared.
@@ -16,7 +16,7 @@
   are considered whitespace by the [XML
   Specification](https://www.w3.org/TR/xml11/#NT-S) from textual
   content.
-  Issue [xmlunit/#260](https://github.com/xmlunit/xmlunit/issues/260).
+  Issue [#39](https://github.com/xmlunit/xmlunit.net/issues/39).
 
 ## XMLUnit.NET 2.9.2 - /Released 2023-03-16/
 

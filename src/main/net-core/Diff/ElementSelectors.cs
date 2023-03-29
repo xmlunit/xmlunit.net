@@ -172,7 +172,7 @@ namespace Org.XmlUnit.Diff {
         /// </summary>
         /// <remarks>
         ///   <para>
-        /// since XMLUnit 2.9.3
+        /// since XMLUnit 2.10.0
         ///   </para>
         /// </remarks>
         public static ElementSelector ByNameAndAllAttributes(Predicate<XmlAttribute> attributeFiler) {
