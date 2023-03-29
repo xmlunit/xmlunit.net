@@ -110,6 +110,7 @@
     <Compile Include="..\Input\StringSource.cs" />
     <Compile Include="..\Input\WhitespaceNormalizedSource.cs" />
     <Compile Include="..\Input\WhitespaceStrippedSource.cs" />
+    <Compile Include="..\Input\XmlWhitespaceStrippedSource.cs" />
     <Compile Include="..\ISource.cs" />
     <Compile Include="..\Transform\Transformation.cs" />
     <Compile Include="..\Util\Convert.cs" />

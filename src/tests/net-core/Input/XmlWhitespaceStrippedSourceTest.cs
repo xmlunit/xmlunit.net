@@ -19,32 +19,31 @@ using NUnit.Framework;
 namespace Org.XmlUnit.Input {
 
     [TestFixture]
-    public class WhitespaceStrippedSourceTest {
+    public class XmlWhitespaceStrippedSourceTest {
 
         [Test]
-        public void WhitespaceIsStrippedProperly() {
-            WhitespaceIsStrippedProperly(new XmlDocument());
+        public void XmlWhitespaceIsStrippedProperly() {
+            XmlWhitespaceIsStrippedProperly(new XmlDocument());
         }
 
-        // see https://github.com/xmlunit/xmlunit.net/issues/38
         [Test]
-        public void WhitespaceIsStrippedProperlyEvenWithPreserveWhitespaceDoc() {
+        public void XmlWhitespaceIsStrippedProperlyEvenWithPreserveWhitespaceDoc() {
             XmlDocument testDoc = new XmlDocument();
             testDoc.PreserveWhitespace = true;
-            WhitespaceIsStrippedProperly(testDoc);
+            XmlWhitespaceIsStrippedProperly(testDoc);
         }
 
-        private void WhitespaceIsStrippedProperly(XmlDocument testDoc) {
+        private void XmlWhitespaceIsStrippedProperly(XmlDocument testDoc) {
             string testXml = "<a>\n <b>\n  Test Value\u00a0\n </b>\n</a>";
             testDoc.LoadXml(testXml);
-            WhitespaceStrippedSource s = new WhitespaceStrippedSource(new DOMSource(testDoc));
+            XmlWhitespaceStrippedSource s = new XmlWhitespaceStrippedSource(new DOMSource(testDoc));
             XmlNode root = s.Node;
             Assert.AreEqual(1, root.ChildNodes.Count);
             XmlNode a = root.FirstChild;
             Assert.AreEqual(1, a.ChildNodes.Count);
             XmlNode b = a.FirstChild;
             Assert.AreEqual(1, b.ChildNodes.Count);
-            Assert.AreEqual("Test Value", b.FirstChild.Value);
+            Assert.AreEqual("Test Value\u00a0", b.FirstChild.Value);
         }
     }
 }

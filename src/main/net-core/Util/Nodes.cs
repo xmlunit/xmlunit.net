@@ -84,7 +84,22 @@ namespace Org.XmlUnit.Util {
         public static XmlNode StripWhitespace(XmlNode original) {
             XmlNode cloned = original.CloneNode(true);
             cloned.Normalize();
-            HandleWsRec(cloned, false);
+            HandleWsRec(cloned, TrimValue);
+            return cloned;
+        }
+
+        /// <summary>
+        /// Creates a new Node (of the same type as the original node)
+        /// that is similar to the orginal but doesn't contain any
+        /// empty text or CDATA nodes and where all textual content
+        /// including attribute values or comments are trimmed of
+        /// characters XML considers whitespace according to
+        /// <see href="https://www.w3.org/TR/xml11/#NT-S"/>.
+        /// </summary>
+        public static XmlNode StripXmlWhitespace(XmlNode original) {
+            XmlNode cloned = original.CloneNode(true);
+            cloned.Normalize();
+            HandleWsRec(cloned, XmlTrimValue);
             return cloned;
         }
 
@@ -104,7 +119,7 @@ namespace Org.XmlUnit.Util {
         public static XmlNode NormalizeWhitespace(XmlNode original) {
             XmlNode cloned = original.CloneNode(true);
             cloned.Normalize();
-            HandleWsRec(cloned, true);
+            HandleWsRec(cloned, TrimAndNormalizeValue);
             return cloned;
         }
 
@@ -130,22 +145,43 @@ namespace Org.XmlUnit.Util {
         }
 
         /// <summary>
+        /// Returns the nodes' value trimmed of all whitespace.
+        /// <summary>
+        private static String TrimValue(XmlNode n) {
+            return n.Value.Trim();
+        }
+
+        /// <summary>
+        /// Returns the nodes' value trimmed of all whitespace and Normalized
+        /// <summary>
+        private static String TrimAndNormalizeValue(XmlNode n) {
+            return Normalize(TrimValue(n));
+        }
+
+        private static readonly char[] XML_WHITESPACE_CHARS = {
+            ' ', '\r', '\n', '\t'
+        };
+
+        /// <summary>
+        /// Returns the nodes' value trimmed of all characters XML considers whitespace.
+        /// <summary>
+        private static String XmlTrimValue(XmlNode n) {
+            return n.Value.Trim(XML_WHITESPACE_CHARS);
+        }
+
+        /// <summary>
         /// Trims textual content of this node, removes empty text and
         /// CDATA children, recurses into its child nodes.
         /// </summary>
         /// <parameter name="normalize">whether to normalize
         /// whitespace as well</parameter>
-        private static void HandleWsRec(XmlNode n, bool normalize) {
+        private static void HandleWsRec(XmlNode n, Func<XmlNode, String> handleWs) {
             if (n is XmlCharacterData || n is XmlProcessingInstruction) {
-                string s = n.Value.Trim();
-                if (normalize) {
-                    s = Normalize(s);
-                }
-                n.Value = s;
+                n.Value = handleWs(n);
             }
             LinkedList<XmlNode> toRemove = new LinkedList<XmlNode>();
             foreach (XmlNode child in n.ChildNodes) {
-                HandleWsRec(child, normalize);
+                HandleWsRec(child, handleWs);
                 if (!(n is XmlAttribute)
                     && IsTextualContentNode(child)
                     && child.Value.Length == 0) {
@@ -158,7 +194,7 @@ namespace Org.XmlUnit.Util {
             XmlNamedNodeMap attrs = n.Attributes;
             if (attrs != null) {
                 foreach (XmlAttribute a in attrs) {
-                    HandleWsRec(a, normalize);
+                    HandleWsRec(a, handleWs);
                 }
             }
         }

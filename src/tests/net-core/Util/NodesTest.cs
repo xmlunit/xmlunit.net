@@ -135,7 +135,7 @@ namespace Org.XmlUnit.Util {
         private XmlDocument HandleWsSetup() {
             return Convert.ToDocument(InputBuilder.FromString(
                 "<root>\n"
-                + "<!-- trim\tme -->\n"
+                + "<!--\u00a0 trim\tme\u00a0 -->\n"
                 + "<child attr=' trim me ' attr2='not me'>\n"
                 + " trim me \n"
                 + "</child><![CDATA[ trim me ]]>\n"
@@ -156,9 +156,20 @@ namespace Org.XmlUnit.Util {
                 XmlNode>(toTest, Nodes.NormalizeWhitespace(toTest));
         }
 
+        private KeyValuePair<XmlDocument, XmlNode> StripXmlWsSetup() {
+            XmlDocument toTest = HandleWsSetup();
+            return new KeyValuePair<XmlDocument,
+                XmlNode>(toTest, Nodes.StripXmlWhitespace(toTest));
+        }
+
         [Test]
         public void StripWhitespaceWorks() {
             HandleWsWorks(StripWsSetup(), "trim\tme");
+        }
+
+        [Test]
+        public void StripXmlWhitespaceWorks() {
+            HandleWsWorks(StripXmlWsSetup(), "\u00a0 trim\tme\u00a0");
         }
 
         [Test]
@@ -210,6 +221,11 @@ namespace Org.XmlUnit.Util {
         }
 
         [Test]
+        public void StripXmlWhitespaceDoesntAlterOriginal() {
+            HandleWsDoesntAlterOriginal(StripXmlWsSetup());
+        }
+
+        [Test]
         public void NormalizeWhitespaceDoesntAlterOriginal() {
             HandleWsDoesntAlterOriginal(NormalizeWsSetup());
         }
@@ -224,7 +240,7 @@ namespace Org.XmlUnit.Util {
             Assert.AreEqual(5, rootsChildren.Count);
             Assert.IsTrue(rootsChildren[0] is XmlComment,
                           "should be comment, is " + rootsChildren[0].GetType());
-            Assert.AreEqual(" trim\tme ",
+            Assert.AreEqual("\u00a0 trim\tme\u00a0 ",
                             ((XmlComment) rootsChildren[0]).Data);
             Assert.IsTrue(rootsChildren[1] is XmlElement,
                           "should be element, is " + rootsChildren[1].GetType());
@@ -277,7 +293,7 @@ namespace Org.XmlUnit.Util {
             Assert.AreEqual(4, rootsChildren.Count);
             Assert.IsTrue(rootsChildren[0] is XmlComment,
                           "should be comment, is " + rootsChildren[0].GetType());
-            Assert.AreEqual(" trim\tme ",
+            Assert.AreEqual("\u00a0 trim\tme\u00a0 ",
                             ((XmlComment) rootsChildren[0]).Data);
             Assert.IsTrue(rootsChildren[1] is XmlElement,
                           "should be element, is " + rootsChildren[1].GetType());
