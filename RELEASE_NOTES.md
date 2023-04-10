@@ -12,11 +12,13 @@
   [#38](https://github.com/xmlunit/xmlunit.net/issues/38). And neither
   of the methods could deal with `XmlSignificantWhitespace` at all.
 
-* add `XmlWhitespaceStrippedSource`, `XmlWhitespaceNormalizedSource`
+* add `XmlWhitespaceStrippedSource`, `XmlWhitespaceNormalizedSource`,
   and `XmlElementContentWhitespaceStrippedSource` that only trim
   characters that are considered whitespace by the [XML
   Specification](https://www.w3.org/TR/xml11/#NT-S) from textual
   content.
+  Also added new modifiers to `DiffBuilder` that make use of the new
+  `ISource` types.
   Issue [#39](https://github.com/xmlunit/xmlunit.net/issues/39).
 
 ## XMLUnit.NET 2.9.2 - /Released 2023-03-16/
