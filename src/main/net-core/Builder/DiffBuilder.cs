@@ -79,6 +79,12 @@ namespace Org.XmlUnit.Builder {
 
         private bool ignoreECW;
 
+        private bool ignoreXmlWhitespace;
+
+        private bool normalizeXmlWhitespace;
+
+        private bool ignoreXmlECW;
+
         private bool ignoreComments;
 
         private string ignoreCommentVersion = null;
@@ -121,11 +127,40 @@ namespace Org.XmlUnit.Builder {
         /// If you only want to remove text nodes consisting solely of
         /// whitespace (AKA element content whitespace) but leave all
         /// other text nodes alone you should use
-        /// ignoreElementContentWhitespace instead.
+        /// <see cref="IgnoreElementContentWhitespace"/> instead.
         ///   </para>
+        ///  <para>
+        /// Unlike <see cref="IgnoreXmlWhitespace"/> this uses Unicode's idea
+        /// of whitespace rather than the more restricted subset considered
+        /// whitespace by XML.
+        ///  </para>
         /// </remarks>
         public DiffBuilder IgnoreWhitespace() {
             ignoreWhitespace = true;
+            return this;
+        }
+
+        /// <summary>
+        ///   Ignore XML whitespace by removing all empty text nodes and trimming the non-empty ones.
+        /// </summary>
+        /// <remarks>
+        ///   <para>
+        /// If you only want to remove text nodes consisting solely of
+        /// whitespace (AKA element content whitespace) but leave all
+        /// other text nodes alone you should use
+        /// <see cref="IgnoreXmlElementContentWhitespace"/> instead.
+        ///   </para>
+        ///   <para>
+        /// Unlike <see cref="IgnoreWhitespace"/> this uses XML's idea
+        /// of whitespace rather than the more extensive set considered
+        /// whitespace by Unicode.
+        ///   </para>
+        ///   <para>
+        /// since XMLUnit 2.10.0
+        ///   </para>
+        /// </remarks>
+        public DiffBuilder IgnoreXmlWhitespace() {
+            ignoreXmlWhitespace = true;
             return this;
         }
 
@@ -134,12 +169,36 @@ namespace Org.XmlUnit.Builder {
         /// nodes solely consisting of whitespace.
         /// </summary>
         /// <remarks>
+        ///  <para>
+        /// Unlike <see cref="IgnoreXmlElementContentWhitespace"/> this uses Unicode's idea
+        /// of whitespace rather than the more restricted subset considered
+        /// whitespace by XML.
+        ///  </para>
         ///   <para>
         /// since XMLUnit 2.6.0
         ///   </para>
         /// </remarks>
         public DiffBuilder IgnoreElementContentWhitespace() {
             ignoreECW = true;
+            return this;
+        }
+
+        /// <summary>
+        /// Ignore element content whitespace by removing all text
+        /// nodes solely consisting of XML whitespace.
+        /// </summary>
+        /// <remarks>
+        ///   <para>
+        /// Unlike <see cref="IgnoreElementContentWhitespace"/> this uses XML's idea
+        /// of whitespace rather than the more extensive set considered
+        /// whitespace by Unicode.
+        ///   </para>
+        ///   <para>
+        /// since XMLUnit 2.10.0
+        ///   </para>
+        /// </remarks>
+        public DiffBuilder IgnoreXmlElementContentWhitespace() {
+            ignoreXmlECW = true;
             return this;
         }
 
@@ -152,9 +211,45 @@ namespace Org.XmlUnit.Builder {
         ///     characters are replaced by space characters and
         ///     consecutive whitespace characters are collapsed.
         ///   </para>
+        ///   <para>
+        /// This method is similiar to <see cref="IgnoreWhitespace"/>
+        /// but in addition "normalizes" whitespace.
+        ///   </para>
+        ///  <para>
+        /// Unlike <see cref="NormalizeXmlWhitespace"/> this uses Unicode's idea
+        /// of whitespace rather than the more restricted subset considered
+        /// whitespace by XML.
+        ///  </para>
         /// </remarks>
         public DiffBuilder NormalizeWhitespace() {
             normalizeWhitespace = true;
+            return this;
+        }
+
+        /// <summary>
+        ///   Normalize Text-Elements by removing all empty text nodes and normalizing the non-empty ones.
+        /// </summary>
+        /// <remarks>
+        ///   <para>
+        ///     "normalized" in this context means all XML whitespace
+        ///     characters are replaced by space characters and
+        ///     consecutive XML whitespace characters are collapsed.
+        ///   </para>
+        ///   <para>
+        /// This method is similiar to <see cref="IgnoreXmlWhitespace"/>
+        /// but in addition "normalizes" XML whitespace.
+        ///   </para>
+        ///   <para>
+        /// Unlike <see cref="NormalizeWhitespace"/> this uses XML's idea
+        /// of whitespace rather than the more extensive set considered
+        /// whitespace by Unicode.
+        ///   </para>
+        ///   <para>
+        /// since XMLUnit 2.10.0
+        ///   </para>
+        /// </remarks>
+        public DiffBuilder NormalizeXmlWhitespace() {
+            normalizeXmlWhitespace = true;
             return this;
         }
 
@@ -405,8 +500,14 @@ namespace Org.XmlUnit.Builder {
             if (ignoreWhitespace) {
                 newSource = new WhitespaceStrippedSource(newSource);
             }
+            if (ignoreXmlWhitespace) {
+                newSource = new XmlWhitespaceStrippedSource(newSource);
+            }
             if (normalizeWhitespace) {
                 newSource = new WhitespaceNormalizedSource(newSource);
+            }
+            if (normalizeXmlWhitespace) {
+                newSource = new XmlWhitespaceNormalizedSource(newSource);
             }
             if (ignoreComments) {
                 newSource = ignoreCommentVersion == null
@@ -415,6 +516,9 @@ namespace Org.XmlUnit.Builder {
             }
             if (ignoreECW) {
                 newSource = new ElementContentWhitespaceStrippedSource(newSource);
+            }
+            if (ignoreXmlECW) {
+                newSource = new XmlElementContentWhitespaceStrippedSource(newSource);
             }
             return newSource;
         }

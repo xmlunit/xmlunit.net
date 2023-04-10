@@ -57,6 +57,38 @@ namespace Org.XmlUnit.Builder {
         }
 
         [Test]
+        public void IgnoreWhitespaceAndIgnoreXmlWhitespaceWorkAsExpected() {
+            // prepare testData
+            string controlXml = "<a><b>Test Value</b></a>";
+            string testXml1 = "<a>\n <b>\n  Test Value\n </b>\n</a>";
+            string testXml2 = "<a>\n\u00a0<b>\n  Test Value\n </b>\n</a>";
+
+            // run test
+            var plainDiff1 = DiffBuilder.Compare(Input.FromString(controlXml).Build())
+                .WithTest(Input.FromString(testXml1).Build())
+                .IgnoreWhitespace()
+                .Build();
+            var xmlDiff1 = DiffBuilder.Compare(Input.FromString(controlXml).Build())
+                .WithTest(Input.FromString(testXml1).Build())
+                .IgnoreXmlWhitespace()
+                .Build();
+            var plainDiff2 = DiffBuilder.Compare(Input.FromString(controlXml).Build())
+                .WithTest(Input.FromString(testXml2).Build())
+                .IgnoreWhitespace()
+                .Build();
+            var xmlDiff2 = DiffBuilder.Compare(Input.FromString(controlXml).Build())
+                .WithTest(Input.FromString(testXml2).Build())
+                .IgnoreXmlWhitespace()
+                .Build();
+
+            // validate result
+            Assert.IsFalse(plainDiff1.HasDifferences(), "XML similar " + plainDiff1.ToString());
+            Assert.IsFalse(xmlDiff1.HasDifferences(), "XML similar " + xmlDiff1.ToString());
+            Assert.IsFalse(plainDiff2.HasDifferences(), "XML similar " + plainDiff2.ToString());
+            Assert.IsTrue(xmlDiff2.HasDifferences(), "XML similar " + xmlDiff2.ToString());
+        }
+
+        [Test]
         public void TestDiff_withoutNormalizeWhitespaces_shouldFail() {
             // prepare testData
             string controlXml = "<a><b>Test Value</b></a>";
@@ -85,6 +117,38 @@ namespace Org.XmlUnit.Builder {
 
             // validate result
             Assert.IsFalse(myDiff.HasDifferences(), "XML similar " + myDiff.ToString());
+        }
+
+        [Test]
+        public void NormalizeWhitespaceAndNormalizeXmlWhitespaceWorkAsExpected() {
+            // prepare testData
+            string controlXml = "<a><b>Test Value</b></a>";
+            string testXml1 = "<a>\n <b>\n  Test\nValue\n </b>\n</a>";
+            string testXml2 = "<a>\n <b>\n  Test\u00a0Value\n </b>\n</a>";
+
+            // run test
+            var plainDiff1 = DiffBuilder.Compare(Input.FromString(controlXml).Build())
+                .WithTest(Input.FromString(testXml1).Build())
+                .NormalizeWhitespace()
+                .Build();
+            var xmlDiff1 = DiffBuilder.Compare(Input.FromString(controlXml).Build())
+                .WithTest(Input.FromString(testXml1).Build())
+                .NormalizeXmlWhitespace()
+                .Build();
+            var plainDiff2 = DiffBuilder.Compare(Input.FromString(controlXml).Build())
+                .WithTest(Input.FromString(testXml2).Build())
+                .NormalizeWhitespace()
+                .Build();
+            var xmlDiff2 = DiffBuilder.Compare(Input.FromString(controlXml).Build())
+                .WithTest(Input.FromString(testXml2).Build())
+                .NormalizeXmlWhitespace()
+                .Build();
+
+            // validate result
+            Assert.IsFalse(plainDiff1.HasDifferences(), "XML similar " + plainDiff1.ToString());
+            Assert.IsFalse(xmlDiff1.HasDifferences(), "XML similar " + xmlDiff1.ToString());
+            Assert.IsFalse(plainDiff2.HasDifferences(), "XML similar " + plainDiff2.ToString());
+            Assert.IsTrue(xmlDiff2.HasDifferences(), "XML similar " + xmlDiff2.ToString());
         }
 
         [Test]
@@ -484,6 +548,38 @@ namespace Org.XmlUnit.Builder {
 
             // validate result
             Assert.IsFalse(myDiff.HasDifferences(), "XML similar " + myDiff.ToString());
+        }
+
+        [Test]
+        public void IgnoreElementContentWhitespacesAndIgnoreXmlElementContentWhitespacesWorkAsExpected() {
+            // prepare testData
+            string controlXml = "<a><b>Test Value</b></a>";
+            string testXml1 = "<a>\n <b>Test Value</b>\n</a>";
+            string testXml2 = "<a>\n <b>Test Value</b>\u00a0</a>";
+
+            // run test
+            var plainDiff1 = DiffBuilder.Compare(Input.FromString(controlXml).Build())
+                .WithTest(Input.FromString(testXml1).Build())
+                .IgnoreElementContentWhitespace()
+                .Build();
+            var plainDiff2 = DiffBuilder.Compare(Input.FromString(controlXml).Build())
+                .WithTest(Input.FromString(testXml2).Build())
+                .IgnoreElementContentWhitespace()
+                .Build();
+            var xmlDiff1 = DiffBuilder.Compare(Input.FromString(controlXml).Build())
+                .WithTest(Input.FromString(testXml1).Build())
+                .IgnoreXmlElementContentWhitespace()
+                .Build();
+            var xmlDiff2 = DiffBuilder.Compare(Input.FromString(controlXml).Build())
+                .WithTest(Input.FromString(testXml2).Build())
+                .IgnoreXmlElementContentWhitespace()
+                .Build();
+
+            // validate result
+            Assert.IsFalse(plainDiff1.HasDifferences(), "XML similar " + plainDiff1.ToString());
+            Assert.IsFalse(plainDiff2.HasDifferences(), "XML similar " + plainDiff2.ToString());
+            Assert.IsFalse(xmlDiff1.HasDifferences(), "XML similar " + xmlDiff1.ToString());
+            Assert.IsTrue(xmlDiff2.HasDifferences(), "XML similar " + xmlDiff2.ToString());
         }
 
         internal class DummyComparisonFormatter : IComparisonFormatter {
