@@ -22,6 +22,11 @@ namespace Org.XmlUnit.Input {
     /// </summary>
     /// <remarks>
     ///   <para>
+    /// Unlike <see cref="XmlElementContentWhitespaceStrippedSource"/> this class uses
+    /// Unicode's idea of whitespace rather than the more restricted
+    /// subset considered whitespace by XML.
+    ///   </para>
+    ///   <para>
     ///   since XMLUnit 2.6.0
     ///   </para>
     /// </remarks>

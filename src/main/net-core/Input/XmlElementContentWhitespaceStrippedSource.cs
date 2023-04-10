@@ -17,29 +17,27 @@ using Org.XmlUnit.Util;
 namespace Org.XmlUnit.Input {
 
     /// <summary>
-    /// A source that is obtained from a different source by removing
-    /// all empty text nodes and trimming the non-empty ones.
+    /// A source that is obtained from a different source by removing all
+    /// text nodes that only contain whitespace.
     /// </summary>
     /// <remarks>
     ///   <para>
-    /// If you only want to remove text nodes consisting solely of
-    /// whitespace (AKA element content whitespace) but leave all
-    /// other text nodes alone you should use
-    /// ElementContentWhitespaceStrippedSource instead.
+    /// Unlike <see cref="ElementContentWhitespaceStrippedSource"/>
+    /// this class uses XML's idea of whitespace rather than the more
+    /// extensive set considered whitespace by Unicode.
     ///   </para>
     ///   <para>
-    /// Unlike <see cref="XmlWhitespaceStrippedSource"/> this class uses
-    /// Unicode's idea of whitespace rather than the more restricted
-    /// subset considered whitespace by XML.
+    ///   since XMLUnit 2.10.0
     ///   </para>
     /// </remarks>
-    public class WhitespaceStrippedSource : DOMSource {
+    public class XmlElementContentWhitespaceStrippedSource : DOMSource {
         /// <summary>
-        /// Creates a new Source with the same content as another source trimming whitespace from Text nodes.
+        /// Creates a new source that consists of the given source with all
+        /// text nodes that only contain whitespace stripped.
         /// </summary>
         /// <param name="originalSource">source with the original content</param>
-        public WhitespaceStrippedSource(ISource originalSource) :
-            base(Nodes.StripWhitespace(originalSource.ToDocument())) {
+        public XmlElementContentWhitespaceStrippedSource(ISource originalSource) :
+            base(Nodes.StripXmlElementContentWhitespace(originalSource.ToDocument())) {
             SystemId = originalSource.SystemId;
         }
     }

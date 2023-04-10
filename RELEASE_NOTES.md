@@ -12,8 +12,9 @@
   [#38](https://github.com/xmlunit/xmlunit.net/issues/38). And neither
   of the methods could deal with `XmlSignificantWhitespace` at all.
 
-* add `XmlWhitespaceStrippedSource` that only trims characters that
-  are considered whitespace by the [XML
+* add `XmlWhitespaceStrippedSource`, `XmlWhitespaceNormalizedSource`
+  and `XmlElementContentWhitespaceStrippedSource` that only trim
+  characters that are considered whitespace by the [XML
   Specification](https://www.w3.org/TR/xml11/#NT-S) from textual
   content.
   Issue [#39](https://github.com/xmlunit/xmlunit.net/issues/39).

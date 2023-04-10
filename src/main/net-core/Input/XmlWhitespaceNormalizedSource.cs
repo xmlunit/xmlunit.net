@@ -18,19 +18,20 @@ namespace Org.XmlUnit.Input {
 
     /// <summary>
     /// A source that is obtained from a different source by removing
-    /// all empty text nodes and removing all characters XML considers
-    /// whitespace at the start and end of the text content of the
-    /// non-empty ones. <see href="https://www.w3.org/TR/xml11/#NT-S"/>
+    /// all empty text nodes and normalizing the non-empty ones.
     /// </summary>
     /// <remarks>
     ///   <para>
-    /// If you only want to remove text nodes consisting solely of
-    /// whitespace (AKA element content whitespace) but leave all
-    /// other text nodes alone you should use
-    /// ElementContentWhitespaceStrippedSource instead.
+    /// "normalized" in this context means all XML whitespace
+    /// characters are replaced by space characters and
+    /// consecutive XML whitespace characters are collapsed.
     ///   </para>
     ///   <para>
-    /// Unlike <see cref="WhitespaceStrippedSource"/> this uses XML's idea
+    /// This class is similiar to <see cref="XmlWhitespaceStrippedSource"/>
+    /// but in addition "normalizes" XML whitespace.
+    ///   </para>
+    ///   <para>
+    /// Unlike <see cref="WhitespaceNormalizedSource"/> this uses XML's idea
     /// of whitespace rather than the more extensive set considered
     /// whitespace by Unicode.
     ///   </para>
@@ -38,13 +39,14 @@ namespace Org.XmlUnit.Input {
     /// since XMLUnit 2.10.0
     ///   </para>
     /// </remarks>
-    public class XmlWhitespaceStrippedSource : DOMSource {
+    public class XmlWhitespaceNormalizedSource : DOMSource {
         /// <summary>
-        /// Creates a new Source with the same content as another source trimming whitespace from Text nodes.
+        /// Creates a new Source with the same content as another source normalizing XML whitespace in Text nodes.
         /// </summary>
         /// <param name="originalSource">source with the original content</param>
-        public XmlWhitespaceStrippedSource(ISource originalSource) :
-            base(Nodes.StripXmlWhitespace(originalSource.ToDocument())) {
+        public XmlWhitespaceNormalizedSource(ISource originalSource) :
+            base(Nodes.NormalizeXmlWhitespace(originalSource.ToDocument()))
+            {
             SystemId = originalSource.SystemId;
         }
     }

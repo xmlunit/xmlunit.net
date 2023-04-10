@@ -21,9 +21,20 @@ namespace Org.XmlUnit.Input {
     /// all empty text nodes and normalizing the non-empty ones.
     /// </summary>
     /// <remarks>
+    ///   <para>
     /// "normalized" in this context means all whitespace characters
     /// are replaced by space characters and consecutive whitespace
     /// characters are collapsed.
+    ///   </para>
+    ///   <para>
+    /// This class is similiar to <see cref="WhitespaceStrippedSource"/>
+    /// but in addition "normalizes" whitespace.
+    ///   </para>
+    ///   <para>
+    /// Unlike <see cref="XmlWhitespaceNormalizedSource"/> this class uses
+    /// Unicode's idea of whitespace rather than the more restricted
+    /// subset considered whitespace by XML.
+    ///   </para>
     /// </remarks>
     public class WhitespaceNormalizedSource : DOMSource {
         /// <summary>

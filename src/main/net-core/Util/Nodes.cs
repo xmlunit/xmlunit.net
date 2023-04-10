@@ -130,7 +130,7 @@ namespace Org.XmlUnit.Util {
         ///   <para>
         /// "normalized" in this context means all whitespace
         /// characters are replaced by space characters and
-        /// consecutive whitespace characaters are collapsed.
+        /// consecutive whitespace characters are collapsed.
         ///   </para>
         ///   <para>
         /// This method is similiar to <see cref="StripWhitespace"/>
@@ -159,7 +159,7 @@ namespace Org.XmlUnit.Util {
         ///   <para>
         /// "normalized" in this context means all XML whitespace
         /// characters are replaced by space characters and
-        /// consecutive XML whitespace characaters are collapsed.
+        /// consecutive XML whitespace characters are collapsed.
         ///   </para>
         ///   <para>
         /// This method is similiar to <see cref="StripXmlWhitespace"/>
