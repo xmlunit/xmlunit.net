@@ -141,6 +141,7 @@ namespace Org.XmlUnit.Util {
                 + "</child><![CDATA[ trim me ]]>\n"
                 + "<?target  trim me ?>\n"
                 + "<![CDATA[          ]]>\n"
+                + "<![CDATA[   \u00a0      ]]>\n"
                 + "</root>").Build());
         }
 
@@ -162,30 +163,42 @@ namespace Org.XmlUnit.Util {
                 XmlNode>(toTest, Nodes.StripXmlWhitespace(toTest));
         }
 
+        private KeyValuePair<XmlDocument, XmlNode> NormalizeXmlWsSetup() {
+            XmlDocument toTest = HandleWsSetup();
+            return new KeyValuePair<XmlDocument,
+                XmlNode>(toTest, Nodes.NormalizeXmlWhitespace(toTest));
+        }
+
         [Test]
         public void StripWhitespaceWorks() {
-            HandleWsWorks(StripWsSetup(), "trim\tme");
+            HandleWsWorks(StripWsSetup(), "trim\tme", false);
         }
 
         [Test]
         public void StripXmlWhitespaceWorks() {
-            HandleWsWorks(StripXmlWsSetup(), "\u00a0 trim\tme\u00a0");
+            HandleWsWorks(StripXmlWsSetup(), "\u00a0 trim\tme\u00a0", true);
         }
 
         [Test]
         public void NormalizeWhitespaceWorks() {
-            HandleWsWorks(NormalizeWsSetup(), "trim me");
+            HandleWsWorks(NormalizeWsSetup(), "trim me", false);
+        }
+
+        [Test]
+        public void NormalizeXmlWhitespaceWorks() {
+            HandleWsWorks(NormalizeXmlWsSetup(), "\u00a0 trim me\u00a0", true);
         }
 
         private void HandleWsWorks(KeyValuePair<XmlDocument, XmlNode> s,
-                                   string commentContent) {
+                                   string commentContent,
+                                   bool hasExtraCDataChild) {
             Assert.IsTrue(s.Value is XmlDocument);
             XmlNodeList top = s.Value.ChildNodes;
             Assert.AreEqual(1, top.Count);
             Assert.IsTrue(top[0] is XmlElement);
             Assert.AreEqual("root", top[0].Name);
             XmlNodeList rootsChildren = top[0].ChildNodes;
-            Assert.AreEqual(4, rootsChildren.Count);
+            Assert.AreEqual(4 + (hasExtraCDataChild ? 1 : 0), rootsChildren.Count);
             Assert.IsTrue(rootsChildren[0] is XmlComment,
                           "should be comment, is " + rootsChildren[0].GetType());
             Assert.AreEqual(commentContent,
@@ -201,6 +214,13 @@ namespace Org.XmlUnit.Util {
                           "should be PI, is " + rootsChildren[3].GetType());
             Assert.AreEqual("trim me",
                             ((XmlProcessingInstruction) rootsChildren[3]).Data);
+            if (hasExtraCDataChild) {
+                Assert.IsTrue(rootsChildren[4] is XmlCDataSection,
+                              "should be cdata, is " + rootsChildren[4].GetType());
+                Assert.AreEqual("\u00a0",
+                                ((XmlCDataSection) rootsChildren[4]).Data);
+            }
+
             XmlNode child = rootsChildren[1];
             XmlNodeList grandChildren = child.ChildNodes;
             Assert.AreEqual(1, grandChildren.Count);
@@ -230,6 +250,11 @@ namespace Org.XmlUnit.Util {
             HandleWsDoesntAlterOriginal(NormalizeWsSetup());
         }
 
+        [Test]
+        public void NormalizeXmlWhitespaceDoesntAlterOriginal() {
+            HandleWsDoesntAlterOriginal(NormalizeXmlWsSetup());
+        }
+
         private void HandleWsDoesntAlterOriginal(KeyValuePair<XmlDocument,
                                                  XmlNode> s) {
             XmlNodeList top = s.Key.ChildNodes;
@@ -237,7 +262,7 @@ namespace Org.XmlUnit.Util {
             Assert.IsTrue(top[0] is XmlElement);
             Assert.AreEqual("root", top[0].Name);
             XmlNodeList rootsChildren = top[0].ChildNodes;
-            Assert.AreEqual(5, rootsChildren.Count);
+            Assert.AreEqual(6, rootsChildren.Count);
             Assert.IsTrue(rootsChildren[0] is XmlComment,
                           "should be comment, is " + rootsChildren[0].GetType());
             Assert.AreEqual("\u00a0 trim\tme\u00a0 ",
@@ -257,6 +282,10 @@ namespace Org.XmlUnit.Util {
                           "should be cdata, is " + rootsChildren[4].GetType());
             Assert.AreEqual("          ",
                             ((XmlCDataSection) rootsChildren[4]).Data);
+            Assert.IsTrue(rootsChildren[5] is XmlCDataSection,
+                          "should be cdata, is " + rootsChildren[5].GetType());
+            Assert.AreEqual("   \u00a0      ",
+                            ((XmlCDataSection) rootsChildren[5]).Data);
             XmlNode child = rootsChildren[1];
             XmlNodeList grandChildren = child.ChildNodes;
             Assert.AreEqual(1, grandChildren.Count);
@@ -277,6 +306,16 @@ namespace Org.XmlUnit.Util {
             Assert.AreSame("foo bar", Nodes.Normalize("foo bar"));
             Assert.AreEqual("foo bar", Nodes.Normalize("foo\nbar"));
             Assert.AreEqual("foo bar", Nodes.Normalize("foo  \r\n\t bar"));
+            Assert.AreEqual("foo bar", Nodes.Normalize("foo\u00a0bar"));
+        }
+
+        [Test]
+        public void XmlNormalize() {
+            Assert.AreSame("foo", Nodes.XmlNormalize("foo"));
+            Assert.AreSame("foo bar", Nodes.XmlNormalize("foo bar"));
+            Assert.AreEqual("foo bar", Nodes.XmlNormalize("foo\nbar"));
+            Assert.AreEqual("foo bar", Nodes.XmlNormalize("foo  \r\n\t bar"));
+            Assert.AreSame("foo\u00a0bar", Nodes.XmlNormalize("foo\u00a0bar"));
         }
 
         [Test]
@@ -306,6 +345,52 @@ namespace Org.XmlUnit.Util {
                           "should be PI, is " + rootsChildren[3].GetType());
             Assert.AreEqual("trim me ",
                             ((XmlProcessingInstruction) rootsChildren[3]).Data);
+            XmlNode child = rootsChildren[1];
+            XmlNodeList grandChildren = child.ChildNodes;
+            Assert.AreEqual(1, grandChildren.Count);
+            Assert.IsTrue(grandChildren[0] is XmlText,
+                          "should be text, is " + grandChildren[0].GetType());
+            Assert.AreEqual("\n trim me \n", ((XmlText) grandChildren[0]).Data);
+            XmlNamedNodeMap attrs = child.Attributes;
+            Assert.AreEqual(2, attrs.Count);
+            XmlAttribute a = (XmlAttribute) attrs.GetNamedItem("attr");
+            Assert.AreEqual(" trim me ", a.Value);
+            XmlAttribute a2 = (XmlAttribute) attrs.GetNamedItem("attr2");
+            Assert.AreEqual("not me", a2.Value);
+        }
+
+        [Test]
+        public void StripXmlECWWorks() {
+            XmlNode orig = HandleWsSetup();
+            XmlNode s = Nodes.StripXmlElementContentWhitespace(orig);
+
+            Assert.IsTrue(s is XmlDocument);
+            XmlNodeList top = s.ChildNodes;
+            Assert.AreEqual(1, top.Count);
+            Assert.IsTrue(top[0] is XmlElement);
+            Assert.AreEqual("root", top[0].Name);
+            XmlNodeList rootsChildren = top[0].ChildNodes;
+            Assert.AreEqual(5, rootsChildren.Count);
+            Assert.IsTrue(rootsChildren[0] is XmlComment,
+                          "should be comment, is " + rootsChildren[0].GetType());
+            Assert.AreEqual("\u00a0 trim\tme\u00a0 ",
+                            ((XmlComment) rootsChildren[0]).Data);
+            Assert.IsTrue(rootsChildren[1] is XmlElement,
+                          "should be element, is " + rootsChildren[1].GetType());
+            Assert.AreEqual("child", rootsChildren[1].Name);
+            Assert.IsTrue(rootsChildren[2] is XmlCDataSection,
+                          "should be cdata, is " + rootsChildren[2].GetType());
+            Assert.AreEqual(" trim me ",
+                            ((XmlCDataSection) rootsChildren[2]).Data);
+            Assert.IsTrue(rootsChildren[3] is XmlProcessingInstruction,
+                          "should be PI, is " + rootsChildren[3].GetType());
+            Assert.AreEqual("trim me ",
+                            ((XmlProcessingInstruction) rootsChildren[3]).Data);
+            Assert.IsTrue(rootsChildren[4] is XmlCDataSection,
+                          "should be cdata, is " + rootsChildren[4].GetType());
+            Assert.AreEqual("   \u00a0      ",
+                            ((XmlCDataSection) rootsChildren[4]).Data);
+
             XmlNode child = rootsChildren[1];
             XmlNodeList grandChildren = child.ChildNodes;
             Assert.AreEqual(1, grandChildren.Count);

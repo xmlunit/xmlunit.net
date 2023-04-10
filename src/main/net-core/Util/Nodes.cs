@@ -81,6 +81,13 @@ namespace Org.XmlUnit.Util {
         /// empty text or CDATA nodes and where all textual content
         /// including attribute values or comments are trimmed.
         /// </summary>
+        /// <remarks>
+        ///  <para>
+        /// Unlike <see cref="StripXmlWhitespace"/> this uses Unicode's idea
+        /// of whitespace rather than the more restricted subset considered
+        /// whitespace by XML.
+        ///  </para>
+        /// </remarks>
         public static XmlNode StripWhitespace(XmlNode original) {
             XmlNode cloned = original.CloneNode(true);
             cloned.Normalize();
@@ -96,9 +103,16 @@ namespace Org.XmlUnit.Util {
         /// characters XML considers whitespace according to
         /// <see href="https://www.w3.org/TR/xml11/#NT-S"/>.
         /// </summary>
+        /// <remarks>
+        ///  <para>
+        /// Unlike <see cref="StripWhitespace"/> this uses XML's idea
+        /// of whitespace rather than the more extensive set considered
+        /// whitespace by Unicode.
+        ///  </para>
         ///   <para>
         /// since XMLUnit 2.10.0
         ///   </para>
+        /// </remarks>
         public static XmlNode StripXmlWhitespace(XmlNode original) {
             XmlNode cloned = original.CloneNode(true);
             cloned.Normalize();
@@ -118,11 +132,52 @@ namespace Org.XmlUnit.Util {
         /// characters are replaced by space characters and
         /// consecutive whitespace characaters are collapsed.
         ///   </para>
+        ///   <para>
+        /// This method is similiar to <see cref="StripWhitespace"/>
+        /// but in addition "normalizes" whitespace.
+        ///   </para>
+        ///  <para>
+        /// Unlike <see cref="NormalizeXmlWhitespace"/> this uses Unicode's idea
+        /// of whitespace rather than the more restricted subset considered
+        /// whitespace by XML.
+        ///  </para>
         /// </remarks>
         public static XmlNode NormalizeWhitespace(XmlNode original) {
             XmlNode cloned = original.CloneNode(true);
             cloned.Normalize();
             HandleWsRec(cloned, TrimAndNormalizeValue);
+            return cloned;
+        }
+
+        /// <summary>
+        /// Creates a new Node (of the same type as the original node)
+        /// that is similar to the orginal but doesn't contain any
+        /// empty text or CDATA nodes and where all textual content
+        /// including attribute values or comments are normalized.
+        /// </summary>
+        /// <remarks>
+        ///   <para>
+        /// "normalized" in this context means all XML whitespace
+        /// characters are replaced by space characters and
+        /// consecutive XML whitespace characaters are collapsed.
+        ///   </para>
+        ///   <para>
+        /// This method is similiar to <see cref="StripXmlWhitespace"/>
+        /// but in addition "normalizes" XML whitespace.
+        ///   </para>
+        ///  <para>
+        /// Unlike <see cref="NormalizeWhitespace"/> this uses XML's idea
+        /// of whitespace rather than the more extensive set considered
+        /// whitespace by Unicode.
+        ///  </para>
+        ///  <para>
+        /// since XMLUnit 2.10.0
+        ///  </para>
+        /// </remarks>
+        public static XmlNode NormalizeXmlWhitespace(XmlNode original) {
+            XmlNode cloned = original.CloneNode(true);
+            cloned.Normalize();
+            HandleWsRec(cloned, XmlTrimAndNormalizeValue);
             return cloned;
         }
 
@@ -136,6 +191,11 @@ namespace Org.XmlUnit.Util {
         /// This doesn't have any effect if applied to a text or CDATA
         /// node itself.
         ///   </para>
+        ///  <para>
+        /// Unlike <see cref="StripXmlElementContentWhitespace"/> this uses Unicode's idea
+        /// of whitespace rather than the more restricted subset considered
+        /// whitespace by XML.
+        ///  </para>
         ///   <para>
         /// since XMLUnit 2.6.0
         ///   </para>
@@ -143,20 +203,46 @@ namespace Org.XmlUnit.Util {
         public static XmlNode StripElementContentWhitespace(XmlNode original) {
             XmlNode cloned = original.CloneNode(true);
             cloned.Normalize();
-            StripECW(cloned);
+            StripECW(cloned, TrimValue);
+            return cloned;
+        }
+
+        /// <summary>
+        /// Creates a new Node (of the same type as the original node)
+        /// that is similar to the orginal but doesn't contain any
+        /// text or CDATA nodes that only consist of XML whitespace.
+        /// </summary>
+        /// <remarks>
+        ///   <para>
+        /// This doesn't have any effect if applied to a text or CDATA
+        /// node itself.
+        ///   </para>
+        ///  <para>
+        /// Unlike <see cref="StripXmlElementContentWhitespace"/> this uses XML's idea
+        /// of whitespace rather than the more extensive set considered
+        /// whitespace by Unicode.
+        ///  </para>
+        ///   <para>
+        /// since XMLUnit 2.10.0
+        ///   </para>
+        /// </remarks>
+        public static XmlNode StripXmlElementContentWhitespace(XmlNode original) {
+            XmlNode cloned = original.CloneNode(true);
+            cloned.Normalize();
+            StripECW(cloned, XmlTrimValue);
             return cloned;
         }
 
         /// <summary>
         /// Returns the nodes' value trimmed of all whitespace.
-        /// <summary>
+        /// </summary>
         private static String TrimValue(XmlNode n) {
             return n.Value.Trim();
         }
 
         /// <summary>
         /// Returns the nodes' value trimmed of all whitespace and Normalized
-        /// <summary>
+        /// </summary>
         private static String TrimAndNormalizeValue(XmlNode n) {
             return Normalize(TrimValue(n));
         }
@@ -167,9 +253,16 @@ namespace Org.XmlUnit.Util {
 
         /// <summary>
         /// Returns the nodes' value trimmed of all characters XML considers whitespace.
-        /// <summary>
+        /// </summary>
         private static String XmlTrimValue(XmlNode n) {
             return n.Value.Trim(XML_WHITESPACE_CHARS);
+        }
+
+        /// <summary>
+        /// Returns the nodes' value trimmed of all whitespace and Normalized
+        /// </summary>
+        private static String XmlTrimAndNormalizeValue(XmlNode n) {
+            return XmlNormalize(XmlTrimValue(n));
         }
 
         /// <summary>
@@ -206,16 +299,49 @@ namespace Org.XmlUnit.Util {
         /// Normalize a string.
         /// </summary>
         /// <remarks>
+        ///  <para>
         /// "normalized" in this context means all whitespace
         /// characters are replaced by space characters and
-        /// consecutive whitespace characaters are collapsed.
+        /// consecutive whitespace characters are collapsed.
+        ///  </para>
+        ///  <para>
+        /// Unlike <see cref="XmlNormalize"/> this uses Unicode's idea
+        /// of whitespace rather than the more restricted subset considered
+        /// whitespace by XML.
+        ///  </para>
         /// </remarks>
         internal static string Normalize(string s) {
+            return Normalize(s, c => char.IsWhiteSpace(c));
+        }
+
+        /// <summary>
+        /// Normalize a string with regard to XML whitespace.
+        /// </summary>
+        /// <remarks>
+        ///  <para>
+        /// "normalized" in this context means all XML whitespace
+        /// characters are replaced by space characters and
+        /// consecutive XML whitespace characters are collapsed.
+        ///  </para>
+        ///  <para>
+        /// Unlike <see cref="Normalize"/> this uses XML's idea
+        /// of whitespace rather than the more extensive set considered
+        /// whitespace by Unicode.
+        ///  </para>
+        ///  <para>
+        /// since XMLUnit 2.10.0
+        ///  </para>
+        /// </remarks>
+        internal static string XmlNormalize(string s) {
+            return Normalize(s, c => XML_WHITESPACE_CHARS.Contains(c));
+        }
+
+        private static string Normalize(string s, Predicate<char> isWhiteSpace) {
             StringBuilder sb = new StringBuilder();
             bool changed = false;
             bool lastCharWasWS = false;
             foreach (char c in s) {
-                if (char.IsWhiteSpace(c)) {
+                if (isWhiteSpace(c)) {
                     if (!lastCharWasWS) {
                         sb.Append(SPACE);
                         changed |= (c != SPACE);
@@ -231,13 +357,13 @@ namespace Org.XmlUnit.Util {
             return changed ? sb.ToString() : s;
         }
 
-        private static void StripECW(XmlNode n) {
+        private static void StripECW(XmlNode n, Func<XmlNode, String> trimmer) {
             LinkedList<XmlNode> toRemove = new LinkedList<XmlNode>();
             foreach (XmlNode child in n.ChildNodes) {
-                StripECW(child);
+                StripECW(child, trimmer);
                 if (!(n is XmlAttribute)
                     && IsTextualContentNode(child)
-                    && child.Value.Trim().Length == 0) {
+                    && trimmer(child).Length == 0) {
                     toRemove.AddLast(child);
                 }
             }
