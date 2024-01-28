@@ -62,6 +62,10 @@ namespace Org.XmlUnit.Constraints {
             validator.Schema = schema;
         }
 
+        // for compatibility with NUnit 4.x
+        /// <inheritdoc/>
+        public override string Description { get; protected set; }
+
         /// <inheritdoc/>
         public override ConstraintResult ApplyTo<TActual>(TActual actual) {
             result = validator.ValidateInstance(actual as ISource);

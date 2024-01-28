@@ -60,6 +60,10 @@ namespace Org.XmlUnit.Constraints {
             return new CompareConstraint(control).CheckForSimilar();
         }
 
+        // for compatibility with NUnit 4.x
+        /// <inheritdoc/>
+        public override string Description { get; protected set; }
+
         private CompareConstraint CheckForSimilar() {
             diffBuilder.CheckForSimilar();
             checkFor = ComparisonResult.SIMILAR;
