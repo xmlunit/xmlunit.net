@@ -2,6 +2,10 @@
 
 ## XMLUnit.NET 2.10.0 - /not released, yet/
 
+* adjusted the NUnit 3.x constraints so they should work for NUnit 4.x
+  as well.
+  Issue [#40](https://github.com/xmlunit/xmlunit.net/issues/40).
+
 * add a new `ElementSelectors.ByNameAndAllAttributes` variant that filters attributes before deciding whether elements can
   be compared.
   Inspired by Issue [#xmlunit/259](https://github.com/xmlunit/xmlunit/issues/259)
