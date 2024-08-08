@@ -105,6 +105,10 @@ namespace Org.XmlUnit.Constraints
             return new EvaluateXPathConstraint(xPath, valueConstraint);
         }
 
+        // for compatibility with NUnit 4.x
+        /// <inheritdoc/>
+        public override string Description { get; protected set; }
+
         /// <inheritdoc/>
         public override ConstraintResult ApplyTo<TActual>(TActual actual)
         {

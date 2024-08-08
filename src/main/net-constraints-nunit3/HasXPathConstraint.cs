@@ -80,6 +80,10 @@ namespace Org.XmlUnit.Constraints
             this.xPath = xPath;
         }
 
+        // for compatibility with NUnit 4.x
+        /// <inheritdoc/>
+        public override string Description { get; protected set; }
+
         /// <inheritdoc/>
         public override ConstraintResult ApplyTo<TActual>(TActual actual)
         {
