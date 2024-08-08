@@ -1,5 +1,7 @@
 # Release Notes
 
+## XMLUnit.NET 2.10.1 - /not released, yet/
+
 ## XMLUnit.NET 2.10.0 - /Released 2024-08-08/
 
 * adjusted the NUnit 3.x constraints so they should work for NUnit 4.x
