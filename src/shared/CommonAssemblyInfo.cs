@@ -25,7 +25,7 @@ namespace Org.XmlUnit
 {
     internal static class XmlUnitVersion
     {
-        internal const string ApiVersion = "2.10.1";
+        internal const string ApiVersion = "2.11.0";
         internal const string AssemblyVersion = ApiVersion + ".256";
         internal const string Version = ApiVersion + "-alpha";
     } 
