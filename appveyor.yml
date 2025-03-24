@@ -3,9 +3,13 @@ version: 2.10.1.{build}
 image:
   - Ubuntu2204
   - Visual Studio 2013
+  - Visual Studio 2017
   - Visual Studio 2022
 
 skip_tags: true
+
+environment:
+  DOTNET_ROLL_FORWARD: Major
 
 for:
   - matrix:
@@ -24,6 +28,7 @@ for:
 
   - matrix:
       only:
+        - image: Visual Studio 2017
         - image: Visual Studio 2022
         - image: Ubuntu2204
     before_build:
