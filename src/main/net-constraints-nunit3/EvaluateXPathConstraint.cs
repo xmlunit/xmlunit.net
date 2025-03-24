@@ -114,7 +114,7 @@ namespace Org.XmlUnit.Constraints
         {
             ConstraintResult nested = valueConstraint.Resolve().ApplyTo(XPathEvaluate(actual));
             Description = "XML with XPath " + xPath + " evaluated to " + nested.ActualValue;
-            return new EvaluateXPathConstraintResult(this, actual, nested);
+            return new HasXPathConstraintResult(this, actual, nested);
         }
         
         /// <summary>
@@ -146,7 +146,7 @@ namespace Org.XmlUnit.Constraints
         /// <summary>
         ///   Result of a EvaluateXPathConstraint.
         /// </summary>
-        public class EvaluateXPathConstraintResult : ConstraintResult
+        public class HasXPathConstraintResult : ConstraintResult
         {
             private readonly EvaluateXPathConstraint constraint;
             private readonly ConstraintResult nestedResult;
@@ -154,7 +154,7 @@ namespace Org.XmlUnit.Constraints
             /// <summary>
             /// Creates the result.
             /// </summary>
-            public EvaluateXPathConstraintResult(EvaluateXPathConstraint constraint, object actual, ConstraintResult nestedResult)
+            public HasXPathConstraintResult(EvaluateXPathConstraint constraint, object actual, ConstraintResult nestedResult)
                 : base(constraint, actual, nestedResult.IsSuccess)
             {
                 this.constraint = constraint;
