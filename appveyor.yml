@@ -39,6 +39,7 @@ for:
     test_script:
       - dotnet test src/tests/net-core/XMLUnit.Core.Tests.csproj
       - dotnet test src/tests/net-constraints-nunit3/XMLUnit.NUnit3.Constraints.Test.csproj
+      - dotnet test src/tests/net-constraints-nunit4/XMLUnit.NUnit4.Constraints.Test.csproj
       - dotnet test src/tests/net-placeholders/XMLUnit.Placeholders.Tests.csproj
 
 install:
