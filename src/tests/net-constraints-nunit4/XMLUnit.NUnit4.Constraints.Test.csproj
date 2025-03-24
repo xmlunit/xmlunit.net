@@ -13,7 +13,9 @@
   limitations under the License.
 -->
 
-<Project Sdk="Microsoft.NET.Sdk">
+<Project>
+
+  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
 
   <PropertyGroup Label="Build">
     <TargetFrameworks>net6.0</TargetFrameworks>
@@ -56,4 +58,7 @@
     <PackageReference Include="NUnit3TestAdapter" Version="5.0.0" />
   </ItemGroup>
   
+  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
+  <Import Project="..\..\shared\no-build.targets"
+          Condition="$([System.Environment]::Version) &lt; 6.0.0.0"/>
 </Project>
