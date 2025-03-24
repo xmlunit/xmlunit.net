@@ -4,8 +4,9 @@ XMLUnit.NET 2.x
 [![nuget](https://img.shields.io/nuget/v/XMLUnit.Core.svg)](https://www.nuget.org/packages/XMLUnit.Core/)
 
 Builds:
-  * AppVeyor using .NET 3.5 and .NET Core 2.0 and 7.0 on Windows,
-    .NET Core 7.0 on Linux: [![Build status](https://ci.appveyor.com/api/projects/status/am34dfbr4vbcarr3?svg=true)](https://ci.appveyor.com/project/bodewig/xmlunit-net)
+  * AppVeyor using .NET Framework 3.5 and .NET > .NET Core >= 2.0 on
+    Windows, .NET > .NET Core >= 2.0 on Linux: [![Build
+    status](https://ci.appveyor.com/api/projects/status/am34dfbr4vbcarr3?svg=true)](https://ci.appveyor.com/project/bodewig/xmlunit-net)
 
 XMLUnit is a library that supports testing XML output in several ways.
 
@@ -119,9 +120,8 @@ Assert.That(CreateDocument(),
 
 ## Requirements
 
-XMLUnit requires .NET 3.5 (it is known to work and actually is
-developed on Mono 4) or .NET Standard 2.0 (tested with .NET Core 2.1
-and 2.2).
+XMLUnit requires .NET Standard 2.0 (tested with .NET 8 rigt now) and
+should still support .NET Framework 3.5 and Mono.
 
 The `core` library provides all functionality needed to test XML
 output and hasn't got any dependencies.  It uses NUnit 3.x for its own
@@ -195,7 +195,9 @@ trusted by Firefox' default installation.
 ### .NET Standard 2.0
 
 XMLUnit for .NET uses the `dotnet` CLI - or Visual Studio
-2017. In order to run the tests, .NET Core 2.0 is required.
+2027. In order to run the tests, .NET > .NET Core >= 2.0 is required
+(see the section about DOTNET_ROLL_FORWARD at the bottom of this page
+when using .NET later than Core 2.0).
 
 When using Visual Studio the build should automatically refresh the
 NuGet packages, build the `core` and `constraints` assemblies as well
@@ -225,6 +227,6 @@ assemblies. In order to run the tests use
 
 You may need to specify
 [`--roll-forward`](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet#rollforward)
-of
+or
 [`DOTNET_ROLL_FORWARD`](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-environment-variables#dotnet_roll_forward)
 to run the tests when using recent versions of .NET.
