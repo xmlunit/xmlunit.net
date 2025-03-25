@@ -29,18 +29,29 @@ for:
   - matrix:
       only:
         - image: Visual Studio 2017
-        - image: Visual Studio 2022
-        - image: Ubuntu2204
     before_build:
       - dotnet restore XMLUnit.NET.sln
-      - dotnet --version
     build:
       project: XMLUnit.NET.sln
     test_script:
       - dotnet test src/tests/net-core/XMLUnit.Core.Tests.csproj
       - dotnet test src/tests/net-constraints-nunit3/XMLUnit.NUnit3.Constraints.Test.csproj
-      - dotnet test src/tests/net-constraints-nunit4/XMLUnit.NUnit4.Constraints.Test.csproj
       - dotnet test src/tests/net-placeholders/XMLUnit.Placeholders.Tests.csproj
+
+  - matrix:
+      only:
+        - image: Visual Studio 2022
+        - image: Ubuntu2204
+    before_build:
+      - dotnet restore XMLUnit.NET.sln
+    build:
+      project: XMLUnit.NET.sln
+    test_script:
+      - dotnet test src/tests/net-core/XMLUnit.Core.Tests.csproj
+      - dotnet test src/tests/net-constraints-nunit3/XMLUnit.NUnit3.Constraints.Test.csproj
+      - dotnet test src/tests/net-placeholders/XMLUnit.Placeholders.Tests.csproj
+      - dotnet build src/main/net-constraints-nunit4/XMLUnit.NUnit4.Constraints.csproj
+      - dotnet test src/tests/net-constraints-nunit4/XMLUnit.NUnit4.Constraints.Test.csproj
 
 install:
   - cmd: git submodule update --init
