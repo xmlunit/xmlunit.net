@@ -8,6 +8,9 @@ image:
 
 skip_tags: true
 
+environment:
+  DOTNET_ROLL_FORWARD: Major
+
 for:
   - matrix:
       only:
