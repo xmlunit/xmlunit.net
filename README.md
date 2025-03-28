@@ -125,8 +125,11 @@ should still support .NET Framework 3.5 and Mono.
 
 The `core` library provides all functionality needed to test XML
 output and hasn't got any dependencies.  It uses NUnit 3.x for its own
-tests.  The core library is complemented by two libaries of NUnit
-constraints targeting NUnit 2.x and 3.x respectively.
+tests.  The core library is complemented by libaries of NUnit
+constraints targeting NUnit 2.x, 3.x and 4.x respectively.
+
+Building NUnit 4.x support requires .NET 6 or .NET Framework 4.6.2 or
+newer (the minimal targets supported by NUnit 4.x).
 
 ## Checking out XMLUnit.NET
 
@@ -223,6 +226,14 @@ assemblies. In order to run the tests use
 > dotnet test src/tests/net-core/XMLUnit.Core.Tests.csproj
 > dotnet test src/tests/net-constraints-nunit3/XMLUnit.NUnit3.Constraints.Test.csproj
 > dotnet test src/tests/net-placeholders/XMLUnit.Placeholders.Tests.csproj
+```
+
+NUnit4 support is not part of the default solution so the solution can
+be built for .NET prior to .NET 6. In order to build and test it, use
+
+```sh
+> dotnet build src/main/net-constraints-nunit4/XMLUnit.NUnit4.Constraints.csproj
+> dotnet test src/tests/net-constraints-nunit4/XMLUnit.NUnit4.Constraints.Test.csproj
 ```
 
 You may need to specify

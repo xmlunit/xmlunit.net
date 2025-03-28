@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>XMLUnit.NUnit4.Constraints</id>
+    <version>$version$</version>
+    <title>XMLUnit Constraints for NUnit 4.</title>
+    <authors>XMLUnit Contributors</authors>
+    <owners />
+    <projectUrl>https://www.xmlunit.org/</projectUrl>
+    <license type="expression">Apache-2.0</license>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>This package contains NUnit 4.x Constraints to be used with XMLUnit.NET's core.
+    XMLUnit provides you with the tools to verify the XML you emit is the one you want to create.
+    It provides helpers to validate against an XML Schema, assert the values of XPath queries or compare XML documents against expected outcomes.</description>
+    <summary>NUnit 4.x Constraints Classes of XMLUnit.NET</summary>
+    <dependencies>
+      <dependency id="NUnit" version="4.3.2" />
+      <dependency id="XMLUnit.Core" version="[$version$]" />
+    </dependencies>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System.Xml" />
+      <frameworkAssembly assemblyName="System.Xml.Linq" />
+    </frameworkAssemblies>
+    <tags>xmlunit xml unit-testing test xmldiff nunit nunit3</tags>
+  </metadata>
+  <files>
+    <file src="..\..\..\build/NetFramework/bin/Release/xmlunit-nunit4-constraints.dll" target="lib\net462"/>
+    <file src="..\..\..\build/NetFramework/bin/Release/xmlunit-nunit4-constraints.pdb" target="lib\net462"/>
+    <file src="..\..\..\build/NetFramework/bin/Release/xmlunit-nunit4-constraints.xml" target="lib\net462"/>
+    <file src="..\..\..\build/bin/Release/net6.0/xmlunit-nunit4-constraints.dll" target="lib\net6.0"/>
+    <file src="..\..\..\build/bin/Release/net6.0/xmlunit-nunit4-constraints.pdb" target="lib\net6.0"/>
+    <file src="..\..\..\build/bin/Release/net6.0/xmlunit-nunit4-constraints.xml" target="lib\net6.0"/>
+  </files>
+</package>

@@ -15,6 +15,10 @@
         contains <format type="text/html"><a
         href="http://nunit.org/">NUnit 3.x</a></format>
         constraints on top of <c>XMLUnit.Core</c>.</term></item>
+      <item><term><c>XMLUnit.NUnit4.Constraints</c>
+        contains <format type="text/html"><a
+        href="http://nunit.org/">NUnit 4.x</a></format>
+        constraints on top of <c>XMLUnit.Core</c>.</term></item>
     </list>
 
     <para>While XMLUnit is focussed on testing, parts of it may be useful
@@ -58,5 +62,5 @@
       under <format type="text/html"><a href="https://github.com/xmlunit/xmlunit.net/blob/main/LICENSE">the
       Apache License, Version 2.0</a></format>.</para></Remarks>
   <Copyright></Copyright>
-  <Title>XMLUnit.NET 2.10.1</Title>
+  <Title>XMLUnit.NET 2.11.1</Title>
 </Overview>
