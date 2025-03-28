@@ -1,6 +1,10 @@
 # Release Notes
 
-## XMLUnit.NET 2.10.1 - /not released, yet/
+## XMLUnit.NET 2.11.0 - /Released 2025-03-28/
+
+* introduced a new constraints library for NUnit 4.x as the NUnit 3.x
+  constraints can not be used with NUnit 4.x at all.
+  Issue [#42](https://github.com/xmlunit/xmlunit.net/issues/42).
 
 ## XMLUnit.NET 2.10.0 - /Released 2024-08-08/
 
