@@ -2,6 +2,9 @@
 
 ## XMLUnit.NET 2.11.1 - /Not Released, yet/
 
+* the NUnit 4.x constraints package tags nunit3 rather than nunit4.
+  PR [#43](https://github.com/xmlunit/xmlunit.net/issues/43).
+
 ## XMLUnit.NET 2.11.0 - /Released 2025-03-28/
 
 * introduced a new constraints library for NUnit 4.x as the NUnit 3.x
