@@ -27,7 +27,7 @@
     <file src="..\..\..\build/NetFramework/bin/Release/xmlunit-nunit4-constraints.dll" target="lib\net462"/>
     <file src="..\..\..\build/NetFramework/bin/Release/xmlunit-nunit4-constraints.pdb" target="lib\net462"/>
     <file src="..\..\..\build/NetFramework/bin/Release/xmlunit-nunit4-constraints.xml" target="lib\net462"/>
-    <file src="..\..\..\build/bin/Release/net6.0/xmlunit-nunit4--constraints.dll" target="lib\net6.0"/>
+    <file src="..\..\..\build/bin/Release/net6.0/xmlunit-nunit4-constraints.dll" target="lib\net6.0"/>
     <file src="..\..\..\build/bin/Release/net6.0/xmlunit-nunit4-constraints.pdb" target="lib\net6.0"/>
     <file src="..\..\..\build/bin/Release/net6.0/xmlunit-nunit4-constraints.xml" target="lib\net6.0"/>
   </files>
