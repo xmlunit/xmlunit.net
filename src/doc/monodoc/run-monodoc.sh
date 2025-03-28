@@ -15,6 +15,9 @@ cp -r "$MY_DIR/core" "$MY_DIR/placeholders" "$MY_DIR/constraints-nunit2" "$MY_DI
 monodocer -pretty -importslashdoc:"$DEBUG_DIR/xmlunit-core.xml"\
           -assembly:"$DEBUG_DIR/xmlunit-core.dll"\
           -path:"$OUT_DIR/core"
+monodocer -pretty -importslashdoc:"$DEBUG_DIR/xmlunit-nunit4-constraints.xml"\
+          -assembly:"$DEBUG_DIR/xmlunit-nunit4-constraints.dll"\
+          -path:"$OUT_DIR/constraints-nunit4"
 monodocer -pretty -importslashdoc:"$DEBUG_DIR/xmlunit-nunit3-constraints.xml"\
           -assembly:"$DEBUG_DIR/xmlunit-nunit3-constraints.dll"\
           -path:"$OUT_DIR/constraints-nunit3"
