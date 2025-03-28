@@ -21,7 +21,7 @@
       <frameworkAssembly assemblyName="System.Xml" />
       <frameworkAssembly assemblyName="System.Xml.Linq" />
     </frameworkAssemblies>
-    <tags>xmlunit xml unit-testing test xmldiff nunit nunit3</tags>
+    <tags>xmlunit xml unit-testing test xmldiff nunit nunit4</tags>
   </metadata>
   <files>
     <file src="..\..\..\build/NetFramework/bin/Release/xmlunit-nunit4-constraints.dll" target="lib\net462"/>
