@@ -26,8 +26,12 @@ cp README.md LICENSE RELEASE_NOTES.md build/bindist-tmp/xmlunit-$1
 for d in Debug Release; do
     mkdir -p build/bindist-tmp/xmlunit-$1/NetFramework/$d
     mkdir -p build/bindist-tmp/xmlunit-$1/netstandard2.0/$d
+    mkdir -p build/bindist-tmp/xmlunit-$1/net6.0/$d
+    mkdir -p build/bindist-tmp/xmlunit-$1/net462/$d
     cp build/NetFramework/bin/$d/xmlunit-* build/bindist-tmp/xmlunit-$1/NetFramework/$d
     cp build/bin/$d/netstandard2.0/xmlunit-* build/bindist-tmp/xmlunit-$1/netstandard2.0/$d
+    cp build/bin/$d/net6.0/xmlunit-* build/bindist-tmp/xmlunit-$1/net6.0/$d
+    cp build/bin/$d/net462/xmlunit-* build/bindist-tmp/xmlunit-$1/net462/$d
 done
 mkdir build/bindist-tmp/xmlunit-$1/apidocs
 cp -r build/NetFramework/html/* build/bindist-tmp/xmlunit-$1/apidocs
@@ -53,5 +57,5 @@ mv xmlunit-$1-src.* ..
 cd ..
 for i in *.zip *.tar.gz *.tar.bz2; do
     sha256sum $i > $i.sha256
-    gpg --detach-sign --armor $i
+    gpg --detach-sign --armor --use-agent $i
 done
