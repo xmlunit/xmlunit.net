@@ -22,6 +22,7 @@
       <frameworkAssembly assemblyName="System.Xml.Linq" />
     </frameworkAssemblies>
     <tags>xmlunit xml unit-testing test xmldiff nunit nunit3</tags>
+    <readme>docs\README.md</readme>
   </metadata>
   <files>
     <file src="..\..\..\build/NetFramework/bin/Release/xmlunit-nunit3-constraints.dll" target="lib\net35"/>
@@ -30,5 +31,6 @@
     <file src="..\..\..\build/bin/Release/netstandard2.0/xmlunit-nunit3-constraints.dll" target="lib\netstandard2.0"/>
     <file src="..\..\..\build/bin/Release/netstandard2.0/xmlunit-nunit3-constraints.pdb" target="lib\netstandard2.0"/>
     <file src="..\..\..\build/bin/Release/netstandard2.0/xmlunit-nunit3-constraints.xml" target="lib\netstandard2.0"/>
+    <file src="..\..\doc/readmes/net-constraints-nunit3/README.md" target="docs"/>
   </files>
 </package>

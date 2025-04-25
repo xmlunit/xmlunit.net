@@ -2,6 +2,9 @@
 
 ## XMLUnit.NET 2.11.1 - /Not Released, yet/
 
+* added readme files for the nuget packages.
+  Issue [#46](https://github.com/xmlunit/xmlunit.net/issues/46).
+
 * the NUnit 4.x constraints package tags nunit3 rather than nunit4.
   PR [#43](https://github.com/xmlunit/xmlunit.net/issues/43).
 

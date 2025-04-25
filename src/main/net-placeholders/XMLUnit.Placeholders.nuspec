@@ -20,6 +20,7 @@
       <frameworkAssembly assemblyName="System.Xml" />
     </frameworkAssemblies>
     <tags>xmlunit xml unit-testing test xmldiff</tags>
+    <readme>docs\README.md</readme>
   </metadata>
   <files>
     <file src="..\..\..\build/NetFramework/bin/Release/xmlunit-placeholders.dll" target="lib\net35"/>
@@ -28,5 +29,6 @@
     <file src="..\..\..\build/bin/Release/netstandard2.0/xmlunit-placeholders.dll" target="lib\netstandard2.0"/>
     <file src="..\..\..\build/bin/Release/netstandard2.0/xmlunit-placeholders.pdb" target="lib\netstandard2.0"/>
     <file src="..\..\..\build/bin/Release/netstandard2.0/xmlunit-placeholders.xml" target="lib\netstandard2.0"/>
+    <file src="..\..\doc/readmes/net-placeholders/README.md" target="docs"/>
   </files>
 </package>
