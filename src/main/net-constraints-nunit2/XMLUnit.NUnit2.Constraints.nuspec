@@ -22,10 +22,12 @@
       <frameworkAssembly assemblyName="System.Xml.Linq" />
     </frameworkAssemblies>
     <tags>xmlunit xml unit-testing test xmldiff nunit nunit2</tags>
+    <readme>docs\README.md</readme>
   </metadata>
   <files>
     <file src="..\..\..\build/NetFramework/bin/Release/xmlunit-nunit2-constraints.dll" target="lib\net35"/>
     <file src="..\..\..\build/NetFramework/bin/Release/xmlunit-nunit2-constraints.pdb" target="lib\net35"/>
     <file src="..\..\..\build/NetFramework/bin/Release/xmlunit-nunit2-constraints.xml" target="lib\net35"/>
+    <file src="..\..\doc/readmes/net-constraints-nunit2/README.md" target="docs"/>
   </files>
 </package>
