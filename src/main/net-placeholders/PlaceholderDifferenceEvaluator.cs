@@ -238,9 +238,21 @@ namespace Org.XmlUnit.Placeholder {
                 return EvaluateConsideringPlaceholders(controlTarget.Value, testTarget.Value, outcome);
 
             // comparing textual content of attributes
-            } else if (comparison.Type == ComparisonType.ATTR_VALUE) {
+            }
+            else if (comparison.Type == ComparisonType.ATTR_VALUE && controlDetails.Value is string &&
+                     testDetails.Value is string)
+            {
                 return EvaluateConsideringPlaceholders((string) controlDetails.Value,
                     (string) testDetails.Value, outcome);
+
+            }
+
+            // comparing QName content of attributes
+            else if (comparison.Type == ComparisonType.ATTR_VALUE && controlDetails.Value is XmlQualifiedName &&
+                     testDetails.Value is XmlQualifiedName)
+            {
+                return EvaluateConsideringPlaceholders((XmlQualifiedName) controlDetails.Value,
+                    (XmlQualifiedName) testDetails.Value, outcome);
 
             // "test document has no attribute but control document has"
             } else if (IsMissingAttributeDifference(comparison)) {
@@ -333,6 +345,19 @@ namespace Org.XmlUnit.Placeholder {
                 return outcome;
             }
             return ComparisonResult.EQUAL;
+        }
+
+        private ComparisonResult EvaluateConsideringPlaceholders(XmlQualifiedName controlQName,
+            XmlQualifiedName testQName,
+            ComparisonResult outcome)
+        {
+            if (controlQName.Namespace == testQName.Namespace)
+            {
+                return EvaluateConsideringPlaceholders(controlQName.Name, testQName.Name,
+                    outcome);
+            }
+
+            return outcome;
         }
 
         private ComparisonResult EvaluateConsideringPlaceholders(string controlText, string testText,

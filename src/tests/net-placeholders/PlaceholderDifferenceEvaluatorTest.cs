@@ -446,5 +446,83 @@ namespace Org.XmlUnit.Placeholder {
 
             Assert.IsFalse(diff.HasDifferences());
         }
+
+        [Test]
+        public void CanCompareDocmentsWithXsiTypes() {
+            string control = "<element"
+                + " xmlns:myns=\"https://example.org/some-ns\""
+                + " xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\""
+                + " xsi:type=\"myns:some-type\" />";
+            string test = "<element"
+                + " xmlns:myns=\"https://example.org/some-ns\""
+                + " xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\""
+                + " xsi:type=\"myns:some-other-type\" />";
+
+            var diff = DiffBuilder.Compare(control).WithTest(test)
+                .WithDifferenceEvaluator(new PlaceholderDifferenceEvaluator().Evaluate).Build();
+
+            Assert.IsTrue(diff.HasDifferences());
+            int count = 0;
+            foreach (Difference difference in diff.Differences) {
+                count++;
+                Assert.AreEqual(ComparisonResult.DIFFERENT, difference.Result);
+                Assert.AreEqual(ComparisonType.ATTR_VALUE, difference.Comparison.Type);
+            }
+            Assert.AreEqual(1, count);
+        }
+
+        [Test]
+        public void CanIgnoreXsiTypeDifference()
+        {
+            string control = "<element"
+                             + " xmlns:myns=\"https://example.org/some-ns\""
+                             + " xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\""
+                             + " xsi:type=\"myns:${xmlunit.ignore}\" />";
+            string test = "<element"
+                          + " xmlns:myns=\"https://example.org/some-ns\""
+                          + " xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\""
+                          + " xsi:type=\"myns:some-other-type\" />";
+
+            var diff = DiffBuilder.Compare(control).WithTest(test)
+                .WithDifferenceEvaluator(new PlaceholderDifferenceEvaluator().Evaluate).Build();
+
+            Assert.IsFalse(diff.HasDifferences());
+        }
+
+        [Test]
+        public void CantIgnoreXsiNamespaceDifference()
+        {
+            string control = "<element"
+                             + " xmlns:myns=\"https://example.org/some-other-ns\""
+                             + " xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\""
+                             + " xsi:type=\"myns:${xmlunit.ignore}\" />";
+            string test = "<element"
+                          + " xmlns:myns=\"https://example.org/some-ns\""
+                          + " xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\""
+                          + " xsi:type=\"myns:some-other-type\" />";
+
+            var diff = DiffBuilder.Compare(control).WithTest(test)
+                .WithDifferenceEvaluator(new PlaceholderDifferenceEvaluator().Evaluate).Build();
+
+            Assert.IsTrue(diff.HasDifferences());
+        }
+
+        [Test]
+        public void CanCompareXsiTypeWithhRegex()
+        {
+            string control = "<element"
+                             + " xmlns:myns=\"https://example.org/some-ns\""
+                             + " xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\""
+                             + " xsi:type=\"myns:${xmlunit.matchesRegex(.*-type)}\" />";
+            string test = "<element"
+                          + " xmlns:myns=\"https://example.org/some-ns\""
+                          + " xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\""
+                          + " xsi:type=\"myns:some-other-type\" />";
+
+            var diff = DiffBuilder.Compare(control).WithTest(test)
+                .WithDifferenceEvaluator(new PlaceholderDifferenceEvaluator().Evaluate).Build();
+
+            Assert.IsFalse(diff.HasDifferences());
+        }
     }
 }
