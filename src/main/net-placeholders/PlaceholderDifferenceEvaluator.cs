@@ -238,7 +238,10 @@ namespace Org.XmlUnit.Placeholder {
                 return EvaluateConsideringPlaceholders(controlTarget.Value, testTarget.Value, outcome);
 
             // comparing textual content of attributes
-            } else if (comparison.Type == ComparisonType.ATTR_VALUE) {
+            }
+            else if (comparison.Type == ComparisonType.ATTR_VALUE && controlDetails.Value is string &&
+                     testDetails.Value is string)
+            {
                 return EvaluateConsideringPlaceholders((string) controlDetails.Value,
                     (string) testDetails.Value, outcome);
 

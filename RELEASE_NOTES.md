@@ -2,6 +2,10 @@
 
 ## XMLUnit.NET 2.11.1 - /Not Released, yet/
 
+* PlaceholderDifferenceEvaluator would cause InvalidCastException for documents with
+  differences in `xsi:type` attributes.
+  Equivalent of XMLUnit Java Issue [#276](https://github.com/xmlunit/xmlunit/issues/276)
+
 * added readme files for the nuget packages.
   Issue [#46](https://github.com/xmlunit/xmlunit.net/issues/46).
 
