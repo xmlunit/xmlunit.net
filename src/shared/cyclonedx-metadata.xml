@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<bom xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" serialNumber="urn:uuid:087d0712-f591-4995-ba76-03f1c5c48884" version="1" xmlns="http://cyclonedx.org/schema/bom/1.2">
+  <metadata>
+    <component type="library">
+      <licenses>
+        <license>
+          <name>Apache License 2.0</name>
+          <id>Apache-2.0</id>
+        </license>
+      </licenses>
+      <externalReferences>
+        <reference type="website">
+          <url>https://www.xmlunit.org/</url>
+        </reference>
+        <reference type="issue-tracker">
+          <url>https://github.com/xmlunit/xmlunit/issues</url>
+        </reference>
+        <reference type="mailing-list">
+          <url>https://sourceforge.net/p/xmlunit/mailman/xmlunit-general/</url>
+        </reference>
+      </externalReferences>
+    </component>
+  </metadata>
+</bom>
