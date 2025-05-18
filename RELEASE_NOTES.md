@@ -15,6 +15,9 @@
 * the NUnit 4.x constraints package tags nunit3 rather than nunit4.
   PR [#43](https://github.com/xmlunit/xmlunit.net/issues/43).
 
+* added Cyclone DX SBOMs to release artifacts
+  Issue [#47](https://github.com/xmlunit/xmlunit.net/issues/47).
+
 ## XMLUnit.NET 2.11.0 - /Released 2025-03-28/
 
 * introduced a new constraints library for NUnit 4.x as the NUnit 3.x
