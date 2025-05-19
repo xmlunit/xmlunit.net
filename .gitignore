@@ -13,3 +13,4 @@ obj
 /.nuget/NuGet.Config
 /.nuget/NuGet.exe
 /.nuget/NuGet.targets
+*.cache
