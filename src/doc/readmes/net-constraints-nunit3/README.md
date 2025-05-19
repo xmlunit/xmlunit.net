@@ -5,7 +5,7 @@ one you want to create.
 
 This package provides Constraints on top of the XMLUnit.NET core
 library to be used with NUnit 3.x. If you are using a different
-version of NUUnit, please use the package for your version.
+version of NUnit, please use the package matching your version.
 
 * [XMLUnit.Core - Core Library ![nuget](https://img.shields.io/nuget/v/XMLUnit.Core.svg)](https://www.nuget.org/packages/XMLUnit.Core/)
 * [XMLUnit.NUnit2.Constraints - Constraints for NUnit 2.x ![nuget](https://img.shields.io/nuget/v/XMLUnit.NUnit2.Constraints.svg)](https://www.nuget.org/packages/XMLUnit.NUnit2.Constraints/)
