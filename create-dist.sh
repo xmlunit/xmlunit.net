@@ -22,7 +22,7 @@ if [ $# -lt 1 ]; then
 fi
 
 mkdir -p build/bindist-tmp/xmlunit-$1
-cp README.md LICENSE RELEASE_NOTES.md build/bindist-tmp/xmlunit-$1
+cp README.md LICENSE RELEASE_NOTES.md build/cyclonedx/* build/bindist-tmp/xmlunit-$1
 for d in Debug Release; do
     mkdir -p build/bindist-tmp/xmlunit-$1/NetFramework/$d
     mkdir -p build/bindist-tmp/xmlunit-$1/netstandard2.0/$d
