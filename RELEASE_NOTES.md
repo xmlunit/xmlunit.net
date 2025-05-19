@@ -1,6 +1,6 @@
 # Release Notes
 
-## XMLUnit.NET 2.11.1 - /Not Released, yet/
+## XMLUnit.NET 2.11.1 - /Released 2025-05-19/
 
 * placeholders can now also be used inside of the local part of `xsi:type` attributes.
   PR [#49](https://github.com/xmlunit/xmlunit.net/pull/49)
