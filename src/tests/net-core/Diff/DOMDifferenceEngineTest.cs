@@ -1171,6 +1171,33 @@ namespace Org.XmlUnit.Diff {
             Assert.AreEqual("/Document[1]/Section[1]", diff.Differences.Last().Comparison.ControlDetails.ParentXPath);
         }
 
+        [Test]
+        public void ProperlyHandlesNullAttributes() {
+            DOMDifferenceEngine d = new DOMDifferenceEngine();
+            DiffExpecter ex = new DiffExpecter(ComparisonType.ATTR_VALUE);
+            d.DifferenceListener += ex.ComparisonPerformed;
+            d.ComparisonController = ComparisonControllers.StopWhenDifferent;
+
+            XmlElement e1 = doc.CreateElement("foo");
+            e1.SetAttribute("x", null);
+            XmlElement e2 = doc.CreateElement("foo");
+            e2.SetAttribute("x", null);
+            XmlElement e3 = doc.CreateElement("foo");
+            e3.SetAttribute("x", "2137");
+            XmlElement e4 = doc.CreateElement("foo");
+            e4.SetAttribute("x", string.Empty);
+
+            Assert.AreEqual(Wrap(ComparisonResult.EQUAL),
+                     d.CompareNodes(e1, new XPathContext(),
+                                    e2, new XPathContext()));
+            Assert.AreEqual(WrapAndStop(ComparisonResult.DIFFERENT),
+                     d.CompareNodes(e1, new XPathContext(),
+                                    e3, new XPathContext()));
+            Assert.AreEqual(Wrap(ComparisonResult.EQUAL),
+                            d.CompareNodes(e1, new XPathContext(),
+                                           e4, new XPathContext()));
+        }
+
         private XmlDocument DocumentForString(string s) {
             return Org.XmlUnit.Util.Convert.ToDocument(InputBuilder.FromString(s).Build());
         }
