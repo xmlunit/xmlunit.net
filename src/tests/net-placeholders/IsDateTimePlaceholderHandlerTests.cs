@@ -64,6 +64,26 @@ namespace Org.XmlUnit.Placeholder
         }
 
         [Test]
+        public void ShouldAcceptABunchOfStrings()
+        {
+            // Test various date formats that should be accepted by ISO patterns
+            // Corresponds to Java test shouldAcceptABunchOfStrings
+            var testStrings = new string[] {
+                "2020-01-01",
+                "01/01/2020",
+                "01/01/2020",
+                "2020-01-01T15:00",
+                "2020-01-01 15:00:00Z",
+                "01/01/2020 15:00"
+            };
+
+            foreach (var testString in testStrings)
+            {
+                Assert.AreEqual(ComparisonResult.EQUAL, placeholderHandler.Evaluate(testString));
+            }
+        }
+
+        [Test]
         public void ShouldParseExplicitPattern() {
             Assert.AreEqual(ComparisonResult.EQUAL,
                             placeholderHandler.Evaluate("31 01 2020 12:34", "dd MM yyyy HH:mm"));
