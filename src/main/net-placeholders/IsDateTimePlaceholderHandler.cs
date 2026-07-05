@@ -39,7 +39,7 @@ namespace Org.XmlUnit.Placeholder
     {
         private const string _keyword = "isDateTime";
 
-        private static readonly IReadOnlyList<string> _isoPatterns = new List<string>
+        private static readonly IEnumerable<string> _isoPatterns = new List<string>
         {
             "yyyy-MM-dd",
             "yyyy-MM-ddTHH:mm",
