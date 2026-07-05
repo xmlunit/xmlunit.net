@@ -71,5 +71,36 @@ namespace Org.XmlUnit.Placeholder
                             placeholderHandler.Evaluate("abc", "dd MM yyyy HH:mm"));
         }
 
+        [Test]
+        public void ShouldParsePatternIndependentOfDefaultLocale() {
+            // Test that parsing works regardless of current culture
+            // This corresponds to the Java test shouldParsePatternIndependentOfDefaultLocale
+            var originalCulture = Thread.CurrentThread.CurrentCulture;
+            try {
+                Thread.CurrentThread.CurrentCulture = new CultureInfo("de-DE"); // German culture
+                // Should still parse with InvariantCulture (default for explicit patterns)
+                Assert.AreEqual(ComparisonResult.EQUAL,
+                                placeholderHandler.Evaluate("24 June 2023", "dd MMMM yyyy"));
+            } finally {
+                Thread.CurrentThread.CurrentCulture = originalCulture;
+            }
+        }
+
+        [Test]
+        public void ShouldParsePatternWithExplicitLocale() {
+            // Test explicit locale specification - corresponds to Java test shouldParsePatternWithExplicitLocale
+            Assert.AreEqual(ComparisonResult.EQUAL,
+                            placeholderHandler.Evaluate("24 Juni 2023", "dd MMMM yyyy", "de"));
+            Assert.AreEqual(ComparisonResult.DIFFERENT,
+                            placeholderHandler.Evaluate("24 Juni 2023", "dd MMMM yyyy", "en"));
+        }
+
+        [Test]
+        public void ShouldUseInvariantCultureWithTwoArgsWhenSecondIsEmpty() {
+            // When second argument is empty string, should fall back to InvariantCulture
+            Assert.AreEqual(ComparisonResult.EQUAL,
+                            placeholderHandler.Evaluate("24 June 2023", "dd MMMM yyyy", ""));
+        }
+
     }
 }
