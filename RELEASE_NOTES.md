@@ -3,7 +3,8 @@
 ## XMLUnit.NET 2.11.2 - /not released, yet/
 
 * `IsDateTimePlaceholderHandler` now supports an optional second argument specifying a
-  different CultureInfo than the invariant culture used by default as a BCP 47 language tag.
+  different CultureInfo than the invariant culture used by default as
+  `CultureInfo` name like `de` or `fr-FR`.
 
   Also modified the logic when no argument is present to still try
   parsing using the current culture and then trying a set of ISO
