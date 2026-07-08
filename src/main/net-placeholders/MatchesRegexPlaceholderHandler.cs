@@ -11,6 +11,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
+using System;
 using System.Text.RegularExpressions;
 using Org.XmlUnit.Diff;
 
@@ -30,12 +31,17 @@ namespace Org.XmlUnit.Placeholder {
         public string Keyword { get { return PLACEHOLDER_NAME; } }
         /// <inheritdoc/>
         public ComparisonResult Evaluate(string testText, params string[] args) {
-            if (args.Length > 0 && args[0] != null && args[0] != "") {
-                var pattern = new Regex(args[0].Trim());
-                if (testText != null && Evaluate(testText.Trim(), pattern)) {
-                    return ComparisonResult.EQUAL;
+            if (args.Length > 0 && !string.IsNullOrEmpty(args[0])) {
+                try {
+                    var pattern = new Regex(args[0].Trim());
+                    if (testText != null && Evaluate(testText.Trim(), pattern)) {
+                        return ComparisonResult.EQUAL;
+                    }
+                } catch(ArgumentException e) {
+                    throw new XMLUnitException(e.Message, e);
                 }
             }
+
             return ComparisonResult.DIFFERENT;
         }
 
