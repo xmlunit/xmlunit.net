@@ -64,11 +64,62 @@ namespace Org.XmlUnit.Placeholder
         }
 
         [Test]
+        public void ShouldAcceptABunchOfStrings()
+        {
+            // Test various date formats that should be accepted by ISO patterns
+            // Corresponds to Java test shouldAcceptABunchOfStrings
+            var testStrings = new string[] {
+                "2020-01-01",
+                "01/01/2020",
+                "01/01/2020",
+                "2020-01-01T15:00",
+                "2020-01-01 15:00:00Z",
+                "01/01/2020 15:00"
+            };
+
+            foreach (var testString in testStrings)
+            {
+                Assert.AreEqual(ComparisonResult.EQUAL, placeholderHandler.Evaluate(testString));
+            }
+        }
+
+        [Test]
         public void ShouldParseExplicitPattern() {
             Assert.AreEqual(ComparisonResult.EQUAL,
                             placeholderHandler.Evaluate("31 01 2020 12:34", "dd MM yyyy HH:mm"));
             Assert.AreEqual(ComparisonResult.DIFFERENT,
                             placeholderHandler.Evaluate("abc", "dd MM yyyy HH:mm"));
+        }
+
+        [Test]
+        public void ShouldParsePatternIndependentOfDefaultLocale() {
+            // Test that parsing works regardless of current culture
+            // This corresponds to the Java test shouldParsePatternIndependentOfDefaultLocale
+            var originalCulture = Thread.CurrentThread.CurrentCulture;
+            try {
+                Thread.CurrentThread.CurrentCulture = new CultureInfo("de-DE"); // German culture
+                // Should still parse with InvariantCulture (default for explicit patterns)
+                Assert.AreEqual(ComparisonResult.EQUAL,
+                                placeholderHandler.Evaluate("24 June 2023", "dd MMMM yyyy"));
+            } finally {
+                Thread.CurrentThread.CurrentCulture = originalCulture;
+            }
+        }
+
+        [Test]
+        public void ShouldParsePatternWithExplicitLocale() {
+            // Test explicit locale specification - corresponds to Java test shouldParsePatternWithExplicitLocale
+            Assert.AreEqual(ComparisonResult.EQUAL,
+                            placeholderHandler.Evaluate("24 Juni 2023", "dd MMMM yyyy", "de"));
+            Assert.AreEqual(ComparisonResult.DIFFERENT,
+                            placeholderHandler.Evaluate("24 Juni 2023", "dd MMMM yyyy", "en"));
+        }
+
+        [Test]
+        public void ShouldUseInvariantCultureWithTwoArgsWhenSecondIsEmpty() {
+            // When second argument is empty string, should fall back to InvariantCulture
+            Assert.AreEqual(ComparisonResult.EQUAL,
+                            placeholderHandler.Evaluate("24 June 2023", "dd MMMM yyyy", ""));
         }
 
     }

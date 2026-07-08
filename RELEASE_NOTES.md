@@ -2,6 +2,18 @@
 
 ## XMLUnit.NET 2.11.2 - /not released, yet/
 
+* `IsDateTimePlaceholderHandler` now supports an optional second argument specifying a
+  different CultureInfo than the invariant culture used by default as
+  `CultureInfo` name like `de` or `fr-FR`.
+
+  Also modified the logic when no argument is present to still try
+  parsing using the current culture and then trying a set of ISO
+  patterns using the invariant culture in turn - making `isDateTime`
+  match what the Java version does mor closely.
+
+  PR [#54](https://github.com/xmlunit/xmlunit.net/pull/54) based on
+  PR [xmlunit/#335](https://github.com/xmlunit/xmlunit/pull/335) by [@jmestwa-coder](https://github.com/jmestwa-coder)
+
 ## XMLUnit.NET 2.11.1 - /Released 2025-05-19/
 
 * placeholders can now also be used inside of the local part of `xsi:type` attributes.
