@@ -7,6 +7,7 @@ image:
   - Visual Studio 2022
 
 skip_tags: true
+skip_branch_with_pr: true
 
 environment:
   DOTNET_ROLL_FORWARD: Major
