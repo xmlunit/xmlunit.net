@@ -1,6 +1,8 @@
 # Release Notes
 
-## XMLUnit.NET 2.11.2 - /Release 2026-07-31/
+## XMLUnit.NET 2.11.3 - /not released, yet/
+
+## XMLUnit.NET 2.11.2 - /Released 2026-07-31/
 
 * `IsDateTimePlaceholderHandler` now supports an optional second argument specifying a
   different CultureInfo than the invariant culture used by default as
