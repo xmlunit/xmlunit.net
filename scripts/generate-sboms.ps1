@@ -32,7 +32,7 @@ function Generate-SBom {
         New-Item -Path $targetDir -ItemType Directory
     }
     $targetDir = Resolve-Path -Path $targetDir
-    $fileName = $JSon ? "$Name.cylconedx.json" : "$Name.cylconedx.xml"
+    $fileName = $JSon ? "$Name.cdx.json" : "$Name.cdx.xml"
     $fullFileName = Join-Path -Path $targetDir -ChildPath $fileName
 
     $Args = @(
@@ -51,14 +51,11 @@ function Generate-SBom {
         "./src/shared/cyclonedx-metadata.xml"
         "-fn"
         "$fileName"
+        "-dpr"
     )
 
     Write-Output "Generating $fullFileName"
-    if ($Json) {
-        dotnet-CycloneDX @Args -j
-    } else {
-        dotnet-CycloneDX @Args
-    }
+    dotnet-CycloneDX @Args
 
     if ($PostProcess) {
         Write-Output "Post-Processing $fullFileName"
@@ -151,7 +148,7 @@ function Generate-NUnit2-Constraints-SBom {
         New-Item -Path $targetDir -ItemType Directory
     }
     $targetDir = Resolve-Path -Path $targetDir
-    $fileName = $JSon ? "$Name.cylconedx.json" : "$Name.cylconedx.xml"
+    $fileName = $JSon ? "$Name.cdx.json" : "$Name.cdx.xml"
     $fullFileName = Join-Path -Path $targetDir -ChildPath $fileName
 
     $Args = @(
@@ -169,14 +166,11 @@ function Generate-NUnit2-Constraints-SBom {
         "./src/shared/cyclonedx-metadata.xml"
         "-fn"
         "$fileName"
+        "-dpr"
     )
 
     Write-Output "Generating $fullFileName"
-    if ($Json) {
-        dotnet-CycloneDX @Args -j
-    } else {
-        dotnet-CycloneDX @Args
-    }
+    dotnet-CycloneDX @Args
 
     Write-Output "Post-Processing $fullFileName"
     if ($Json) {
@@ -232,6 +226,7 @@ function Generate-NUnit2-Constraints-SBom {
     }
 }
 
+dotnet restore
 Generate-SBoms -Path net-core -Name XMLUnit.Core -Version $Version
 Generate-SBoms -Path net-constraints-nunit3 -Name XMLUnit.NUnit3.Constraints -Version $Version -PostProcess
 Generate-SBoms -Path net-constraints-nunit4 -Name XMLUnit.NUnit4.Constraints -Version $Version -PostProcess
