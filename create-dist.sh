@@ -55,7 +55,10 @@ bzip2 xmlunit-$1-src.tar
 mv xmlunit-$1-src.* ..
 
 cd ..
-for i in *.zip *.tar.gz *.tar.bz2; do
+
+cp cyclonedx/* .
+
+for i in *.zip *.tar.gz *.tar.bz2 *.cdx.xml *.cdx.json; do
     sha256sum $i > $i.sha256
     gpg --detach-sign --armor --use-agent $i
 done
