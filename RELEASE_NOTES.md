@@ -2,6 +2,10 @@
 
 ## XMLUnit.NET 2.11.3 - /not released, yet/
 
+* the .NET assemblies now contain embedded symbols and should be
+  reproducible following the recommendations of
+  https://devblogs.microsoft.com/dotnet/producing-packages-with-source-link/
+
 ## XMLUnit.NET 2.11.2 - /Released 2026-07-31/
 
 * `IsDateTimePlaceholderHandler` now supports an optional second argument specifying a
