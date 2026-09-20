@@ -1,4 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  This file is licensed to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>XMLUnit.Placeholders</id>
@@ -27,7 +40,6 @@
     <file src="..\..\..\build/NetFramework/bin/Release/xmlunit-placeholders.pdb" target="lib\net35"/>
     <file src="..\..\..\build/NetFramework/bin/Release/xmlunit-placeholders.xml" target="lib\net35"/>
     <file src="..\..\..\build/bin/Release/netstandard2.0/xmlunit-placeholders.dll" target="lib\netstandard2.0"/>
-    <file src="..\..\..\build/bin/Release/netstandard2.0/xmlunit-placeholders.pdb" target="lib\netstandard2.0"/>
     <file src="..\..\..\build/bin/Release/netstandard2.0/xmlunit-placeholders.xml" target="lib\netstandard2.0"/>
     <file src="..\..\doc/readmes/net-placeholders/README.md" target="docs"/>
   </files>

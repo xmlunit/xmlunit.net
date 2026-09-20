@@ -32,9 +32,6 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugType>full</DebugType>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <DebugType>pdbonly</DebugType>
-  </PropertyGroup>
 
   <ItemGroup>
     <Compile Include="..\..\shared\CommonAssemblyInfo.cs" Link="CommonAssemblyInfo.cs" />
